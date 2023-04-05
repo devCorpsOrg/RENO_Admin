@@ -30,20 +30,16 @@ const columns = [
     accessor: "username",
   },
   {
-    header: "Rewards Points",
-    accessor: "rewardpoints",
+    header: "Email Address",
+    accessor: "emailaddress",
   },
   {
-    header: "Payment History",
-    accessor: "paymenthistory",
+    header: "Suspended Reason",
+    accessor: "suspendedreason",
   },
   {
-    header: "Purchase History",
-    accessor: "purchasehistory",
-  },
-  {
-    header: "Contact No.",
-    accessor: "contact",
+    header: "Role",
+    accessor: "role",
   },
   {
     header: "Action",
@@ -55,53 +51,43 @@ const data = [
   {
     photo: <ProfilePhoto />,
     username: "Abhinav100",
-    rewardpoints: 500,
-    paymenthistory: `$ ${600}`,
-    purchasehistory: `${5} items`,
-    contact: `+91 ${9918283899}`,
+    emailaddress: "Abhinav123@gmail.com",
+    suspendedreason: "Lorem ipsum dolor sit amet,",
+    role: "Admin",
     action: <Action />,
   },
   {
     photo: <ProfilePhoto />,
     username: "Abhinav100",
-    rewardpoints: 500,
-    paymenthistory: `$ ${600}`,
-    purchasehistory: `${5} items`,
-    contact: `+91 ${9918283899}`,
+    emailaddress: "Abhinav123@gmail.com",
+    suspendedreason: "Lorem ipsum dolor sit amet,",
+    role: "Admin",
     action: <Action />,
   },
   {
     photo: <ProfilePhoto />,
     username: "Abhinav100",
-    rewardpoints: 500,
-    paymenthistory: `$ ${600}`,
-    purchasehistory: `${5} items`,
-    contact: `+91 ${9918283899}`,
+    emailaddress: "Abhinav123@gmail.com",
+    suspendedreason: "Lorem ipsum dolor sit amet,",
+    role: "Admin",
     action: <Action />,
   },
   {
     photo: <ProfilePhoto />,
     username: "Abhinav100",
-    rewardpoints: 500,
-    paymenthistory: `$ ${600}`,
-    purchasehistory: `${5} items`,
-    contact: `+91 ${9918283899}`,
+    emailaddress: "Abhinav123@gmail.com",
+    suspendedreason: "Lorem ipsum dolor sit amet,",
+    role: "Admin",
     action: <Action />,
   },
 ];
 
 const pageSize = 10;
-const buttonText = "Export All";
 
 const allmembers = () => {
   return (
     <div>
-      <Table
-        columns={columns}
-        data={data}
-        pageSize={pageSize}
-        buttonText={buttonText}
-      />
+      <Table columns={columns} data={data} pageSize={pageSize} />
     </div>
   );
 };
