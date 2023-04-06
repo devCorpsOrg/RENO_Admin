@@ -11,7 +11,6 @@ const UserDetails = ({setActiveTab, setExpand}) => {
   return (
     <div>
       <div className="flex">
-        <h1>pinpi</h1>
         <TopHeader className="fixed" head={head} />
       </div>
 

@@ -7,7 +7,6 @@ const Dashboard = () => {
   return (
     <div>
       <div className="flex">
-        {/* <SideNavBar /> */}
         <TopHeader className="fixed" head={head} />
       </div>
 
