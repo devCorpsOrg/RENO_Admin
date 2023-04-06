@@ -37,6 +37,7 @@ class Userdetails(models.Model):
     suspend_reason=models.TextField(null=True,blank=True)
 
 class Purchased_item(models.Model):
+    id=models.IntegerField(primary_key=True)
     UserPK=models.ForeignKey(Userdetails,on_delete=models.CASCADE)
     pid=models.IntegerField(unique=True)
     pic=models.ImageField(upload_to="my_pic",blank=True)
@@ -46,6 +47,7 @@ class Purchased_item(models.Model):
     p_url=models.CharField(max_length=100)
 
 class User_Product(models.Model):
+    id=models.IntegerField(primary_key=True)
     UserPK=models.ForeignKey(Userdetails,on_delete=models.CASCADE)
     pid=models.IntegerField(unique=True)
     pic=models.ImageField(upload_to="my_pic",blank=True)
@@ -101,4 +103,5 @@ class SupportDetails(models.Model):
     message=models.TextField()
     status=models.CharField(max_length=100)
     support_id=models.IntegerField(unique=True)
+    
     
