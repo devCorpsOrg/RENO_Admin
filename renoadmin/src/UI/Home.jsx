@@ -9,6 +9,7 @@ import EditUser from '../Pages/User_Management/Edit_User_Screen/editUser'
 import CreateNewPage from '../Pages/Content_Management/CreateNewPage/createNewPage'
 import ViewUser from '../Pages/User_Management/View_Details/viewuser'
 import MemberDetails from '../Pages/CRM/MemberDetails/memberdetails'
+import AddNewShowcase from '../Pages/PSM/AddNewShowCase/addNewShowcase'
 
 
 function Home() {
@@ -32,6 +33,7 @@ function Home() {
           <Route exact path="/UserDetails" element={<ViewUser setExpand={togleExpand} setActiveTab={handleActiveTab} />} />
           <Route exact path="/MemberDetails" element={<MemberDetails setExpand={togleExpand} setActiveTab={handleActiveTab} />} />
           <Route exact path="/createNewPage" element={<CreateNewPage setExpand={togleExpand} setActiveTab={handleActiveTab} />} />
+          <Route exact path="/addShowcase" element={<AddNewShowcase setExpand={togleExpand} setActiveTab={handleActiveTab} />} />
           <Route exact path="/permission" element={<Prm setExpand={togleExpand} setActiveTab={handleActiveTab} />} />
           <Route exact path="/settings" element={<Configuration setExpand={togleExpand} setActiveTab={handleActiveTab} />} />
         </Routes>
