@@ -147,34 +147,28 @@ def search_user(request,name):
             return HttpResponse(json_data,content_type='application/json')
      
 @csrf_exempt    
-def edit_user(request):
+def edit_user(request,name):
      if request.method=='PUT':
         json_data=request.body
         stream=io.BytesIO(json_data)
         python_data=JSONParser().parse(stream)
-        id=python_data.get('id',None)
+        
         username=python_data.get('username',None)
         email=python_data.get('email',None)
         phone=python_data.get('phone',None)
         role=python_data.get('role',None)
         uid=python_data.get('uid',None)
         pic=python_data.get('pic',None)
-        is_suspend=python_data.get('is_suspend',None)
-        suspend_reason=python_data.get('suspend_reason',None)
-        print(uid)
-        user_objects=Userdetails.objects.get(id=id)
-        print(user_objects.username)
-        user_objects.id=id
+        user_objects=Userdetails.objects.get(username=name)
+        
+        # serailizer=UserSerializer(user_details,many=True);
         user_objects.username=username
         user_objects.email=email
         user_objects.phone=phone
         user_objects.role=role
         user_objects.uid=uid
         user_objects.pic=pic
-        user_objects.is_suspend=is_suspend
-        user_objects.suspend_reason=suspend_reason
         user_objects.save()
-        serailizer=UserSerializer1(user_objects)
         res={'msg':'Data updated Successfully'}
         json_data=JSONRenderer().render(res)
         return HttpResponse(json_data,content_type='application/json')
@@ -184,16 +178,21 @@ def edit_user(request):
 @csrf_exempt        
 def delete_user(request,name):
      if request.method=='DELETE':
-        json_data=request.body
-        stream=io.BytesIO(json_data)
-        python_data=JSONParser().parse(stream)
-        id=python_data.get('id',None)
-        if id is not None:
+        # json_data=request.body
+        # stream=io.BytesIO(json_data)
+        # python_data=JSONParser().parse(stream)
+        # id=python_data.get('id',None)
+        # if id is not None:
+          try:
              info=Userdetails.objects.get(username=name)
-             info.delete()
-             res={'msg':'Data updated Successfully'}
+          except Userdetails.DoesNotExist:
+             res={'msg':'Data is not present'}
              json_data=JSONRenderer().render(res)
-             return HttpResponse(json_data,content_type='application/json')
+             
+          info.delete()
+          res={'msg':'Data updated Successfully'}
+          json_data=JSONRenderer().render(res)
+          return HttpResponse(json_data,content_type='application/json')
 
          
 @api_view(['GET','POST'])
@@ -230,16 +229,10 @@ def page(request):
       return HttpResponse(json_data,content_type='application/json')
       
      serailizer1=cmsSerializer1(info,many=True)
-    #  res={
-    #      'pageid':info.pageid,
-    #      'pagename':info.pagename
-    #      }
-    
+
      json_data=JSONRenderer().render(serailizer1.data)
      return HttpResponse(json_data,content_type='application/json') 
-    # serailizer=cmsSerializer(info);
-    # json_data=JSONRenderer().render(serailizer.data) 
-    # return HttpResponse(json_data,content_type='application/json')
+    
 
 @csrf_exempt
 def create_page(request):
@@ -270,9 +263,7 @@ def search_page(request,name):
           json_data=JSONRenderer().render(serailizer.data) 
           return HttpResponse(json_data,content_type='application/json')
            
-                    
-
-     
+                      
 @csrf_exempt    
 def edit_page(request,id):
      if request.method=='PUT':
@@ -307,12 +298,9 @@ def edit_page(request,id):
 @csrf_exempt        
 def delete_page(request,id):
      if request.method=='DELETE':
-        # json_data=request.body
-        # stream=io.BytesIO(json_data)
-        # python_data=JSONParser().parse(stream)
-        # id=python_data.get('pageid',None)
+       
         id=id
-        print(id)
+       
         if id is not None:
           try:
              info=cmsModel.objects.get(pageid=id)
