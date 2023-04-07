@@ -1,11 +1,13 @@
 import { useState } from "react";
 import React from "react";
 import TopHeader from "../../../UI/TopHeader/TopHeader";
+import DisabledByDefaultRoundedIcon from "@mui/icons-material/DisabledByDefaultRounded";
 
-const AddNewShowcase = ({ setExpand, setActiveTab }) => {
-  setExpand("showcaseManagement");
-  setActiveTab("projectList");
-  const head = "Add New Showcase";
+
+const EditService = ({ setExpand, setActiveTab }) => {
+  setExpand("homeService");
+  setActiveTab("featuredProduct");
+  const head = "Edit Service";
 
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
@@ -17,10 +19,10 @@ const AddNewShowcase = ({ setExpand, setActiveTab }) => {
     console.log(title, content); // Do something with the data
     setTitle("");
     setContent("");
-    setImages([]);
+    // setImages([]);
   };
 
-  const handleImageUpload = (event) => {
+  const handlePhotoUpload = (event) => {
     const files = event.target.files;
     const uploadedImages = [];
     for (let i = 0; i < files.length; i++) {
@@ -30,6 +32,14 @@ const AddNewShowcase = ({ setExpand, setActiveTab }) => {
       });
     }
     setImages(uploadedImages);
+  };
+
+  const handleRemoveImage = (index) => {
+    const newImages = [...images];
+    newImages.splice(index, 1);
+    setImages(newImages);
+
+    // fileInputRef.current.value = newImages.length;
   };
 
   const handleLabelChange = (event) => {
@@ -55,7 +65,7 @@ const AddNewShowcase = ({ setExpand, setActiveTab }) => {
               }}
               type="submit"
             >
-              Draft
+              Cancel
             </button>
 
             <button
@@ -69,11 +79,11 @@ const AddNewShowcase = ({ setExpand, setActiveTab }) => {
               }}
               type="submit"
             >
-              Publish
+              Save
             </button>
           </div>
           <label className="grid mt-5">
-            Project Title
+            Product Title
             <input
               type="text"
               placeholder="Enter Title"
@@ -83,7 +93,7 @@ const AddNewShowcase = ({ setExpand, setActiveTab }) => {
                 height: "50px",
                 width: "1210px",
                 paddingLeft: "10px",
-                border: "2px solid 	#e6f7fe",
+                backgroundColor: "#e5ecff",
                 marginTop: "5px",
                 fontSize: "15px",
               }}
@@ -94,7 +104,7 @@ const AddNewShowcase = ({ setExpand, setActiveTab }) => {
 
           <div className="grid grid-cols-2 gap-4 mt-5">
             <label className="grid pr-6">
-              User Type
+              Catagory
               <select
                 id="label"
                 name="label"
@@ -103,7 +113,7 @@ const AddNewShowcase = ({ setExpand, setActiveTab }) => {
                   height: "50px",
                   width: "590px",
                   paddingLeft: "5px",
-                  border: "2px solid 	#e6f7fe",
+                  backgroundColor: "#e5ecff",
                   marginTop: "5px",
                   fontSize: "14px",
                 }}
@@ -117,7 +127,7 @@ const AddNewShowcase = ({ setExpand, setActiveTab }) => {
               </select>
             </label>
             <label className="grid pr-6">
-              Project Rate
+              Package
               <input
                 type="text"
                 // value={name}
@@ -127,7 +137,7 @@ const AddNewShowcase = ({ setExpand, setActiveTab }) => {
                   height: "50px",
                   width: "586px",
                   paddingLeft: "10px",
-                  border: "2px solid 	#e6f7fe",
+                  backgroundColor: "#e5ecff",
                   marginTop: "5px",
                   fontSize: "14px",
                 }}
@@ -135,40 +145,102 @@ const AddNewShowcase = ({ setExpand, setActiveTab }) => {
               />
             </label>
           </div>
-
-          <div>
-            <label className="grid mt-5" style={{ fontSize: "15px" }}>
-              Upload Photos
-              <input
-                class="file:bg-black file:px-6 file:py-3 file:border-none file:rounded file:text-white file:cursor-pointer placeholder-transparent mt-3 rounded appearance-none placeholder-transparent"
-                style={{ border: "2px solid #e6f7fe", width: "450px" }}
-                type="file"
-                placeholder=""
-                accept="image/*"
-                multiple
-                onChange={handleImageUpload}
-              />
+          <div className="grid grid-cols-2 gap-4 mt-5">
+            <label className="grid pr-6">
+              Product Catagory
+              <select
+                id="label"
+                name="label"
+                class="outline-none rounded"
+                style={{
+                  height: "50px",
+                  width: "590px",
+                  paddingLeft: "5px",
+                  backgroundColor: "#e5ecff",
+                  marginTop: "5px",
+                  fontSize: "14px",
+                }}
+                value={label}
+                onChange={handleLabelChange}
+              >
+                <option value="">Select Product Catagory</option>
+                <option value="personal">Admin</option>
+                <option value="work">Work</option>
+                <option value="other">Other</option>
+              </select>
+            </label>
+            <label className="grid pr-6">
+              Number Of Inventory
+              <select
+                id="label"
+                name="label"
+                class="outline-none rounded"
+                style={{
+                  height: "50px",
+                  width: "590px",
+                  paddingLeft: "5px",
+                  backgroundColor: "#e5ecff",
+                  marginTop: "5px",
+                  fontSize: "14px",
+                }}
+                value={label}
+                onChange={handleLabelChange}
+              >
+                <option value="">Select Number Of Inventory</option>
+                <option value="personal">Admin</option>
+                <option value="work">Work</option>
+                <option value="other">Other</option>
+              </select>
             </label>
           </div>
-          <div style={{width: "600px", marginTop:"10px" }}>
-            {images && images.length > 0 && (
-              <div className="grid grid-cols-6 gap-2">
+
+
+          <label className="grid pr-6" style={{ marginTop: "20px" }}>
+            Photos
+          <div style={{ width: "600px", marginTop: "10px" }}>
+            {(images && images.length > 0) ? (
+              <div className="grid grid-cols-4 gap-2">
                 {images.map((image, index) => (
-                  <img
-                    key={index}
-                    src={image.url} // replace with your image source
-                    alt={image.name} // replace with your image alt text
-                    style={{
-                      width: "100px",
-                      height: "100px",
-                      objectFit: "cover",
-                      marginRight: "10px",
-                    }} // set width, height, object-fit, and margin-right styles
-                  />
+                  <div key={index} className="relative">
+                    <img
+                      src={image.url}
+                      alt={image.name}
+                      style={{
+                        width: "100px",
+                        height: "100px",
+                        objectFit: "cover",
+                        marginRight: "10px",
+                      }}
+                    />
+                    <button
+                      className="absolute top-0 text-white" style={{right:46}}
+                      onClick={() => handleRemoveImage(index)}
+                    >
+                      <DisabledByDefaultRoundedIcon style={{fill:"red"}} />
+                    </button>
+                  </div>
                 ))}
               </div>
+            ) : (
+                <input
+                style={{
+                  height: "48px",
+                  width: "590px",
+                  paddingLeft: "0px",
+                  border: "2px solid 	#e6f7fe",
+                  marginTop: "5px",
+                  fontSize: "14px",
+                }}
+                class="file:bg-black file:px-6 file:py-3 file:border-none file:rounded file:text-white file:cursor-pointer placeholder-transparent mt-3 rounded appearance-none placeholder-transparent"
+                type="file"
+                accept="image/*"
+                multiple
+                onChange={handlePhotoUpload}
+                placeholder=""
+              />
             )}
           </div>
+          </label> 
           <div style={{ fontSize: "10px", marginTop: "8px" }}>
             <ul className="list-disc ml-3 text-gray-500">
               <li>Allowed banner image extension .jpg | .jpeg | .png</li>
@@ -182,6 +254,7 @@ const AddNewShowcase = ({ setExpand, setActiveTab }) => {
             </ul>
           </div>
 
+
           <label className="grid mt-5">
             Project Details
             <textarea
@@ -191,7 +264,7 @@ const AddNewShowcase = ({ setExpand, setActiveTab }) => {
               style={{
                 height: "170px",
                 width: "1210px",
-                border: "2px solid #e6f7fe",
+                backgroundColor: "#e5ecff",
                 paddingLeft: "10px",
                 paddingTop: "20px",
                 fontSize: "15px",
@@ -212,7 +285,7 @@ const AddNewShowcase = ({ setExpand, setActiveTab }) => {
             }}
             type="submit"
           >
-            Publish
+            Save
           </button>
           <button
             className="rounded mt-10"
@@ -225,7 +298,7 @@ const AddNewShowcase = ({ setExpand, setActiveTab }) => {
             }}
             type="submit"
           >
-            Draft
+            Cancel
           </button>
           {/* </div> */}
         </form>
@@ -234,4 +307,4 @@ const AddNewShowcase = ({ setExpand, setActiveTab }) => {
   );
 };
 
-export default AddNewShowcase;
+export default EditService;

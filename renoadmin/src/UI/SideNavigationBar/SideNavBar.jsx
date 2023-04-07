@@ -317,7 +317,7 @@ function SideNavBar({ expand, setExpand, activeTab, setActiveTab }) {
                         setExpand("homeService");
                       }}
                     >
-                      Featured Product
+                      Featured Product and Services
                     </NavLink>
                   </div>
                   <div className="ml-7 mt-2">

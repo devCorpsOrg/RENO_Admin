@@ -2,10 +2,10 @@ import { useState } from "react";
 import React from "react";
 import TopHeader from "../../../UI/TopHeader/TopHeader";
 
-const AddNewShowcase = ({ setExpand, setActiveTab }) => {
-  setExpand("showcaseManagement");
-  setActiveTab("projectList");
-  const head = "Add New Showcase";
+const AddPromotion = ({ setExpand, setActiveTab }) => {
+  setExpand("homeService");
+  setActiveTab("promotionManagement");
+  const head = "Add New Promotion";
 
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
@@ -20,7 +20,7 @@ const AddNewShowcase = ({ setExpand, setActiveTab }) => {
     setImages([]);
   };
 
-  const handleImageUpload = (event) => {
+  const handlePhotoUpload = (event) => {
     const files = event.target.files;
     const uploadedImages = [];
     for (let i = 0; i < files.length; i++) {
@@ -73,10 +73,10 @@ const AddNewShowcase = ({ setExpand, setActiveTab }) => {
             </button>
           </div>
           <label className="grid mt-5">
-            Project Title
+            Promotion Title
             <input
               type="text"
-              placeholder="Enter Title"
+              placeholder="Enter Promotion Title"
               id="title"
               className="rounded outline-none"
               style={{
@@ -94,7 +94,7 @@ const AddNewShowcase = ({ setExpand, setActiveTab }) => {
 
           <div className="grid grid-cols-2 gap-4 mt-5">
             <label className="grid pr-6">
-              User Type
+              Catagory
               <select
                 id="label"
                 name="label"
@@ -117,7 +117,7 @@ const AddNewShowcase = ({ setExpand, setActiveTab }) => {
               </select>
             </label>
             <label className="grid pr-6">
-              Project Rate
+              Package
               <input
                 type="text"
                 // value={name}
@@ -135,55 +135,72 @@ const AddNewShowcase = ({ setExpand, setActiveTab }) => {
               />
             </label>
           </div>
-
-          <div>
-            <label className="grid mt-5" style={{ fontSize: "15px" }}>
-              Upload Photos
+          <div className="grid grid-cols-2 gap-4 mt-5">
+            <label className="grid pr-6">
+              No Of Promotion
+              <select
+                id="label"
+                name="label"
+                class="outline-none rounded"
+                style={{
+                  height: "50px",
+                  width: "590px",
+                  paddingLeft: "5px",
+                  border: "2px solid 	#e6f7fe",
+                  marginTop: "5px",
+                  fontSize: "14px",
+                }}
+                value={label}
+                onChange={handleLabelChange}
+              >
+                <option value="">No of Promotion</option>
+                <option value="personal">Admin</option>
+                <option value="work">Work</option>
+                <option value="other">Other</option>
+              </select>
+            </label>
+            <label className="grid pr-6">
+              Photos
               <input
+                style={{
+                  height: "50px",
+                  width: "590px",
+                  paddingLeft: "0px",
+                  border: "2px solid 	#e6f7fe",
+                  marginTop: "5px",
+                  fontSize: "14px",
+                }}
                 class="file:bg-black file:px-6 file:py-3 file:border-none file:rounded file:text-white file:cursor-pointer placeholder-transparent mt-3 rounded appearance-none placeholder-transparent"
-                style={{ border: "2px solid #e6f7fe", width: "450px" }}
                 type="file"
-                placeholder=""
                 accept="image/*"
                 multiple
-                onChange={handleImageUpload}
+                onChange={handlePhotoUpload}
+                placeholder=""
               />
             </label>
-          </div>
-          <div style={{width: "600px", marginTop:"10px" }}>
-            {images && images.length > 0 && (
-              <div className="grid grid-cols-6 gap-2">
-                {images.map((image, index) => (
-                  <img
-                    key={index}
-                    src={image.url} // replace with your image source
-                    alt={image.name} // replace with your image alt text
-                    style={{
-                      width: "100px",
-                      height: "100px",
-                      objectFit: "cover",
-                      marginRight: "10px",
-                    }} // set width, height, object-fit, and margin-right styles
-                  />
-                ))}
-              </div>
-            )}
-          </div>
-          <div style={{ fontSize: "10px", marginTop: "8px" }}>
-            <ul className="list-disc ml-3 text-gray-500">
-              <li>Allowed banner image extension .jpg | .jpeg | .png</li>
-              <li>
-                Max banner image file size <a className="text-red-500">5MB</a>
-              </li>
-              <li>
-                Recommended Banner image size{" "}
-                <a className="text-red-500">1900px * 700px</a>
-              </li>
-            </ul>
+            <div style={{ marginLeft: "625px", width: "600px" }}>
+              {images && images.length > 0 && (
+                <div className="grid grid-cols-4 gap-3">
+                  {images.map((image, index) => (
+                    <img
+                      key={index}
+                      src={image.url} // replace with your image source
+                      alt={image.name} // replace with your image alt text
+                      style={{
+                        width: "100px",
+                        height: "100px",
+                        objectFit: "cover",
+                        marginRight: "10px",
+                      }} // set width, height, object-fit, and margin-right styles
+                    />
+                  ))}
+                </div>
+              )}
+            </div>
           </div>
 
           <label className="grid mt-5">
-            Project Details
+            Details
             <textarea
               id="content"
               placeholder="Enter Details"
@@ -234,4 +251,4 @@ const AddNewShowcase = ({ setExpand, setActiveTab }) => {
   );
 };
 
-export default AddNewShowcase;
+export default AddPromotion;

@@ -10,6 +10,11 @@ import CreateNewPage from '../Pages/Content_Management/CreateNewPage/createNewPa
 import ViewUser from '../Pages/User_Management/View_Details/viewuser'
 import MemberDetails from '../Pages/CRM/MemberDetails/memberdetails'
 import AddNewShowcase from '../Pages/PSM/AddNewShowCase/addNewShowcase'
+import EditShowcase from '../Pages/PSM/EditShowcase/editShowcase'
+import AddProduct from '../Pages/HSM/AddProduct/addProduct'
+import AddPromotion from '../Pages/HSM/AddNewPromotion/addNewPromotion'
+import EditService from '../Pages/HSM/EditService/editService'
+import EditProduct from '../Pages/HSM/EditProducts/editProducts'
 
 
 function Home() {
@@ -34,6 +39,11 @@ function Home() {
           <Route exact path="/MemberDetails" element={<MemberDetails setExpand={togleExpand} setActiveTab={handleActiveTab} />} />
           <Route exact path="/createNewPage" element={<CreateNewPage setExpand={togleExpand} setActiveTab={handleActiveTab} />} />
           <Route exact path="/addShowcase" element={<AddNewShowcase setExpand={togleExpand} setActiveTab={handleActiveTab} />} />
+          <Route exact path="/addProduct" element={<AddProduct setExpand={togleExpand} setActiveTab={handleActiveTab} />} />
+          <Route exact path="/addPromotion" element={<AddPromotion setExpand={togleExpand} setActiveTab={handleActiveTab} />} />
+          <Route exact path="/editServices" element={<EditService setExpand={togleExpand} setActiveTab={handleActiveTab} />} />
+          <Route exact path="/editProduct" element={<EditProduct setExpand={togleExpand} setActiveTab={handleActiveTab} />} />
+          <Route exact path="/editShowcase" element={<EditShowcase setExpand={togleExpand} setActiveTab={handleActiveTab} />} />
           <Route exact path="/permission" element={<Prm setExpand={togleExpand} setActiveTab={handleActiveTab} />} />
           <Route exact path="/settings" element={<Configuration setExpand={togleExpand} setActiveTab={handleActiveTab} />} />
         </Routes>
