@@ -8,18 +8,26 @@ const CreateNewPage = ({ setExpand, setActiveTab }) => {
 
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
-  const [image, setImage] = useState(null);
+  const [images, setImages] = useState([]);
 
   const handleSubmit = (event) => {
     event.preventDefault();
     console.log(title, content); // Do something with the data
     setTitle("");
     setContent("");
-    setImage(null);
+    setImages([]);
   };
 
   const handleImageUpload = (event) => {
-    setImage(event.target.files[0]);
+    const files = event.target.files;
+    const uploadedImages = [];
+    for (let i = 0; i < files.length; i++) {
+      uploadedImages.push({
+        name: files[i].name,
+        url: URL.createObjectURL(files[i]),
+      });
+    }
+    setImages(uploadedImages);
   };
 
   return (
@@ -70,14 +78,37 @@ const CreateNewPage = ({ setExpand, setActiveTab }) => {
             />
           </label>
           <div>
-            <label className="grid mt-5" style={{fontSize:"15px"}}>Upload Media</label>
-            <input
-              class="file:bg-black file:px-6 file:py-3 file:border-none file:rounded file:text-white file:cursor-pointer placeholder-transparent mt-3 rounded appearance-none placeholder-transparent"
-              style={{ border: "2px solid #e6f7fe", width: "450px" }}
-              type="file"
-              placeholder=""
-            />
-            {image && <p>Selected file: {image.name}</p>}
+            <label className="grid mt-5" style={{ fontSize: "15px" }}>
+              Upload Media
+              <input
+                class="file:bg-black file:px-6 file:py-3 file:border-none file:rounded file:text-white file:cursor-pointer placeholder-transparent mt-3 rounded appearance-none placeholder-transparent"
+                style={{ border: "2px solid #e6f7fe", width: "350px" }}
+                type="file"
+                placeholder=""
+                accept="image/*"
+                multiple
+                onChange={handleImageUpload}
+              />
+            </label>
+          </div>
+          <div style={{ width: "600px", marginTop: "10px" }}>
+            {images && images.length > 0 && (
+              <div className="grid grid-cols-6 gap-2">
+                {images.map((image, index) => (
+                  <img
+                    key={index}
+                    src={image.url} // replace with your image source
+                    alt={image.name} // replace with your image alt text
+                    style={{
+                      width: "100px",
+                      height: "100px",
+                      objectFit: "cover",
+                      marginRight: "10px",
+                    }} // set width, height, object-fit, and margin-right styles
+                  />
+                ))}
+              </div>
+            )}
           </div>
           <div style={{ fontSize: "10px", marginTop: "8px" }}>
             <ul className="list-disc ml-3 text-gray-500">

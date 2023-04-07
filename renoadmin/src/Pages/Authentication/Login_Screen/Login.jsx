@@ -13,7 +13,7 @@ function Login() {
     event.preventDefault();
     setUsername("");
     setPassword("");
-    navigate("/dashboard")
+    navigate("/home")
     // try {
     //   const response = await axios
     //     .post("http://localhost:4000/", { username, password })
