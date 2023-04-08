@@ -13,10 +13,8 @@ const Action = ({ reviews }) => {
 
   return (
     <>
-      <div
-        className="w-6 h-6 flex gap-3 cursor-pointer"
-        onClick={handleViewClick}>
-        <img src={view} alt="View" />
+      <div className="w-6 h-6 flex gap-3 cursor-pointer">
+        <img src={view} onClick={handleViewClick} alt="View" />
         <img src={deleteIcon} alt="Delete" />
       </div>
       {showPopup && (
