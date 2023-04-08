@@ -563,7 +563,7 @@ def deletepromoted(request,id):
              return HttpResponse(json_data,content_type='application/json')
 
 #-----------------------------------------------------------------------------------------------------
-def user_details(request):
+def usersupport(request):
    if request.method=='GET':
     info=SupportDetails.objects.all() 
     serailizer=SupportSerializer(info,many=True);
