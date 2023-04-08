@@ -15,6 +15,7 @@ import AddProduct from '../Pages/HSM/AddProduct/addProduct'
 import AddPromotion from '../Pages/HSM/AddNewPromotion/addNewPromotion'
 import EditService from '../Pages/HSM/EditService/editService'
 import EditProduct from '../Pages/HSM/EditProducts/editProducts'
+import Chatdetails from '../Pages/HSM/HelpDesk/chatdetails'
 
 
 function Home() {
@@ -44,6 +45,7 @@ function Home() {
           <Route exact path="/editServices" element={<EditService setExpand={togleExpand} setActiveTab={handleActiveTab} />} />
           <Route exact path="/editProduct" element={<EditProduct setExpand={togleExpand} setActiveTab={handleActiveTab} />} />
           <Route exact path="/editShowcase" element={<EditShowcase setExpand={togleExpand} setActiveTab={handleActiveTab} />} />
+          <Route exact path="/chatHelp" element={<Chatdetails setExpand={togleExpand} setActiveTab={handleActiveTab} />} />
           <Route exact path="/permission" element={<Prm setExpand={togleExpand} setActiveTab={handleActiveTab} />} />
           <Route exact path="/settings" element={<Configuration setExpand={togleExpand} setActiveTab={handleActiveTab} />} />
         </Routes>
