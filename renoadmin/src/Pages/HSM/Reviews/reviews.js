@@ -1,15 +1,7 @@
 import React from "react";
 import Table from "../../../UI/CommonTable/Table";
-import { deleteIcon, view, images } from "../Assets/index";
-
-const Action = () => {
-  return (
-    <div className="w-6 h-6 flex gap-3 cursor-pointer">
-      <img src={view} alt="View" />
-      <img src={deleteIcon} alt="Delete" />
-    </div>
-  );
-};
+import { images } from "../Assets/index";
+import Action from "./Action";
 
 const Photo = () => {
   return (
@@ -54,7 +46,7 @@ const data = [
     reviews:
       "Lorem Ipsum is simply dummy text of the printing and typesetting industry. ",
     amount: `$${130}`,
-    action: <Action />,
+    action: <Action reviews={"This is the first review."} />,
   },
   {
     photo: <Photo />,
@@ -63,7 +55,7 @@ const data = [
     reviews:
       "Lorem Ipsum is simply dummy text of the printing and typesetting industry. ",
     amount: `$${130}`,
-    action: <Action />,
+    action: <Action reviews={"This a the second review"} />,
   },
 ];
 
