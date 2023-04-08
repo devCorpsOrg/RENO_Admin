@@ -27,6 +27,10 @@ def password_reset_token_created(sender, instance, reset_password_token, *args, 
 class Userdetails(models.Model):
     id=models.IntegerField(primary_key=True)
     username=models.CharField(max_length=100)
+    
+    name=models.CharField(max_length=100)
+    status=models.CharField(max_length=100)
+    
     about=models.TextField()
     email=models.EmailField(max_length=256)
     phone=models.CharField(max_length=100)

@@ -284,18 +284,18 @@ def export_members(request):
 
 
 # def roles(request):
-#     users = Users.objects.only('usname', 'name', 'email', 'role', 'status').all()
+#     users = Userdetails.objects.only('username', 'name', 'email', 'role', 'status').all()
     
 #     data = serializers.serialize('json', [users])
 #     formatted_data = json.dumps(json.loads(data), indent=4)
 #     return HttpResponse(formatted_data, content_type='application/json')
-    
+
 
 # def create_role(request):
 #     if request.method == 'POST':
 #         # usname,name,email,role(admin/marketplace/superadmin),status
-#         usname = request.POST['usname']
-#         user = Users.objects.filter(usname=usname).first()
+#         username = request.POST['usname']
+#         user = Userdetails.objects.filter(username=username).first()
 #         if user:
 #             role = request.POST['role']
 #             if role == 'admin' or role == 'marketplace' or role == 'superadmin':
@@ -314,18 +314,18 @@ def export_members(request):
 
 
 # def search_role(request, name):
-#     users = Users.objects.filter(name=name).only('usname', 'name', 'role', 'status').all()
+#     users = Userdetails.objects.filter(name=name).only('username', 'name', 'role', 'status').all()
 
 #     if users:
 #         data = serializers.serialize('json', [users])
 #         formatted_data = json.dumps(json.loads(data), indent=4)
 #         return HttpResponse(formatted_data, content_type='application/json')
 #     else:
-#         return HttpResponseNotFound(f'User/s with name: {name} not found.')
+#         return HttpResponseNotFound(f'User(s) with name: {name} not found.')
     
 
 # def delete_user(request, usname):
-#     user = Users.objects.filter(usname=usname).first()
+#     user = Userdetails.objects.filter(username=usname).first()
 
 #     if user:
 #         user.delete()
