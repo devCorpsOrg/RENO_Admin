@@ -91,7 +91,7 @@ const data = [
 ];
 
 const pageSize = 10;
-const buttonText = "Export All";
+const greenButtonText = "Export All";
 
 const allmembers = () => {
   return (
@@ -100,7 +100,7 @@ const allmembers = () => {
         columns={columns}
         data={data}
         pageSize={pageSize}
-        buttonText={buttonText}
+        greenButtonText={greenButtonText}
       />
     </div>
   );

@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import search from "./Assets/search.png";
 
-function Table({ columns, data, pageSize, buttonText }) {
+function Table({ columns, data, pageSize, greenButtonText, blackButtonText }) {
   const [currentPage, setCurrentPage] = useState(0);
   const [searchTerm, setSearchTerm] = useState("");
 
@@ -48,13 +48,22 @@ function Table({ columns, data, pageSize, buttonText }) {
               className="absolute top-3 right-3 pointer-events-auto"
             />
           </div>
-          {buttonText && (
-            <div>
-              <button className="bg-lime-500 hover:bg-lime-700 text-white font-bold py-3 px-8 rounded-sm">
-                {buttonText}
-              </button>
-            </div>
-          )}
+          <div className="flex flex-row gap-6">
+            {blackButtonText && (
+              <div>
+                <button className="bg-[#2B2B2B] rounded hover:bg-gray-600 w-auto text-white font-bold py-3 px-8 rounded-sm">
+                  {blackButtonText}
+                </button>
+              </div>
+            )}
+            {greenButtonText && (
+              <div>
+                <button className="bg-[#8FC743] rounded hover:bg-lime-700 text-white w-auto font-bold py-3 px-8 rounded-sm">
+                  {greenButtonText}
+                </button>
+              </div>
+            )}
+          </div>
         </div>
         <table className="table w-full table-auto text-left">
           <thead className="h-10">
