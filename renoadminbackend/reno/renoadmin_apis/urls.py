@@ -45,6 +45,6 @@ urlpatterns = [
     path('deletepromoted/<int:id>',views.deletepromoted,name="deletepromoted"),
 #==========================================================================================================
 
-    path('support/',views.user_details,name="user"),
+    path('support/',views.usersupport,name="usersupport"),
     path('deleterecord/<int:id>',views.delete_records,name="deleterecord"),
 ]
