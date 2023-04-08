@@ -76,7 +76,7 @@ const data = [
 ];
 
 const pageSize = 10;
-const buttonText = "Add New Role";
+const greenButtonText = "Add New Role";
 
 const PMS = () => {
   return (
@@ -85,7 +85,7 @@ const PMS = () => {
         columns={columns}
         data={data}
         pageSize={pageSize}
-        buttonText={buttonText}
+        greenButtonText={greenButtonText}
       />
     </div>
   );

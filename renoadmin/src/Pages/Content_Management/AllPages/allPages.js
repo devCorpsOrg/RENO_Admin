@@ -38,7 +38,7 @@ const Data = [
 ];
 
 const pageSize = 3;
-const buttonText = "Create New Page";
+const greenButtonText = "Create New Page";
 
 const allPages = () => {
   return (
@@ -47,7 +47,7 @@ const allPages = () => {
         columns={columns}
         data={Data}
         pageSize={pageSize}
-        buttonText={buttonText}
+        greenButtonText={greenButtonText}
       />
     </div>
   );
