@@ -1,6 +1,7 @@
 import React from "react";
 import Table from "../../../UI/CommonTable/Table";
 import { deleteIcon, Photo, View } from "./Assets/index";
+import TopHeader from "../../../UI/TopHeader/TopHeader";
 
 // Component inside action column
 const Action = () => {
@@ -98,9 +99,18 @@ const data = [
 const pageSize = 10;
 
 const allmembers = () => {
+  const head = "All Users";
   return (
     <div>
-      <Table columns={columns} data={data} pageSize={pageSize} />
+      <div className="flex fixed z-10">
+        <TopHeader className="fixed" head={head} />
+      </div>
+
+      <div
+        className=" ml-72 h-[90vh] w-[85%] relative"
+        style={{ marginTop: "70px" }}>
+        <Table columns={columns} data={data} pageSize={pageSize} />
+      </div>
     </div>
   );
 };

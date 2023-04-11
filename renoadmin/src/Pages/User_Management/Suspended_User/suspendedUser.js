@@ -1,9 +1,11 @@
 import React from "react";
 import Table from "../../../UI/CommonTable/Table";
 import { deleteIcon, Photo, View } from "./Assets/index";
+import TopHeader from "../../../UI/TopHeader/TopHeader";
 
 // Component inside action column
 const Action = () => {
+  const head = "Suspended Users";
   return (
     <div className="w-6 h-6 flex gap-3 cursor-pointer">
       <img src={View} alt="Edit" />
@@ -85,9 +87,15 @@ const data = [
 const pageSize = 10;
 
 const allmembers = () => {
+  const head = "Suspend User List";
   return (
     <div>
-      <Table columns={columns} data={data} pageSize={pageSize} />
+      <div className="flex fixed z-10">
+        <TopHeader className="fixed" head={head} />
+      </div>
+      <div className=" ml-72 mt-18 h-[98vh] w-[140vh] relative">
+        <Table columns={columns} data={data} pageSize={pageSize} />
+      </div>
     </div>
   );
 };

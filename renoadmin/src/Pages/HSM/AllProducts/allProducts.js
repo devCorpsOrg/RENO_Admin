@@ -1,6 +1,7 @@
 import React from "react";
 import Table from "../../../UI/CommonTable/Table";
 import { deleteIcon, edit, images } from "../Assets/index";
+import TopHeader from "../../../UI/TopHeader/TopHeader";
 
 const Action = () => {
   return (
@@ -94,14 +95,22 @@ const greenButtonText = "Add New Product";
 const pageSize = 4;
 
 const allProjects = () => {
+  const head = "All Products";
   return (
-    <Table
-      columns={columns}
-      data={data}
-      pageSize={pageSize}
-      blackButtonText={blackButtonText}
-      greenButtonText={greenButtonText}
-    />
+    <div>
+      <div className="flex fixed z-10">
+        <TopHeader className="fixed" head={head} />
+      </div>
+      <div className=" ml-72 mt-28 h-[85vh] w-[140vh] relative">
+        <Table
+          columns={columns}
+          data={data}
+          pageSize={pageSize}
+          blackButtonText={blackButtonText}
+          greenButtonText={greenButtonText}
+        />
+      </div>
+    </div>
   );
 };
 
