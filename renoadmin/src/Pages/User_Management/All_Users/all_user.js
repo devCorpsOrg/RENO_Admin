@@ -2,6 +2,7 @@ import React from "react";
 import Table from "../../../UI/CommonTable/Table";
 import { deleteIcon, Photo, View } from "./Assets/index";
 import TopHeader from "../../../UI/TopHeader/TopHeader";
+import { useNavigate } from "react-router-dom";
 
 // Component inside action column
 const Action = () => {
@@ -97,9 +98,13 @@ const data = [
 ];
 
 const pageSize = 10;
-
-const allmembers = () => {
+const greenButtonText = "Add User";
+const Allmembers = () => {
   const head = "All Users";
+  const Navigate = useNavigate();
+  const greenClicked = () => {
+    Navigate("/home/editDetails");
+  };
   return (
     <div>
       <div className="flex fixed z-10">
@@ -109,10 +114,16 @@ const allmembers = () => {
       <div
         className=" ml-72 h-[90vh] w-[85%] relative"
         style={{ marginTop: "70px" }}>
-        <Table columns={columns} data={data} pageSize={pageSize} />
+        <Table
+          columns={columns}
+          data={data}
+          pageSize={pageSize}
+          greenButtonText={greenButtonText}
+          greenClicked={greenClicked}
+        />
       </div>
     </div>
   );
 };
 
-export default allmembers;
+export default Allmembers;

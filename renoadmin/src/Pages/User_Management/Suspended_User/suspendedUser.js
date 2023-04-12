@@ -2,13 +2,19 @@ import React from "react";
 import Table from "../../../UI/CommonTable/Table";
 import { deleteIcon, Photo, View } from "./Assets/index";
 import TopHeader from "../../../UI/TopHeader/TopHeader";
+import { useNavigate } from "react-router-dom";
 
 // Component inside action column
+// The details of user shall be different for every users. It will be integrated at authentication of the users.
 const Action = () => {
+  const Navigate = useNavigate();
+  const handleClick = () => {
+    Navigate("/home/userDetails");
+  };
   const head = "Suspended Users";
   return (
     <div className="w-6 h-6 flex gap-3 cursor-pointer">
-      <img src={View} alt="Edit" />
+      <img src={View} onClick={handleClick} alt="Edit" />
       <img src={deleteIcon} alt="Delete" />
     </div>
   );
