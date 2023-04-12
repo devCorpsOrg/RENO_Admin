@@ -2,6 +2,7 @@ import React from "react";
 import Table from "../../../UI/CommonTable/Table";
 import { deleteIcon, edit, images } from "../Assets/index";
 import TopHeader from "../../../UI/TopHeader/TopHeader";
+import { useNavigate } from "react-router-dom";
 
 const Action = () => {
   return (
@@ -79,7 +80,11 @@ const greenButtonText = "ADD NEW PROMOTIONS";
 // Number of Pages to be display on a single page.
 const pageSize = 4;
 
-const allProjects = () => {
+const AllProjects = () => {
+  const navigate = useNavigate();
+  const greenClicked = () => {
+    navigate("/home/addPromotion");
+  };
   const head = "All Promotion List";
   return (
     <div>
@@ -92,10 +97,11 @@ const allProjects = () => {
           data={data}
           pageSize={pageSize}
           greenButtonText={greenButtonText}
+          greenClicked={greenClicked}
         />
       </div>
     </div>
   );
 };
 
-export default allProjects;
+export default AllProjects;

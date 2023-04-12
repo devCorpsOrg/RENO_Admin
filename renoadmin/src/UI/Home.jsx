@@ -9,8 +9,8 @@ import EditUser from "../Pages/User_Management/Edit_User_Screen/editUser";
 import CreateNewPage from "../Pages/Content_Management/CreateNewPage/createNewPage";
 import ViewUser from "../Pages/User_Management/View_Details/viewuser";
 import MemberDetails from "../Pages/CRM/MemberDetails/memberdetails";
-import AddNewShowcase from "../Pages/PSM/AddNewShowCase/addNewShowcase";
-import EditShowcase from "../Pages/PSM/EditShowcase/editShowcase";
+import AddShowcase from "../Pages/PSM/AddNewShowCase/addNewShowcase";
+import EditShowcase from "../Pages/PSM/FeaturedProject/EditShowcase/editShowcase";
 import AddProduct from "../Pages/HSM/AddProduct/addProduct";
 import AddPromotion from "../Pages/HSM/AddNewPromotion/addNewPromotion";
 import AllPromotion from "../Pages/HSM/AllPromotionList/allPromotionList";
@@ -27,6 +27,7 @@ import Reviews from "../Pages/HSM/Reviews/reviews";
 import PRM from "../Pages/PRM/prm";
 import SuspendedUser from "../Pages/User_Management/Suspended_User/suspendedUser";
 import AllMembers from "../Pages/CRM/AllMembers/allmembers";
+import AddNewRole from "../Pages/PRM/addNewRole";
 
 function Home() {
   const [expand, setExpand] = useState("");
@@ -105,7 +106,7 @@ function Home() {
           exact
           path="/addShowcase"
           element={
-            <AddNewShowcase
+            <AddShowcase
               setExpand={togleExpand}
               setActiveTab={handleActiveTab}
             />
@@ -116,6 +117,16 @@ function Home() {
           path="/addProduct"
           element={
             <AddProduct
+              setExpand={togleExpand}
+              setActiveTab={handleActiveTab}
+            />
+          }
+        />
+        <Route
+          exact
+          path="/addNewRole"
+          element={
+            <AddNewRole
               setExpand={togleExpand}
               setActiveTab={handleActiveTab}
             />

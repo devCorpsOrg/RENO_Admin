@@ -2,11 +2,16 @@ import React from "react";
 import Table from "../../../UI/CommonTable/Table";
 import { deleteIcon, edit, images } from "./Assets/index";
 import TopHeader from "../../../UI/TopHeader/TopHeader";
+import { useNavigate } from "react-router-dom";
 
 const Action = () => {
+  const Navigate = useNavigate();
+  const handleClick = () => {
+    Navigate("/home/editShowcase");
+  };
   return (
     <div className="w-6 h-6 flex gap-3 cursor-pointer">
-      <img src={edit} alt="edit" />
+      <img src={edit} onClick={handleClick} alt="edit" />
       <img src={deleteIcon} alt="Delete" />
     </div>
   );

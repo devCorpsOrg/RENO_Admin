@@ -42,7 +42,7 @@ const AddNewShowcase = ({ setExpand, setActiveTab }) => {
         <TopHeader className="fixed" head={head} />
       </div>
 
-      <div className=" ml-72 mb-10 relative" style={{ marginTop: "70px" }}>
+      <div className=" ml-72 mb-10  relative" style={{ marginTop: "70px" }}>
         <form onSubmit={handleSubmit}>
           <div style={{ marginRight: 0, marginLeft: 920 }}>
             <button
@@ -53,8 +53,7 @@ const AddNewShowcase = ({ setExpand, setActiveTab }) => {
                 height: "47px",
                 color: "white",
               }}
-              type="submit"
-            >
+              type="submit">
               Draft
             </button>
 
@@ -67,8 +66,7 @@ const AddNewShowcase = ({ setExpand, setActiveTab }) => {
                 color: "white",
                 marginLeft: "30px",
               }}
-              type="submit"
-            >
+              type="submit">
               Publish
             </button>
           </div>
@@ -108,8 +106,7 @@ const AddNewShowcase = ({ setExpand, setActiveTab }) => {
                   fontSize: "14px",
                 }}
                 value={label}
-                onChange={handleLabelChange}
-              >
+                onChange={handleLabelChange}>
                 <option value="">Select Catagory</option>
                 <option value="personal">Admin</option>
                 <option value="work">Work</option>
@@ -150,7 +147,7 @@ const AddNewShowcase = ({ setExpand, setActiveTab }) => {
               />
             </label>
           </div>
-          <div style={{width: "600px", marginTop:"10px" }}>
+          <div style={{ width: "600px", marginTop: "10px" }}>
             {images && images.length > 0 && (
               <div className="grid grid-cols-6 gap-2">
                 {images.map((image, index) => (
@@ -210,8 +207,7 @@ const AddNewShowcase = ({ setExpand, setActiveTab }) => {
               height: "55px",
               color: "white",
             }}
-            type="submit"
-          >
+            type="submit">
             Publish
           </button>
           <button
@@ -223,8 +219,7 @@ const AddNewShowcase = ({ setExpand, setActiveTab }) => {
               color: "white",
               marginLeft: "30px",
             }}
-            type="submit"
-          >
+            type="submit">
             Draft
           </button>
           {/* </div> */}
