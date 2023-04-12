@@ -15,14 +15,14 @@ import RemoveIcon from "@mui/icons-material/Remove";
 function SideNavBar({ expand, setExpand, activeTab, setActiveTab }) {
   const activeMenu = true;
   const [subMenu, setSubMenu] = useState(false);
-  console.log(activeTab)
+  console.log(activeTab);
 
   const handleMenu = () => {
     setSubMenu(!subMenu);
   };
 
   return (
-    <div className="w-72 h-screen fixed" style={{ backgroundColor: "#EEEEEE", width:"17rem" }}>
+    <div className="w-72 h-screen fixed " style={{ backgroundColor: "#EEEEEE", width:"17.3rem" }}>
       <div className=" hello ml-3 h-screen overflow-auto pb-10 scrollbar-hide">
         {activeMenu && (
           <>
@@ -65,7 +65,11 @@ function SideNavBar({ expand, setExpand, activeTab, setActiveTab }) {
                   fontWeight: expand == "userManagement" ? "bold" : "inherit",
                 }}
                 onClick={() => {
-                  setExpand("userManagement");
+                  if (expand === "userManagement") {
+                    setExpand(null); // close if already open
+                  } else {
+                    setExpand("userManagement"); // open if closed
+                  }
                 }}
                 activeClassName="active"
                 className="flex items-center"
@@ -179,7 +183,12 @@ function SideNavBar({ expand, setExpand, activeTab, setActiveTab }) {
                     expand == "showcaseManagement" ? "bold" : "inherit",
                 }}
                 onClick={() => {
-                  setExpand("showcaseManagement");
+                  // setExpand("showcaseManagement");
+                  if (expand === "showcaseManagement") {
+                    setExpand(null); // close if already open
+                  } else {
+                    setExpand("showcaseManagement"); // open if closed
+                  }
                 }}
                 activeClassName="active"
                 className="flex items-center"
@@ -266,7 +275,12 @@ function SideNavBar({ expand, setExpand, activeTab, setActiveTab }) {
                 activeClassName="active"
                 className="flex items-center"
                 onClick={() => {
-                  setExpand("homeService");
+                  // setExpand("homeService");
+                  if (expand === "homeService") {
+                    setExpand(null); // close if already open
+                  } else {
+                    setExpand("homeService"); // open if closed
+                  }
                 }}
               >
                 <HomeOutlinedIcon style={{ transform: "scale(0.65)" }} />
@@ -406,7 +420,12 @@ function SideNavBar({ expand, setExpand, activeTab, setActiveTab }) {
                   fontWeight: expand == "marketPlace" ? "bold" : "inherit",
                 }}
                 onClick={() => {
-                  setExpand("marketPlace");
+                  // setExpand("marketPlace");
+                  if (expand === "marketPlace") {
+                    setExpand(null); // close if already open
+                  } else {
+                    setExpand("marketPlace"); // open if closed
+                  }
                 }}
                 className="flex items-center"
               >
