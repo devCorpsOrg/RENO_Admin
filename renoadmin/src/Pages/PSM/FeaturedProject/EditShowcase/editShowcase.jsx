@@ -1,10 +1,10 @@
 import { useState, useRef } from "react";
 import React from "react";
-import TopHeader from "../../../UI/TopHeader/TopHeader";
+import TopHeader from "../../../../UI/TopHeader/TopHeader";
 import DisabledByDefaultRoundedIcon from "@mui/icons-material/DisabledByDefaultRounded";
 
 const EditShowcase = ({ setExpand, setActiveTab }) => {
-    const fileInputRef = useRef(null);
+  const fileInputRef = useRef(null);
   setExpand("showcaseManagement");
   setActiveTab("projectList");
   const head = "Edit Showcase";
@@ -65,8 +65,7 @@ const EditShowcase = ({ setExpand, setActiveTab }) => {
                 height: "47px",
                 color: "white",
               }}
-              type="submit"
-            >
+              type="submit">
               Cancel
             </button>
 
@@ -79,8 +78,7 @@ const EditShowcase = ({ setExpand, setActiveTab }) => {
                 color: "white",
                 marginLeft: "30px",
               }}
-              type="submit"
-            >
+              type="submit">
               Save
             </button>
           </div>
@@ -120,8 +118,7 @@ const EditShowcase = ({ setExpand, setActiveTab }) => {
                   fontSize: "14px",
                 }}
                 value={label}
-                onChange={handleLabelChange}
-              >
+                onChange={handleLabelChange}>
                 <option value="">Select Catagory</option>
                 <option value="personal">Admin</option>
                 <option value="work">Work</option>
@@ -149,51 +146,49 @@ const EditShowcase = ({ setExpand, setActiveTab }) => {
           </div>
           <label className="grid pr-6" style={{ marginTop: "20px" }}>
             Photos
-
-          <div style={{ width: "600px", marginTop: "10px" }}>
-            {(images && images.length > 0) ? (
-              <div className="grid grid-cols-4 gap-2">
-                {images.map((image, index) => (
-                  <div key={index} className="relative">
-                    <img
-                      src={image.url}
-                      alt={image.name}
-                      style={{
-                        width: "100px",
-                        height: "100px",
-                        objectFit: "cover",
-                        marginRight: "10px",
-                      }}
-                    />
-                    <button
-                      className="absolute top-0 text-white" style={{right:46}}
-                      onClick={() => handleRemoveImage(index)}
-                    >
-                      <DisabledByDefaultRoundedIcon style={{fill:"red"}} />
-                    </button>
-                  </div>
-                ))}
-              </div>
-            ) : (
+            <div style={{ width: "600px", marginTop: "10px" }}>
+              {images && images.length > 0 ? (
+                <div className="grid grid-cols-4 gap-2">
+                  {images.map((image, index) => (
+                    <div key={index} className="relative">
+                      <img
+                        src={image.url}
+                        alt={image.name}
+                        style={{
+                          width: "100px",
+                          height: "100px",
+                          objectFit: "cover",
+                          marginRight: "10px",
+                        }}
+                      />
+                      <button
+                        className="absolute top-0 text-white"
+                        style={{ right: 46 }}
+                        onClick={() => handleRemoveImage(index)}>
+                        <DisabledByDefaultRoundedIcon style={{ fill: "red" }} />
+                      </button>
+                    </div>
+                  ))}
+                </div>
+              ) : (
                 <input
-                style={{
-                  height: "48px",
-                  width: "590px",
-                  paddingLeft: "0px",
-                  border: "2px solid 	#e6f7fe",
-                  marginTop: "5px",
-                  fontSize: "14px",
-                }}
-                class="file:bg-black file:px-6 file:py-3 file:border-none file:rounded file:text-white file:cursor-pointer placeholder-transparent mt-3 rounded appearance-none placeholder-transparent"
-                type="file"
-                accept="image/*"
-                multiple
-                onChange={handlePhotoUpload}
-                placeholder=""
-                
-              />
-            )}
-          </div>
+                  style={{
+                    height: "48px",
+                    width: "590px",
+                    paddingLeft: "0px",
+                    border: "2px solid 	#e6f7fe",
+                    marginTop: "5px",
+                    fontSize: "14px",
+                  }}
+                  class="file:bg-black file:px-6 file:py-3 file:border-none file:rounded file:text-white file:cursor-pointer placeholder-transparent mt-3 rounded appearance-none placeholder-transparent"
+                  type="file"
+                  accept="image/*"
+                  multiple
+                  onChange={handlePhotoUpload}
+                  placeholder=""
+                />
+              )}
+            </div>
           </label>
           <div style={{ fontSize: "10px", marginTop: "8px" }}>
             <ul className="list-disc ml-3 text-gray-500">
@@ -236,8 +231,7 @@ const EditShowcase = ({ setExpand, setActiveTab }) => {
               height: "55px",
               color: "white",
             }}
-            type="submit"
-          >
+            type="submit">
             Save
           </button>
           <button
@@ -249,8 +243,7 @@ const EditShowcase = ({ setExpand, setActiveTab }) => {
               color: "white",
               marginLeft: "30px",
             }}
-            type="submit"
-          >
+            type="submit">
             Cancel
           </button>
           {/* </div> */}

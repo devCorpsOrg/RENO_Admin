@@ -2,6 +2,7 @@ import React from "react";
 import Table from "../../UI/CommonTable/Table";
 import { deleteIcon, view, edit } from "./Assets/index";
 import TopHeader from "../../UI/TopHeader/TopHeader";
+import { useNavigate } from "react-router-dom";
 // Component inside action column
 const Action = () => {
   return (
@@ -79,6 +80,10 @@ const pageSize = 10;
 const greenButtonText = "Add New Role";
 
 const PMS = () => {
+  const navigate = useNavigate();
+  const greenClicked = () => {
+    navigate("/home/addNewRole");
+  };
   const head = "Permission and Role Management";
   return (
     <div>
@@ -91,6 +96,7 @@ const PMS = () => {
           data={data}
           pageSize={pageSize}
           greenButtonText={greenButtonText}
+          greenClicked={greenClicked}
         />
       </div>
     </div>
