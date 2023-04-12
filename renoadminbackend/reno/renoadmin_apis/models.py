@@ -4,6 +4,8 @@ from django.dispatch import receiver
 from django.urls import reverse
 from django_rest_passwordreset.signals import reset_password_token_created
 from django.core.mail import send_mail  
+from django.db import models as m
+import uuid
 
 
 @receiver(reset_password_token_created)
@@ -27,11 +29,9 @@ def password_reset_token_created(sender, instance, reset_password_token, *args, 
 class Userdetails(models.Model):
     id=models.IntegerField(primary_key=True)
     username=models.CharField(max_length=100)
-    
-    name=models.CharField(max_length=100)
-    status=models.CharField(max_length=100)
-    
     about=models.TextField()
+    name=models.CharField(max_length=100,default='SOME STRING')
+    status=models.CharField(max_length=100)
     email=models.EmailField(max_length=256)
     phone=models.CharField(max_length=100)
     role=models.CharField(max_length=100)
@@ -108,4 +108,64 @@ class SupportDetails(models.Model):
     status=models.CharField(max_length=100)
     support_id=models.IntegerField(unique=True)
     
-    
+#==========================================================================================================
+class Customers(m.Model):
+    id = m.IntegerField(primary_key=True)
+    usname = m.CharField(max_length=50, blank=False, null=False, unique=True)
+    emai = m.CharField(max_length=64)
+    role = m.CharField(max_length=50)
+    inv_count = m.IntegerField()
+    member_name = m.CharField(max_length=100, blank=False, null=False)
+    note = m.TextField()
+    phone = m.CharField(max_length=50)
+    pic_url = m.URLField()
+    is_suspended = m.IntegerField(default=0)
+
+    class Meta:
+        verbose_name_plural = "Customers"
+
+    def __str__(self):
+        return f"{self.usname}"
+
+
+class Reviews(m.Model):
+    id = m.IntegerField(primary_key=True)
+    pic_url = m.URLField()
+    prod_name = m.CharField(max_length=100, blank=False, null=False)
+    review = m.TextField(blank=False, null=False)
+    amt = m.CharField(max_length=50)
+    reviewer_name = m.CharField(max_length=100)
+
+
+class Transactions(m.Model):
+    id = m.IntegerField(primary_key=True)
+    pic_url = m.URLField()
+    prod_name = m.CharField(max_length=100, blank=False, null=False)
+    user = m.CharField(max_length=200, blank=False, null=False)
+    desc = m.TextField()
+    amt = m.CharField(max_length=50)
+    datetime = m.DateTimeField()
+
+
+class Products(m.Model):
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    pic_url = m.URLField()
+    name = m.CharField(max_length=200, blank=False, null=False)
+    category = m.CharField(max_length=200)
+    proj_category = m.CharField(max_length=200)
+    rate = m.CharField(max_length=50)
+    inv_count = m.CharField(max_length=50)
+    details = m.TextField()
+    net_purchase_item_count = m.IntegerField()
+    featured_flag = m.IntegerField(default=0)
+
+
+class CRM(m.Model):
+    id = m.IntegerField(primary_key=True)
+    usname = m.CharField(max_length=50, blank=False, null=False, unique=True)
+    pic_url = m.URLField()
+    abt = m.TextField()
+    phone = m.CharField(max_length=50)
+    net_purchase_amount = m.CharField(max_length=50)
+    net_purchase_count = m.IntegerField()
+    pts = m.TextField()
