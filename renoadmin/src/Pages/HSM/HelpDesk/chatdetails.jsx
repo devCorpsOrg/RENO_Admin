@@ -50,7 +50,7 @@ const Chatdetails = ({ setActiveTab, setExpand }) => {
       </div>
 
       <div
-        className="ml-3 mr-3 scrollbar-hide"
+        className="ml-3 mr-3 overflow-auto scrollbar-hide"
         style={{
           height: "550px",
           width: "380px",
@@ -105,14 +105,14 @@ const Chatdetails = ({ setActiveTab, setExpand }) => {
               width: "fit-content",
               marginBottom: "5px",
               position: "absolute",
-              right: 8,
+              right: 20,
             }}
           >
             Frontend Side Messages
           </div>
           <div
             className="text-gray-500"
-            style={{ fontSize: "12px", paddingLeft: "100px", paddingTop:"40px", position:"absolute", right:15 }}
+            style={{ fontSize: "12px", paddingLeft: "100px", paddingTop:"40px", position:"absolute", right:25 }}
           >
             8:30 am
           </div>

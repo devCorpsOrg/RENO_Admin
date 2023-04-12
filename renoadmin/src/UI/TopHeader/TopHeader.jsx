@@ -4,7 +4,7 @@ const TopHeader = (props) => {
   return (
     <div
       className="ml-72 w-full h-20 fixed bg-white"
-      style={{ marginLeft: "17rem" }}>
+      style={{ marginLeft: "18rem" }}>
       <div className="ml-3 flex h-20 items-center justify-between">
         <div className="text-2xl font-semibold">{props.head}</div>
         <div
