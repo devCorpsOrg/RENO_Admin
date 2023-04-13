@@ -28,6 +28,9 @@ import PRM from "../Pages/PRM/prm";
 import SuspendedUser from "../Pages/User_Management/Suspended_User/suspendedUser";
 import AllMembers from "../Pages/CRM/AllMembers/allmembers";
 import AddNewRole from "../Pages/PRM/addNewRole";
+import EditCategory from "../Pages/MarketPlaceManagement/AllProducts/editCategory";
+import AddNewCategory from "../Pages/MarketPlaceManagement/AllProducts/addNewcategory";
+import AddListing from "../Pages/MarketPlaceManagement/ListingManagement/addListing";
 
 function Home() {
   const [expand, setExpand] = useState("");
@@ -144,6 +147,26 @@ function Home() {
         />
         <Route
           exact
+          path="/addNewCategory"
+          element={
+            <AddNewCategory
+              setExpand={togleExpand}
+              setActiveTab={handleActiveTab}
+            />
+          }
+        />
+        <Route
+          exact
+          path="/addListing"
+          element={
+            <AddListing
+              setExpand={togleExpand}
+              setActiveTab={handleActiveTab}
+            />
+          }
+        />
+        <Route
+          exact
           path="/editServices"
           element={
             <EditService
@@ -167,6 +190,16 @@ function Home() {
           path="/editShowcase"
           element={
             <EditShowcase
+              setExpand={togleExpand}
+              setActiveTab={handleActiveTab}
+            />
+          }
+        />
+        <Route
+          exact
+          path="/editCategory"
+          element={
+            <EditCategory
               setExpand={togleExpand}
               setActiveTab={handleActiveTab}
             />
