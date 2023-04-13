@@ -31,11 +31,14 @@ import AddNewRole from "../Pages/PRM/addNewRole";
 import EditCategory from "../Pages/MarketPlaceManagement/AllProducts/editCategory";
 import AddNewCategory from "../Pages/MarketPlaceManagement/AllProducts/addNewcategory";
 import AddListing from "../Pages/MarketPlaceManagement/ListingManagement/addListing";
+import AllMarketMember from "../Pages/MarketPlaceManagement/AllMembers/allMembers";
+import SuspendedMarketUser from "../Pages/MarketPlaceManagement/SuspendUsers/suspendUsers";
+import AllMarketProducts from "../Pages/MarketPlaceManagement/AllProducts/Allproducts";
+import ListingManagement from "../Pages/MarketPlaceManagement/ListingManagement/listingManagement";
 
 function Home() {
   const [expand, setExpand] = useState("");
   const [activeTab, setActiveTab] = useState("dashboard");
-  
 
   const handleActiveTab = (tab) => {
     setActiveTab(tab);
@@ -59,6 +62,36 @@ function Home() {
           path="/allUsers"
           element={
             <UserDetails
+              setExpand={togleExpand}
+              setActiveTab={handleActiveTab}
+            />
+          }
+        />
+        <Route
+          exact
+          path="/catagoryManagement"
+          element={
+            <AllMarketProducts
+              setExpand={togleExpand}
+              setActiveTab={handleActiveTab}
+            />
+          }
+        />
+        <Route
+          exact
+          path="/listingManagement"
+          element={
+            <ListingManagement
+              setExpand={togleExpand}
+              setActiveTab={handleActiveTab}
+            />
+          }
+        />
+        <Route
+          exact
+          path="/suspendMarketUser"
+          element={
+            <SuspendedMarketUser
               setExpand={togleExpand}
               setActiveTab={handleActiveTab}
             />
@@ -321,6 +354,16 @@ function Home() {
           path="/customerRelationship"
           element={
             <AllMembers
+              setExpand={togleExpand}
+              setActiveTab={handleActiveTab}
+            />
+          }
+        />
+        <Route
+          exact
+          path="/allMembers"
+          element={
+            <AllMarketMember
               setExpand={togleExpand}
               setActiveTab={handleActiveTab}
             />
