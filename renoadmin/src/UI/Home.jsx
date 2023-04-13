@@ -28,6 +28,7 @@ import PRM from "../Pages/PRM/prm";
 import SuspendedUser from "../Pages/User_Management/Suspended_User/suspendedUser";
 import AllMembers from "../Pages/CRM/AllMembers/allmembers";
 import AddNewRole from "../Pages/PRM/addNewRole";
+import EditMember from "../Pages/MarketPlaceManagement/EditMember/editMember";
 import EditCategory from "../Pages/MarketPlaceManagement/AllProducts/editCategory";
 import AddNewCategory from "../Pages/MarketPlaceManagement/AllProducts/addNewcategory";
 import AddListing from "../Pages/MarketPlaceManagement/ListingManagement/addListing";
@@ -69,9 +70,29 @@ function Home() {
         />
         <Route
           exact
+          path="/addListing"
+          element={
+            <AddListing
+              setExpand={togleExpand}
+              setActiveTab={handleActiveTab}
+            />
+          }
+        />
+        <Route
+          exact
           path="/catagoryManagement"
           element={
             <AllMarketProducts
+              setExpand={togleExpand}
+              setActiveTab={handleActiveTab}
+            />
+          }
+        />
+        <Route
+          exact
+          path="/editMember"
+          element={
+            <EditMember
               setExpand={togleExpand}
               setActiveTab={handleActiveTab}
             />
@@ -188,16 +209,7 @@ function Home() {
             />
           }
         />
-        <Route
-          exact
-          path="/addListing"
-          element={
-            <AddListing
-              setExpand={togleExpand}
-              setActiveTab={handleActiveTab}
-            />
-          }
-        />
+
         <Route
           exact
           path="/editServices"

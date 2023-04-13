@@ -12,7 +12,6 @@ const AddListing = ({ setExpand, setActiveTab }) => {
   const [content, setContent] = useState("");
   const [images, setImages] = useState([]);
 
-
   const handleSubmit = (event) => {
     event.preventDefault();
     console.log(title, price); // Do something with the data
