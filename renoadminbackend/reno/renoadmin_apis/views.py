@@ -2,7 +2,7 @@ from django.shortcuts import render
 from rest_framework import generics, permissions
 from rest_framework.response import Response
 from knox.models import AuthToken
-from .serializers import UserSerializer, RegisterSerializer
+from .serializers import UserSerializers, RegisterSerializer
 from django.contrib.auth import login
 from rest_framework import permissions
 from rest_framework.authtoken.serializers import AuthTokenSerializer
@@ -107,8 +107,15 @@ class ChangePasswordView(generics.UpdateAPIView):
 @csrf_exempt
 def user_details(request):
    if request.method=='GET':
-    info=Userdetails.objects.all() 
-    serailizer=UserSerializer(info,many=True);
+    
+    try:
+        info=Userdetails.objects.get(is_suspend=0) 
+    except Userdetails.DoesNotExist:
+            res={'msg':'Data Not Found'}
+            json_data=JSONRenderer().render(res)
+            return HttpResponse(json_data,content_type='application/json')
+
+    serailizer=UserSerializers(info,many=True);
     json_data=JSONRenderer().render(serailizer.data) 
     return HttpResponse(json_data,content_type='application/json')
    
@@ -121,7 +128,7 @@ def user_History(request,name):
         print(id)
         info1=Purchased_item.objects.get(UserPK=id)
         info2=User_Product.objects.get(UserPK=id)
-        serailizer=UserSerializer(info);
+        serailizer=UserSerializers(info);
         serailizer1=PurchasedSerializer(info1);
         serailizer2= ProductSerializer(info2);
         res={
@@ -149,8 +156,13 @@ def create_user(request):
 @csrf_exempt
 def search_user(request,name):
      if request.method=='GET':
-            info=Userdetails.objects.get(username=name)
-            serailizer=UserSerializer(info);
+            try:
+              info=Userdetails.objects.get(username=name)
+            except Userdetails.DoesNotExist:
+              res={'msg':'Data Not Found'}
+              json_data=JSONRenderer().render(res)
+              return HttpResponse(json_data,content_type='application/json')
+            serailizer=UserSerializers(info);
             json_data=JSONRenderer().render(serailizer.data) 
             return HttpResponse(json_data,content_type='application/json')
      
@@ -194,11 +206,12 @@ def delete_user(request,name):
           try:
              info=Userdetails.objects.get(username=name)
           except Userdetails.DoesNotExist:
-             res={'msg':'Data is not present'}
+             res={'msg':'User is not present'}
              json_data=JSONRenderer().render(res)
+             return HttpResponse(json_data,content_type='application/json')
              
           info.delete()
-          res={'msg':'Data updated Successfully'}
+          res={'msg':'User deleted Successfully'}
           json_data=JSONRenderer().render(res)
           return HttpResponse(json_data,content_type='application/json')
 
@@ -209,7 +222,7 @@ def suspend_user(request,name):
     suspend_reason=data['suspend_reason']
     info=Userdetails.objects.get(username=name)
     info.suspend_reason=suspend_reason
-    info.is_suspend=True
+    info.is_suspend=1
     info.save()
     res={'msg':'Suspended Successfully'}
     json_data=JSONRenderer().render(res)
@@ -219,9 +232,16 @@ def suspend_user(request,name):
 @csrf_exempt    
 def suspended_users(request):
   if request.method=='GET':
-    info=Userdetails.objects.filter(is_suspend="True")
+    try:
+     info=Userdetails.objects.filter(is_suspend=1)
+    except Userdetails.DoesNotExist:
+         res={'msg':'User is not present'}
+         json_data=JSONRenderer().render(res)
+         return HttpResponse(json_data,content_type='application/json')
+
+     
     
-    serailizer=UserSerializer(info,many=True);
+    serailizer=UserSerializer1(info,many=True);
     json_data=JSONRenderer().render(serailizer.data) 
     return HttpResponse(json_data,content_type='application/json')
   
@@ -641,25 +661,27 @@ def delete_customer(request, id):
         return HttpResponseNotFound('Customer not found.')
 
 
+@csrf_exempt
 def edit_customer(request, id):
     if request.method == 'POST':
-        customer = Customers.objects.filter(id=id, is_suspended=0).values('id', 'usname', 'emai', 'phone', 'uid', 'role', 'pic_url', 'note').first()
+        # customer = Customers.objects.filter(id=id, is_suspended=0).values('id', 'usname', 'emai', 'phone', 'role', 'pic_url', 'note').first()
+        customer = Customers.objects.filter(id=id, is_suspended=0).first()
+        
         if not customer:
             return HttpResponseNotFound('Customer not found.')
         
-        customer.abt = request.POST['abt']
-        customer.desc = request.POST['desc']
+        customer.note = request.POST['note']
         customer.emai = request.POST['emai']
         customer.member_name = request.POST['member_name']
         customer.phone = request.POST['phone']
         customer.pic_url = request.POST['pic_url']
         customer.role = request.POST['role']
-        customer.uid = request.POST['uid']
+        customer.id = request.POST['uid']
         customer.usname = request.POST['usname']
         
         customer.save()
 
-        data = serializers.serialize('json', customer)
+        data = serializers.serialize('json', [customer])
         formatted_data = json.dumps(json.loads(data), indent=4)  # Indent the JSON data
         return HttpResponse(formatted_data, content_type='application/json')
 
@@ -752,11 +774,30 @@ def search_products(request, name):
         return HttpResponseNotFound('Product not found.')
 
 
-def export_products(request):
+def export_products(request, file_format):
+    products = Products.objects.all()
+    
+    if file_format == 'json':
+        data = serializers.serialize('json', products)
+        response = HttpResponse(data, content_type='application/json')
+        response['Content-Disposition'] = 'attachment; filename="renovation_products.json"'
+        return response
+    elif file_format == 'csv':
+        response = HttpResponse(content_type='text/csv')
+        response['Content-Disposition'] = 'attachment; filename="renovation_products.csv"'
 
-    return HttpResponse('Downloading..', status=200)
+        writer = csv.writer(response)
+        writer.writerow(['id', 'pic_url', 'name', 'category', 'proj_category', 'rate', 'inv_count', 'details', 'net_purchase_item_count', 'featured_flag'])
+
+        for product in Products.objects.all():
+            writer.writerow([product.id, product.pic_url, product.name, product.name, product.category, product.proj_category, product.rate, product.inv_count, product.details, product.net_purchase_item_count, product.featured_flag])
+
+        return response
+    else:
+        return HttpResponseBadRequest('Invalid file format..')
 
 
+@csrf_exempt
 def edit_products(request, id):
     product = Products.objects.filter(id=id).first()
 
@@ -776,6 +817,7 @@ def edit_products(request, id):
         return HttpResponseNotFound('Product not found.')
 
 
+@csrf_exempt
 def add_products(request):
     if request.method == 'POST':
         name = request.POST['prod_name']
@@ -805,9 +847,30 @@ def delete_products(request, id):
         return HttpResponseNotFound('Product not found.')
 
 
-def export_featured_products(request):
+def export_featured_products(request, file_format):
+    products = Products.objects.filter(featured_flag=1).all()
+    
+    if (file_format == 'json' or file_format == 'csv') and not products:
+        return JsonResponse({404: 'Featured Products not found.'})
+    
+    elif file_format == 'json':
+        data = serializers.serialize('json', products)
+        response = HttpResponse(data, content_type='application/json')
+        response['Content-Disposition'] = 'attachment; filename="renovation_featured_products.json"'
+        return response
+    elif file_format == 'csv':
+        response = HttpResponse(content_type='text/csv')
+        response['Content-Disposition'] = 'attachment; filename="renovation_featured_products.csv"'
 
-    return HttpResponse('Downloading..', status=200)
+        writer = csv.writer(response)
+        writer.writerow(['id', 'pic_url', 'name', 'category', 'proj_category', 'rate', 'inv_count', 'details', 'net_purchase_item_count', 'featured_flag'])
+
+        for product in Products.objects.all():
+            writer.writerow([product.id, product.pic_url, product.name, product.name, product.category, product.proj_category, product.rate, product.inv_count, product.details, product.net_purchase_item_count, product.featured_flag])
+
+        return response
+    else:
+        return HttpResponseBadRequest('Invalid file format..')
 
 
 def featured_products(request):
@@ -861,15 +924,22 @@ def member_details(request, usname):
         return HttpResponseNotFound('Member not found.')
     
 
-def export_members(request):
-    response = HttpResponse(content_type='text/csv')
-    response['Content-Disposition'] = 'attachment; filename="renovation_customers.csv"'
+def export_members(request, file_format):
+    if file_format == 'json':
+        members = CRM.objects.all()
+        data = serializers.serialize('json', members)
+        response = HttpResponse(data, content_type='application/json')
+        response['Content-Disposition'] = 'attachment; filename="renovation_featured_products.json"'
+        return response
+    elif file_format == 'csv':
+        response = HttpResponse(content_type='text/csv')
+        response['Content-Disposition'] = 'attachment; filename="renovation_customers.csv"'
 
-    writer = csv.writer(response)
-    writer.writerow(['id', 'usname', 'pic_url', 'abt', 'phone', 'net_purchase_amount', 'net_purchase_count', 'pts'])
+        writer = csv.writer(response)
+        writer.writerow(['id', 'usname', 'pic_url', 'abt', 'phone', 'net_purchase_amount', 'net_purchase_count', 'pts'])
 
-    for member in CRM.objects.all():
-        writer.writerow([member.id, member.usname, member.pic_url, member.abt, member.phone, member.net_purchase_amount, member.net_purchase_count, member.pts])
+        for member in CRM.objects.all():
+            writer.writerow([member.id, member.usname, member.pic_url, member.abt, member.phone, member.net_purchase_amount, member.net_purchase_count, member.pts])
 
     return response
 
