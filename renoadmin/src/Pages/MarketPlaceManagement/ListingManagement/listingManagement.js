@@ -7,7 +7,7 @@ import { useNavigate } from "react-router-dom";
 const Action = () => {
   const Navigate = useNavigate();
   const handleClick = () => {
-    Navigate("/home/editShowcase");
+    // Navigate("/home/editShowcase");
   };
   return (
     <div className="w-6 h-6 flex gap-3 cursor-pointer">
@@ -81,7 +81,7 @@ const AllProjects = () => {
   const head = "All Members";
   const Navigate = useNavigate();
   const greenClicked = () => {
-    Navigate("/home/addShowcase");
+    Navigate("/home/addListing");
   };
   return (
     <div>
