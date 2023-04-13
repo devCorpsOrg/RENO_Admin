@@ -5,6 +5,7 @@ from django.urls import reverse
 from django_rest_passwordreset.signals import reset_password_token_created
 from django.core.mail import send_mail  
 from django.db import models as m
+import uuid
 
 
 @receiver(reset_password_token_created)
@@ -36,7 +37,7 @@ class Userdetails(models.Model):
     role=models.CharField(max_length=100)
     uid=models.IntegerField(unique=True)
     pic=models.ImageField(upload_to="my_pic",blank=True)
-    is_suspend=models.BooleanField(default=False)
+    is_suspend=models.IntegerField(choices=((0,0),(1,1)),default=0)
     suspend_reason=models.TextField(null=True,blank=True)
 
 class Purchased_item(models.Model):
@@ -147,7 +148,7 @@ class Transactions(m.Model):
 
 
 class Products(m.Model):
-    id = m.IntegerField(primary_key=True)
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     pic_url = m.URLField()
     name = m.CharField(max_length=200, blank=False, null=False)
     category = m.CharField(max_length=200)
