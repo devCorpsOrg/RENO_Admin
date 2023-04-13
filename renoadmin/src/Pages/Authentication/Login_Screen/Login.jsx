@@ -6,14 +6,13 @@ function Login() {
   const navigate = useNavigate();
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
-//   const [result, setResult] = useState("");
+  //   const [result, setResult] = useState("");
 
   const handleSubmit = async (event) => {
-
     event.preventDefault();
     setUsername("");
     setPassword("");
-    navigate("/home")
+    navigate("/home");
     // try {
     //   const response = await axios
     //     .post("http://localhost:4000/", { username, password })
@@ -25,7 +24,7 @@ function Login() {
     //       }
     //     }); // Login .
     // } catch (error) {
-    //   setResult(error.response.data); 
+    //   setResult(error.response.data);
     // }
     // console.log(`Submitting ${username} and ${password}`);
   };
@@ -33,7 +32,7 @@ function Login() {
   return (
     <div className="login">
       <div className="login_box">
-        <img className="logo" src="/images/logo.png" alt=""/>
+        <img className="logo" src="/images/logo.png" alt="" />
         <div className="login_header">
           <h1 className="headl">Login</h1>
           <div className="signup">
@@ -65,16 +64,17 @@ function Login() {
             </label>
             <br />
             <div className="submit">
-              <button onClick={handleSubmit} className="login_button" type="submit">
+              <button
+                onClick={handleSubmit}
+                className="login_button"
+                type="submit">
                 Login
               </button>
               <Link to="/reset" className="forgot">
                 Forgot Password?
               </Link>
             </div>
-            <div className="result">
-              {/* {result} */}
-            </div>
+            <div className="result">{/* {result} */}</div>
           </form>
         </div>
       </div>

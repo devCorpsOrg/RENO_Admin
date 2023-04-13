@@ -53,8 +53,7 @@ const AddPromotion = ({ setExpand, setActiveTab }) => {
                 height: "47px",
                 color: "white",
               }}
-              type="submit"
-            >
+              type="submit">
               Draft
             </button>
 
@@ -67,8 +66,7 @@ const AddPromotion = ({ setExpand, setActiveTab }) => {
                 color: "white",
                 marginLeft: "30px",
               }}
-              type="submit"
-            >
+              type="submit">
               Publish
             </button>
           </div>
@@ -108,8 +106,7 @@ const AddPromotion = ({ setExpand, setActiveTab }) => {
                   fontSize: "14px",
                 }}
                 value={label}
-                onChange={handleLabelChange}
-              >
+                onChange={handleLabelChange}>
                 <option value="">Select Catagory</option>
                 <option value="personal">Admin</option>
                 <option value="work">Work</option>
@@ -151,8 +148,7 @@ const AddPromotion = ({ setExpand, setActiveTab }) => {
                   fontSize: "14px",
                 }}
                 value={label}
-                onChange={handleLabelChange}
-              >
+                onChange={handleLabelChange}>
                 <option value="">No of Promotion</option>
                 <option value="personal">Admin</option>
                 <option value="work">Work</option>
@@ -227,8 +223,7 @@ const AddPromotion = ({ setExpand, setActiveTab }) => {
               height: "55px",
               color: "white",
             }}
-            type="submit"
-          >
+            type="submit">
             Publish
           </button>
           <button
@@ -240,8 +235,7 @@ const AddPromotion = ({ setExpand, setActiveTab }) => {
               color: "white",
               marginLeft: "30px",
             }}
-            type="submit"
-          >
+            type="submit">
             Draft
           </button>
           {/* </div> */}
