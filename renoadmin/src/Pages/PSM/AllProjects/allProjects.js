@@ -112,7 +112,7 @@ const AllProjects = () => {
       <div className="flex fixed z-10">
         <TopHeader className="fixed" head={head} />
       </div>
-      <div className=" ml-72 mt-28 h-[85vh] w-[140vh] relative">
+      <div className=" ml-72 mt-28 h-[85vh] min-w-[85%] relative">
         <Table
           columns={columns}
           data={data}

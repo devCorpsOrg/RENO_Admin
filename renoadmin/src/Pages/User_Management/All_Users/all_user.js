@@ -61,36 +61,27 @@ const columns = [
 const data = [
   {
     photo: <ProfilePhoto />,
-    username: "Abhinav100",
-    emailaddress: "Abhinav123@gmail.com",
-    contact: `+91 ${99191313919}`,
+    username: "Adrian",
+    emailaddress: "Adrian@sample.com",
+    contact: `+65 ${12345678}`,
     usertype: "Manager",
     userid: `#${1234}`,
     action: <Action />,
   },
   {
     photo: <ProfilePhoto />,
-    username: "Abhinav100",
-    emailaddress: "Abhinav123@gmail.com",
-    contact: `+91 ${99191313919}`,
+    username: "Adrian",
+    emailaddress: "Adrian@sample.com",
+    contact: `+65 ${12345678}`,
     usertype: "Manager",
     userid: `#${1234}`,
     action: <Action />,
   },
   {
     photo: <ProfilePhoto />,
-    username: "Abhinav100",
-    emailaddress: "Abhinav123@gmail.com",
-    contact: `+91 ${99191313919}`,
-    usertype: "Manager",
-    userid: `#${1234}`,
-    action: <Action />,
-  },
-  {
-    photo: <ProfilePhoto />,
-    username: "Abhinav100",
-    emailaddress: "Abhinav123@gmail.com",
-    contact: `+91 ${99191313919}`,
+    username: "Adrian",
+    emailaddress: "Adrian@sample.com",
+    contact: `+65 ${12345678}`,
     usertype: "Manager",
     userid: `#${1234}`,
     action: <Action />,
@@ -112,7 +103,7 @@ const Allmembers = () => {
       </div>
 
       <div
-        className=" ml-72 h-[90vh] w-[85%] relative"
+        className=" ml-72 h-[90vh] min-w-[86%] relative"
         style={{ marginTop: "70px" }}>
         <Table
           columns={columns}
