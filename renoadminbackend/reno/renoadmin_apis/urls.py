@@ -50,7 +50,7 @@ urlpatterns = [
 
 #==============================================================================================================
 
- path('customers', views.customers, name='Customers'),
+  path('customers', views.customers, name='Customers'),
     path('searchcustomers/<int:id>', views.search_customers, name='Search Customers'),
     path('exportcustomers', views.export_customers, name='Export Customers'),
     path('deletecustomer/<int:id>', views.delete_customer, name='Delete Customer'),
@@ -67,18 +67,18 @@ urlpatterns = [
     
     path('products', views.products, name='Products'),
     path('searchproducts/<str:prod_name>', views.search_products, name='Search Products'),
-    path('exportproducts', views.export_products, name='Edit Products'),
-    path('addproducts', views.add_products, name='Add Products'),
-    path('editproducts', views.edit_products, name='Edit Products'),
+    path('exportproducts/<str:file_format>', views.export_products, name='Edit Products'),
+    path('addproducts/<str:id>', views.add_products, name='Add Products'),
+    path('editproducts/<str:id>', views.edit_products, name='Edit Products'),
     path('deleteproducts', views.delete_products, name='Delete Products'),
-    path('exportfeaturedprod', views.export_featured_products, name='Export Featured Products'),
+    path('exportfeaturedprod/<str:file_format>', views.export_featured_products, name='Export Featured Products'),
     path('featuredproducts', views.featured_products, name='Featured Products'),
     
     path('members', views.members, name='Members'),
     path('searchmember/<str:usname>', views.search_member, name='Search Member'),
     path('deletemember/<str:usname>', views.delete_member, name='Delete Member'),
     path('memberdetails/<str:usname>', views.member_details, name='Member Details'),
-    path('exportmembers', views.export_members, name='Export Members'),
+    path('exportmembers/<str:file_format>', views.export_members, name='Export Members'),
     
     path('roles', views.roles, name='Roles'),
     path('createrole', views.create_role, name='Create Role'),
