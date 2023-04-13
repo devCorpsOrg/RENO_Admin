@@ -40,7 +40,7 @@ class ChangePasswordSerializer(serializers.Serializer):
 
 # ------------------------------------------------------------------------------------------------------
 
-class UserSerializer(serializers.ModelSerializer):
+class UserSerializers(serializers.ModelSerializer):
     
     class Meta:
         model=Userdetails
