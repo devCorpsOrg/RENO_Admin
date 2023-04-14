@@ -7,7 +7,7 @@ import { useNavigate } from "react-router-dom";
 const Action = () => {
   const Navigate = useNavigate();
   const handleClick = () => {
-    // Navigate("/home/editCategory");
+    Navigate("/home/editCategory");
   };
   return (
     <div className="w-6 h-6 flex gap-3 cursor-pointer">

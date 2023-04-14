@@ -5,13 +5,9 @@ import TopHeader from "../../../UI/TopHeader/TopHeader";
 import { useNavigate } from "react-router-dom";
 
 const Action = () => {
-  const Navigate = useNavigate();
-  const handleClick = () => {
-    Navigate("/home/editShowcase");
-  };
   return (
     <div className="w-6 h-6 flex gap-3 cursor-pointer">
-      <img onClick={handleClick} src={edit} alt="edit" />
+      <img src={edit} alt="edit" />
       <img src={deleteIcon} alt="Delete" />
     </div>
   );
@@ -86,10 +82,6 @@ const pageSize = 4;
 
 const AllProjects = () => {
   const head = "Suspended Users";
-  const Navigate = useNavigate();
-  const greenClicked = () => {
-    // Navigate("/home/addShowcase");
-  };
   return (
     <div>
       <div className="flex fixed z-10">
@@ -101,7 +93,6 @@ const AllProjects = () => {
           data={data}
           pageSize={pageSize}
           blackButtonText={blackButtonText}
-          greenClicked={greenClicked}
         />
       </div>
     </div>

@@ -1,10 +1,6 @@
 import React from "react";
-import SendOutlinedIcon from "@mui/icons-material/SendOutlined";
 
-const Chatdetails = ({ setActiveTab, setExpand }) => {
-  setActiveTab("helpDesk");
-  setExpand("homeService");
-
+const Chatdetails = () => {
   function formatTime(date) {
     const hours = date.getHours();
     const minutes = date.getMinutes();
@@ -24,8 +20,7 @@ const Chatdetails = ({ setActiveTab, setExpand }) => {
         top: "0px",
         background: "#FFFFFF",
         boxShadow: "0px 4px 50px rgba(0, 0, 0, 0.2)",
-      }}
-    >
+      }}>
       <div className="flex justify-between ml-3 mr-3 mt-5">
         <div className="font-bold">Chat Details</div>
         <button className="font-bold">X</button>
@@ -56,8 +51,7 @@ const Chatdetails = ({ setActiveTab, setExpand }) => {
           width: "380px",
           overflowX: "hidden",
           overflowY: "scroll",
-        }}
-      >
+        }}>
         <div style={{ width: "200px", paddingBottom: "15px" }}>
           <div
             className="flex items-center"
@@ -75,14 +69,12 @@ const Chatdetails = ({ setActiveTab, setExpand }) => {
               paddingBottom: "7px",
               width: "fit-content",
               marginBottom: "5px",
-            }}
-          >
+            }}>
             Backend Side Messages
           </div>
           <div
             className="text-gray-500"
-            style={{ fontSize: "12px", paddingLeft: "8px" }}
-          >
+            style={{ fontSize: "12px", paddingLeft: "8px" }}>
             8:30 am
           </div>
         </div>
@@ -106,14 +98,18 @@ const Chatdetails = ({ setActiveTab, setExpand }) => {
               marginBottom: "5px",
               position: "absolute",
               right: 20,
-            }}
-          >
+            }}>
             Frontend Side Messages
           </div>
           <div
             className="text-gray-500"
-            style={{ fontSize: "12px", paddingLeft: "100px", paddingTop:"40px", position:"absolute", right:25 }}
-          >
+            style={{
+              fontSize: "12px",
+              paddingLeft: "100px",
+              paddingTop: "40px",
+              position: "absolute",
+              right: 25,
+            }}>
             8:30 am
           </div>
         </div>
@@ -121,8 +117,7 @@ const Chatdetails = ({ setActiveTab, setExpand }) => {
 
       <div
         className="ml-3 mr-3 flex justify-between items-center"
-        style={{ position: "absolute", bottom: 20 }}
-      >
+        style={{ position: "absolute", bottom: 20 }}>
         <input
           className="bg-gray-200"
           style={{
@@ -137,12 +132,11 @@ const Chatdetails = ({ setActiveTab, setExpand }) => {
         />
         <button
           className="ml-4 rounded-full flex items-center justify-center bg-black"
-          style={{ border: "1px solid", height: "30px", width: "30px" }}
-        >
-          <SendOutlinedIcon
-            style={{ color: "white", transform: "rotate(-40deg)" }}
-          />
-        </button>
+          style={{
+            border: "1px solid",
+            height: "30px",
+            width: "30px",
+          }}></button>
       </div>
     </div>
   );
