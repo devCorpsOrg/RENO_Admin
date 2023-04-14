@@ -36,6 +36,8 @@ import AllMarketMember from "../Pages/MarketPlaceManagement/AllMembers/allMember
 import SuspendedMarketUser from "../Pages/MarketPlaceManagement/SuspendUsers/suspendUsers";
 import AllMarketProducts from "../Pages/MarketPlaceManagement/AllProducts/Allproducts";
 import ListingManagement from "../Pages/MarketPlaceManagement/ListingManagement/listingManagement";
+import ReviewMPM from "../Pages/MarketPlaceManagement/ReviewManagement/reviewManagement";
+import AllChats from "../Pages/MarketPlaceManagement/AllChats/allchats";
 
 function Home() {
   const [expand, setExpand] = useState("");
@@ -76,6 +78,13 @@ function Home() {
               setExpand={togleExpand}
               setActiveTab={handleActiveTab}
             />
+          }
+        />
+        <Route
+          exact
+          path="/reviewManagement"
+          element={
+            <ReviewMPM setExpand={togleExpand} setActiveTab={handleActiveTab} />
           }
         />
         <Route
@@ -177,6 +186,13 @@ function Home() {
               setExpand={togleExpand}
               setActiveTab={handleActiveTab}
             />
+          }
+        />
+        <Route
+          exact
+          path="/helpDesk"
+          element={
+            <AllChats setExpand={togleExpand} setActiveTab={handleActiveTab} />
           }
         />
         <Route
