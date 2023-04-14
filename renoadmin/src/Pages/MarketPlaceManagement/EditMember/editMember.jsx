@@ -4,7 +4,7 @@ import TopHeader from "../../../UI/TopHeader/TopHeader";
 import DisabledByDefaultRoundedIcon from "@mui/icons-material/DisabledByDefaultRounded";
 
 
-const EditMemberMPM = ({ setExpand, setActiveTab }) => {
+const EditMember = ({ setExpand, setActiveTab }) => {
   setExpand("marketPlace");
   setActiveTab("allMembers");
   const head = "Edit Member";
@@ -286,4 +286,4 @@ const EditMemberMPM = ({ setExpand, setActiveTab }) => {
   );
 };
 
-export default EditMemberMPM;
+export default EditMember;

@@ -33,7 +33,7 @@ import EditCategory from "../Pages/MarketPlaceManagement/AllProducts/editCategor
 import AddNewCategory from "../Pages/MarketPlaceManagement/AllProducts/addNewcategory";
 import AddListing from "../Pages/MarketPlaceManagement/ListingManagement/addListing";
 import EditListing from "../Pages/MarketPlaceManagement/ListingManagement/editListing";
-// import EditMemberMPM from "../Pages/MarketPlaceManagement/EditMember/editMember";
+import EditMember from "../Pages/MarketPlaceManagement/EditMember/editMember";
 import AllMarketMember from "../Pages/MarketPlaceManagement/AllMembers/allMembers";
 import SuspendedMarketUser from "../Pages/MarketPlaceManagement/SuspendUsers/suspendUsers";
 import AllMarketProducts from "../Pages/MarketPlaceManagement/AllProducts/Allproducts";
@@ -278,16 +278,16 @@ function Home() {
             />
           }
         />
-        {/* <Route
+        <Route
           exact
-          path="/editMemberMPM"
+          path="/editMember"
           element={
-            <EditMemberMPM
+            <EditMember
               setExpand={togleExpand}
               setActiveTab={handleActiveTab}
             />
           }
-        /> */}
+        />
         <Route
           exact
           path="/chatHelp"

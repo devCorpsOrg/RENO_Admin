@@ -32,6 +32,7 @@ const EditProduct = ({ setExpand, setActiveTab }) => {
       });
     }
     setImages(uploadedImages);
+    console.log(images);
   };
 
   const handleRemoveImage = (index) => {
@@ -199,6 +200,7 @@ const EditProduct = ({ setExpand, setActiveTab }) => {
             Photos
           <div style={{ width: "600px", marginTop: "10px" }}>
             {(images && images.length > 0) ? (
+              
               <div className="grid grid-cols-4 gap-2">
                 {images.map((image, index) => (
                   <div key={index} className="relative">
