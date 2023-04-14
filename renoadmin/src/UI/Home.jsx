@@ -31,6 +31,8 @@ import AddNewRole from "../Pages/PRM/addNewRole";
 import EditCategory from "../Pages/MarketPlaceManagement/AllProducts/editCategory";
 import AddNewCategory from "../Pages/MarketPlaceManagement/AllProducts/addNewcategory";
 import AddListing from "../Pages/MarketPlaceManagement/ListingManagement/addListing";
+import EditListing from "../Pages/MarketPlaceManagement/ListingManagement/editListing";
+import EditMember from "../Pages/MarketPlaceManagement/EditMember/editMember";
 
 function Home() {
   const [expand, setExpand] = useState("");
@@ -200,6 +202,26 @@ function Home() {
           path="/editCategory"
           element={
             <EditCategory
+              setExpand={togleExpand}
+              setActiveTab={handleActiveTab}
+            />
+          }
+        />
+        <Route
+          exact
+          path="/editListing"
+          element={
+            <EditListing
+              setExpand={togleExpand}
+              setActiveTab={handleActiveTab}
+            />
+          }
+        />
+        <Route
+          exact
+          path="/editMember"
+          element={
+            <EditMember
               setExpand={togleExpand}
               setActiveTab={handleActiveTab}
             />
