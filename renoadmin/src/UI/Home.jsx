@@ -32,6 +32,8 @@ import EditMember from "../Pages/MarketPlaceManagement/EditMember/editMember";
 import EditCategory from "../Pages/MarketPlaceManagement/AllProducts/editCategory";
 import AddNewCategory from "../Pages/MarketPlaceManagement/AllProducts/addNewcategory";
 import AddListing from "../Pages/MarketPlaceManagement/ListingManagement/addListing";
+import EditListing from "../Pages/MarketPlaceManagement/ListingManagement/editListing";
+// import EditMemberMPM from "../Pages/MarketPlaceManagement/EditMember/editMember";
 import AllMarketMember from "../Pages/MarketPlaceManagement/AllMembers/allMembers";
 import SuspendedMarketUser from "../Pages/MarketPlaceManagement/SuspendUsers/suspendUsers";
 import AllMarketProducts from "../Pages/MarketPlaceManagement/AllProducts/Allproducts";
@@ -266,6 +268,26 @@ function Home() {
             />
           }
         />
+        <Route
+          exact
+          path="/editListing"
+          element={
+            <EditListing
+              setExpand={togleExpand}
+              setActiveTab={handleActiveTab}
+            />
+          }
+        />
+        {/* <Route
+          exact
+          path="/editMemberMPM"
+          element={
+            <EditMemberMPM
+              setExpand={togleExpand}
+              setActiveTab={handleActiveTab}
+            />
+          }
+        /> */}
         <Route
           exact
           path="/chatHelp"

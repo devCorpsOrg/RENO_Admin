@@ -4,12 +4,15 @@ import TopHeader from "../../../UI/TopHeader/TopHeader";
 import DisabledByDefaultRoundedIcon from "@mui/icons-material/DisabledByDefaultRounded";
 
 
-const EditProduct = ({ setExpand, setActiveTab }) => {
-  setExpand("homeService");
-  setActiveTab("productList");
-  const head = "Edit Product";
+const EditMemberMPM = ({ setExpand, setActiveTab }) => {
+  setExpand("marketPlace");
+  setActiveTab("allMembers");
+  const head = "Edit Member";
 
   const [title, setTitle] = useState("");
+  const [email, setEmail] = useState("");
+  const [contact, setContact] = useState("");
+  const [userId, setUserId] = useState("");
   const [content, setContent] = useState("");
   const [images, setImages] = useState([]);
   const [label, setLabel] = useState("");
@@ -52,7 +55,7 @@ const EditProduct = ({ setExpand, setActiveTab }) => {
         <TopHeader className="fixed" head={head} />
       </div>
 
-      <div className=" ml-72 mb-10 relative" style={{ marginTop: "70px" }}>
+      <div className=" ml-72 mb-10 relative" style={{ marginTop: "70px", marginLeft:"300px" }}>
         <form onSubmit={handleSubmit}>
           <div style={{ marginRight: 0, marginLeft: 920 }}>
             <button
@@ -82,79 +85,91 @@ const EditProduct = ({ setExpand, setActiveTab }) => {
               Save
             </button>
           </div>
-          <label className="grid mt-5">
-            Product Title
-            <input
-              type="text"
-              placeholder="Enter Title"
-              id="title"
-              className="rounded outline-none"
-              style={{
-                height: "50px",
-                width: "1210px",
-                paddingLeft: "10px",
-                backgroundColor: "#e5ecff",
-                marginTop: "5px",
-                fontSize: "15px",
-              }}
-              value={title}
-              onChange={(event) => setTitle(event.target.value)}
-            />
-          </label>
 
-          <div className="grid grid-cols-2 gap-4 mt-5">
+          <div className="grid grid-cols-3 gap-4 mt-5">
             <label className="grid pr-6">
-              Catagory
-              <select
+              User Name
+              <input
                 id="label"
-                name="label"
+                placeholder="User Name"
                 class="outline-none rounded"
                 style={{
                   height: "50px",
-                  width: "590px",
+                //   width: "590px",
                   paddingLeft: "5px",
                   backgroundColor: "#e5ecff",
                   marginTop: "5px",
                   fontSize: "14px",
                 }}
-                value={label}
-                onChange={handleLabelChange}
-              >
-                <option value="">Select Catagory</option>
-                <option value="personal">Admin</option>
-                <option value="work">Work</option>
-                <option value="other">Other</option>
-              </select>
+                value={title}
+                onChange={(event) => setTitle(event.target.value)}
+              />
             </label>
             <label className="grid pr-6">
-              Package
+              Email Address
               <input
                 type="text"
-                // value={name}
                 class="outline-none rounded"
-                placeholder="$000.00"
+                placeholder="Email Address"
                 style={{
-                  height: "50px",
-                  width: "586px",
+                    height: "50px",
+                    //   width: "586px",
                   paddingLeft: "10px",
                   backgroundColor: "#e5ecff",
                   marginTop: "5px",
                   fontSize: "14px",
                 }}
-                // onChange={handleNameChange}
+                value={email}
+                onChange={(event) => setEmail(event.target.value)}
+              />
+            </label>
+            <label className="grid pr-6">
+              Contact No.
+              <input
+                type="text"
+                class="outline-none rounded"
+                placeholder="Contact No."
+                style={{
+                    height: "50px",
+                    //   width: "586px",
+                  paddingLeft: "10px",
+                  backgroundColor: "#e5ecff",
+                  marginTop: "5px",
+                  fontSize: "14px",
+                }}
+                value={contact}
+                onChange={(event) => setContact(event.target.value)}
               />
             </label>
           </div>
-          <div className="grid grid-cols-2 gap-4 mt-5">
+          <div className="grid grid-cols-3 gap-4 mt-5">
             <label className="grid pr-6">
-              Product Catagory
+              User ID
+              <input
+                id="label"
+                placeholder="User ID"
+                class="outline-none rounded"
+                style={{
+                  height: "50px",
+                //   width: "590px",
+                  paddingLeft: "5px",
+                  backgroundColor: "#e5ecff",
+                  marginTop: "5px",
+                  fontSize: "14px",
+                }}
+                value={userId}
+                onChange={(event) => setUserId(event.target.value)}
+              />
+            </label>
+            <label className="grid pr-6">
+              User Type
               <select
                 id="label"
                 name="label"
                 class="outline-none rounded"
                 style={{
                   height: "50px",
-                  width: "590px",
+                //   width: "590px",
                   paddingLeft: "5px",
                   backgroundColor: "#e5ecff",
                   marginTop: "5px",
@@ -163,41 +178,15 @@ const EditProduct = ({ setExpand, setActiveTab }) => {
                 value={label}
                 onChange={handleLabelChange}
               >
-                <option value="">Select Product Catagory</option>
+                <option value="">Select User Type</option>
                 <option value="personal">Admin</option>
                 <option value="work">Work</option>
                 <option value="other">Other</option>
               </select>
             </label>
-            <label className="grid pr-6">
-              Number Of Inventory
-              <select
-                id="label"
-                name="label"
-                class="outline-none rounded"
-                style={{
-                  height: "50px",
-                  width: "590px",
-                  paddingLeft: "5px",
-                  backgroundColor: "#e5ecff",
-                  marginTop: "5px",
-                  fontSize: "14px",
-                }}
-                value={label}
-                onChange={handleLabelChange}
-              >
-                <option value="">Select Number Of Inventory</option>
-                <option value="personal">Admin</option>
-                <option value="work">Work</option>
-                <option value="other">Other</option>
-              </select>
-            </label>
-          </div>
-
-
-          <label className="grid pr-6" style={{ marginTop: "20px" }}>
+          <label className="grid pr-6">
             Photos
-          <div style={{ width: "600px", marginTop: "10px" }}>
+          <div style={{ width: "350px", marginTop: "-2px" }}>
             {(images && images.length > 0) ? (
               <div className="grid grid-cols-4 gap-2">
                 {images.map((image, index) => (
@@ -206,17 +195,17 @@ const EditProduct = ({ setExpand, setActiveTab }) => {
                       src={image.url}
                       alt={image.name}
                       style={{
-                        width: "100px",
-                        height: "100px",
+                        width: "60px",
+                        height: "60px",
                         objectFit: "cover",
                         marginRight: "10px",
                       }}
                     />
                     <button
-                      className="absolute top-0 text-white" style={{right:46}}
+                      className="absolute top-0 text-red-500" style={{right:-59, top:12}}
                       onClick={() => handleRemoveImage(index)}
                     >
-                      <DisabledByDefaultRoundedIcon style={{fill:"red"}} />
+                      Remove
                     </button>
                   </div>
                 ))}
@@ -225,7 +214,7 @@ const EditProduct = ({ setExpand, setActiveTab }) => {
                 <input
                 style={{
                   height: "48px",
-                  width: "590px",
+                  width: "370px",
                   paddingLeft: "0px",
                   border: "2px solid 	#e6f7fe",
                   marginTop: "5px",
@@ -234,36 +223,26 @@ const EditProduct = ({ setExpand, setActiveTab }) => {
                 class="file:bg-black file:px-6 file:py-3 file:border-none file:rounded file:text-white file:cursor-pointer placeholder-transparent mt-3 rounded appearance-none placeholder-transparent"
                 type="file"
                 accept="image/*"
-                multiple
                 onChange={handlePhotoUpload}
                 placeholder=""
               />
             )}
           </div>
           </label> 
-          <div style={{ fontSize: "10px", marginTop: "8px" }}>
-            <ul className="list-disc ml-3 text-gray-500">
-              <li>Allowed banner image extension .jpg | .jpeg | .png</li>
-              <li>
-                Max banner image file size <a className="text-red-500">5MB</a>
-              </li>
-              <li>
-                Recommended Banner image size{" "}
-                <a className="text-red-500">1900px * 700px</a>
-              </li>
-            </ul>
           </div>
 
 
+
+
           <label className="grid mt-5">
-            Project Details
+            Internal Note
             <textarea
               id="content"
               placeholder="Enter Details"
               className="rounded outline-none pt-2"
               style={{
                 height: "170px",
-                width: "1210px",
+                width: "1190px",
                 backgroundColor: "#e5ecff",
                 paddingLeft: "10px",
                 paddingTop: "20px",
@@ -307,4 +286,4 @@ const EditProduct = ({ setExpand, setActiveTab }) => {
   );
 };
 
-export default EditProduct;
+export default EditMemberMPM;
