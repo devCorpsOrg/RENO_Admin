@@ -16,7 +16,7 @@ from .models import Userdetails
 from .models import Purchased_item
 from .models import User_Product
 # from .models import SuspendUser
-from .serializers import UserSerializer
+from .serializers import UserSerializer,UserSerializer2
 from .serializers import UserSerializer1, PurchasedSerializer, ProductSerializer
 # from .serializers import SuspendUserSerializer
 from rest_framework.renderers import JSONRenderer
@@ -107,7 +107,7 @@ class ChangePasswordView(generics.UpdateAPIView):
 @csrf_exempt
 def user_details(request):
    if request.method=='GET':
-    
+        
     try:
         info=Userdetails.objects.get(is_suspend=0) 
     except Userdetails.DoesNotExist:
@@ -134,7 +134,7 @@ def user_History(request,name):
         res={
             'user data':serailizer.data,
             'Purchased_item':serailizer1.data,
-            'User data':serailizer2.data
+            'Userproduct data':serailizer2.data
             }
         json_data=JSONRenderer().render(res)
         return HttpResponse(json_data,content_type='application/json')
@@ -945,11 +945,23 @@ def export_members(request, file_format):
 
 def roles(request):
     # users = Users.objects.only('usname', 'name', 'email', 'role', 'status').all()
-    users = Userdetails.objects.only('username', 'name', 'email', 'role', 'status').all()
+  if request.method=='GET':
+        
+    try:
+        info=Userdetails.objects.all() 
+    except Userdetails.DoesNotExist:
+            res={'msg':'Data Not Found'}
+            json_data=JSONRenderer().render(res)
+            return HttpResponse(json_data,content_type='application/json')
 
-    data = serializers.serialize('json', users)
-    formatted_data = json.dumps(json.loads(data), indent=4)
-    return HttpResponse(formatted_data, content_type='application/json')
+    serailizer=UserSerializer2(info,many=True);
+    json_data=JSONRenderer().render(serailizer.data) 
+    return HttpResponse(json_data,content_type='application/json')
+    # users = Userdetails.objects.only('username', 'name', 'email', 'role', 'status')
+
+    # data = serializers.serialize('json', users)
+    # formatted_data = json.dumps(json.loads(data), indent=4)
+    # return HttpResponse(formatted_data, content_type='application/json')
     
 
 
