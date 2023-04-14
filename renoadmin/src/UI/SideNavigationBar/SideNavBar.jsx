@@ -22,7 +22,9 @@ function SideNavBar({ expand, setExpand, activeTab, setActiveTab }) {
   };
 
   return (
-    <div className="w-72 h-screen fixed " style={{ backgroundColor: "#EEEEEE", width:"17.3rem" }}>
+    <div
+      className="w-72 h-screen fixed "
+      style={{ backgroundColor: "#EEEEEE", width: "17.3rem" }}>
       <div className=" hello ml-3 h-screen overflow-auto pb-10 scrollbar-hide">
         {activeMenu && (
           <>
@@ -51,8 +53,7 @@ function SideNavBar({ expand, setExpand, activeTab, setActiveTab }) {
                 onClick={() => {
                   setActiveTab("dashboard");
                   setExpand("dashboard");
-                }}
-              >
+                }}>
                 <SpeedIcon style={{ transform: "scale(0.65)" }} />
                 <span className="pl-1">Dashboard</span>
               </NavLink>
@@ -72,8 +73,7 @@ function SideNavBar({ expand, setExpand, activeTab, setActiveTab }) {
                   }
                 }}
                 activeClassName="active"
-                className="flex items-center"
-              >
+                className="flex items-center">
                 <PersonOutlineOutlinedIcon
                   style={{ transform: "scale(0.65)" }}
                 />
@@ -83,8 +83,7 @@ function SideNavBar({ expand, setExpand, activeTab, setActiveTab }) {
                     transform: "scale(0.65)",
                     position: "relative",
                     left: "92px",
-                  }}
-                >
+                  }}>
                   {expand == "userManagement" ? (
                     <RemoveIcon />
                   ) : (
@@ -106,8 +105,7 @@ function SideNavBar({ expand, setExpand, activeTab, setActiveTab }) {
                       onClick={() => {
                         setActiveTab("allUsers");
                         setExpand("userManagement");
-                      }}
-                    >
+                      }}>
                       All Users
                     </NavLink>
                   </div>
@@ -123,8 +121,7 @@ function SideNavBar({ expand, setExpand, activeTab, setActiveTab }) {
                       onClick={() => {
                         setActiveTab("suspendUsers");
                         setExpand("userManagement");
-                      }}
-                    >
+                      }}>
                       Suspend Users
                     </NavLink>
                   </div>
@@ -146,8 +143,7 @@ function SideNavBar({ expand, setExpand, activeTab, setActiveTab }) {
                 onClick={() => {
                   setActiveTab("customerRelationship");
                   setExpand("customerRelationship");
-                }}
-              >
+                }}>
                 <PeopleAltOutlinedIcon style={{ transform: "scale(0.65)" }} />
                 <span className="pl-1">Customer Relationship</span>
               </NavLink>
@@ -166,8 +162,7 @@ function SideNavBar({ expand, setExpand, activeTab, setActiveTab }) {
                 onClick={() => {
                   setActiveTab("contentManagement");
                   setExpand("contentManagement");
-                }}
-              >
+                }}>
                 <InsertDriveFileOutlinedIcon
                   style={{ transform: "scale(0.65)" }}
                 />
@@ -191,8 +186,7 @@ function SideNavBar({ expand, setExpand, activeTab, setActiveTab }) {
                   }
                 }}
                 activeClassName="active"
-                className="flex items-center"
-              >
+                className="flex items-center">
                 <WidgetsOutlinedIcon style={{ transform: "scale(0.65)" }} />
                 <span className="pl-1">Showcase Management</span>
                 <div
@@ -200,8 +194,7 @@ function SideNavBar({ expand, setExpand, activeTab, setActiveTab }) {
                     transform: "scale(0.65)",
                     position: "relative",
                     left: "57px",
-                  }}
-                >
+                  }}>
                   {expand == "showcaseManagement" ? (
                     <RemoveIcon />
                   ) : (
@@ -223,8 +216,7 @@ function SideNavBar({ expand, setExpand, activeTab, setActiveTab }) {
                       onClick={() => {
                         setActiveTab("projectList");
                         setExpand("showcaseManagement");
-                      }}
-                    >
+                      }}>
                       Project List
                     </NavLink>
                   </div>
@@ -240,8 +232,7 @@ function SideNavBar({ expand, setExpand, activeTab, setActiveTab }) {
                       onClick={() => {
                         setActiveTab("featuredProject");
                         setExpand("showcaseManagement");
-                      }}
-                    >
+                      }}>
                       Featured Project
                     </NavLink>
                   </div>
@@ -256,8 +247,7 @@ function SideNavBar({ expand, setExpand, activeTab, setActiveTab }) {
                       onClick={() => {
                         setActiveTab("bookings");
                         setExpand("showcaseManagement");
-                      }}
-                    >
+                      }}>
                       Bookings
                     </NavLink>
                   </div>
@@ -281,8 +271,7 @@ function SideNavBar({ expand, setExpand, activeTab, setActiveTab }) {
                   } else {
                     setExpand("homeService"); // open if closed
                   }
-                }}
-              >
+                }}>
                 <HomeOutlinedIcon style={{ transform: "scale(0.65)" }} />
                 <span className="pl-1">Home Service Management</span>
                 <div
@@ -290,8 +279,7 @@ function SideNavBar({ expand, setExpand, activeTab, setActiveTab }) {
                     transform: "scale(0.65)",
                     position: "relative",
                     left: "36px",
-                  }}
-                >
+                  }}>
                   {expand == "homeService" ? (
                     <RemoveIcon />
                   ) : (
@@ -312,8 +300,7 @@ function SideNavBar({ expand, setExpand, activeTab, setActiveTab }) {
                       onClick={() => {
                         setActiveTab("productList");
                         setExpand("homeService");
-                      }}
-                    >
+                      }}>
                       Product List
                     </NavLink>
                   </div>
@@ -329,8 +316,7 @@ function SideNavBar({ expand, setExpand, activeTab, setActiveTab }) {
                       onClick={() => {
                         setActiveTab("featuredProduct");
                         setExpand("homeService");
-                      }}
-                    >
+                      }}>
                       Featured Product and Services
                     </NavLink>
                   </div>
@@ -350,8 +336,7 @@ function SideNavBar({ expand, setExpand, activeTab, setActiveTab }) {
                       onClick={() => {
                         setActiveTab("promotionManagement");
                         setExpand("homeService");
-                      }}
-                    >
+                      }}>
                       Promotion Management
                     </NavLink>
                   </div>
@@ -371,8 +356,7 @@ function SideNavBar({ expand, setExpand, activeTab, setActiveTab }) {
                       onClick={() => {
                         setActiveTab("transactionHistory");
                         setExpand("homeService");
-                      }}
-                    >
+                      }}>
                       Transaction/Purchase History
                     </NavLink>
                   </div>
@@ -388,8 +372,7 @@ function SideNavBar({ expand, setExpand, activeTab, setActiveTab }) {
                       onClick={() => {
                         setActiveTab("reviewManagement");
                         setExpand("homeService");
-                      }}
-                    >
+                      }}>
                       Review Management
                     </NavLink>
                   </div>
@@ -404,8 +387,7 @@ function SideNavBar({ expand, setExpand, activeTab, setActiveTab }) {
                       onClick={() => {
                         setActiveTab("helpDesk");
                         setExpand("homeService");
-                      }}
-                    >
+                      }}>
                       Help Desk Chat
                     </NavLink>
                   </div>
@@ -427,8 +409,7 @@ function SideNavBar({ expand, setExpand, activeTab, setActiveTab }) {
                     setExpand("marketPlace"); // open if closed
                   }
                 }}
-                className="flex items-center"
-              >
+                className="flex items-center">
                 <StorefrontOutlinedIcon style={{ transform: "scale(0.65)" }} />
                 <span className="pl-1">Market Place Management</span>
                 <div
@@ -436,8 +417,7 @@ function SideNavBar({ expand, setExpand, activeTab, setActiveTab }) {
                     transform: "scale(0.65)",
                     position: "relative",
                     left: "41.5px",
-                  }}
-                >
+                  }}>
                   {expand == "marketPlace" ? (
                     <RemoveIcon />
                   ) : (
@@ -458,8 +438,7 @@ function SideNavBar({ expand, setExpand, activeTab, setActiveTab }) {
                       onClick={() => {
                         setActiveTab("allMembers");
                         setExpand("marketPlace");
-                      }}
-                    >
+                      }}>
                       All Members
                     </NavLink>
                   </div>
@@ -477,8 +456,7 @@ function SideNavBar({ expand, setExpand, activeTab, setActiveTab }) {
                       onClick={() => {
                         setActiveTab("suspendMarketUser");
                         setExpand("marketPlace");
-                      }}
-                    >
+                      }}>
                       Suspend User
                     </NavLink>
                   </div>
@@ -498,8 +476,7 @@ function SideNavBar({ expand, setExpand, activeTab, setActiveTab }) {
                       onClick={() => {
                         setActiveTab("catagoryManagement");
                         setExpand("marketPlace");
-                      }}
-                    >
+                      }}>
                       Catagory Management
                     </NavLink>
                   </div>
@@ -517,8 +494,7 @@ function SideNavBar({ expand, setExpand, activeTab, setActiveTab }) {
                       onClick={() => {
                         setActiveTab("listingManagement");
                         setExpand("marketPlace");
-                      }}
-                    >
+                      }}>
                       Listing Management
                     </NavLink>
                   </div>
@@ -534,8 +510,7 @@ function SideNavBar({ expand, setExpand, activeTab, setActiveTab }) {
                       onClick={() => {
                         setActiveTab("chatsAndDeals");
                         setExpand("marketPlace");
-                      }}
-                    >
+                      }}>
                       All Chats and Deals
                     </NavLink>
                   </div>
@@ -551,12 +526,11 @@ function SideNavBar({ expand, setExpand, activeTab, setActiveTab }) {
                             ? "bold"
                             : "inherit",
                       }}
-                      to="/home/helpDesk"
+                      to="/home/reviewForManagement"
                       onClick={() => {
                         setActiveTab("reviewMarketManagement");
                         setExpand("marketPlace");
-                      }}
-                    >
+                      }}>
                       Review Management
                     </NavLink>
                   </div>
@@ -576,8 +550,7 @@ function SideNavBar({ expand, setExpand, activeTab, setActiveTab }) {
                 onClick={() => {
                   setActiveTab("permission");
                   setExpand("permission");
-                }}
-              >
+                }}>
                 <TurnedInNotOutlinedIcon style={{ transform: "scale(0.65)" }} />
                 <span className="pl-1">Permission and Role</span>
               </NavLink>
@@ -595,8 +568,7 @@ function SideNavBar({ expand, setExpand, activeTab, setActiveTab }) {
                 onClick={() => {
                   setActiveTab("settings");
                   setExpand("settings");
-                }}
-              >
+                }}>
                 <SettingsOutlinedIcon style={{ transform: "scale(0.65)" }} />
                 <span className="pl-1">Settings</span>
               </NavLink>
