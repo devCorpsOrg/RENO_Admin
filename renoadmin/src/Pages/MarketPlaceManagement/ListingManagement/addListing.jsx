@@ -1,27 +1,23 @@
-import { useState, useRef } from "react";
+import { useState } from "react";
 import React from "react";
 import TopHeader from "../../../UI/TopHeader/TopHeader";
-import DisabledByDefaultRoundedIcon from "@mui/icons-material/DisabledByDefaultRounded";
 
-const EditShowcase = ({ setExpand, setActiveTab }) => {
-    const fileInputRef = useRef(null);
-  setExpand("showcaseManagement");
-  setActiveTab("projectList");
-  const head = "Edit Showcase";
+const AddListing = ({ setExpand, setActiveTab }) => {
+  setExpand("marketPlace");
+  setActiveTab("listingManagement");
+  const head = "Add Listing";
 
   const [title, setTitle] = useState("");
+  const [price, setPrice] = useState("");
   const [content, setContent] = useState("");
   const [images, setImages] = useState([]);
-  const [label, setLabel] = useState("");
-  const [rate, setRate] = useState("");
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    console.log(title, content); // Do something with the data
+    console.log(title, price); // Do something with the data
     setTitle("");
-    setContent("");
-    setLabel("");
-    setRate("");
+    setPrice("");
+    setImages([]);
   };
 
   const handlePhotoUpload = (event) => {
@@ -36,16 +32,8 @@ const EditShowcase = ({ setExpand, setActiveTab }) => {
     setImages(uploadedImages);
   };
 
-  const handleRemoveImage = (index) => {
-    const newImages = [...images];
-    newImages.splice(index, 1);
-    setImages(newImages);
-
-    // fileInputRef.current.value = newImages.length;
-  };
-
-  const handleLabelChange = (event) => {
-    setLabel(event.target.value);
+  const handlePriceChange = (event) => {
+    setPrice(event.target.value);
   };
 
   return (
@@ -65,8 +53,7 @@ const EditShowcase = ({ setExpand, setActiveTab }) => {
                 height: "47px",
                 color: "white",
               }}
-              type="submit"
-            >
+              type="submit">
               Cancel
             </button>
 
@@ -79,23 +66,22 @@ const EditShowcase = ({ setExpand, setActiveTab }) => {
                 color: "white",
                 marginLeft: "30px",
               }}
-              type="submit"
-            >
+              type="submit">
               Save
             </button>
           </div>
           <label className="grid mt-5">
-            Project Title
+            Service Name
             <input
               type="text"
-              placeholder="Enter Title"
+              placeholder="Electician Services"
               id="title"
               className="rounded outline-none"
               style={{
                 height: "50px",
                 width: "1210px",
                 paddingLeft: "10px",
-                backgroundColor: "#e5ecff",
+                border: "2px solid 	#e6f7fe",
                 marginTop: "5px",
                 fontSize: "15px",
               }}
@@ -104,80 +90,30 @@ const EditShowcase = ({ setExpand, setActiveTab }) => {
             />
           </label>
 
-          <div className="grid grid-cols-2 gap-4 mt-5">
+          <div className="grid grid-cols-2 gap-3 mt-5">
             <label className="grid pr-6">
-              User Type
-              <select
-                id="label"
-                name="label"
-                class="outline-none rounded"
-                style={{
-                  height: "50px",
-                  width: "590px",
-                  paddingLeft: "5px",
-                  backgroundColor: "#e5ecff",
-                  marginTop: "5px",
-                  fontSize: "14px",
-                }}
-                value={label}
-                onChange={handleLabelChange}
-              >
-                <option value="">Select Catagory</option>
-                <option value="personal">Admin</option>
-                <option value="work">Work</option>
-                <option value="other">Other</option>
-              </select>
-            </label>
-            <label className="grid pr-6">
-              Project Rate
+              Price
               <input
-                type="text"
-                value={rate}
+                id="label"
                 class="outline-none rounded"
                 placeholder="$000.00"
                 style={{
                   height: "50px",
-                  width: "586px",
-                  paddingLeft: "10px",
-                  backgroundColor: "#e5ecff",
+                  width: "590px",
+                  paddingLeft: "5px",
+                  border: "2px solid 	#e6f7fe",
                   marginTop: "5px",
                   fontSize: "14px",
                 }}
-                onChange={(event) => setRate(event.target.value)}
+                value={price}
+                onChange={handlePriceChange}
               />
             </label>
-          </div>
-          <label className="grid pr-6" style={{ marginTop: "20px" }}>
-            Photos
-
-          <div style={{ width: "600px", marginTop: "10px" }}>
-            {(images && images.length > 0) ? (
-              <div className="grid grid-cols-4 gap-2">
-                {images.map((image, index) => (
-                  <div key={index} className="relative">
-                    <img
-                      src={image.url}
-                      alt={image.name}
-                      style={{
-                        width: "100px",
-                        height: "100px",
-                        objectFit: "cover",
-                        marginRight: "10px",
-                      }}
-                    />
-                    <button
-                      className="absolute top-0 text-white" style={{right:46}}
-                      onClick={() => handleRemoveImage(index)}
-                    >
-                      <DisabledByDefaultRoundedIcon style={{fill:"red"}} />
-                    </button>
-                  </div>
-                ))}
-              </div>
-            ) : (
-                <input
+            <label className="grid pr-6">
+              Upload Photos
+              <input
                 style={{
-                  height: "48px",
+                  height: "50px",
                   width: "590px",
                   paddingLeft: "0px",
                   border: "2px solid 	#e6f7fe",
@@ -190,34 +126,39 @@ const EditShowcase = ({ setExpand, setActiveTab }) => {
                 multiple
                 onChange={handlePhotoUpload}
                 placeholder=""
-                
               />
-            )}
-          </div>
-          </label>
-          <div style={{ fontSize: "10px", marginTop: "8px" }}>
-            <ul className="list-disc ml-3 text-gray-500">
-              <li>Allowed banner image extension .jpg | .jpeg | .png</li>
-              <li>
-                Max banner image file size <a className="text-red-500">5MB</a>
-              </li>
-              <li>
-                Recommended Banner image size{" "}
-                <a className="text-red-500">1900px * 700px</a>
-              </li>
-            </ul>
+            </label>
+            <div style={{ marginLeft: "625px", width: "600px" }}>
+              {images && images.length > 0 && (
+                <div className="grid grid-cols-4 gap-3">
+                  {images.map((image, index) => (
+                    <img
+                      key={index}
+                      src={image.url} // replace with your image source
+                      alt={image.name} // replace with your image alt text
+                      style={{
+                        width: "100px",
+                        height: "100px",
+                        objectFit: "cover",
+                        marginRight: "10px",
+                      }} // set width, height, object-fit, and margin-right styles
+                    />
+                  ))}
+                </div>
+              )}
+            </div>
           </div>
 
           <label className="grid mt-5">
-            Project Details
+            Description
             <textarea
               id="content"
-              placeholder="Enter Details"
+              placeholder="Enter Description"
               className="rounded outline-none pt-2"
               style={{
                 height: "170px",
                 width: "1210px",
-                backgroundColor: "#e5ecff",
+                border: "2px solid #e6f7fe",
                 paddingLeft: "10px",
                 paddingTop: "20px",
                 fontSize: "15px",
@@ -236,8 +177,7 @@ const EditShowcase = ({ setExpand, setActiveTab }) => {
               height: "55px",
               color: "white",
             }}
-            type="submit"
-          >
+            type="submit">
             Save
           </button>
           <button
@@ -249,8 +189,7 @@ const EditShowcase = ({ setExpand, setActiveTab }) => {
               color: "white",
               marginLeft: "30px",
             }}
-            type="submit"
-          >
+            type="submit">
             Cancel
           </button>
           {/* </div> */}
@@ -260,4 +199,4 @@ const EditShowcase = ({ setExpand, setActiveTab }) => {
   );
 };
 
-export default EditShowcase;
+export default AddListing;

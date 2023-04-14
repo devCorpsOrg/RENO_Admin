@@ -1,12 +1,20 @@
 import React from "react";
 import Table from "../../../UI/CommonTable/Table";
 import { deleteIcon, Photo, View } from "./Assets/index";
+import TopHeader from "../../../UI/TopHeader/TopHeader";
+import { useNavigate } from "react-router-dom";
 
 // Component inside action column
+// The details of user shall be different for every users. It will be integrated at authentication of the users.
 const Action = () => {
+  const Navigate = useNavigate();
+  const handleClick = () => {
+    Navigate("/home/userDetails");
+  };
+  const head = "Suspended Users";
   return (
     <div className="w-6 h-6 flex gap-3 cursor-pointer">
-      <img src={View} alt="Edit" />
+      <img src={View} onClick={handleClick} alt="Edit" />
       <img src={deleteIcon} alt="Delete" />
     </div>
   );
@@ -50,32 +58,32 @@ const columns = [
 const data = [
   {
     photo: <ProfilePhoto />,
-    username: "Abhinav100",
-    emailaddress: "Abhinav123@gmail.com",
+    username: "Adrian",
+    emailaddress: "Adrian@sample.com",
     suspendedreason: "Lorem ipsum dolor sit amet,",
     role: "Admin",
     action: <Action />,
   },
   {
     photo: <ProfilePhoto />,
-    username: "Abhinav100",
-    emailaddress: "Abhinav123@gmail.com",
+    username: "Adrian",
+    emailaddress: "Adrian@sample.com",
     suspendedreason: "Lorem ipsum dolor sit amet,",
     role: "Admin",
     action: <Action />,
   },
   {
     photo: <ProfilePhoto />,
-    username: "Abhinav100",
-    emailaddress: "Abhinav123@gmail.com",
+    username: "Adrian",
+    emailaddress: "Adrian@sample.com",
     suspendedreason: "Lorem ipsum dolor sit amet,",
     role: "Admin",
     action: <Action />,
   },
   {
     photo: <ProfilePhoto />,
-    username: "Abhinav100",
-    emailaddress: "Abhinav123@gmail.com",
+    username: "Adrian",
+    emailaddress: "Adrian@sample.com",
     suspendedreason: "Lorem ipsum dolor sit amet,",
     role: "Admin",
     action: <Action />,
@@ -85,9 +93,15 @@ const data = [
 const pageSize = 10;
 
 const allmembers = () => {
+  const head = "Suspend User List";
   return (
     <div>
-      <Table columns={columns} data={data} pageSize={pageSize} />
+      <div className="flex fixed z-10">
+        <TopHeader className="fixed" head={head} />
+      </div>
+      <div className=" ml-72 mt-18 h-[98vh] min-w-[94%] relative">
+        <Table columns={columns} data={data} pageSize={pageSize} />
+      </div>
     </div>
   );
 };

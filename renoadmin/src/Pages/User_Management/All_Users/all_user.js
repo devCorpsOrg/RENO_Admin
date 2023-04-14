@@ -1,6 +1,8 @@
 import React from "react";
 import Table from "../../../UI/CommonTable/Table";
 import { deleteIcon, Photo, View } from "./Assets/index";
+import TopHeader from "../../../UI/TopHeader/TopHeader";
+import { useNavigate } from "react-router-dom";
 
 // Component inside action column
 const Action = () => {
@@ -59,36 +61,27 @@ const columns = [
 const data = [
   {
     photo: <ProfilePhoto />,
-    username: "Abhinav100",
-    emailaddress: "Abhinav123@gmail.com",
-    contact: `+91 ${99191313919}`,
+    username: "Adrian",
+    emailaddress: "Adrian@sample.com",
+    contact: `+65 ${12345678}`,
     usertype: "Manager",
     userid: `#${1234}`,
     action: <Action />,
   },
   {
     photo: <ProfilePhoto />,
-    username: "Abhinav100",
-    emailaddress: "Abhinav123@gmail.com",
-    contact: `+91 ${99191313919}`,
+    username: "Adrian",
+    emailaddress: "Adrian@sample.com",
+    contact: `+65 ${12345678}`,
     usertype: "Manager",
     userid: `#${1234}`,
     action: <Action />,
   },
   {
     photo: <ProfilePhoto />,
-    username: "Abhinav100",
-    emailaddress: "Abhinav123@gmail.com",
-    contact: `+91 ${99191313919}`,
-    usertype: "Manager",
-    userid: `#${1234}`,
-    action: <Action />,
-  },
-  {
-    photo: <ProfilePhoto />,
-    username: "Abhinav100",
-    emailaddress: "Abhinav123@gmail.com",
-    contact: `+91 ${99191313919}`,
+    username: "Adrian",
+    emailaddress: "Adrian@sample.com",
+    contact: `+65 ${12345678}`,
     usertype: "Manager",
     userid: `#${1234}`,
     action: <Action />,
@@ -96,13 +89,32 @@ const data = [
 ];
 
 const pageSize = 10;
-
-const allmembers = () => {
+const greenButtonText = "Add User";
+const Allmembers = () => {
+  const head = "All Users";
+  const Navigate = useNavigate();
+  const greenClicked = () => {
+    Navigate("/home/editDetails");
+  };
   return (
     <div>
-      <Table columns={columns} data={data} pageSize={pageSize} />
+      <div className="flex fixed z-10">
+        <TopHeader className="fixed" head={head} />
+      </div>
+
+      <div
+        className=" ml-72 h-[90vh] min-w-[86%] relative"
+        style={{ marginTop: "70px" }}>
+        <Table
+          columns={columns}
+          data={data}
+          pageSize={pageSize}
+          greenButtonText={greenButtonText}
+          greenClicked={greenClicked}
+        />
+      </div>
     </div>
   );
 };
 
-export default allmembers;
+export default Allmembers;

@@ -1,7 +1,15 @@
 import React, { useState } from "react";
 import search from "./Assets/search.png";
 
-function Table({ columns, data, pageSize, greenButtonText, blackButtonText }) {
+function Table({
+  columns,
+  data,
+  pageSize,
+  greenButtonText,
+  blackButtonText,
+  blackClicked,
+  greenClicked,
+}) {
   const [currentPage, setCurrentPage] = useState(0);
   const [searchTerm, setSearchTerm] = useState("");
 
@@ -51,14 +59,18 @@ function Table({ columns, data, pageSize, greenButtonText, blackButtonText }) {
           <div className="flex flex-row gap-6">
             {blackButtonText && (
               <div>
-                <button className="bg-[#2B2B2B] rounded hover:bg-gray-600 w-auto text-white font-bold py-3 px-8 rounded-sm">
+                <button
+                  onClick={blackClicked}
+                  className="bg-[#2B2B2B] rounded hover:bg-gray-600 w-auto text-white font-bold py-3 px-8 rounded-sm">
                   {blackButtonText}
                 </button>
               </div>
             )}
             {greenButtonText && (
               <div>
-                <button className="bg-[#8FC743] rounded hover:bg-lime-700 text-white w-auto font-bold py-3 px-8 rounded-sm">
+                <button
+                  onClick={greenClicked}
+                  className="bg-[#8FC743] rounded hover:bg-lime-700 text-white w-auto font-bold py-3 px-8 rounded-sm">
                   {greenButtonText}
                 </button>
               </div>

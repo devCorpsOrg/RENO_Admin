@@ -1,26 +1,30 @@
-import { useState } from "react";
+import { useState, useRef } from "react";
 import React from "react";
-import TopHeader from "../../../UI/TopHeader/TopHeader";
+import TopHeader from "../../../../UI/TopHeader/TopHeader";
+import DisabledByDefaultRoundedIcon from "@mui/icons-material/DisabledByDefaultRounded";
 
-const AddNewShowcase = ({ setExpand, setActiveTab }) => {
+const EditShowcase = ({ setExpand, setActiveTab }) => {
+  const fileInputRef = useRef(null);
   setExpand("showcaseManagement");
   setActiveTab("projectList");
-  const head = "Add New Showcase";
+  const head = "Edit Showcase";
 
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
   const [images, setImages] = useState([]);
   const [label, setLabel] = useState("");
+  const [rate, setRate] = useState("");
 
   const handleSubmit = (event) => {
     event.preventDefault();
     console.log(title, content); // Do something with the data
     setTitle("");
     setContent("");
-    setImages([]);
+    setLabel("");
+    setRate("");
   };
 
-  const handleImageUpload = (event) => {
+  const handlePhotoUpload = (event) => {
     const files = event.target.files;
     const uploadedImages = [];
     for (let i = 0; i < files.length; i++) {
@@ -30,6 +34,14 @@ const AddNewShowcase = ({ setExpand, setActiveTab }) => {
       });
     }
     setImages(uploadedImages);
+  };
+
+  const handleRemoveImage = (index) => {
+    const newImages = [...images];
+    newImages.splice(index, 1);
+    setImages(newImages);
+
+    // fileInputRef.current.value = newImages.length;
   };
 
   const handleLabelChange = (event) => {
@@ -42,7 +54,7 @@ const AddNewShowcase = ({ setExpand, setActiveTab }) => {
         <TopHeader className="fixed" head={head} />
       </div>
 
-      <div className=" ml-72 mb-10  relative" style={{ marginTop: "70px" }}>
+      <div className=" ml-72 mb-10 relative" style={{ marginTop: "70px" }}>
         <form onSubmit={handleSubmit}>
           <div style={{ marginRight: 0, marginLeft: 920 }}>
             <button
@@ -54,7 +66,7 @@ const AddNewShowcase = ({ setExpand, setActiveTab }) => {
                 color: "white",
               }}
               type="submit">
-              Draft
+              Cancel
             </button>
 
             <button
@@ -67,7 +79,7 @@ const AddNewShowcase = ({ setExpand, setActiveTab }) => {
                 marginLeft: "30px",
               }}
               type="submit">
-              Publish
+              Save
             </button>
           </div>
           <label className="grid mt-5">
@@ -81,7 +93,7 @@ const AddNewShowcase = ({ setExpand, setActiveTab }) => {
                 height: "50px",
                 width: "1210px",
                 paddingLeft: "10px",
-                border: "2px solid 	#e6f7fe",
+                backgroundColor: "#e5ecff",
                 marginTop: "5px",
                 fontSize: "15px",
               }}
@@ -101,7 +113,7 @@ const AddNewShowcase = ({ setExpand, setActiveTab }) => {
                   height: "50px",
                   width: "590px",
                   paddingLeft: "5px",
-                  border: "2px solid 	#e6f7fe",
+                  backgroundColor: "#e5ecff",
                   marginTop: "5px",
                   fontSize: "14px",
                 }}
@@ -117,55 +129,67 @@ const AddNewShowcase = ({ setExpand, setActiveTab }) => {
               Project Rate
               <input
                 type="text"
-                // value={name}
+                value={rate}
                 class="outline-none rounded"
                 placeholder="$000.00"
                 style={{
                   height: "50px",
                   width: "586px",
                   paddingLeft: "10px",
-                  border: "2px solid 	#e6f7fe",
+                  backgroundColor: "#e5ecff",
                   marginTop: "5px",
                   fontSize: "14px",
                 }}
-                // onChange={handleNameChange}
+                onChange={(event) => setRate(event.target.value)}
               />
             </label>
           </div>
-
-          <div>
-            <label className="grid mt-5" style={{ fontSize: "15px" }}>
-              Upload Photos
-              <input
-                class="file:bg-black file:px-6 file:py-3 file:border-none file:rounded file:text-white file:cursor-pointer placeholder-transparent mt-3 rounded appearance-none placeholder-transparent"
-                style={{ border: "2px solid #e6f7fe", width: "450px" }}
-                type="file"
-                placeholder=""
-                accept="image/*"
-                multiple
-                onChange={handleImageUpload}
-              />
-            </label>
-          </div>
-          <div style={{ width: "600px", marginTop: "10px" }}>
-            {images && images.length > 0 && (
-              <div className="grid grid-cols-6 gap-2">
-                {images.map((image, index) => (
-                  <img
-                    key={index}
-                    src={image.url} // replace with your image source
-                    alt={image.name} // replace with your image alt text
-                    style={{
-                      width: "100px",
-                      height: "100px",
-                      objectFit: "cover",
-                      marginRight: "10px",
-                    }} // set width, height, object-fit, and margin-right styles
-                  />
-                ))}
-              </div>
-            )}
-          </div>
+          <label className="grid pr-6" style={{ marginTop: "20px" }}>
+            Photos
+            <div style={{ width: "600px", marginTop: "10px" }}>
+              {images && images.length > 0 ? (
+                <div className="grid grid-cols-4 gap-2">
+                  {images.map((image, index) => (
+                    <div key={index} className="relative">
+                      <img
+                        src={image.url}
+                        alt={image.name}
+                        style={{
+                          width: "100px",
+                          height: "100px",
+                          objectFit: "cover",
+                          marginRight: "10px",
+                        }}
+                      />
+                      <button
+                        className="absolute top-0 text-white"
+                        style={{ right: 46 }}
+                        onClick={() => handleRemoveImage(index)}>
+                        <DisabledByDefaultRoundedIcon style={{ fill: "red" }} />
+                      </button>
+                    </div>
+                  ))}
+                </div>
+              ) : (
+                <input
+                  style={{
+                    height: "48px",
+                    width: "590px",
+                    paddingLeft: "0px",
+                    border: "2px solid 	#e6f7fe",
+                    marginTop: "5px",
+                    fontSize: "14px",
+                  }}
+                  class="file:bg-black file:px-6 file:py-3 file:border-none file:rounded file:text-white file:cursor-pointer placeholder-transparent mt-3 rounded appearance-none placeholder-transparent"
+                  type="file"
+                  accept="image/*"
+                  multiple
+                  onChange={handlePhotoUpload}
+                  placeholder=""
+                />
+              )}
+            </div>
+          </label>
           <div style={{ fontSize: "10px", marginTop: "8px" }}>
             <ul className="list-disc ml-3 text-gray-500">
               <li>Allowed banner image extension .jpg | .jpeg | .png</li>
@@ -188,7 +212,7 @@ const AddNewShowcase = ({ setExpand, setActiveTab }) => {
               style={{
                 height: "170px",
                 width: "1210px",
-                border: "2px solid #e6f7fe",
+                backgroundColor: "#e5ecff",
                 paddingLeft: "10px",
                 paddingTop: "20px",
                 fontSize: "15px",
@@ -208,7 +232,7 @@ const AddNewShowcase = ({ setExpand, setActiveTab }) => {
               color: "white",
             }}
             type="submit">
-            Publish
+            Save
           </button>
           <button
             className="rounded mt-10"
@@ -220,7 +244,7 @@ const AddNewShowcase = ({ setExpand, setActiveTab }) => {
               marginLeft: "30px",
             }}
             type="submit">
-            Draft
+            Cancel
           </button>
           {/* </div> */}
         </form>
@@ -229,4 +253,4 @@ const AddNewShowcase = ({ setExpand, setActiveTab }) => {
   );
 };
 
-export default AddNewShowcase;
+export default EditShowcase;

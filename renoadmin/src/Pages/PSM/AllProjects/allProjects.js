@@ -1,11 +1,17 @@
 import React from "react";
 import Table from "../../../UI/CommonTable/Table";
 import { deleteIcon, edit, images } from "./Assets/index";
+import TopHeader from "../../../UI/TopHeader/TopHeader";
+import { useNavigate } from "react-router-dom";
 
 const Action = () => {
+  const Navigate = useNavigate();
+  const handleClick = () => {
+    Navigate("/home/editShowcase");
+  };
   return (
     <div className="w-6 h-6 flex gap-3 cursor-pointer">
-      <img src={edit} alt="edit" />
+      <img onClick={handleClick} src={edit} alt="edit" />
       <img src={deleteIcon} alt="Delete" />
     </div>
   );
@@ -95,16 +101,29 @@ const blackButtonText = "Export All";
 // Number of Pages to be display on a single page.
 const pageSize = 4;
 
-const allProjects = () => {
+const AllProjects = () => {
+  const head = "All Project";
+  const Navigate = useNavigate();
+  const greenClicked = () => {
+    Navigate("/home/addShowcase");
+  };
   return (
-    <Table
-      columns={columns}
-      data={data}
-      pageSize={pageSize}
-      greenButtonText={greenButtonText}
-      blackButtonText={blackButtonText}
-    />
+    <div>
+      <div className="flex fixed z-10">
+        <TopHeader className="fixed" head={head} />
+      </div>
+      <div className=" ml-72 mt-28 h-[85vh] min-w-[85%] relative">
+        <Table
+          columns={columns}
+          data={data}
+          pageSize={pageSize}
+          greenButtonText={greenButtonText}
+          blackButtonText={blackButtonText}
+          greenClicked={greenClicked}
+        />
+      </div>
+    </div>
   );
 };
 
-export default allProjects;
+export default AllProjects;
