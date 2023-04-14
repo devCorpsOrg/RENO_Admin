@@ -64,7 +64,7 @@ const data = [
 const pageSize = 4;
 
 const allProjects = () => {
-  const head = "Transaction/Purchase History";
+  const head = "Reviews";
   return (
     <div>
       <div className="flex fixed z-10">

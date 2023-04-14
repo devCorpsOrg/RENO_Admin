@@ -1,7 +1,6 @@
 import { useState } from "react";
 import React from "react";
 import TopHeader from "../../../UI/TopHeader/TopHeader";
-import DisabledByDefaultRoundedIcon from "@mui/icons-material/DisabledByDefaultRounded";
 
 const EditMember = ({ setExpand, setActiveTab }) => {
   setExpand("marketPlace");
@@ -54,32 +53,17 @@ const EditMember = ({ setExpand, setActiveTab }) => {
         <TopHeader className="fixed" head={head} />
       </div>
 
-      <div
-        className=" ml-72 mb-10 relative"
-        style={{ marginTop: "70px", marginLeft: "300px" }}>
+      <div className="ml-72 mt-20 w-[80%] relative">
         <form onSubmit={handleSubmit}>
-          <div style={{ marginRight: 0, marginLeft: 920 }}>
+          <div className="flex justify-end items-center gap-5">
             <button
-              className="rounded mt-10"
-              style={{
-                backgroundColor: "black",
-                width: "130px",
-                height: "47px",
-                color: "white",
-              }}
+              className="rounded mt-10 bg-black w-[130px] h-[47px] text-white"
               type="submit">
               Cancel
             </button>
 
             <button
-              className="rounded mt-10"
-              style={{
-                backgroundColor: "rgba(153, 190, 17, 0.831)",
-                width: "130px",
-                height: "47px",
-                color: "white",
-                marginLeft: "30px",
-              }}
+              className="rounded mt-10 w-[130px] h-[47px] text-white bg-[#8FC743]"
               type="submit">
               Save
             </button>
@@ -227,28 +211,27 @@ const EditMember = ({ setExpand, setActiveTab }) => {
                 )}
               </div>
             </label>
+            <label className="grid mt-5">
+              Internal Note
+              <textarea
+                id="content"
+                placeholder="Enter Details"
+                className="rounded outline-none pt-2"
+                style={{
+                  height: "170px",
+                  width: "1190px",
+                  backgroundColor: "#e5ecff",
+                  paddingLeft: "10px",
+                  paddingTop: "20px",
+                  fontSize: "15px",
+                  marginTop: "5px",
+                }}
+                value={content}
+                onChange={(event) => setContent(event.target.value)}
+              />
+            </label>
           </div>
 
-          <label className="grid mt-5">
-            Internal Note
-            <textarea
-              id="content"
-              placeholder="Enter Details"
-              className="rounded outline-none pt-2"
-              style={{
-                height: "170px",
-                width: "1190px",
-                backgroundColor: "#e5ecff",
-                paddingLeft: "10px",
-                paddingTop: "20px",
-                fontSize: "15px",
-                marginTop: "5px",
-              }}
-              value={content}
-              onChange={(event) => setContent(event.target.value)}
-            />
-          </label>
-          {/* <div> */}
           <button
             className="rounded mt-10"
             style={{
@@ -272,7 +255,6 @@ const EditMember = ({ setExpand, setActiveTab }) => {
             type="submit">
             Cancel
           </button>
-          {/* </div> */}
         </form>
       </div>
     </div>

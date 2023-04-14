@@ -17,6 +17,7 @@ import AllPromotion from "../Pages/HSM/AllPromotionList/allPromotionList";
 import EditService from "../Pages/HSM/EditService/editService";
 import EditProduct from "../Pages/HSM/EditProducts/editProducts";
 import Chatdetails from "../Pages/HSM/HelpDesk/chatdetails";
+import HelpDesk from "../Pages/HSM/HelpDesk/helpDesk";
 import AllPages from "../Pages/Content_Management/AllPages/allPages";
 import ProjectList from "../Pages/PSM/AllProjects/allProjects";
 import FeaturedProject from "../Pages/PSM/FeaturedProject/featuredProject";
@@ -29,15 +30,17 @@ import SuspendedUser from "../Pages/User_Management/Suspended_User/suspendedUser
 import AllMembers from "../Pages/CRM/AllMembers/allmembers";
 import AddNewRole from "../Pages/PRM/addNewRole";
 import EditMember from "../Pages/MarketPlaceManagement/EditMember/editMember";
-import EditCategory from "../Pages/MarketPlaceManagement/AllProducts/editCategory";
-import AddNewCategory from "../Pages/MarketPlaceManagement/AllProducts/addNewcategory";
-import AddListing from "../Pages/MarketPlaceManagement/ListingManagement/addListing";
+import EditCategory from "../Pages/MarketPlaceManagement/AllProducts/editCategory.jsx";
+import AddNewCategory from "../Pages/MarketPlaceManagement/AllProducts/addNewcategory.jsx";
+import AddListing from "../Pages/MarketPlaceManagement/ListingManagement/addListing.jsx";
+import EditListing from "../Pages/MarketPlaceManagement/ListingManagement/editListing.jsx";
 import AllMarketMember from "../Pages/MarketPlaceManagement/AllMembers/allMembers";
 import SuspendedMarketUser from "../Pages/MarketPlaceManagement/SuspendUsers/suspendUsers";
 import AllMarketProducts from "../Pages/MarketPlaceManagement/AllProducts/Allproducts";
 import ListingManagement from "../Pages/MarketPlaceManagement/ListingManagement/listingManagement";
 import ReviewMPM from "../Pages/MarketPlaceManagement/ReviewManagement/reviewManagement";
 import AllChats from "../Pages/MarketPlaceManagement/AllChats/allchats";
+import ProjectBooking from "../Pages/PSM/ProjectBookings/projectBookings";
 
 function Home() {
   const [expand, setExpand] = useState("");
@@ -72,6 +75,23 @@ function Home() {
         />
         <Route
           exact
+          path="/bookings"
+          element={
+            <ProjectBooking
+              setExpand={togleExpand}
+              setActiveTab={handleActiveTab}
+            />
+          }
+        />
+        <Route
+          exact
+          path="/helpDesk"
+          element={
+            <HelpDesk setExpand={togleExpand} setActiveTab={handleActiveTab} />
+          }
+        />
+        <Route
+          exact
           path="/addListing"
           element={
             <AddListing
@@ -82,7 +102,7 @@ function Home() {
         />
         <Route
           exact
-          path="/reviewManagement"
+          path="/reviewForManagement"
           element={
             <ReviewMPM setExpand={togleExpand} setActiveTab={handleActiveTab} />
           }
@@ -92,6 +112,16 @@ function Home() {
           path="/catagoryManagement"
           element={
             <AllMarketProducts
+              setExpand={togleExpand}
+              setActiveTab={handleActiveTab}
+            />
+          }
+        />
+        <Route
+          exact
+          path="/editListing"
+          element={
+            <EditListing
               setExpand={togleExpand}
               setActiveTab={handleActiveTab}
             />
@@ -190,7 +220,7 @@ function Home() {
         />
         <Route
           exact
-          path="/helpDesk"
+          path="/chatsAndDeals"
           element={
             <AllChats setExpand={togleExpand} setActiveTab={handleActiveTab} />
           }
