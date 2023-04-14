@@ -58,32 +58,32 @@ const columns = [
 const data = [
   {
     photo: <ProfilePhoto />,
-    username: "Abhinav100",
-    emailaddress: "Abhinav123@gmail.com",
+    username: "Adrian",
+    emailaddress: "Adrian@sample.com",
     suspendedreason: "Lorem ipsum dolor sit amet,",
     role: "Admin",
     action: <Action />,
   },
   {
     photo: <ProfilePhoto />,
-    username: "Abhinav100",
-    emailaddress: "Abhinav123@gmail.com",
+    username: "Adrian",
+    emailaddress: "Adrian@sample.com",
     suspendedreason: "Lorem ipsum dolor sit amet,",
     role: "Admin",
     action: <Action />,
   },
   {
     photo: <ProfilePhoto />,
-    username: "Abhinav100",
-    emailaddress: "Abhinav123@gmail.com",
+    username: "Adrian",
+    emailaddress: "Adrian@sample.com",
     suspendedreason: "Lorem ipsum dolor sit amet,",
     role: "Admin",
     action: <Action />,
   },
   {
     photo: <ProfilePhoto />,
-    username: "Abhinav100",
-    emailaddress: "Abhinav123@gmail.com",
+    username: "Adrian",
+    emailaddress: "Adrian@sample.com",
     suspendedreason: "Lorem ipsum dolor sit amet,",
     role: "Admin",
     action: <Action />,
@@ -99,7 +99,7 @@ const allmembers = () => {
       <div className="flex fixed z-10">
         <TopHeader className="fixed" head={head} />
       </div>
-      <div className=" ml-72 mt-18 h-[98vh] w-[140vh] relative">
+      <div className=" ml-72 mt-18 h-[98vh] min-w-[94%] relative">
         <Table columns={columns} data={data} pageSize={pageSize} />
       </div>
     </div>

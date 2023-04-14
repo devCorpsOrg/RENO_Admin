@@ -28,16 +28,22 @@ import PRM from "../Pages/PRM/prm";
 import SuspendedUser from "../Pages/User_Management/Suspended_User/suspendedUser";
 import AllMembers from "../Pages/CRM/AllMembers/allmembers";
 import AddNewRole from "../Pages/PRM/addNewRole";
+import EditMember from "../Pages/MarketPlaceManagement/EditMember/editMember";
 import EditCategory from "../Pages/MarketPlaceManagement/AllProducts/editCategory";
 import AddNewCategory from "../Pages/MarketPlaceManagement/AllProducts/addNewcategory";
 import AddListing from "../Pages/MarketPlaceManagement/ListingManagement/addListing";
 import EditListing from "../Pages/MarketPlaceManagement/ListingManagement/editListing";
 import EditMember from "../Pages/MarketPlaceManagement/EditMember/editMember";
+import AllMarketMember from "../Pages/MarketPlaceManagement/AllMembers/allMembers";
+import SuspendedMarketUser from "../Pages/MarketPlaceManagement/SuspendUsers/suspendUsers";
+import AllMarketProducts from "../Pages/MarketPlaceManagement/AllProducts/Allproducts";
+import ListingManagement from "../Pages/MarketPlaceManagement/ListingManagement/listingManagement";
+import ReviewMPM from "../Pages/MarketPlaceManagement/ReviewManagement/reviewManagement";
+import AllChats from "../Pages/MarketPlaceManagement/AllChats/allchats";
 
 function Home() {
   const [expand, setExpand] = useState("");
   const [activeTab, setActiveTab] = useState("dashboard");
-  
 
   const handleActiveTab = (tab) => {
     setActiveTab(tab);
@@ -61,6 +67,63 @@ function Home() {
           path="/allUsers"
           element={
             <UserDetails
+              setExpand={togleExpand}
+              setActiveTab={handleActiveTab}
+            />
+          }
+        />
+        <Route
+          exact
+          path="/addListing"
+          element={
+            <AddListing
+              setExpand={togleExpand}
+              setActiveTab={handleActiveTab}
+            />
+          }
+        />
+        <Route
+          exact
+          path="/reviewManagement"
+          element={
+            <ReviewMPM setExpand={togleExpand} setActiveTab={handleActiveTab} />
+          }
+        />
+        <Route
+          exact
+          path="/catagoryManagement"
+          element={
+            <AllMarketProducts
+              setExpand={togleExpand}
+              setActiveTab={handleActiveTab}
+            />
+          }
+        />
+        <Route
+          exact
+          path="/editMember"
+          element={
+            <EditMember
+              setExpand={togleExpand}
+              setActiveTab={handleActiveTab}
+            />
+          }
+        />
+        <Route
+          exact
+          path="/listingManagement"
+          element={
+            <ListingManagement
+              setExpand={togleExpand}
+              setActiveTab={handleActiveTab}
+            />
+          }
+        />
+        <Route
+          exact
+          path="/suspendMarketUser"
+          element={
+            <SuspendedMarketUser
               setExpand={togleExpand}
               setActiveTab={handleActiveTab}
             />
@@ -129,6 +192,13 @@ function Home() {
         />
         <Route
           exact
+          path="/helpDesk"
+          element={
+            <AllChats setExpand={togleExpand} setActiveTab={handleActiveTab} />
+          }
+        />
+        <Route
+          exact
           path="/addNewRole"
           element={
             <AddNewRole
@@ -157,16 +227,7 @@ function Home() {
             />
           }
         />
-        <Route
-          exact
-          path="/addListing"
-          element={
-            <AddListing
-              setExpand={togleExpand}
-              setActiveTab={handleActiveTab}
-            />
-          }
-        />
+
         <Route
           exact
           path="/editServices"
@@ -343,6 +404,16 @@ function Home() {
           path="/customerRelationship"
           element={
             <AllMembers
+              setExpand={togleExpand}
+              setActiveTab={handleActiveTab}
+            />
+          }
+        />
+        <Route
+          exact
+          path="/allMembers"
+          element={
+            <AllMarketMember
               setExpand={togleExpand}
               setActiveTab={handleActiveTab}
             />

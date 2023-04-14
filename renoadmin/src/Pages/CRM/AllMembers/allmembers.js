@@ -60,38 +60,29 @@ const columns = [
 const data = [
   {
     photo: <ProfilePhoto />,
-    username: "Abhinav100",
+    username: "Adrian",
     rewardpoints: 500,
     paymenthistory: `$ ${600}`,
     purchasehistory: `${5} items`,
-    contact: `+91 ${9918283899}`,
+    contact: `+65 ${12345678}`,
     action: <Action />,
   },
   {
     photo: <ProfilePhoto />,
-    username: "Abhinav100",
+    username: "Adrian",
     rewardpoints: 500,
     paymenthistory: `$ ${600}`,
     purchasehistory: `${5} items`,
-    contact: `+91 ${9918283899}`,
+    contact: `+65 ${12345678}`,
     action: <Action />,
   },
   {
     photo: <ProfilePhoto />,
-    username: "Abhinav100",
+    username: "Adrian",
     rewardpoints: 500,
     paymenthistory: `$ ${600}`,
     purchasehistory: `${5} items`,
-    contact: `+91 ${9918283899}`,
-    action: <Action />,
-  },
-  {
-    photo: <ProfilePhoto />,
-    username: "Abhinav100",
-    rewardpoints: 500,
-    paymenthistory: `$ ${600}`,
-    purchasehistory: `${5} items`,
-    contact: `+91 ${9918283899}`,
+    contact: `+65 ${12345678}`,
     action: <Action />,
   },
 ];
@@ -106,7 +97,7 @@ const allmembers = () => {
       <div className="flex fixed z-10">
         <TopHeader className="fixed" head={head} />
       </div>
-      <div className=" ml-72 mt-28 h-[85vh] w-[140vh] relative">
+      <div className=" ml-72 mt-28 h-[85vh] min-w-[88%] relative">
         <Table
           columns={columns}
           data={data}
