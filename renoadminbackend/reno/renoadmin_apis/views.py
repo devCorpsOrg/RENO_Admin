@@ -109,7 +109,7 @@ def user_details(request):
    if request.method=='GET':
         
     try:
-        info=Userdetails.objects.get(is_suspend=0) 
+        info=Userdetails.objects.filter(is_suspend=0) 
     except Userdetails.DoesNotExist:
             res={'msg':'Data Not Found'}
             json_data=JSONRenderer().render(res)
