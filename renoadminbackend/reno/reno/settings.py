@@ -96,10 +96,10 @@ WSGI_APPLICATION = 'reno.wsgi.application'
 DATABASES = {
         'default': {
             'ENGINE': 'djongo',
-            'NAME': 'Reno_admin_databases',
+            'NAME': 'admin',
             'ENFORCE_SCHEMA': False,
             'CLIENT': {
-                'host': 'mongodb+srv://vercel-admin-user-641df86deec22841cd00f989:U7MK7TOONktRvOOR@cluster0.myy76mk.mongodb.net/myFirstDatabase?retryWrites=true&w=majority'
+                'host': 'mongodb://reno_db_admin:reno_db_admin_123@139.59.236.50:27017/admin'
             }  
         }
 }
