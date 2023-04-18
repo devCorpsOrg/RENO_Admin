@@ -63,7 +63,7 @@ class RegisterAPI(generics.GenericAPIView):
 
 class LoginAPI(KnoxLoginView):
     permission_classes = (permissions.AllowAny,)
-
+    @csrf_exempt  
     def post(self, request, format=None):
         serializer = AuthTokenSerializer(data=request.data)
         serializer.is_valid(raise_exception=True)
@@ -116,6 +116,7 @@ def user_details(request):
             return HttpResponse(json_data,content_type='application/json')
 
     serailizer=UserSerializers(info,many=True);
+    
     json_data=JSONRenderer().render(serailizer.data) 
     return HttpResponse(json_data,content_type='application/json')
    
@@ -168,18 +169,34 @@ def search_user(request,name):
      
 @csrf_exempt    
 def edit_user(request,name):
+    
      if request.method=='PUT':
+        try:
+         user_objects=Userdetails.objects.get(username=name)
+        except Userdetails.DoesNotExist:
+         res={'msg':'username Not Found'}
+         json_data=JSONRenderer().render(res)
+         return HttpResponse(json_data,content_type='application/json')
+
+     
         json_data=request.body
         stream=io.BytesIO(json_data)
         python_data=JSONParser().parse(stream)
         
         username=python_data.get('username',None)
+        name=python_data.get('name',None)
+        status=python_data.get('status',None)
         email=python_data.get('email',None)
         phone=python_data.get('phone',None)
         role=python_data.get('role',None)
         uid=python_data.get('uid',None)
         pic=python_data.get('pic',None)
-        user_objects=Userdetails.objects.get(username=name)
+        about=python_data.get('about',None)
+        is_suspend=python_data.get('is_suspend',None)
+        suspend_reason=python_data.get('suspend_reason',None)
+        # about=python_data.get('about',None)
+ 
+        
         
         # serailizer=UserSerializer(user_details,many=True);
         user_objects.username=username
@@ -188,6 +205,11 @@ def edit_user(request,name):
         user_objects.role=role
         user_objects.uid=uid
         user_objects.pic=pic
+        # user_objects.about=about
+        # user_objects.is_suspend=is_suspend
+        # user_objects.suspend_reason=suspend_reason
+        user_objects.name=name
+        # user_objects.status=status
         user_objects.save()
         res={'msg':'Data updated Successfully'}
         json_data=JSONRenderer().render(res)
@@ -295,6 +317,13 @@ def search_page(request,name):
 @csrf_exempt    
 def edit_page(request,id):
      if request.method=='PUT':
+        try:
+         user_objects=cmsModel.objects.get(id=id)
+        except cmsModel.DoesNotExist:
+         res={'msg':'id Not Found'}
+         json_data=JSONRenderer().render(res)
+         return HttpResponse(json_data,content_type='application/json')
+        
         json_data=request.body
         stream=io.BytesIO(json_data)
         python_data=JSONParser().parse(stream)
@@ -305,7 +334,7 @@ def edit_page(request,id):
         content=python_data.get('content',None)
         media=python_data.get('media',None)
       
-        user_objects=cmsModel.objects.get(id=id)
+        
      
         user_objects.id=id
         user_objects.pagename=pagename
@@ -437,6 +466,13 @@ def searchfeaturedprojects(request,name):
 @csrf_exempt    
 def editproject(request,id):
      if request.method=='PUT':
+        try:
+         user_objects=ProjectManagementModel.objects.get(id=id)
+        except ProjectManagementModel.DoesNotExist:
+         res={'msg':'id Not Found'}
+         json_data=JSONRenderer().render(res)
+         return HttpResponse(json_data,content_type='application/json')
+
         json_data=request.body
         stream=io.BytesIO(json_data)
         python_data=JSONParser().parse(stream)
@@ -450,16 +486,15 @@ def editproject(request,id):
         project_type=python_data.get('project_type',None)
         proj_id=python_data.get('proj_id',None)
 
-        user_objects=ProjectManagementModel.objects.get(id=id)
+        
         user_objects.pic= pic
         user_objects.proj_name= proj_name
         user_objects.proj_category= proj_category
-        user_objects.rate=  rate
-        user_objects.rate= rate
+        user_objects.rate=rate
         user_objects.review=review
         user_objects.details= details
         user_objects.project_type=project_type
-        user_objects.proj_id= proj_id
+        
         user_objects.save()
         serailizer=ProjectManagementSerializer(user_objects)
         res={'msg':'Data updated Successfully'}
@@ -548,6 +583,13 @@ def searchpromoted(request,name):
 @csrf_exempt    
 def editpromoted(request,id):
      if request.method=='PUT':
+        try:
+         user_objects=pmsModel.objects.get(id=id)
+        except pmsModel.DoesNotExist:
+         res={'msg':'id Not Found'}
+         json_data=JSONRenderer().render(res)
+         return HttpResponse(json_data,content_type='application/json')
+        
         json_data=request.body
         stream=io.BytesIO(json_data)
         python_data=JSONParser().parse(stream)
@@ -559,7 +601,7 @@ def editpromoted(request,id):
         rate=python_data.get('rate',None)
         prod_id=python_data.get('prod_id',None)
       
-        user_objects=pmsModel.objects.get(id=id)
+        
         user_objects.pic= pic
         user_objects.prod_name= prod_name
         user_objects.prod_category=prod_category

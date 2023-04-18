@@ -6,12 +6,12 @@ from .views import ChangePasswordView
 from . import views
 
 urlpatterns = [
-    path('register', RegisterAPI.as_view(), name='register'),
+    path('register/', RegisterAPI.as_view(), name='register'),
     path('login/', LoginAPI.as_view(), name='login'),
     path('logout/', knox_views.LogoutView.as_view(), name='logout'),
     path('logoutall/', knox_views.LogoutAllView.as_view(), name='logoutall'),
     path('reset-password/', ChangePasswordView.as_view(), name='change-password'),
-    path('forget_password/', include('django_rest_passwordreset.urls', namespace='password_reset')),
+    path('password_reset/', include('django_rest_passwordreset.urls', namespace='password_reset')),
 # -------------------------------------------------------------------------------------------------------
     path('user/',views.user_details,name="user"),
     path('usercreate/',views.create_user,name="createuser"),
