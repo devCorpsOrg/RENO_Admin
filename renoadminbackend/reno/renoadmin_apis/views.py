@@ -413,14 +413,17 @@ def createprojectbookings(request):
 @csrf_exempt
 def projects(request):
    if request.method=='GET':
+    print("hello")
     try:
      info=ProjectManagementModel.objects.all()
     except ProjectManagementModel.DoesNotExist:
-      res={'msg':'DataBase is Empty'}
-      json_data=JSONRenderer().render(res)
-      return HttpResponse(json_data,content_type='application/json')
+        return []
+    #   res={'msg':'DataBase is Empty'}
+    #   json_data=JSONRenderer().render(res)
+    #   return HttpResponse(json_data,content_type='application/json')
 
-    serailizer1=ProjectManagementSerializer1(info,many=True);    
+    serailizer1=ProjectManagementSerializer1(info,many=True); 
+    # print( serailizer1.data)   
     json_data=JSONRenderer().render(serailizer1.data)
     return HttpResponse(json_data,content_type='application/json') 
    
@@ -513,9 +516,7 @@ def editproject(request,id):
         review=python_data.get('review',None)
         details=python_data.get('details',None)
         project_type=python_data.get('project_type',None)
-        # proj_id=python_data.get('proj_id',None)
-
-        
+        # proj_id=python_data.get('proj_id',None)        
         user_objects.pic= pic
         user_objects.proj_name= proj_name
         user_objects.proj_category= proj_category

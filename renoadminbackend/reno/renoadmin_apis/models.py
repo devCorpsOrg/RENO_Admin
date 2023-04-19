@@ -113,13 +113,13 @@ class config_setting(models.Model):
      email=models.CharField(max_length=100)
      smtp_details =models.CharField(max_length=100)
 
-class dashboard(models.Model):
-     id=models.CharField(primary_key=True, default=uuid.uuid4,max_length=200)
-     username=models.CharField(max_length=100,unique=True,default="")
-     sitename=models.CharField(max_length=100)
-     url=models.CharField(max_length=100)
-     email=models.CharField(max_length=100)
-     smtp_details =models.CharField(max_length=100)
+# class dashboard(models.Model):
+#      id=models.CharField(primary_key=True, default=uuid.uuid4,max_length=200)
+#      username=models.CharField(max_length=100,unique=True,default="")
+#      sitename=models.CharField(max_length=100)
+#      url=models.CharField(max_length=100)
+#      email=models.CharField(max_length=100)
+#      smtp_details =models.CharField(max_length=100)
 
     
 #==========================================================================================================
@@ -162,7 +162,7 @@ class Transactions(m.Model):
 
 
 class Products(m.Model):
-    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    id =m.IntegerField(primary_key=True)
     pic_url = m.URLField()
     name = m.CharField(max_length=200, blank=False, null=False)
     category = m.CharField(max_length=200)
