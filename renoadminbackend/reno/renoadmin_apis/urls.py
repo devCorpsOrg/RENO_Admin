@@ -16,7 +16,7 @@ urlpatterns = [
     path('user/',views.user_details,name="user"),
     path('usercreate/',views.create_user,name="createuser"),
     path('searchusers/<str:name>',views.search_user,name="searchuser"),
-    path('edituser/<str:name>',views.edit_user,name="edituser"),
+    path('edituser/<str:id>',views.edit_user,name="edituser"),
     path('deleteuser/<str:name>',views.delete_user,name="deleteuser"),
     path('suspenduser/<str:name>',views.suspend_user,name="suspenduser"),
     path('suspendedusers/',views.suspended_users,name="suspendedusers"),
@@ -25,28 +25,32 @@ urlpatterns = [
     path('pages/',views.page,name="page"),
     path('createpage/',views.create_page,name="createpage"),
     path('searchpage/<str:name>',views.search_page,name="searchpage"),
-    path('editpage/<int:id>',views.edit_page,name="editpage"),
-    path('deletepage/<int:id>',views.delete_page,name="deletepage"),
+    path('editpage/<str:id>',views.edit_page,name="editpage"),
+    path('deletepage/<str:id>',views.delete_page,name="deletepage"),
 #=-----------------------------------------------------------------------------------------------------------
     path('projects/',views.projects,name="projects"),
+    path('createbookings/',views.createprojectbookings,name="createprojectbookings"),
     path('featuredprojects/',views.featuredprojects,name="featuredprojects"),
     path('searchfeaturedprojects/<str:name>',views.searchfeaturedprojects,name="searchfeaturedprojects"),
     path('addproject/',views.addproject,name="addproject"),
     path('searchproject/<str:name>',views.searchproject,name="searchproject"),
-    path('editproject/<int:id>',views.editproject,name="eeditproject"),
-    path('deleteproject/<int:id>',views.deleteproject,name="deleteproject"),
+    path('editproject/<str:id>',views.editproject,name="eeditproject"),
+    path('deleteproject/<str:id>',views.deleteproject,name="deleteproject"),
     path('projectbookings/',views.projectbookings,name="projectbookings"),
     path('export/',views.export,name="export"),
 #==========================================================================================================
     path('promotions/',views.promotions,name="promotions"),
     path('addpromoted/',views.addpromoted,name="addpromoted"),
     path('searchpromoted/<str:name>',views.searchpromoted,name="searchpromoted"),
-    path('editpromoted/<int:id>',views.editpromoted,name="eeditpromoted"),
-    path('deletepromoted/<int:id>',views.deletepromoted,name="deletepromoted"),
+    path('editpromoted/<str:id>',views.editpromoted,name="eeditpromoted"),
+    path('deletepromoted/<str:id>',views.deletepromoted,name="deletepromoted"),
 #==========================================================================================================
 
     path('support/',views.usersupport,name="supportuser"),
-    path('deleterecord/<int:id>',views.delete_records,name="deleterecord"),
+    path('deleterecord/<str:id>',views.delete_records,name="deleterecord"),
+#============================================================================================================
+    path('setting/<str:name>',views.settings,name="settings"),
+   
 
 #==============================================================================================================
 

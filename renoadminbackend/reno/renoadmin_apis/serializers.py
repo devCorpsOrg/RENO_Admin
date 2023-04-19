@@ -59,11 +59,17 @@ class PurchasedSerializer(serializers.ModelSerializer):
         model=Purchased_item
         fields="__all__"
 
-class UserSerializer1(serializers.ModelSerializer):
+class UserSerializer5(serializers.ModelSerializer):
     
     class Meta:
         model=Userdetails
         fields="__all__"
+
+class UserSerializer1(serializers.ModelSerializer):
+    
+    class Meta:
+        model=Userdetails
+        fields=('pic','username','email','suspend_reason','role')
 
 class ProductSerializer(serializers.ModelSerializer):
         
@@ -90,6 +96,10 @@ class ProjectManagementSerializer(serializers.ModelSerializer):
     
     class Meta:
         model=ProjectManagementModel
+        fields="__all__"
+class ProjectbookingSerializer(serializers.ModelSerializer):    
+    class Meta:
+        model=Projectbooking
         fields="__all__"
 
 class ProjectManagementSerializer1(serializers.ModelSerializer):

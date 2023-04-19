@@ -6,6 +6,8 @@ from django_rest_passwordreset.signals import reset_password_token_created
 from django.core.mail import send_mail  
 from django.db import models as m
 import uuid
+import random
+
 
 
 @receiver(reset_password_token_created)
@@ -26,61 +28,57 @@ def password_reset_token_created(sender, instance, reset_password_token, *args, 
 
 
 
-class Userdetails(models.Model):
-    id=models.IntegerField(primary_key=True)
+class Userdetails(models.Model):   
     username=models.CharField(max_length=100,unique=True)
     about=models.TextField()
-    name=models.CharField(max_length=100,default='SOME STRING')
+    name=models.CharField(max_length=100,default='')
     status=models.CharField(max_length=100)
     email=models.EmailField(max_length=256)
     phone=models.CharField(max_length=100)
     role=models.CharField(max_length=100)
-    uid=models.IntegerField(unique=True)
+    uid=models.CharField(primary_key=True, default=uuid.uuid4,max_length=200)
     pic=models.ImageField(upload_to="my_pic",blank=True)
     is_suspend=models.IntegerField(choices=((0,0),(1,1)),default=0)
     suspend_reason=models.TextField(null=True,blank=True)
 
-class Purchased_item(models.Model):
-    id=models.IntegerField(primary_key=True)
+class Purchased_item(models.Model):   
     UserPK=models.ForeignKey(Userdetails,on_delete=models.CASCADE)
-    pid=models.IntegerField(unique=True)
+    pid=models.CharField(primary_key=True, default=uuid.uuid4,max_length=200)
     pic=models.ImageField(upload_to="my_pic",blank=True)
     purchase_date=models.DateField(auto_now_add=True)
     p_rating=models.IntegerField()
     p_name=models.CharField(max_length=100)
     p_url=models.CharField(max_length=100)
 
-class User_Product(models.Model):
-    id=models.IntegerField(primary_key=True)
+class User_Product(models.Model):    
     UserPK=models.ForeignKey(Userdetails,on_delete=models.CASCADE)
-    pid=models.IntegerField(unique=True)
+    pid=models.CharField(primary_key=True, default=uuid.uuid4,max_length=200)
     pic=models.ImageField(upload_to="my_pic",blank=True)
     purchase_date=models.DateField(auto_now_add=True)
     p_rating=models.IntegerField()
     p_name=models.CharField(max_length=100)
     p_url=models.CharField(max_length=100)
     
-class cmsModel(models.Model): 
-    id=models.IntegerField(primary_key=True)
+class cmsModel(models.Model):     
     pagename=models.CharField(max_length=100)
-    pageid=models.IntegerField(unique=True)
+    pageid=models.CharField(primary_key=True, default=uuid.uuid4,max_length=200)
     title=models.CharField(max_length=100)
     content=models.CharField(max_length=100)    
     media=models.ImageField(upload_to="my_pic",blank=True)
 
 class ProjectManagementModel(models.Model):
-    id=models.IntegerField(primary_key=True)
+   
     pic=models.ImageField(upload_to="my_pic",blank=True)
     proj_name=models.CharField(max_length=200)
     proj_category=models.CharField(max_length=500)
     rate=models.IntegerField()    
-    review=models.TextField(max_length=100)
+    review=models.IntegerField()
     details=models.TextField()       
     project_type=models.CharField(max_length=100)       
-    proj_id=models.IntegerField(unique=True)
+    proj_id=models.CharField(primary_key=True, default=uuid.uuid4,max_length=200)
 
 class Projectbooking(models.Model):
-    id=models.IntegerField(primary_key=True)
+    id=models.CharField(primary_key=True, default=uuid.uuid4,max_length=200)
     date = models.DateField(default=datetime.date.today)
     time=models.TimeField(auto_now_add=True, blank=True)
     status=models.CharField(max_length=500)
@@ -90,23 +88,39 @@ class Projectbooking(models.Model):
     proj_category=models.CharField(max_length=100)       
     desc=models.TextField()
     
-class pmsModel(models.Model):
-    id=models.IntegerField(primary_key=True)
+class pmsModel(models.Model):   
     pic=models.ImageField(upload_to="my_pic",blank=True)
     prod_name=models.CharField(max_length=200)
     prod_category=models.CharField(max_length=100)
     inv_count=models.IntegerField()
     rate=models.IntegerField()        
-    prod_id=models.IntegerField(unique=True)
+    prod_id=models.CharField(primary_key=True, default=uuid.uuid4,max_length=200)
 
 class SupportDetails(models.Model): 
-    id=models.IntegerField(primary_key=True)
+   
     pic=models.ImageField(upload_to="my_pic",blank=True)   
     registerar=models.CharField(max_length=100)
     subject=models.CharField(max_length=100)
     message=models.TextField()
     status=models.CharField(max_length=100)
-    support_id=models.IntegerField(unique=True)
+    support_id=models.CharField(primary_key=True, default=uuid.uuid4,max_length=200)
+
+class config_setting(models.Model):
+     id=models.CharField(primary_key=True, default=uuid.uuid4,max_length=200)
+     username=models.CharField(max_length=100,unique=True,default="")
+     sitename=models.CharField(max_length=100)
+     url=models.CharField(max_length=100)
+     email=models.CharField(max_length=100)
+     smtp_details =models.CharField(max_length=100)
+
+class dashboard(models.Model):
+     id=models.CharField(primary_key=True, default=uuid.uuid4,max_length=200)
+     username=models.CharField(max_length=100,unique=True,default="")
+     sitename=models.CharField(max_length=100)
+     url=models.CharField(max_length=100)
+     email=models.CharField(max_length=100)
+     smtp_details =models.CharField(max_length=100)
+
     
 #==========================================================================================================
 class Customers(m.Model):
