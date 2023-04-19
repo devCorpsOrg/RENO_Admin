@@ -14,10 +14,10 @@ from .serializers import ChangePasswordSerializer
 from rest_framework.permissions import IsAuthenticated  
 from .models import Userdetails 
 from .models import Purchased_item
-from .models import User_Product
+from .models import User_Product,config_setting
 # from .models import SuspendUser
 from .serializers import UserSerializer,UserSerializer2
-from .serializers import UserSerializer1, PurchasedSerializer, ProductSerializer
+from .serializers import UserSerializer1, PurchasedSerializer, ProductSerializer ,ProjectbookingSerializer,UserSerializer5
 # from .serializers import SuspendUserSerializer
 from rest_framework.renderers import JSONRenderer
 from django.http import HttpResponse 
@@ -45,6 +45,7 @@ from django.core import serializers
 import json
 import csv
 from django.http import HttpResponse
+import time
 
 
 # Register API
@@ -111,9 +112,10 @@ def user_details(request):
     try:
         info=Userdetails.objects.filter(is_suspend=0) 
     except Userdetails.DoesNotExist:
-            res={'msg':'Data Not Found'}
-            json_data=JSONRenderer().render(res)
-            return HttpResponse(json_data,content_type='application/json')
+            return []
+            # res={'msg':'Data Not Found'}
+            # json_data=JSONRenderer().render(res)
+            # return HttpResponse(json_data,content_type='application/json')
 
     serailizer=UserSerializers(info,many=True);
     
@@ -123,9 +125,13 @@ def user_details(request):
 @csrf_exempt
 def user_History(request,name):
     if request.method=='GET':
-        
-        info=Userdetails.objects.get(username=name)
-        id=info.id 
+        try:
+         info=Userdetails.objects.get(username=name)
+        except Userdetails.DoesNotExist:
+         return []
+
+
+        id=info.uid
         print(id)
         info1=Purchased_item.objects.get(UserPK=id)
         info2=User_Product.objects.get(UserPK=id)
@@ -146,7 +152,9 @@ def create_user(request):
         json_data=request.body
         stream=io.BytesIO(json_data)
         python_data=JSONParser().parse(stream)
-        serializer= UserSerializer1(data=python_data)
+       
+        
+        serializer= UserSerializer5(data=python_data)
         if serializer.is_valid():
             serializer.save()
             res={'msg':'Data Created Successfully'}
@@ -168,11 +176,11 @@ def search_user(request,name):
             return HttpResponse(json_data,content_type='application/json')
      
 @csrf_exempt    
-def edit_user(request,name):
+def edit_user(request,id):
     
      if request.method=='PUT':
         try:
-         user_objects=Userdetails.objects.get(username=name)
+         user_objects=Userdetails.objects.get(uid=id)
         except Userdetails.DoesNotExist:
          res={'msg':'username Not Found'}
          json_data=JSONRenderer().render(res)
@@ -189,11 +197,11 @@ def edit_user(request,name):
         email=python_data.get('email',None)
         phone=python_data.get('phone',None)
         role=python_data.get('role',None)
-        uid=python_data.get('uid',None)
+        # uid=python_data.get('uid',None)
         pic=python_data.get('pic',None)
-        about=python_data.get('about',None)
-        is_suspend=python_data.get('is_suspend',None)
-        suspend_reason=python_data.get('suspend_reason',None)
+        # about=python_data.get('about',None)
+        # is_suspend=python_data.get('is_suspend',None)
+        # suspend_reason=python_data.get('suspend_reason',None)
         # about=python_data.get('about',None)
  
         
@@ -203,7 +211,7 @@ def edit_user(request,name):
         user_objects.email=email
         user_objects.phone=phone
         user_objects.role=role
-        user_objects.uid=uid
+        # user_objects.uid=uid
         user_objects.pic=pic
         # user_objects.about=about
         # user_objects.is_suspend=is_suspend
@@ -243,12 +251,18 @@ def suspend_user(request,name):
     data=request.data
     suspend_reason=data['suspend_reason']
     info=Userdetails.objects.get(username=name)
-    info.suspend_reason=suspend_reason
-    info.is_suspend=1
-    info.save()
-    res={'msg':'Suspended Successfully'}
-    json_data=JSONRenderer().render(res)
-    return HttpResponse(json_data,content_type='application/json')
+    if info.is_suspend==1:
+        res={'msg':'Already Suspended'}
+        json_data=JSONRenderer().render(res)
+        return HttpResponse(json_data,content_type='application/json')
+
+    else:
+     info.suspend_reason=suspend_reason
+     info.is_suspend=1
+     info.save()
+     res={'msg':'Suspended Successfully'}
+     json_data=JSONRenderer().render(res)
+     return HttpResponse(json_data,content_type='application/json')
     
 
 @csrf_exempt    
@@ -257,9 +271,10 @@ def suspended_users(request):
     try:
      info=Userdetails.objects.filter(is_suspend=1)
     except Userdetails.DoesNotExist:
-         res={'msg':'User is not present'}
-         json_data=JSONRenderer().render(res)
-         return HttpResponse(json_data,content_type='application/json')
+        return []
+        #  res={'msg':'User is not present'}
+        #  json_data=JSONRenderer().render(res)
+        #  return HttpResponse(json_data,content_type='application/json')
 
      
     
@@ -279,7 +294,7 @@ def page(request):
       return HttpResponse(json_data,content_type='application/json')
       
      serailizer1=cmsSerializer1(info,many=True)
-
+     
      json_data=JSONRenderer().render(serailizer1.data)
      return HttpResponse(json_data,content_type='application/json') 
     
@@ -290,7 +305,9 @@ def create_page(request):
         json_data=request.body
         stream=io.BytesIO(json_data)
         python_data=JSONParser().parse(stream)
+        # python_data['pageid'] = random.getrandbits(32)
         serializer= cmsSerializer(data=python_data)
+
         if serializer.is_valid():
             serializer.save()
             res={'msg':'Data Created Successfully'}
@@ -318,29 +335,27 @@ def search_page(request,name):
 def edit_page(request,id):
      if request.method=='PUT':
         try:
-         user_objects=cmsModel.objects.get(id=id)
+         user_objects=cmsModel.objects.get(pageid=id)
         except cmsModel.DoesNotExist:
          res={'msg':'id Not Found'}
          json_data=JSONRenderer().render(res)
          return HttpResponse(json_data,content_type='application/json')
         
+       
         json_data=request.body
         stream=io.BytesIO(json_data)
         python_data=JSONParser().parse(stream)
-        id=id
+       
         pagename=python_data.get('pagename',None)
-        pageid=python_data.get('pageid',None)
+        # pageid=python_data.get('pageid',None)
         title=python_data.get('title',None)
         content=python_data.get('content',None)
         media=python_data.get('media',None)
       
         
      
-        user_objects.id=id
         user_objects.pagename=pagename
-        user_objects.pageid=pageid
-        user_objects.title=title
-        user_objects.pageid=pageid
+        # user_objects.pageid=pageid
         user_objects.title=title
         user_objects.content=content
         user_objects.media=media
@@ -356,7 +371,7 @@ def edit_page(request,id):
 def delete_page(request,id):
      if request.method=='DELETE':
        
-        id=id
+       
        
         if id is not None:
           try:
@@ -381,18 +396,34 @@ def projectbookings(request):
      json_data=JSONRenderer().render(serailizer1.data)
      return HttpResponse(json_data,content_type='application/json') 
 
-
+@csrf_exempt
+def createprojectbookings(request):
+    if request.method=='POST':
+        json_data=request.body
+        stream=io.BytesIO(json_data)
+        python_data=JSONParser().parse(stream)
+       
+        serializer= ProjectbookingSerializer(data=python_data)
+        if serializer.is_valid():
+            serializer.save()
+            res={'msg':'Data Created Successfully'}
+            json_data=JSONRenderer().render(res)
+            return HttpResponse(json_data,content_type='application/json')
+        return HttpResponse(JSONRenderer().render(serializer.errors),content_type='application/json')
 @csrf_exempt
 def projects(request):
    if request.method=='GET':
+    print("hello")
     try:
      info=ProjectManagementModel.objects.all()
     except ProjectManagementModel.DoesNotExist:
-      res={'msg':'DataBase is Empty'}
-      json_data=JSONRenderer().render(res)
-      return HttpResponse(json_data,content_type='application/json')
+        return []
+    #   res={'msg':'DataBase is Empty'}
+    #   json_data=JSONRenderer().render(res)
+    #   return HttpResponse(json_data,content_type='application/json')
 
-    serailizer1=ProjectManagementSerializer1(info,many=True);    
+    serailizer1=ProjectManagementSerializer1(info,many=True); 
+    # print( serailizer1.data)   
     json_data=JSONRenderer().render(serailizer1.data)
     return HttpResponse(json_data,content_type='application/json') 
    
@@ -413,6 +444,7 @@ def addproject(request):
         json_data=request.body
         stream=io.BytesIO(json_data)
         python_data=JSONParser().parse(stream)
+        
         serializer= ProjectManagementSerializer(data=python_data)
         if serializer.is_valid():
             serializer.save()
@@ -467,7 +499,7 @@ def searchfeaturedprojects(request,name):
 def editproject(request,id):
      if request.method=='PUT':
         try:
-         user_objects=ProjectManagementModel.objects.get(id=id)
+         user_objects=ProjectManagementModel.objects.get(proj_id=id)
         except ProjectManagementModel.DoesNotExist:
          res={'msg':'id Not Found'}
          json_data=JSONRenderer().render(res)
@@ -476,7 +508,7 @@ def editproject(request,id):
         json_data=request.body
         stream=io.BytesIO(json_data)
         python_data=JSONParser().parse(stream)
-        id=id
+        
         pic=python_data.get('pic',None)
         proj_name=python_data.get('prod_name',None)
         proj_category=python_data.get('prod_category',None)
@@ -484,9 +516,7 @@ def editproject(request,id):
         review=python_data.get('review',None)
         details=python_data.get('details',None)
         project_type=python_data.get('project_type',None)
-        proj_id=python_data.get('proj_id',None)
-
-        
+        # proj_id=python_data.get('proj_id',None)        
         user_objects.pic= pic
         user_objects.proj_name= proj_name
         user_objects.proj_category= proj_category
@@ -512,7 +542,7 @@ def deleteproject(request,id):
         # stream=io.BytesIO(json_data)
         # python_data=JSONParser().parse(stream)
         # id=python_data.get('pageid',None)
-        id=id
+       
         print(id)
         if id is not None:
           try:
@@ -537,6 +567,8 @@ def export(request):
         writer.writerow([employee.pic,employee.proj_name,employee.proj_category,employee.rate,employee.review,employee.project_type])  
     return response  
 
+
+
 #-------------------------------------------------------------------------------------------------------------
 @csrf_exempt
 def promotions(request):
@@ -560,6 +592,7 @@ def addpromoted(request):
         json_data=request.body
         stream=io.BytesIO(json_data)
         python_data=JSONParser().parse(stream)
+       
         serializer= pmsSerializer(data=python_data)
         if serializer.is_valid():
             serializer.save()
@@ -584,7 +617,7 @@ def searchpromoted(request,name):
 def editpromoted(request,id):
      if request.method=='PUT':
         try:
-         user_objects=pmsModel.objects.get(id=id)
+         user_objects=pmsModel.objects.get(prod_id=id)
         except pmsModel.DoesNotExist:
          res={'msg':'id Not Found'}
          json_data=JSONRenderer().render(res)
@@ -593,13 +626,13 @@ def editpromoted(request,id):
         json_data=request.body
         stream=io.BytesIO(json_data)
         python_data=JSONParser().parse(stream)
-        id=id
+        
         pic=python_data.get('pic',None)
         prod_name=python_data.get('prod_name',None)
         prod_category=python_data.get('prod_category',None)
         inv_count=python_data.get('inv_count',None)
         rate=python_data.get('rate',None)
-        prod_id=python_data.get('prod_id',None)
+        # prod_id=python_data.get('prod_id',None)
       
         
         user_objects.pic= pic
@@ -607,7 +640,7 @@ def editpromoted(request,id):
         user_objects.prod_category=prod_category
         user_objects.inv_count= inv_count
         user_objects.rate= rate
-        user_objects. prod_id= prod_id
+        # user_objects. prod_id= prod_id
         user_objects.save()
         serailizer=pmsSerializer(user_objects)
         res={'msg':'Data updated Successfully'}
@@ -648,14 +681,50 @@ def delete_records(request,id):
       #   stream=io.BytesIO(json_data)
       #   python_data=JSONParser().parse(stream)
       #   id=python_data.get('id',None)
-        id=id
+        
         if id is not None:
-             info=SupportDetails.objects.get(id=id)
+             info=SupportDetails.objects.get(support_id=id)
              info.delete()
              res={'msg':'Data updated Successfully'}
              json_data=JSONRenderer().render(res)
              return HttpResponse(json_data,content_type='application/json')
+#-----------------------------------------------------------------------------------------------------------
+@csrf_exempt
+def settings(request,name):
+    if request.method=='PUT':
+        try:
+         user_objects=config_setting.objects.get(username=name)
+        except config_setting.DoesNotExist:
+         res={'msg':'username Not Found'}
+         json_data=JSONRenderer().render(res)
+         return HttpResponse(json_data,content_type='application/json')
         
+        json_data=request.body
+        stream=io.BytesIO(json_data)
+        python_data=JSONParser().parse(stream)
+        
+        username=python_data.get('username',None)
+        sitename=python_data.get('sitename',None)
+        url=python_data.get('url',None)
+        email=python_data.get('email',None)
+        smtp_details=python_data.get('smtp_details',None)
+
+      
+        
+        user_objects.username=username
+        user_objects.sitename= sitename
+        user_objects.url=url
+        user_objects.email=email
+        user_objects.smtp_details=smtp_details
+        # user_objects.ids=random.getrandbits(32)
+        
+        user_objects.save()
+        # serailizer=config_settingSerializer(user_objects)
+        res={'msg':'Data updated Successfully'}
+        json_data=JSONRenderer().render(res)
+        return HttpResponse(json_data,content_type='application/json')
+
+
 
 #===========================================================================================================
 #===========================================================================================================
