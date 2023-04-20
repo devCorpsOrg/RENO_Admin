@@ -108,7 +108,7 @@ class ChangePasswordView(generics.UpdateAPIView):
 @csrf_exempt
 def user_details(request):
    if request.method=='GET':
-        
+   
     try:
         info=Userdetails.objects.filter(is_suspend=0) 
     except Userdetails.DoesNotExist:
@@ -122,9 +122,11 @@ def user_details(request):
     json_data=JSONRenderer().render(serailizer.data) 
     return HttpResponse(json_data,content_type='application/json')
    
+@api_view(['GET'])
 @csrf_exempt
-def user_History(request,name):
-    if request.method=='GET':
+def user_History(request):
+      if request.method=='GET':
+        name=request.query_params['name']
         try:
          info=Userdetails.objects.get(username=name)
         except Userdetails.DoesNotExist:
@@ -162,9 +164,11 @@ def create_user(request):
             return HttpResponse(json_data,content_type='application/json')
         return HttpResponse(JSONRenderer().render(serializer.errors),content_type='application/json')
 
+@api_view()
 @csrf_exempt
-def search_user(request,name):
+def search_user(request):
      if request.method=='GET':
+            name=request.query_params['name']
             try:
               info=Userdetails.objects.get(username=name)
             except Userdetails.DoesNotExist:
@@ -175,9 +179,10 @@ def search_user(request,name):
             json_data=JSONRenderer().render(serailizer.data) 
             return HttpResponse(json_data,content_type='application/json')
      
+@api_view(['PUT'])   
 @csrf_exempt    
-def edit_user(request,id):
-    
+def edit_user(request):
+     id=request.query_params['id']
      if request.method=='PUT':
         try:
          user_objects=Userdetails.objects.get(uid=id)
@@ -224,10 +229,10 @@ def edit_user(request,id):
         return HttpResponse(json_data,content_type='application/json')
                     
 
-
+@api_view(['DELETE'])
 @csrf_exempt        
-def delete_user(request,name):
-     if request.method=='DELETE':
+def delete_user(request):
+          name=request.query_params['name']
         # json_data=request.body
         # stream=io.BytesIO(json_data)
         # python_data=JSONParser().parse(stream)
@@ -247,7 +252,8 @@ def delete_user(request,name):
 
          
 @api_view(['GET','POST'])
-def suspend_user(request,name):
+def suspend_user(request):
+    name=request.query_params['name']
     data=request.data
     suspend_reason=data['suspend_reason']
     info=Userdetails.objects.get(username=name)
@@ -316,8 +322,14 @@ def create_page(request):
         return HttpResponse(JSONRenderer().render(serializer.errors),content_type='application/json')
 
 @csrf_exempt
-def search_page(request,name):
+@api_view()
+def search_page(request):
      if request.method=='GET':
+        #   params = request.query_params
+        #   name = request.data.get('name')
+        #   print(name)
+          name=request.query_params['name']
+          print(name)
           try:
             info=cmsModel.objects.get(pagename=name)
           except cmsModel.DoesNotExist:
@@ -331,9 +343,12 @@ def search_page(request,name):
           return HttpResponse(json_data,content_type='application/json')
            
                       
-@csrf_exempt    
-def edit_page(request,id):
-     if request.method=='PUT':
+@csrf_exempt 
+@api_view(['PUT'])   
+def edit_page(request):
+     
+        id=request.query_params['id']
+        print(id)
         try:
          user_objects=cmsModel.objects.get(pageid=id)
         except cmsModel.DoesNotExist:
@@ -367,11 +382,12 @@ def edit_page(request,id):
                     
 
 
+@api_view(['DELETE']) 
 @csrf_exempt        
-def delete_page(request,id):
-     if request.method=='DELETE':
-       
-       
+def delete_page(request):
+    #  if request.method=='DELETE':
+        id=request.query_params['id']
+
        
         if id is not None:
           try:
@@ -455,10 +471,11 @@ def addproject(request):
 
 
 
-
+@api_view()
 @csrf_exempt
-def searchproject(request,name):
+def searchproject(request):
      if request.method=='GET':
+          name=request.query_params['name']
           try:
             info=ProjectManagementModel.objects.get(proj_name=name)
           except ProjectManagementModel.DoesNotExist:
@@ -475,10 +492,11 @@ def searchproject(request,name):
 
 
 
-          
+@api_view()       
 @csrf_exempt
-def searchfeaturedprojects(request,name):
+def searchfeaturedprojects(request):
      if request.method=='GET':
+          name=request.query_params['name']
           try: 
             info=ProjectManagementModel.objects.get(proj_name=name,project_type='Featured')
           except ProjectManagementModel.DoesNotExist:
@@ -494,10 +512,10 @@ def searchfeaturedprojects(request,name):
 
 
 
-     
+@api_view(['PUT'])   
 @csrf_exempt    
-def editproject(request,id):
-     if request.method=='PUT':
+def editproject(request):
+        id=request.query_params['id']
         try:
          user_objects=ProjectManagementModel.objects.get(proj_id=id)
         except ProjectManagementModel.DoesNotExist:
@@ -534,10 +552,11 @@ def editproject(request,id):
 
 
 
-
+@api_view(['DELETE'])
 @csrf_exempt        
-def deleteproject(request,id):
-     if request.method=='DELETE':
+def deleteproject(request):
+     
+        id=request.query_params['id']
         # json_data=request.body
         # stream=io.BytesIO(json_data)
         # python_data=JSONParser().parse(stream)
@@ -600,10 +619,12 @@ def addpromoted(request):
             json_data=JSONRenderer().render(res)
             return HttpResponse(json_data,content_type='application/json')
         return HttpResponse(JSONRenderer().render(serializer.errors),content_type='application/json')
-
+    
+@api_view(['GET'])
 @csrf_exempt
-def searchpromoted(request,name):
-     if request.method=='GET':
+def searchpromoted(request):
+    
+            name=request.query_params['name']
             info=pmsModel.objects.get(prod_name=name)
             serailizer=pmsSerializer(info);
            
@@ -612,10 +633,11 @@ def searchpromoted(request,name):
            
                     
 
-     
+@api_view(['PUT'])   
 @csrf_exempt    
-def editpromoted(request,id):
-     if request.method=='PUT':
+def editpromoted(request):
+     
+        id=request.query_params['id']
         try:
          user_objects=pmsModel.objects.get(prod_id=id)
         except pmsModel.DoesNotExist:
@@ -648,10 +670,11 @@ def editpromoted(request,id):
         return HttpResponse(json_data,content_type='application/json')
                     
 
-
+@api_view(['DELETE'])
 @csrf_exempt        
-def deletepromoted(request,id):
-     if request.method=='DELETE':
+def deletepromoted(request):
+     
+        id=request.query_params['id']
         # json_data=request.body
         # stream=io.BytesIO(json_data)
         # python_data=JSONParser().parse(stream)
@@ -673,10 +696,10 @@ def usersupport(request):
     json_data=JSONRenderer().render(serailizer.data) 
     return HttpResponse(json_data,content_type='application/json')
    
-
+@api_view(['DELETE'])
 @csrf_exempt 
-def delete_records(request,id):
-     if request.method=='DELETE':
+def delete_records(request):
+        id=request.query_params['id']
       #   json_data=request.body
       #   stream=io.BytesIO(json_data)
       #   python_data=JSONParser().parse(stream)
@@ -689,9 +712,11 @@ def delete_records(request,id):
              json_data=JSONRenderer().render(res)
              return HttpResponse(json_data,content_type='application/json')
 #-----------------------------------------------------------------------------------------------------------
+@api_view(['PUT'])
 @csrf_exempt
-def settings(request,name):
-    if request.method=='PUT':
+def settings(request):
+  
+        name=request.query_params['name']
         try:
          user_objects=config_setting.objects.get(username=name)
         except config_setting.DoesNotExist:
