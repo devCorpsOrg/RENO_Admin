@@ -62,7 +62,7 @@ class User_Product(models.Model):
 class cmsModel(models.Model):     
     pagename=models.CharField(max_length=100)
     pageid=models.CharField(primary_key=True, default=uuid.uuid4,max_length=200)
-    title=models.CharField(max_length=100)
+    # title=models.CharField(max_length=100)
     content=models.CharField(max_length=100)    
     media=models.ImageField(upload_to="my_pic",blank=True)
 

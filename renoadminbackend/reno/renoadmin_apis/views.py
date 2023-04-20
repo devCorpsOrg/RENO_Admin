@@ -363,7 +363,7 @@ def edit_page(request):
        
         pagename=python_data.get('pagename',None)
         # pageid=python_data.get('pageid',None)
-        title=python_data.get('title',None)
+        # title=python_data.get('title',None)
         content=python_data.get('content',None)
         media=python_data.get('media',None)
       
@@ -371,7 +371,7 @@ def edit_page(request):
      
         user_objects.pagename=pagename
         # user_objects.pageid=pageid
-        user_objects.title=title
+        # user_objects.title=title
         user_objects.content=content
         user_objects.media=media
         user_objects.save()
