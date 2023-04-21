@@ -45,34 +45,51 @@ class Userdetails(models.Model):
     is_suspend=models.IntegerField(choices=((0,0),(1,1)),default=0)
     suspend_reason=models.TextField(null=True,blank=True)
 
-class Purchased_item(models.Model):   
+class Purchased_item(models.Model):
+    def nameFile(instance, filename):
+          filename_list = filename.split(".")
+          filename = "purchased"+"_"+instance.p_name+"_"+filename_list[0]+"."+filename_list[-1]
+          return '/'.join(['purchased', str(instance.p_name), filename])
+       
     UserPK=models.ForeignKey(Userdetails,on_delete=models.CASCADE)
     pid=models.CharField(primary_key=True, default=uuid.uuid4,max_length=200)
-    pic=models.ImageField(upload_to="my_pic",blank=True)
+    pic=models.ImageField(upload_to=nameFile,blank=True)
     purchase_date=models.DateField(auto_now_add=True)
     p_rating=models.IntegerField()
     p_name=models.CharField(max_length=100)
     p_url=models.CharField(max_length=100)
 
-class User_Product(models.Model):   
+class User_Product(models.Model):
+    def nameFile(instance, filename):
+          filename_list = filename.split(".")
+          filename = "product"+"_"+instance.p_name+"_"+filename_list[0]+"."+filename_list[-1]
+          return '/'.join(['product', str(instance.p_name), filename])
     UserPK=models.ForeignKey(Userdetails,on_delete=models.CASCADE)
     pid=models.CharField(primary_key=True, default=uuid.uuid4,max_length=200)
-    pic=models.ImageField(upload_to="my_pic",blank=True)
+    pic=models.ImageField(upload_to=nameFile,blank=True)
     purchase_date=models.DateField(auto_now_add=True)
     p_rating=models.IntegerField()
     p_name=models.CharField(max_length=100)
     p_url=models.CharField(max_length=100)
     
-class cmsModel(models.Model):     
+class cmsModel(models.Model):
+    def nameFile(instance, filename):
+          filename_list = filename.split(".")
+          filename = "createpage"+"_"+instance.pagename+"_"+filename_list[0]+"."+filename_list[-1]
+          return '/'.join(['createpage', str(instance.pagename), filename])     
     pagename=models.CharField(max_length=100)
     pageid=models.CharField(primary_key=True, default=uuid.uuid4,max_length=200)
     # title=models.CharField(max_length=100)
     content=models.CharField(max_length=100)    
-    media=models.ImageField(upload_to="my_pic2/pics",blank=True)
+    media=models.ImageField(upload_to=nameFile,blank=True)
 
 class ProjectManagementModel(models.Model):
+    def nameFile(instance, filename):
+          filename_list = filename.split(".")
+          filename = "addproject"+"_"+instance. proj_name+"_"+filename_list[0]+"."+filename_list[-1]
+          return '/'.join(['addproject', str(instance.proj_name), filename])     
    
-    pic=models.ImageField(upload_to="my_pic",blank=True)
+    pic=models.ImageField(upload_to=nameFile,blank=True)
     proj_name=models.CharField(max_length=200)
     proj_category=models.CharField(max_length=500)
     rate=models.IntegerField()    
@@ -92,8 +109,12 @@ class Projectbooking(models.Model):
     proj_category=models.CharField(max_length=100)       
     desc=models.TextField()
     
-class pmsModel(models.Model):   
-    pic=models.ImageField(upload_to="my_pic",blank=True)
+class pmsModel(models.Model): 
+    def nameFile(instance, filename):
+          filename_list = filename.split(".")
+          filename = "addpromoted"+"_"+instance.prod_name+"_"+filename_list[0]+"."+filename_list[-1]
+          return '/'.join(['addpromoted', str(instance.prod_name), filename])       
+    pic=models.ImageField(upload_to=nameFile,blank=True)
     prod_name=models.CharField(max_length=200)
     prod_category=models.CharField(max_length=100)
     inv_count=models.IntegerField()
@@ -101,8 +122,12 @@ class pmsModel(models.Model):
     prod_id=models.CharField(primary_key=True, default=uuid.uuid4,max_length=200)
 
 class SupportDetails(models.Model): 
+    def nameFile(instance, filename):
+          filename_list = filename.split(".")
+          filename = "support"+"_"+instance.registerar+"_"+filename_list[0]+"."+filename_list[-1]
+          return '/'.join(['support', str(instance.registerar), filename]) 
    
-    pic=models.ImageField(upload_to="my_pic",blank=True)   
+    pic=models.ImageField(upload_to=nameFile,blank=True)   
     registerar=models.CharField(max_length=100)
     subject=models.CharField(max_length=100)
     message=models.TextField()
@@ -127,6 +152,7 @@ class config_setting(models.Model):
 
     
 #==========================================================================================================
+
 class Customers(m.Model):
     id = m.CharField(primary_key=True, default=uuid.uuid4, max_length=200)
     usname = m.CharField(max_length=50, blank=False, null=False, unique=True)
