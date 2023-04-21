@@ -124,7 +124,7 @@ class config_setting(models.Model):
     
 #==========================================================================================================
 class Customers(m.Model):
-    id = m.IntegerField(primary_key=True)
+    id = m.CharField(primary_key=True, default=uuid.uuid4, max_length=200)
     usname = m.CharField(max_length=50, blank=False, null=False, unique=True)
     emai = m.CharField(max_length=64)
     role = m.CharField(max_length=50)
@@ -143,7 +143,7 @@ class Customers(m.Model):
 
 
 class Reviews(m.Model):
-    id = m.IntegerField(primary_key=True)
+    id = m.CharField(primary_key=True, default=uuid.uuid4, max_length=200)
     pic_url = m.URLField()
     prod_name = m.CharField(max_length=100, blank=False, null=False)
     review = m.TextField(blank=False, null=False)
@@ -152,7 +152,7 @@ class Reviews(m.Model):
 
 
 class Transactions(m.Model):
-    id = m.IntegerField(primary_key=True)
+    id = m.CharField(primary_key=True, default=uuid.uuid4, max_length=200)
     pic_url = m.URLField()
     prod_name = m.CharField(max_length=100, blank=False, null=False)
     user = m.CharField(max_length=200, blank=False, null=False)
@@ -162,7 +162,7 @@ class Transactions(m.Model):
 
 
 class Products(m.Model):
-    id =m.IntegerField(primary_key=True)
+    id = m.CharField(primary_key=True, default=uuid.uuid4, max_length=200)
     pic_url = m.URLField()
     name = m.CharField(max_length=200, blank=False, null=False)
     category = m.CharField(max_length=200)
@@ -175,7 +175,7 @@ class Products(m.Model):
 
 
 class CRM(m.Model):
-    id = m.IntegerField(primary_key=True)
+    id = m.CharField(primary_key=True, default=uuid.uuid4, max_length=200)
     usname = m.CharField(max_length=50, blank=False, null=False, unique=True)
     pic_url = m.URLField()
     abt = m.TextField()
@@ -183,5 +183,3 @@ class CRM(m.Model):
     net_purchase_amount = m.CharField(max_length=50)
     net_purchase_count = m.IntegerField()
     pts = m.TextField()
-
-
