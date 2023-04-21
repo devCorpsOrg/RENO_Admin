@@ -147,7 +147,7 @@ STATIC_URL = '/static/'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-MEDIA_URL='/http://139.59.236.50/Renoadmin/'
+MEDIA_URL='http://139.59.236.50/Renoadmin/'
 MEDIA_ROOT="/var/www/html/Renoadmin"
 
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
