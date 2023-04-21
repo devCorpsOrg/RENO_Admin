@@ -28,16 +28,20 @@ def password_reset_token_created(sender, instance, reset_password_token, *args, 
 
 
 
-class Userdetails(models.Model):   
+class Userdetails(models.Model): 
+    def nameFile(instance, filename):
+          filename_list = filename.split(".")
+          filename = "usercreate"+"_"+instance.username+"_"+filename_list[0]+"."+filename_list[-1]
+          return '/'.join(['usercreate', str(instance.username), filename])   
     username=models.CharField(max_length=100,unique=True)
-    # about=models.TextField()
-    # name=models.CharField(max_length=100,default='')
-    # status=models.CharField(max_length=100)
+    about=models.TextField(blank=True)
+    name=models.CharField(max_length=100,default='',blank=True)
+    status=models.CharField(max_length=100,blank=True)
     email=models.EmailField(max_length=256)
     phone=models.CharField(max_length=100)
     role=models.CharField(max_length=100)
     uid=models.IntegerField(primary_key=True)
-    pic=models.ImageField(upload_to="my_pic",blank=True)
+    pic=models.ImageField(upload_to=nameFile,blank=True)
     is_suspend=models.IntegerField(choices=((0,0),(1,1)),default=0)
     suspend_reason=models.TextField(null=True,blank=True)
 
@@ -50,7 +54,7 @@ class Purchased_item(models.Model):
     p_name=models.CharField(max_length=100)
     p_url=models.CharField(max_length=100)
 
-class User_Product(models.Model):    
+class User_Product(models.Model):   
     UserPK=models.ForeignKey(Userdetails,on_delete=models.CASCADE)
     pid=models.CharField(primary_key=True, default=uuid.uuid4,max_length=200)
     pic=models.ImageField(upload_to="my_pic",blank=True)
@@ -64,7 +68,7 @@ class cmsModel(models.Model):
     pageid=models.CharField(primary_key=True, default=uuid.uuid4,max_length=200)
     # title=models.CharField(max_length=100)
     content=models.CharField(max_length=100)    
-    media=models.ImageField(upload_to="my_pic",blank=True)
+    media=models.ImageField(upload_to="my_pic2/pics",blank=True)
 
 class ProjectManagementModel(models.Model):
    

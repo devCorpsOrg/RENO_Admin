@@ -4,6 +4,8 @@ from .views import LoginAPI
 from django.urls import path,include
 from .views import ChangePasswordView
 from . import views
+from django.conf import settings
+from django.conf.urls.static import static
 
 urlpatterns = [
     path('register/', RegisterAPI.as_view(), name='register'),
@@ -88,4 +90,4 @@ urlpatterns = [
     path('createrole', views.create_role, name='Create Role'),
     path('searchrole/<str:name>', views.search_role, name='Search Role'),
     path('deleterole/<str:usname>', views.delete_role, name='Delete Role'),
-]
+]+static(settings.MEDIA_URL,document_root=settings.MEDIA_ROOT)

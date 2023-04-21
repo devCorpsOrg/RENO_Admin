@@ -116,7 +116,7 @@ def user_details(request):
             # res={'msg':'Data Not Found'}
             # json_data=JSONRenderer().render(res)
             # return HttpResponse(json_data,content_type='application/json')
-
+    
     serailizer=UserSerializers(info,many=True);
     
     json_data=JSONRenderer().render(serailizer.data) 
@@ -147,16 +147,20 @@ def user_History(request):
             }
         json_data=JSONRenderer().render(res)
         return HttpResponse(json_data,content_type='application/json')
-        
+      
+@api_view(['POST'])       
 @csrf_exempt
 def create_user(request):
-    if request.method=='POST':
-        json_data=request.body
-        stream=io.BytesIO(json_data)
-        python_data=JSONParser().parse(stream)
+    # if request.method=='POST':
+        # pic=request.FILES["pic"]
+        # info=Userdetails.objects.all()
+        # info.pic=pic
+        # json_data=request.body
+        # stream=io.BytesIO(json_data)
+        # python_data=JSONParser().parse(stream)
        
         
-        serializer= UserSerializer5(data=python_data)
+        serializer= UserSerializer5(data=request.data)
         if serializer.is_valid():
             serializer.save()
             res={'msg':'Data Created Successfully'}
@@ -304,15 +308,16 @@ def page(request):
      json_data=JSONRenderer().render(serailizer1.data)
      return HttpResponse(json_data,content_type='application/json') 
     
-
+@api_view(['POST'])
 @csrf_exempt
 def create_page(request):
     if request.method=='POST':
-        json_data=request.body
-        stream=io.BytesIO(json_data)
-        python_data=JSONParser().parse(stream)
+        # json_data=request.body
+        # stream=io.BytesIO(json_data)
+        # python_data=JSONParser().parse(stream)
         # python_data['pageid'] = random.getrandbits(32)
-        serializer= cmsSerializer(data=python_data)
+        serializer= cmsSerializer(data=request.data)
+       
 
         if serializer.is_valid():
             serializer.save()
@@ -411,15 +416,16 @@ def projectbookings(request):
      serailizer1=BookingSerializer(info,many=True);    
      json_data=JSONRenderer().render(serailizer1.data)
      return HttpResponse(json_data,content_type='application/json') 
-
+   
+@api_view(['POST'])
 @csrf_exempt
 def createprojectbookings(request):
     if request.method=='POST':
-        json_data=request.body
-        stream=io.BytesIO(json_data)
-        python_data=JSONParser().parse(stream)
+        # json_data=request.body
+        # stream=io.BytesIO(json_data)
+        # python_data=JSONParser().parse(stream)
        
-        serializer= ProjectbookingSerializer(data=python_data)
+        serializer= ProjectbookingSerializer(data=request.data)
         if serializer.is_valid():
             serializer.save()
             res={'msg':'Data Created Successfully'}
@@ -454,14 +460,15 @@ def featuredprojects(request):
 
 
 
+@api_view(['POST'])
 @csrf_exempt
 def addproject(request):
-    if request.method=='POST':
-        json_data=request.body
-        stream=io.BytesIO(json_data)
-        python_data=JSONParser().parse(stream)
+    # if request.method=='POST':
+        # json_data=request.body
+        # stream=io.BytesIO(json_data)
+        # python_data=JSONParser().parse(stream)
         
-        serializer= ProjectManagementSerializer(data=python_data)
+        serializer= ProjectManagementSerializer(data=request.data)
         if serializer.is_valid():
             serializer.save()
             res={'msg':'Data Created Successfully'}
@@ -604,15 +611,15 @@ def promotions(request):
     # serailizer=cmsSerializer(info);
     # json_data=JSONRenderer().render(serailizer.data) 
     # return HttpResponse(json_data,content_type='application/json')
-
+@api_view(['POST'])
 @csrf_exempt
 def addpromoted(request):
-    if request.method=='POST':
-        json_data=request.body
-        stream=io.BytesIO(json_data)
-        python_data=JSONParser().parse(stream)
+    # if request.method=='POST':
+        # json_data=request.body
+        # stream=io.BytesIO(json_data)
+        # python_data=JSONParser().parse(stream)
        
-        serializer= pmsSerializer(data=python_data)
+        serializer= pmsSerializer(data=request.data)
         if serializer.is_valid():
             serializer.save()
             res={'msg':'Data Created Successfully'}
