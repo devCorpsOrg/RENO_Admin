@@ -116,7 +116,7 @@ def user_details(request):
             # res={'msg':'Data Not Found'}
             # json_data=JSONRenderer().render(res)
             # return HttpResponse(json_data,content_type='application/json')
-
+    
     serailizer=UserSerializers(info,many=True);
     
     json_data=JSONRenderer().render(serailizer.data) 
@@ -147,16 +147,20 @@ def user_History(request):
             }
         json_data=JSONRenderer().render(res)
         return HttpResponse(json_data,content_type='application/json')
-        
+      
+@api_view(['POST'])       
 @csrf_exempt
 def create_user(request):
-    if request.method=='POST':
-        json_data=request.body
-        stream=io.BytesIO(json_data)
-        python_data=JSONParser().parse(stream)
+    # if request.method=='POST':
+        # pic=request.FILES["pic"]
+        # info=Userdetails.objects.all()
+        # info.pic=pic
+        # json_data=request.body
+        # stream=io.BytesIO(json_data)
+        # python_data=JSONParser().parse(stream)
        
         
-        serializer= UserSerializer5(data=python_data)
+        serializer= UserSerializer5(data=request.data)
         if serializer.is_valid():
             serializer.save()
             res={'msg':'Data Created Successfully'}
@@ -304,15 +308,16 @@ def page(request):
      json_data=JSONRenderer().render(serailizer1.data)
      return HttpResponse(json_data,content_type='application/json') 
     
-
+@api_view(['POST'])
 @csrf_exempt
 def create_page(request):
     if request.method=='POST':
-        json_data=request.body
-        stream=io.BytesIO(json_data)
-        python_data=JSONParser().parse(stream)
+        # json_data=request.body
+        # stream=io.BytesIO(json_data)
+        # python_data=JSONParser().parse(stream)
         # python_data['pageid'] = random.getrandbits(32)
-        serializer= cmsSerializer(data=python_data)
+        serializer= cmsSerializer(data=request.data)
+       
 
         if serializer.is_valid():
             serializer.save()
@@ -411,15 +416,16 @@ def projectbookings(request):
      serailizer1=BookingSerializer(info,many=True);    
      json_data=JSONRenderer().render(serailizer1.data)
      return HttpResponse(json_data,content_type='application/json') 
-
+   
+@api_view(['POST'])
 @csrf_exempt
 def createprojectbookings(request):
     if request.method=='POST':
-        json_data=request.body
-        stream=io.BytesIO(json_data)
-        python_data=JSONParser().parse(stream)
+        # json_data=request.body
+        # stream=io.BytesIO(json_data)
+        # python_data=JSONParser().parse(stream)
        
-        serializer= ProjectbookingSerializer(data=python_data)
+        serializer= ProjectbookingSerializer(data=request.data)
         if serializer.is_valid():
             serializer.save()
             res={'msg':'Data Created Successfully'}
@@ -454,14 +460,15 @@ def featuredprojects(request):
 
 
 
+@api_view(['POST'])
 @csrf_exempt
 def addproject(request):
-    if request.method=='POST':
-        json_data=request.body
-        stream=io.BytesIO(json_data)
-        python_data=JSONParser().parse(stream)
+    # if request.method=='POST':
+        # json_data=request.body
+        # stream=io.BytesIO(json_data)
+        # python_data=JSONParser().parse(stream)
         
-        serializer= ProjectManagementSerializer(data=python_data)
+        serializer= ProjectManagementSerializer(data=request.data)
         if serializer.is_valid():
             serializer.save()
             res={'msg':'Data Created Successfully'}
@@ -604,15 +611,15 @@ def promotions(request):
     # serailizer=cmsSerializer(info);
     # json_data=JSONRenderer().render(serailizer.data) 
     # return HttpResponse(json_data,content_type='application/json')
-
+@api_view(['POST'])
 @csrf_exempt
 def addpromoted(request):
-    if request.method=='POST':
-        json_data=request.body
-        stream=io.BytesIO(json_data)
-        python_data=JSONParser().parse(stream)
+    # if request.method=='POST':
+        # json_data=request.body
+        # stream=io.BytesIO(json_data)
+        # python_data=JSONParser().parse(stream)
        
-        serializer= pmsSerializer(data=python_data)
+        serializer= pmsSerializer(data=request.data)
         if serializer.is_valid():
             serializer.save()
             res={'msg':'Data Created Successfully'}
@@ -754,6 +761,7 @@ def settings(request):
 #===========================================================================================================
 #===========================================================================================================
 #===========================================================================================================
+@api_view(['GET'])
 def customers(request):
     customers = Customers.objects.filter(is_suspended=0).only('pic_url', 'member_name', 'phone', 'note', 'inv_count', 'id').all()
     data = serializers.serialize('json', customers)
@@ -761,7 +769,9 @@ def customers(request):
     return HttpResponse(formatted_data, content_type='application/json')
 
 
-def search_customers(request, id):
+@api_view(['GET'])
+def search_customers(request):
+    id = request.query_params['id']    
     customer = Customers.objects.filter(id=id).only('pic_url', 'member_name', 'phone', 'note', 'inv_count', 'id').first()
 
     if customer:
@@ -772,9 +782,10 @@ def search_customers(request, id):
         formatted_data = json.dumps(json.loads(data), indent=4)
         return HttpResponse(formatted_data, content_type='application/json')
     else:
-        return HttpResponseNotFound('Customer not found.')
+        return JsonResponse([], safe=False)
 
 
+@api_view(['GET'])
 def export_customers(request):
     response = HttpResponse(content_type='text/csv')
     response['Content-Disposition'] = 'attachment; filename="renovation_customers.csv"'
@@ -788,8 +799,11 @@ def export_customers(request):
     return response
 
 
-def delete_customer(request, id):
+@api_view(['DELETE'])
+def delete_customer(request):
+    id = request.query_params['id']
     customer = Customers.objects.filter(id=id).first()
+
     if customer:
         customer.delete()
         return HttpResponse('OK', status=200)
@@ -797,32 +811,36 @@ def delete_customer(request, id):
         return HttpResponseNotFound('Customer not found.')
 
 
+@api_view(['PUT'])
 @csrf_exempt
-def edit_customer(request, id):
-    if request.method == 'POST':
-        # customer = Customers.objects.filter(id=id, is_suspended=0).values('id', 'usname', 'emai', 'phone', 'role', 'pic_url', 'note').first()
-        customer = Customers.objects.filter(id=id, is_suspended=0).first()
-        
-        if not customer:
-            return HttpResponseNotFound('Customer not found.')
-        
-        customer.note = request.POST['note']
-        customer.emai = request.POST['emai']
-        customer.member_name = request.POST['member_name']
-        customer.phone = request.POST['phone']
-        customer.pic_url = request.POST['pic_url']
-        customer.role = request.POST['role']
-        customer.id = request.POST['uid']
-        customer.usname = request.POST['usname']
-        
-        customer.save()
+def edit_customer(request):
+    id = request.query_params['id']
+    
+    # customer = Customers.objects.filter(id=id, is_suspended=0).values('id', 'usname', 'emai', 'phone', 'role', 'pic_url', 'note').first()
+    customer = Customers.objects.filter(id=id, is_suspended=0).first()
+    
+    if not customer:
+        return HttpResponseNotFound('Customer not found.')
+    
+    customer.note = request.POST['note']
+    customer.emai = request.POST['emai']
+    customer.member_name = request.POST['member_name']
+    customer.phone = request.POST['phone']
+    customer.pic_url = request.POST['pic_url']
+    customer.role = request.POST['role']
+    customer.id = request.POST['uid']
+    customer.usname = request.POST['usname']
+    
+    customer.save()
 
-        data = serializers.serialize('json', [customer])
-        formatted_data = json.dumps(json.loads(data), indent=4)  # Indent the JSON data
-        return HttpResponse(formatted_data, content_type='application/json')
+    data = serializers.serialize('json', [customer])
+    formatted_data = json.dumps(json.loads(data), indent=4)  # Indent the JSON data
+    return HttpResponse(formatted_data, content_type='application/json')
 
 
-def suspend_customer(request, id):
+@api_view(['GET'])
+def suspend_customer(request):
+    id = request.query_params['id']
     customer = Customers.objects.filter(id=id).first()
     
     if customer:
@@ -833,6 +851,7 @@ def suspend_customer(request, id):
         return HttpResponseNotFound('Customer not found.')
 
 
+@api_view(['GET'])
 def suspended_customers(request):
     customers = Customers.objects.filter(is_suspended=1).all()
 
@@ -842,6 +861,7 @@ def suspended_customers(request):
 
 
 # reviews
+@api_view(['GET'])
 def reviews(request):
     reviews = Reviews.objects.only('prod_name', 'pic_url', 'review', 'amt', 'id').all()
 
@@ -850,7 +870,9 @@ def reviews(request):
     return HttpResponse(formatted_data, content_type='application/json')
 
 
-def delete_review(request, id):
+@api_view(['DELETE'])
+def delete_review(request):
+    id = request.query_params['id']
     review = Reviews.objects.filter(id=id).first()
 
     if review:
@@ -860,7 +882,9 @@ def delete_review(request, id):
         return HttpResponseNotFound('Review not found.')
     
 
-def review(request, id):
+@api_view(['GET'])
+def review(request):
+    id = request.query_params['id']
     review = Reviews.objects.filter(id=id).first()
 
     if review:
@@ -871,6 +895,7 @@ def review(request, id):
         return HttpResponseNotFound('Review not found.')
     
 
+@api_view(['GET'])
 def purchases(request):
     transactions = Transactions.objects.all()
 
@@ -879,7 +904,9 @@ def purchases(request):
     return HttpResponse(formatted_data, content_type='application/json')
 
 
-def search_transactions(request, prod_name):
+@api_view(['GET'])
+def search_transactions(request):
+    prod_name = request.query_params['prod_name']
     transactions = Transactions.objects.filter(prod_name=prod_name).all()
 
     if transactions:
@@ -887,10 +914,11 @@ def search_transactions(request, prod_name):
         formatted_data = json.dumps(json.loads(data), indent=4)  # Indent the JSON data
         return HttpResponse(formatted_data, content_type='application/json')
     else:
-        return HttpResponseNotFound(f'Transactions not found of product: {prod_name}.')
+        return JsonResponse([], safe=False)
 
 
 # IMS - products
+@api_view(['GET'])
 def products(request):
     products = Products.objects.all()
 
@@ -899,7 +927,9 @@ def products(request):
     return HttpResponse(formatted_data, content_type='application/json')
 
 
-def search_products(request, name):
+@api_view(['GET'])
+def search_products(request):
+    name = request.query_params['name']
     product = Products.objects.filter(name=name).first()
 
     if product:
@@ -907,11 +937,16 @@ def search_products(request, name):
         formatted_data = json.dumps(json.loads(data), indent=4)  # Indent the JSON data
         return HttpResponse(formatted_data, content_type='application/json')
     else:
-        return HttpResponseNotFound('Product not found.')
+        return JsonResponse([], safe=False)
 
 
-def export_products(request, file_format):
+@api_view(['GET'])
+def export_products(request):
+    file_format = request.query_params['file_format']
     products = Products.objects.all()
+
+    if (file_format == 'json' or file_format == 'csv') and not products:
+        return JsonResponse([], safe=False)
     
     if file_format == 'json':
         data = serializers.serialize('json', products)
@@ -933,8 +968,10 @@ def export_products(request, file_format):
         return HttpResponseBadRequest('Invalid file format..')
 
 
+@api_view(['PUT'])
 @csrf_exempt
-def edit_products(request, id):
+def edit_products(request):
+    id = request.query_params['id']
     product = Products.objects.filter(id=id).first()
 
     if product:
@@ -953,6 +990,7 @@ def edit_products(request, id):
         return HttpResponseNotFound('Product not found.')
 
 
+@api_view(['POST'])
 @csrf_exempt
 def add_products(request):
     if request.method == 'POST':
@@ -973,7 +1011,9 @@ def add_products(request):
         return HttpResponseBadRequest('Invalid request type.')
 
 
-def delete_products(request, id):
+@api_view(['DELETE'])
+def delete_products(request):
+    id = request.query_params['id']
     product = Products.objects.filter(id=id).first()
 
     if product:
@@ -983,11 +1023,13 @@ def delete_products(request, id):
         return HttpResponseNotFound('Product not found.')
 
 
-def export_featured_products(request, file_format):
+@api_view(['GET'])
+def export_featured_products(request):
+    file_format = request.query_params['file_format']
     products = Products.objects.filter(featured_flag=1).all()
     
     if (file_format == 'json' or file_format == 'csv') and not products:
-        return JsonResponse({404: 'Featured Products not found.'})
+        return JsonResponse([], safe=False)
     
     elif file_format == 'json':
         data = serializers.serialize('json', products)
@@ -1009,6 +1051,7 @@ def export_featured_products(request, file_format):
         return HttpResponseBadRequest('Invalid file format..')
 
 
+@api_view(['GET'])
 def featured_products(request):
     products = Products.objects.filter(featured_flag=1).all()
 
@@ -1021,6 +1064,7 @@ def featured_products(request):
 
 
 # CRM - members
+@api_view(['GET'])
 def members(request):
     members = CRM.objects.all()
     data = serializers.serialize('json', members)
@@ -1028,7 +1072,9 @@ def members(request):
     return HttpResponse(formatted_data, content_type='application/json')
 
 
-def search_member(request, usname):
+@api_view(['GET'])
+def search_member(request):
+    usname = request.query_params['usname']
     member = CRM.objects.filter(usname=usname).first()
 
     if member:
@@ -1036,10 +1082,12 @@ def search_member(request, usname):
         formatted_data = json.dumps(json.loads(data), indent=4)
         return HttpResponse(formatted_data, content_type='application/json')
     else:
-        return HttpResponseNotFound('Member not found.')
+        return JsonResponse([], safe=False)
     
 
-def delete_member(request, usname):
+@api_view(['DELETE'])
+def delete_member(request):
+    usname = request.query_params['usname']
     member = CRM.objects.filter(usname=usname).first()
 
     if member:
@@ -1047,9 +1095,11 @@ def delete_member(request, usname):
         return HttpResponse(f'Member with username: {usname} deleted successfully.', status=200)
     else:
         return HttpResponseNotFound('Member not found.')
-    
 
-def member_details(request, usname):
+
+@api_view(['GET'])
+def member_details(request):
+    usname = request.query_params['usname']
     member = CRM.objects.filter(usname=usname).first()
 
     if member:
@@ -1057,10 +1107,12 @@ def member_details(request, usname):
         formatted_data = json.dumps(json.loads(data), indent=4)
         return HttpResponse(formatted_data, content_type='application/json')
     else:
-        return HttpResponseNotFound('Member not found.')
+        return JsonResponse([], safe=False)
     
 
-def export_members(request, file_format):
+@api_view(['GET'])
+def export_members(request):
+    file_format = request.query_params['file_format']
     if file_format == 'json':
         members = CRM.objects.all()
         data = serializers.serialize('json', members)
@@ -1079,10 +1131,9 @@ def export_members(request, file_format):
 
     return response
 
+@api_view(['GET'])
 def roles(request):
     # users = Users.objects.only('usname', 'name', 'email', 'role', 'status').all()
-  if request.method=='GET':
-        
     try:
         info=Userdetails.objects.all() 
     except Userdetails.DoesNotExist:
@@ -1100,22 +1151,22 @@ def roles(request):
     # return HttpResponse(formatted_data, content_type='application/json')
     
 
-
+@api_view(['POST'])
 def create_role(request):
-    if request.method == 'POST':
-        # usname,name,email,role(admin/marketplace/superadmin),status
-        username = request.POST['username']
-        # user = Users.objects.filter(usname=usname).first()
-        username = request.POST['username']
-        user = Userdetails.objects.filter(username=username).first()
-        if user:
-            role = request.POST['role']
-            if role == 'admin' or role == 'marketplace' or role == 'superadmin':
-              return HttpResponse(f'User role for username: {username} created successfully.')
+    # usname,name,email,role(admin/marketplace/superadmin),status
+    username = request.POST['username']
+    # user = Users.objects.filter(usname=usname).first()
+    username = request.POST['username']
+    user = Userdetails.objects.filter(username=username).first()
+    if user:
+        role = request.POST['role']
+        if role == 'admin' or role == 'marketplace' or role == 'superadmin':
+            return HttpResponse(f'User role for username: {username} created successfully.')
 
 
-
-def search_role(request, name):
+@api_view(['GET'])
+def search_role(request):
+    name = request.query_params['name']
     # users = Users.objects.filter(name=name).only('usname', 'name', 'role', 'status').all()
     users = Userdetails.objects.filter(name=name).only('username', 'name', 'role', 'status').all()
 
@@ -1128,7 +1179,9 @@ def search_role(request, name):
         # return HttpResponseNotFound(f'User(s) with name: {name} not found.')
 
 
-def delete_role(request, usname):
+@api_view(['DELETE'])
+def delete_role(request):
+    usname = request.query_params['usname']
     # user = Users.objects.filter(usname=usname).first()
     user = Userdetails.objects.filter(username=usname).first()
 
