@@ -88,12 +88,7 @@ urlpatterns = [
     
     path('roles', views.roles, name='Roles'),
     path('createrole', views.create_role, name='Create Role'),
-<<<<<<< HEAD
-    path('searchrole/<str:name>', views.search_role, name='Search Role'),
-    path('deleterole/<str:usname>', views.delete_role, name='Delete Role'),
-]+static(settings.MEDIA_URL,document_root=settings.MEDIA_ROOT)
-=======
     path('searchrole', views.search_role, name='Search Role'),
     path('deleterole', views.delete_role, name='Delete Role'),
-]
->>>>>>> 3134fa7c211f146c27ad1c8fc4ffbe5bbdb36176
+]+static(settings.MEDIA_URL,document_root=settings.MEDIA_ROOT)
+
