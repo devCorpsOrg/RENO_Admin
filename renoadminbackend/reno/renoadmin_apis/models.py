@@ -117,9 +117,11 @@ class pmsModel(models.Model):
     pic=models.ImageField(upload_to=nameFile,blank=True)
     prod_name=models.CharField(max_length=200)
     prod_category=models.CharField(max_length=100)
-    inv_count=models.IntegerField()
-    rate=models.IntegerField()        
+    inv_count=models.IntegerField(blank=True,default=0)
+    rate=models.IntegerField(blank=True)        
     prod_id=models.CharField(primary_key=True, default=uuid.uuid4,max_length=200)
+    project_details=models.CharField(max_length=200,default="")
+   
 
 class SupportDetails(models.Model): 
     def nameFile(instance, filename):

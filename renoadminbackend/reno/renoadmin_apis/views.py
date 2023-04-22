@@ -661,6 +661,7 @@ def editpromoted(request):
         prod_category=python_data.get('prod_category',None)
         inv_count=python_data.get('inv_count',None)
         rate=python_data.get('rate',None)
+        project_details=python_data.get('project_details',None)
         # prod_id=python_data.get('prod_id',None)
       
         
@@ -669,6 +670,7 @@ def editpromoted(request):
         user_objects.prod_category=prod_category
         user_objects.inv_count= inv_count
         user_objects.rate= rate
+        user_objects.project_details=project_details
         # user_objects. prod_id= prod_id
         user_objects.save()
         serailizer=pmsSerializer(user_objects)
