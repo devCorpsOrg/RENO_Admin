@@ -16,7 +16,7 @@ from .models import Userdetails
 from .models import Purchased_item
 from .models import User_Product,config_setting
 # from .models import SuspendUser
-from .serializers import UserSerializer,UserSerializer2
+from .serializers import UserSerializer,UserSerializer2,listingsSerializer
 from .serializers import UserSerializer1, PurchasedSerializer, ProductSerializer ,ProjectbookingSerializer,UserSerializer5
 # from .serializers import SuspendUserSerializer
 from rest_framework.renderers import JSONRenderer
@@ -196,18 +196,18 @@ def edit_user(request):
          return HttpResponse(json_data,content_type='application/json')
 
      
-        json_data=request.body
-        stream=io.BytesIO(json_data)
-        python_data=JSONParser().parse(stream)
+        data=request.body
+        # stream=io.BytesIO(json_data)
+        # python_data=JSONParser().parse(stream)
         
-        username=python_data.get('username',None)
-        name=python_data.get('name',None)
-        status=python_data.get('status',None)
-        email=python_data.get('email',None)
-        phone=python_data.get('phone',None)
-        role=python_data.get('role',None)
+        username=data['username']
+        name=data['name']
+        status=data['status']
+        email=data['email']
+        phone=data['phone']
+        role=data['role']
         # uid=python_data.get('uid',None)
-        pic=python_data.get('pic',None)
+        pic=data['pic']
         # about=python_data.get('about',None)
         # is_suspend=python_data.get('is_suspend',None)
         # suspend_reason=python_data.get('suspend_reason',None)
@@ -362,15 +362,15 @@ def edit_page(request):
          return HttpResponse(json_data,content_type='application/json')
         
        
-        json_data=request.body
-        stream=io.BytesIO(json_data)
-        python_data=JSONParser().parse(stream)
+        data=request.body
+        # stream=io.BytesIO(json_data)
+        # python_data=JSONParser().parse(stream)
        
-        pagename=python_data.get('pagename',None)
+        pagename=data['pagename']
         # pageid=python_data.get('pageid',None)
         # title=python_data.get('title',None)
-        content=python_data.get('content',None)
-        media=python_data.get('media',None)
+        content=data['content']
+        media=data['media']
       
         
      
@@ -530,17 +530,17 @@ def editproject(request):
          json_data=JSONRenderer().render(res)
          return HttpResponse(json_data,content_type='application/json')
 
-        json_data=request.body
-        stream=io.BytesIO(json_data)
-        python_data=JSONParser().parse(stream)
+        data=request.body
+        # stream=io.BytesIO(json_data)
+        # python_data=JSONParser().parse(stream)
         
-        pic=python_data.get('pic',None)
-        proj_name=python_data.get('prod_name',None)
-        proj_category=python_data.get('prod_category',None)
-        rate=python_data.get('rate',None)
-        review=python_data.get('review',None)
-        details=python_data.get('details',None)
-        project_type=python_data.get('project_type',None)
+        pic=data['pic']
+        proj_name=data['prod_name']
+        proj_category=data['prod_category']
+        rate=data['rate']
+        review=data['review']
+        details=data['details']
+        project_type=data['project_type']
         # proj_id=python_data.get('proj_id',None)        
         user_objects.pic= pic
         user_objects.proj_name= proj_name
@@ -652,16 +652,16 @@ def editpromoted(request):
          json_data=JSONRenderer().render(res)
          return HttpResponse(json_data,content_type='application/json')
         
-        json_data=request.body
-        stream=io.BytesIO(json_data)
-        python_data=JSONParser().parse(stream)
+        data=request.body
+        # stream=io.BytesIO(json_data)
+        # python_data=JSONParser().parse(stream)
         
-        pic=python_data.get('pic',None)
-        prod_name=python_data.get('prod_name',None)
-        prod_category=python_data.get('prod_category',None)
-        inv_count=python_data.get('inv_count',None)
-        rate=python_data.get('rate',None)
-        project_details=python_data.get('project_details',None)
+        pic=data['pic']
+        prod_name=data['prod_name']
+        prod_category=data['prod_category']
+        inv_count=data['inv_count']
+        rate=data['rate']
+        project_details=data['project_details']
         # prod_id=python_data.get('prod_id',None)
       
         
@@ -757,7 +757,113 @@ def settings(request):
         res={'msg':'Data updated Successfully'}
         json_data=JSONRenderer().render(res)
         return HttpResponse(json_data,content_type='application/json')
+#---------------------------------------------------------------------------------------------------------------
+@csrf_exempt
+def listing(request):
+   if request.method=='GET':
+   
+    try:
+        info=listings.objects.all()
+    except listings.DoesNotExist:
+            return []
+            # res={'msg':'Data Not Found'}
+            # json_data=JSONRenderer().render(res)
+            # return HttpResponse(json_data,content_type='application/json')
+    
+    serailizer=listingsSerializer(info,many=True);
+    
+    json_data=JSONRenderer().render(serailizer.data) 
+    return HttpResponse(json_data,content_type='application/json')
 
+      
+@api_view(['POST'])       
+@csrf_exempt
+def add_listing(request):
+    # if request.method=='POST':
+        # pic=request.FILES["pic"]
+        # info=Userdetails.objects.all()
+        # info.pic=pic
+        # json_data=request.body
+        # stream=io.BytesIO(json_data)
+        # python_data=JSONParser().parse(stream)
+       
+        
+        serializer= listingsSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            res={'msg':'Data Created Successfully'}
+            json_data=JSONRenderer().render(res)
+            return HttpResponse(json_data,content_type='application/json')
+        return HttpResponse(JSONRenderer().render(serializer.errors),content_type='application/json')
+
+@api_view()
+@csrf_exempt
+def search_listing(request):
+     if request.method=='GET':
+            id=request.query_params['id']
+            try:
+              info=listings.objects.get(id=id)
+            except listings.DoesNotExist:
+              res={'msg':'Data Not Found'}
+              json_data=JSONRenderer().render(res)
+              return HttpResponse(json_data,content_type='application/json')
+            serailizer=listingsSerializer(info);
+            json_data=JSONRenderer().render(serailizer.data) 
+            return HttpResponse(json_data,content_type='application/json')
+     
+@api_view(['PUT'])   
+@csrf_exempt    
+def edit_listing(request):
+     id=request.query_params['id']
+     if request.method=='PUT':
+        try:
+         user_objects=listings.objects.get(id=id)
+        except listings.DoesNotExist:
+         res={'msg':'username Not Found'}
+         json_data=JSONRenderer().render(res)
+         return HttpResponse(json_data,content_type='application/json')
+
+     
+        data=request.data
+        # stream=io.BytesIO(json_data)
+        # python_data=JSONParser().parse(stream)
+        
+        service=data['service']
+        desc=data['desc']  
+        pic_url=data['pic_url']
+        rate=data['rate']
+        print(service)
+        user_objects.service=service
+        user_objects.desc=desc
+        user_objects.pic_url= pic_url
+        user_objects.rate=rate
+       
+        user_objects.save()
+        res={'msg':'Data updated Successfully'}
+        json_data=JSONRenderer().render(res)
+        return HttpResponse(json_data,content_type='application/json')
+                    
+
+@api_view(['DELETE'])
+@csrf_exempt        
+def delete_listing(request):
+          id=request.query_params['id']
+        # json_data=request.body
+        # stream=io.BytesIO(json_data)
+        # python_data=JSONParser().parse(stream)
+        # id=python_data.get('id',None)
+        # if id is not None:
+          try:
+             info=listings.objects.get(id=id)
+          except listings.DoesNotExist:
+             res={'msg':'not present'}
+             json_data=JSONRenderer().render(res)
+             return HttpResponse(json_data,content_type='application/json')
+             
+          info.delete()
+          res={'msg':'deleted Successfully'}
+          json_data=JSONRenderer().render(res)
+          return HttpResponse(json_data,content_type='application/json')
 
 
 #===========================================================================================================

@@ -95,7 +95,7 @@ class ProjectManagementModel(models.Model):
     rate=models.IntegerField()    
     review=models.IntegerField(default=0,blank=True)
     details=models.TextField()       
-    project_type=models.CharField(max_length=100)       
+    project_type=models.CharField(max_length=100,blank=True)       
     proj_id=models.CharField(primary_key=True, default=uuid.uuid4,max_length=200)
 
 class Projectbooking(models.Model):
@@ -144,6 +144,19 @@ class config_setting(models.Model):
      email=models.CharField(max_length=100)
      smtp_details =models.CharField(max_length=100)
 
+class listings(models.Model):
+      def nameFile(instance, filename):
+          filename_list = filename.split(".")
+          filename = "listings"+"_"+instance.service+"_"+filename_list[0]+"."+filename_list[-1]
+          return '/'.join(['listings', str(instance.service), filename])     
+   
+      pic_url=models.ImageField(upload_to=nameFile,blank=True)
+      id=models.CharField(primary_key=True, default=uuid.uuid4,max_length=200)
+      service=models.CharField(max_length=100)
+      desc=models.CharField(max_length=100)
+      rate=models.IntegerField(blank=True)
+    
+   
 # class dashboard(models.Model):
 #      id=models.CharField(primary_key=True, default=uuid.uuid4,max_length=200)
 #      username=models.CharField(max_length=100,unique=True,default="")

@@ -15,5 +15,6 @@ admin.site.register(Transactions)
 admin.site.register(Products)
 admin.site.register(CRM)
 admin.site.register(config_setting)
+admin.site.register(listings)
 
  

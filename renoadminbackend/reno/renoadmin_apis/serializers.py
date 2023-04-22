@@ -7,7 +7,7 @@ from .models import cmsModel
 from .models import ProjectManagementModel
 from .models import Projectbooking
 from .models import pmsModel
-from .models import SupportDetails
+from .models import SupportDetails,listings
 
 
 # User Serializer
@@ -127,3 +127,9 @@ class SupportSerializer(serializers.ModelSerializer):
     class Meta:
         model=SupportDetails
         fields="__all__"
+#------------------------------------------------------------------------------------------------------------
+class listingsSerializer(serializers.ModelSerializer):
+    
+    class Meta:
+        model=listings
+        fields=('pic_url','service','desc','rate')

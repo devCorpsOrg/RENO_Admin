@@ -52,7 +52,12 @@ urlpatterns = [
     path('deleterecord/',views.delete_records,name="deleterecord"),
 #============================================================================================================
     path('setting/',views.settings,name="settings"),
-   
+#==============================================================================================================
+    path('listings/',views.listing,name="listing"),
+    path('addlisting/',views.add_listing,name="add_listing"),
+    path('searchlisting/',views.search_listing,name="search_listing"),
+    path('editlisting/',views.edit_listing,name="edit_listing"),
+    path('deletelisting/',views.delete_listing,name="delete_listing"),
 
 #==============================================================================================================
 
