@@ -196,7 +196,7 @@ def edit_user(request):
          return HttpResponse(json_data,content_type='application/json')
 
      
-        data=request.body
+        data=request.data
         # stream=io.BytesIO(json_data)
         # python_data=JSONParser().parse(stream)
         
@@ -208,6 +208,7 @@ def edit_user(request):
         role=data['role']
         # uid=python_data.get('uid',None)
         pic=data['pic']
+        uid=data['uid']
         # about=python_data.get('about',None)
         # is_suspend=python_data.get('is_suspend',None)
         # suspend_reason=python_data.get('suspend_reason',None)
@@ -220,12 +221,12 @@ def edit_user(request):
         user_objects.email=email
         user_objects.phone=phone
         user_objects.role=role
-        # user_objects.uid=uid
+        user_objects.uid=uid
         user_objects.pic=pic
         # user_objects.about=about
         # user_objects.is_suspend=is_suspend
         # user_objects.suspend_reason=suspend_reason
-        user_objects.name=name
+        # user_objects.name=name
         # user_objects.status=status
         user_objects.save()
         res={'msg':'Data updated Successfully'}
@@ -362,7 +363,7 @@ def edit_page(request):
          return HttpResponse(json_data,content_type='application/json')
         
        
-        data=request.body
+        data=request.data
         # stream=io.BytesIO(json_data)
         # python_data=JSONParser().parse(stream)
        
@@ -530,7 +531,7 @@ def editproject(request):
          json_data=JSONRenderer().render(res)
          return HttpResponse(json_data,content_type='application/json')
 
-        data=request.body
+        data=request.data
         # stream=io.BytesIO(json_data)
         # python_data=JSONParser().parse(stream)
         
@@ -652,7 +653,7 @@ def editpromoted(request):
          json_data=JSONRenderer().render(res)
          return HttpResponse(json_data,content_type='application/json')
         
-        data=request.body
+        data=request.data
         # stream=io.BytesIO(json_data)
         # python_data=JSONParser().parse(stream)
         
@@ -1024,7 +1025,7 @@ def search_transactions(request):
     else:
         return JsonResponse([], safe=False)
 
-
+#19fb320a59ed89e51795724776fa5550e6792188d0222e9486ccdb8bd59a5c0d
 # IMS - products
 @api_view(['GET'])
 def products(request):

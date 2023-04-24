@@ -35,13 +35,13 @@ class Userdetails(models.Model):
           return '/'.join(['usercreate', str(instance.username), filename])   
     username=models.CharField(max_length=100,unique=True)
     about=models.TextField(blank=True)
-    name=models.CharField(max_length=100,default='',blank=True)
+    name=models.CharField(max_length=100,blank=True)
     status=models.CharField(max_length=100,blank=True)
     email=models.EmailField(max_length=256)
     phone=models.CharField(max_length=100)
     role=models.CharField(max_length=100)
     uid=models.IntegerField(primary_key=True)
-    pic=models.ImageField(upload_to=nameFile,blank=True)
+    pic=models.ImageField(upload_to=nameFile)
     is_suspend=models.IntegerField(choices=((0,0),(1,1)),default=0)
     suspend_reason=models.TextField(null=True,blank=True)
 
@@ -81,7 +81,7 @@ class cmsModel(models.Model):
     pageid=models.CharField(primary_key=True, default=uuid.uuid4,max_length=200)
     # title=models.CharField(max_length=100)
     content=models.CharField(max_length=100)    
-    media=models.ImageField(upload_to=nameFile,blank=True)
+    media=models.ImageField(upload_to=nameFile)
 
 class ProjectManagementModel(models.Model):
     def nameFile(instance, filename):
@@ -89,7 +89,7 @@ class ProjectManagementModel(models.Model):
           filename = "addproject"+"_"+instance. proj_name+"_"+filename_list[0]+"."+filename_list[-1]
           return '/'.join(['addproject', str(instance.proj_name), filename])     
    
-    pic=models.ImageField(upload_to=nameFile,blank=True)
+    pic=models.ImageField(upload_to=nameFile)
     proj_name=models.CharField(max_length=200)
     proj_category=models.CharField(max_length=500)
     rate=models.IntegerField()    
@@ -114,13 +114,13 @@ class pmsModel(models.Model):
           filename_list = filename.split(".")
           filename = "addpromoted"+"_"+instance.prod_name+"_"+filename_list[0]+"."+filename_list[-1]
           return '/'.join(['addpromoted', str(instance.prod_name), filename])       
-    pic=models.ImageField(upload_to=nameFile,blank=True)
+    pic=models.ImageField(upload_to=nameFile)
     prod_name=models.CharField(max_length=200)
     prod_category=models.CharField(max_length=100)
     inv_count=models.IntegerField(blank=True,default=0)
     rate=models.IntegerField(blank=True)        
     prod_id=models.CharField(primary_key=True, default=uuid.uuid4,max_length=200)
-    project_details=models.CharField(max_length=200,default="")
+    project_details=models.CharField(max_length=200)
    
 
 class SupportDetails(models.Model): 
@@ -129,7 +129,7 @@ class SupportDetails(models.Model):
           filename = "support"+"_"+instance.registerar+"_"+filename_list[0]+"."+filename_list[-1]
           return '/'.join(['support', str(instance.registerar), filename]) 
    
-    pic=models.ImageField(upload_to=nameFile,blank=True)   
+    pic=models.ImageField(upload_to=nameFile)   
     registerar=models.CharField(max_length=100)
     subject=models.CharField(max_length=100)
     message=models.TextField()
@@ -150,7 +150,7 @@ class listings(models.Model):
           filename = "listings"+"_"+instance.service+"_"+filename_list[0]+"."+filename_list[-1]
           return '/'.join(['listings', str(instance.service), filename])     
    
-      pic_url=models.ImageField(upload_to=nameFile,blank=True)
+      pic_url=models.ImageField(upload_to=nameFile)
       id=models.CharField(primary_key=True, default=uuid.uuid4,max_length=200)
       service=models.CharField(max_length=100)
       desc=models.CharField(max_length=100)
