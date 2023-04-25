@@ -536,8 +536,8 @@ def editproject(request):
         # python_data=JSONParser().parse(stream)
         
         pic=data['pic']
-        proj_name=data['prod_name']
-        proj_category=data['prod_category']
+        proj_name=data['proj_name']
+        proj_category=data['proj_category']
         rate=data['rate']
         review=data['review']
         details=data['details']
