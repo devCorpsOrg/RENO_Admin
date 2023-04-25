@@ -191,7 +191,7 @@ def edit_user(request):
         try:
          user_objects=Userdetails.objects.get(uid=id)
         except Userdetails.DoesNotExist:
-         res={'msg':'username Not Found'}
+         res={'msg':'id Not Found'}
          json_data=JSONRenderer().render(res)
          return HttpResponse(json_data,content_type='application/json')
 
@@ -201,8 +201,8 @@ def edit_user(request):
         # python_data=JSONParser().parse(stream)
         
         username=data['username']
-        name=data['name']
-        status=data['status']
+        # name=data['name']
+        # status=data['status']
         email=data['email']
         phone=data['phone']
         role=data['role']
@@ -536,8 +536,8 @@ def editproject(request):
         # python_data=JSONParser().parse(stream)
         
         pic=data['pic']
-        proj_name=data['prod_name']
-        proj_category=data['prod_category']
+        proj_name=data['proj_name']
+        proj_category=data['proj_category']
         rate=data['rate']
         review=data['review']
         details=data['details']
