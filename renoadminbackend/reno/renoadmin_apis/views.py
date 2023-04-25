@@ -44,7 +44,7 @@ from django.http import JsonResponse, HttpResponseNotFound, HttpResponseBadReque
 from django.core import serializers
 import json
 import csv
-from django.http import HttpResponse
+from django.http import HttpResponse, QueryDict
 import time
 
 
@@ -931,14 +931,16 @@ def edit_customer(request):
     if not customer:
         return HttpResponseNotFound('Customer not found.')
     
-    customer.note = request.POST['note']
-    customer.emai = request.POST['emai']
-    customer.member_name = request.POST['member_name']
-    customer.phone = request.POST['phone']
-    customer.pic_url = request.POST['pic_url']
-    customer.role = request.POST['role']
-    customer.id = request.POST['uid']
-    customer.usname = request.POST['usname']
+    params = QueryDict(request.body)
+    customer.note = params['note']
+    customer.emai = params['emai']
+    customer.member_name = params['member_name']
+    customer.phone = params['phone']
+    # if 'pic_url' in request.FILES:
+    #     customer.pic_url = request.FILES['pic_url']
+    customer.role = params['role']
+    customer.id = params['uid']
+    customer.usname = params['usname']
     
     customer.save()
 
@@ -1084,13 +1086,13 @@ def edit_products(request):
     product = Products.objects.filter(id=id).first()
 
     if product:
-        product.name = request.POST['prod_name']
-        product.category = request.POST['prod_category']
-        product.proj_category = request.POST['proj_category']
-        product.rate = request.POST['rate']
-        product.inv_count = request.POST['inv_count']
-        product.pic_url = request.POST['pic_url']
-        product.details = request.POST['details']
+        params = QueryDict(request.body)
+        product.name = params['prod_name']
+        product.category = params['prod_category']
+        product.proj_category = params['proj_category']
+        product.rate = params['rate']
+        product.inv_count = params['inv_count']
+        product.details = params['details']
 
         product.save()
 
@@ -1108,7 +1110,9 @@ def add_products(request):
         proj_category = request.POST['proj_category']
         rate = request.POST['rate']
         inv_count = request.POST['inv_count']
-        pic_url = request.POST['pic_url']
+        pic_url = None
+        if 'pic_url' in request.FILES:
+            pic_url = request.FILES['pic_url']            
         details = request.POST['details']
         featured_flag = int(request.POST['featured_flag'])
 
@@ -1299,3 +1303,103 @@ def delete_role(request):
         return HttpResponse(f'User with username: {usname} deleted successfully.', status=200)
     else:
         return HttpResponseNotFound('User not found.')
+
+
+@api_view(['GET'])
+def categories(request):
+    categories = Categories.objects.all()
+    data = serializers.serialize('json', categories)
+    formatted_data = json.dumps(json.loads(data), indent=4)
+    return HttpResponse(formatted_data, content_type='application/json')
+
+
+@api_view(['GET'])
+def search_category(request):
+    prod_category = request.query_params['prod_category']
+    category = Categories.objects.filter(prod_category=prod_category)
+    data = serializers.serialize('json', category)
+    formatted_data = json.dumps(json.loads(data), indent=4)
+    return HttpResponse(formatted_data, content_type='application/json')
+
+
+@api_view(['GET'])
+def export_categories(request):
+    response = HttpResponse(content_type='text/csv')
+    response['Content-Disposition'] = 'attachment; filename="categories.csv"'
+
+    writer = csv.writer(response)
+    writer.writerow(['id', 'prod_category', 'pic_url'])
+
+    for category in Categories.objects.all():
+        writer.writerow([category.id, category.prod_category, category.pic_url])
+
+    return response
+
+
+@api_view(['POST'])
+def add_category(request):
+    prod_category = request.POST['prod_category']
+    pic_url = None
+    if 'pic_url' in request.FILES:
+        pic_url = request.FILES['pic_url']
+
+    category = Categories(prod_category=prod_category, pic_url=pic_url)
+    category.save()
+
+    return HttpResponse(f'Category: {prod_category} added successfully.', status=200)
+
+
+@api_view(['PUT'])
+def edit_category(request):
+    id = request.query_params['catgid']
+    category = Categories.objects.filter(id=id).first()
+    
+    if category:
+        data = request.data
+        category.prod_category = data['prod_category']
+        category.save()
+
+        return HttpResponse(f'Category with ID: {id} edited successfully.', status=200)
+    else:
+        return HttpResponseNotFound('Category not found.')
+
+
+@api_view(['DELETE'])
+def delete_category(request):
+    id = request.query_params['catgid']
+    category = Categories.objects.filter(id=id).first()
+
+    if category:
+        category.delete()
+        return HttpResponse(f'Category with ID: {id} deleted successfully.', status=200)
+    else:
+        return HttpResponseNotFound('Category not found.')
+    
+
+@api_view(['GET'])
+def deals(request):
+    deals = Deals.objects.all()
+    data = serializers.serialize('json', deals)
+    formatted_data = json.dumps(json.loads(data), indent=4)
+    return HttpResponse(formatted_data, content_type='application/json')
+
+
+@api_view(['GET'])
+def search_deals(request):
+    requester = request.query_params['requester']
+    deals = Deals.objects.filter(requester=requester).all()
+    data = serializers.serialize('json', deals)
+    formatted_data = json.dumps(json.loads(data), indent=4)
+    return HttpResponse(formatted_data, content_type='application/json')
+
+
+@api_view(['DELETE'])
+def delete_deal(request):
+    id = request.query_params['d_id']
+    deal = Deals.objects.filter(id=id).first()
+
+    if deal:
+        deal.delete()
+        return HttpResponse(f'Deal with ID: {id} deleted successfully.', status=200)
+    else:
+        return HttpResponseNotFound('Deal not found.')

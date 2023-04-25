@@ -95,5 +95,15 @@ urlpatterns = [
     path('createrole', views.create_role, name='Create Role'),
     path('searchrole', views.search_role, name='Search Role'),
     path('deleterole', views.delete_role, name='Delete Role'),
-]+static(settings.MEDIA_URL,document_root=settings.MEDIA_ROOT)
 
+    path('categories', views.categories, name='Categories'),
+    path('searchcategory', views.search_category, name='Search Category'),
+    path('exportcategories', views.export_categories, name='Export Categories'),
+    path('addcategory', views.add_category, name='Add Category'),
+    path('editcategory', views.edit_category, name='Edit Category'),
+    path('deletecategory', views.delete_category, name='Delete Category'),
+
+    path('deals', views.deals, name='Deals'),
+    path('searchdeals', views.search_deals, name='Search Deals'),
+    path('deletedeal', views.delete_deal, name='Delete Deal')
+]+static(settings.MEDIA_URL,document_root=settings.MEDIA_ROOT)
