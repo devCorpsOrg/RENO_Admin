@@ -201,8 +201,8 @@ def edit_user(request):
         # python_data=JSONParser().parse(stream)
         
         username=data['username']
-        name=data['name']
-        status=data['status']
+        # name=data['name']
+        # status=data['status']
         email=data['email']
         phone=data['phone']
         role=data['role']
