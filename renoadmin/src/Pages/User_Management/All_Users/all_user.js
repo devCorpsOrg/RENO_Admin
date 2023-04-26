@@ -1,13 +1,14 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import Table from "../../../UI/CommonTable/Table";
 import { deleteIcon, Photo, View } from "./Assets/index";
 import TopHeader from "../../../UI/TopHeader/TopHeader";
 import { useNavigate } from "react-router-dom";
+import axios from "axios";
 
 // Component inside action column
 const Action = () => {
   return (
-    <div className="flex gap-3 items-center">
+    <div className="flex gap-3 items-center mr-10">
       <button className="bg-[#8FC743] hover:bg-lime-600 h-10 w-28 text-white px-3 py-1 rounded">
         Suspend
       </button>
@@ -27,75 +28,70 @@ const ProfilePhoto = () => {
   );
 };
 
-const columns = [
-  {
-    header: "Photo",
-    accessor: "photo",
-  },
-  {
-    header: "Username",
-    accessor: "username",
-  },
-  {
-    header: "Email Address",
-    accessor: "emailaddress",
-  },
-  {
-    header: "Contact No.",
-    accessor: "contact",
-  },
-  {
-    header: "User Type",
-    accessor: "usertype",
-  },
-  {
-    header: "User ID",
-    accessor: "userid",
-  },
-  {
-    header: "Action",
-    accessor: "action",
-  },
-];
-
-const data = [
-  {
-    photo: <ProfilePhoto />,
-    username: "Adrian",
-    emailaddress: "Adrian@sample.com",
-    contact: `+65 ${12345678}`,
-    usertype: "Manager",
-    userid: `#${1234}`,
-    action: <Action />,
-  },
-  {
-    photo: <ProfilePhoto />,
-    username: "Adrian",
-    emailaddress: "Adrian@sample.com",
-    contact: `+65 ${12345678}`,
-    usertype: "Manager",
-    userid: `#${1234}`,
-    action: <Action />,
-  },
-  {
-    photo: <ProfilePhoto />,
-    username: "Adrian",
-    emailaddress: "Adrian@sample.com",
-    contact: `+65 ${12345678}`,
-    usertype: "Manager",
-    userid: `#${1234}`,
-    action: <Action />,
-  },
-];
-
-const pageSize = 10;
-const greenButtonText = "Add User";
 const Allmembers = () => {
   const head = "All Users";
   const Navigate = useNavigate();
   const greenClicked = () => {
     Navigate("/home/editDetails");
   };
+
+  const [userData, setUserData] = useState([]);
+
+  const url = "/user";
+  useEffect(() => {
+    axios
+      .get(url)
+      .then((response) => {
+        setUserData(response.data);
+        console.log(response.data);
+      })
+      .catch((error) => console.log(error));
+  }, []);
+
+  const columns = [
+    {
+      header: "Photo",
+      accessor: "photo",
+    },
+    {
+      header: "Username",
+      accessor: "username",
+    },
+    {
+      header: "Email Address",
+      accessor: "emailaddress",
+    },
+    {
+      header: "Contact No.",
+      accessor: "contact",
+    },
+    {
+      header: "User Type",
+      accessor: "usertype",
+    },
+    {
+      header: "User ID",
+      accessor: "userid",
+    },
+    {
+      header: "Action",
+      accessor: "action",
+    },
+  ];
+
+  const pageSize = 10;
+  const greenButtonText = "Add User";
+
+  const data = userData.map((user) => ({
+    photo: <ProfilePhoto />,
+    username: user.username,
+    emailaddress: user.email,
+    contact: user.phone,
+    usertype: user.role,
+    userid: user.uid,
+    action: <Action />,
+  }));
+
   return (
     <div>
       <div className="flex fixed z-10">
@@ -103,15 +99,30 @@ const Allmembers = () => {
       </div>
 
       <div
-        className=" ml-72 h-[90vh] min-w-[86%] relative"
+        className=" ml-72 h-[90vh] min-w-[75%] relative"
         style={{ marginTop: "70px" }}>
-        <Table
-          columns={columns}
-          data={data}
-          pageSize={pageSize}
-          greenButtonText={greenButtonText}
-          greenClicked={greenClicked}
-        />
+        {userData.length > 0 ? (
+          <Table
+            columns={columns}
+            data={data}
+            pageSize={pageSize}
+            greenButtonText={greenButtonText}
+            greenClicked={greenClicked}
+          />
+        ) : (
+          <>
+            <Table
+              columns={columns}
+              data={data}
+              pageSize={pageSize}
+              greenButtonText={greenButtonText}
+              greenClicked={greenClicked}
+            />
+            <div className="flex ml-5 justify-center w-full mt-40">
+              <h2 className="text-4xl font-bold text-gray-500">No Data!</h2>
+            </div>
+          </>
+        )}
       </div>
     </div>
   );

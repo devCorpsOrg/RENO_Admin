@@ -1,6 +1,7 @@
 {
   "name": "renoadmin",
   "version": "0.1.0",
+  "proxy": "http://139.59.236.50:8000/",
   "private": true,
   "dependencies": {
     "@emotion/react": "^11.10.6",
