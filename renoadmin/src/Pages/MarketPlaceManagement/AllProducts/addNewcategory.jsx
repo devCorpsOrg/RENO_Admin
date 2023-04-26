@@ -1,6 +1,8 @@
 import { useState } from "react";
 import React from "react";
 import TopHeader from "../../../UI/TopHeader/TopHeader";
+import axios from "axios";
+import { responsiveFontSizes } from "@mui/material";
 
 const AddNewCategory = ({ setExpand, setActiveTab }) => {
   setExpand("marketPlace");
@@ -13,9 +15,22 @@ const AddNewCategory = ({ setExpand, setActiveTab }) => {
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    console.log(title, content); // Do something with the data
-    setTitle("");
-    setImages([]);
+
+    const formData = new FormData();
+    formData.append("name", title);
+    images.forEach((image, index) => {
+      formData.append(`pic${index}`, image);
+    })
+
+    try{
+      axios.post("/API", formData)
+      .then((response) => {
+        setTitle("");
+        setImages([]);
+      })
+    }catch(err){
+      console.log("Form Not submitted", err);
+    }
   };
 
   const handlePhotoUpload = (event) => {
@@ -23,7 +38,6 @@ const AddNewCategory = ({ setExpand, setActiveTab }) => {
     const uploadedImages = [];
     for (let i = 0; i < files.length; i++) {
       uploadedImages.push({
-        name: files[i].name,
         url: URL.createObjectURL(files[i]),
       });
     }

@@ -1,30 +1,30 @@
 import React, { useState, useEffect } from "react";
 import "./Forgot.css";
 import { Link, useNavigate } from "react-router-dom";
+import axios from "axios";
 
 function Forgot() {
   const navigate = useNavigate();
-  const [username, setUsername] = useState("");
+  const [email, setEmail] = useState("");
 //   const [result, setResult] = useState("");
 
   const handleSubmit = async (event) => {
 
     event.preventDefault();
-    setUsername("");
-    // try {
-    //   const response = await axios
-    //     .post("http://localhost:4000/", { username, password })
-    //     .then((res) => {
-    //       console.log(res);
-    //       if ((res?.data == "Login successfull")) {
-    //         setResult("Login Successfull")
-    //         navigate("/main");
-    //       }
-    //     }); // Login .
-    // } catch (error) {
-    //   setResult(error.response.data); 
-    // }
-    // console.log(`Submitting ${username} and ${password}`);
+    const updatedData = {
+
+    };
+
+    const jsonData = JSON.stringify(updatedData);
+    console.log(jsonData)
+    axios.post('/password_reset/', {email})
+    .then((response) => {
+      setEmail("");
+      navigate('/Signup');
+    }).catch((err) => {
+      console.log("Problem", err);
+    })
+
   };
 
   return (
@@ -44,17 +44,17 @@ function Forgot() {
               <input
                 className="input_edit"
                 placeholder="Enter your email address"
-                type="text"
-                value={username}
-                onChange={(e) => setUsername(e.target.value)}
+                type="email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
               />
             </label>
             <br />
             <div className="submit">
-              <button className="login_button" type="submit">
+              <button className="login_button" type="submit" style={{width:"150px"}}>
                 Reset Password
               </button>
-              <Link to="/" className="forgot">
+              <Link to="/" className="forgot" style={{right:110}}>
                 Login
               </Link>
             </div>

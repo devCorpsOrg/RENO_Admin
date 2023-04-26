@@ -1,6 +1,7 @@
 import { useState } from "react";
 import React from "react";
 import TopHeader from "../../../UI/TopHeader/TopHeader";
+import axios from "axios";
 
 const AddNewShowcase = ({ setExpand, setActiveTab }) => {
   setExpand("showcaseManagement");
@@ -10,14 +11,43 @@ const AddNewShowcase = ({ setExpand, setActiveTab }) => {
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
   const [images, setImages] = useState([]);
-  const [label, setLabel] = useState("");
+  const [userType, setUserType] = useState("");
+  const [rate, setRate] = useState("");
 
   const handleSubmit = (event) => {
     event.preventDefault();
     console.log(title, content); // Do something with the data
-    setTitle("");
-    setContent("");
-    setImages([]);
+
+    const updatedData ={
+      title,
+      content,
+      images,
+      userType,
+      rate,
+    }
+
+    const formData = new FormData();
+
+    formData.append("proj_name", title);
+    formData.append("proj_category", userType);
+    formData.append("rate", rate);
+    formData.append("details", content);
+    images.forEach((image, index) => {
+      formData.append(`pic${index}`, image);
+    })
+
+    const jsonData = JSON.stringify(updatedData);
+    console.log(jsonData);
+    axios.post('/addproject/', formData)
+    .then(response =>{
+      setTitle("");
+      setContent("");
+      setImages([]);
+      setUserType("");
+      setRate("");
+    }).catch(err => {
+      console.log("Error in submission", err);
+    })
   };
 
   const handleImageUpload = (event) => {
@@ -25,15 +55,14 @@ const AddNewShowcase = ({ setExpand, setActiveTab }) => {
     const uploadedImages = [];
     for (let i = 0; i < files.length; i++) {
       uploadedImages.push({
-        name: files[i].name,
         url: URL.createObjectURL(files[i]),
       });
     }
     setImages(uploadedImages);
   };
 
-  const handleLabelChange = (event) => {
-    setLabel(event.target.value);
+  const handleUserTypeChange = (event) => {
+    setUserType(event.target.value);
   };
 
   return (
@@ -105,8 +134,8 @@ const AddNewShowcase = ({ setExpand, setActiveTab }) => {
                   marginTop: "5px",
                   fontSize: "14px",
                 }}
-                value={label}
-                onChange={handleLabelChange}>
+                value={userType}
+                onChange={handleUserTypeChange}>
                 <option value="">Select Catagory</option>
                 <option value="personal">Admin</option>
                 <option value="work">Work</option>
@@ -117,7 +146,7 @@ const AddNewShowcase = ({ setExpand, setActiveTab }) => {
               Project Rate
               <input
                 type="text"
-                // value={name}
+                value={rate}
                 class="outline-none rounded"
                 placeholder="$000.00"
                 style={{
@@ -128,7 +157,7 @@ const AddNewShowcase = ({ setExpand, setActiveTab }) => {
                   marginTop: "5px",
                   fontSize: "14px",
                 }}
-                // onChange={handleNameChange}
+                onChange={(event)=>setRate(event.target.value)}
               />
             </label>
           </div>
