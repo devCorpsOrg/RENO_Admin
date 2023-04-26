@@ -1,18 +1,20 @@
 import React, { useState } from "react";
 import TopHeader from "../../../UI/TopHeader/TopHeader";
-import { Form, Link } from "react-router-dom";
+import { Link } from "react-router-dom";
 import axios from "axios";
+import { useDispatch } from "react-redux";
+import { createUser } from "../features/userSlice";
 
-const EditUser = ({setActiveTab, setExpand}) => {
+const CreateUser = ({setActiveTab, setExpand}) => {
   setExpand("userManagement");
-  setActiveTab("allUsers");
-  
+  setActiveTab("allUsers")
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [phone, setPhone] = useState("");
   const [userId, setUserId] = useState("");
   const [photo, setPhoto] = useState(null);
   const [label, setLabel] = useState("");
+  const dispatch = useDispatch();
 
   const handleNameChange = (event) => {
     setName(event.target.value);
@@ -31,7 +33,7 @@ const EditUser = ({setActiveTab, setExpand}) => {
   };
 
   const handlePhotoChange = (event) => {
-    setPhoto(event.target.files[0]);
+    setPhoto(URL.createObjectURL(event.target.files[0]));
   };
 
   const handleLabelChange = (event) => {
@@ -42,44 +44,34 @@ const EditUser = ({setActiveTab, setExpand}) => {
     setPhoto(null);
   };
 
-  const head = "Edit User";
+  const head = "Create User";
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-  
-    const config = {
-      headers: {
-        "Content-Type": "multipart/form-data",
-        // Authorization: `Bearer ${localStorage.getItem("token")}`,
-      },
-      params: {
-        uid: userId,
-      },
-    };
-  
+
+    
     const formData = new FormData();
     formData.append("username", name);
     formData.append("email", email);
     formData.append("phone", phone);
-    formData.append("role", label);
     formData.append("uid", userId);
-    if (photo) {
-      formData.append("pic", photo);
-    }
-  
-    try {
-      const response = await axios.put(
-        `/edituser/`,
-        formData,
-        config
-      );
-      console.log(response);
-    } catch (error) {
-      console.log(error);
-    }
+    formData.append("role", label);
+    formData.append("pic", photo);
+    
+    dispatch(createUser(formData));
+    
+  //   axios.post("/usercreate/", formData)
+  //   .then((response) =>{
+  //     setName("");
+  //     setEmail("");
+  //     setPhone("");
+  //     setUserId("");
+  //     setLabel("");
+  //     setPhoto("");
+  //   }).catch((err)=>{
+  //     console.log("Form not submitted", err);
+  //   })
   };
-  
-  
 
   return (
     <div>
@@ -99,7 +91,7 @@ const EditUser = ({setActiveTab, setExpand}) => {
                 style={{
                   height: "50px",
                   width: "380px",
-                  backgroundColor: "#e5ecff",
+                  border: "2px solid 	#e6f7fe",
                   paddingLeft: "5px",
                 }}
                 onChange={handleNameChange}
@@ -114,7 +106,7 @@ const EditUser = ({setActiveTab, setExpand}) => {
                 style={{
                   height: "50px",
                   width: "380px",
-                  backgroundColor: "#e5ecff",
+                  border: "2px solid 	#e6f7fe",
                   paddingLeft: "5px",
                 }}
                 onChange={handleEmailChange}
@@ -129,7 +121,7 @@ const EditUser = ({setActiveTab, setExpand}) => {
                 style={{
                   height: "50px",
                   width: "380px",
-                  backgroundColor: "#e5ecff",
+                  border: "2px solid 	#e6f7fe",
                   paddingLeft: "5px",
                 }}
                 onChange={handlePhoneChange}
@@ -144,7 +136,7 @@ const EditUser = ({setActiveTab, setExpand}) => {
                 style={{
                   height: "50px",
                   width: "380px",
-                  backgroundColor: "#e5ecff",
+                  border: "2px solid 	#e6f7fe",
                   paddingLeft: "5px",
                 }}
                 onChange={handleUserIdChange}
@@ -159,7 +151,7 @@ const EditUser = ({setActiveTab, setExpand}) => {
                 style={{
                   height: "50px",
                   width: "380px",
-                  backgroundColor: "#e5ecff",
+                  border: "2px solid 	#e6f7fe",
                   paddingLeft: "5px",
                 }}
                 value={label}
@@ -177,7 +169,7 @@ const EditUser = ({setActiveTab, setExpand}) => {
                 <div className="flex items-center">
                   <div className="w-20 h-20 rounded overflow-hidden">
                     <img
-                      src={URL.createObjectURL(photo)}
+                      src={photo}
                       alt="User profile"
                       className="w-full h-full object-cover"
                     />
@@ -232,4 +224,4 @@ const EditUser = ({setActiveTab, setExpand}) => {
   );
 };
 
-export default EditUser;
+export default CreateUser;

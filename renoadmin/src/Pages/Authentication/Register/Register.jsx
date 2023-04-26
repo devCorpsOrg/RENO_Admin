@@ -1,42 +1,85 @@
 import React, { useState, useEffect } from "react";
-import "./Login.css";
+import "./Register.css";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 
-function Login() {
+function Register() {
   const navigate = useNavigate();
   const [username, setUsername] = useState("");
+  const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [result, setResult] = useState("");
   //   const [result, setResult] = useState("");
 
-  const handleSubmit = async (event) => {
+//   const handleSubmit = (event) => {
+//     event.preventDefault();
+
+//     const updateData = {
+//         username,
+//         email,
+//         password
+//     }
+
+//     const jsonData = JSON.stringify(updateData);
+//     console.log(jsonData);
+
+//     try {
+//         axios.post('/register/', jsonData)
+//         .then((response) => {
+//             setUsername("");
+//             setEmail("");
+//             setPassword("");
+//             navigate("/")
+//         })
+        
+//     }catch(err){
+//         console.log("Error in sign up", err);
+//     }
+
+//   };
+
+const handleSubmit = (event) => {
     event.preventDefault();
-    const updatedData = {
+  
+    const updateData = {
       username,
+      email,
       password
     };
-
-    const jsonData = JSON.stringify(updatedData);
-    console.log(jsonData)
-    axios.post('login/', {username, password})
-    .then((response) => {
-      setUsername("");
-      setPassword("");
-      navigate('/home');
-    }).catch((err) => {
-      console.log("Problem", err);
+  
+    const jsonData = JSON.stringify(updateData);
+    console.log(jsonData);
+  
+    fetch('/register/', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: jsonData
     })
+    .then((response) => {
+      if (!response.ok) {
+        throw new Error('Network response was not ok');
+      }
+      setUsername("");
+      setEmail("");
+      setPassword("");
+      navigate("/");
+    })
+    .catch((error) => {
+      console.error('There was an error:', error);
+    });
   };
+  
 
   return (
     <div className="login">
       <div className="login_box">
         <img className="logo" src="/images/logo.png" alt="" />
         <div className="login_header">
-          <h1 className="headl">Login</h1>
+          <h1 className="headl">Sign Up</h1>
           <div className="signup">
-            Need an account? <a href="/register">Sign Up</a>
+            Create your account here
           </div>
         </div>
         <div className="login_form">
@@ -49,6 +92,17 @@ function Login() {
                 type="text"
                 value={username}
                 onChange={(e) => setUsername(e.target.value)}
+              />
+            </label>
+            <br />
+            <label className="input">
+              Email Address
+              <input
+                className="input_edit"
+                placeholder="Enter your email address"
+                type="email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
               />
             </label>
             <br />
@@ -68,13 +122,9 @@ function Login() {
                 onClick={handleSubmit}
                 className="login_button"
                 type="submit">
-                Login
+                    Sign Up
               </button>
-              <Link to="/reset" className="forgot">
-                Forgot Password?
-              </Link>
             </div>
-            <div className="result">{/* {result} */}</div>
           </form>
         </div>
       </div>
@@ -82,4 +132,4 @@ function Login() {
   );
 }
 
-export default Login;
+export default Register

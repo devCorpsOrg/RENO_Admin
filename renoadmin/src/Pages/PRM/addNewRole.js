@@ -1,8 +1,10 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import TopHeader from "../../UI/TopHeader/TopHeader";
+import axios from "axios";
 
-const AddNewRole = () => {
+const AddNewRole = ({setActiveTab}) => {
+  setActiveTab("permission");
   const [userName, setUserName] = useState("");
   const [emailAddress, setEmailAddress] = useState("");
   const [userRole, setUserRole] = useState("");
@@ -24,15 +26,30 @@ const AddNewRole = () => {
     setRoleStatus(event.target.value);
   };
 
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
     // You can add code here to submit the form data to the server
-    console.log({
+    const updatedData={
       userName,
       emailAddress,
       userRole,
       roleStatus,
-    });
+    }
+
+    const jsonData=JSON.stringify(updatedData);
+    console.log(jsonData);
+    try{
+      const response = await axios.post('/createrole/', jsonData)
+      .then(response => {
+        setUserName("");
+        setEmailAddress("");
+        setUserRole();
+        setRoleStatus();
+      })
+    }
+    catch(err){
+      console.log("Error saving data", err);
+    }
   };
   const head = "Add New Role";
 

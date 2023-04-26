@@ -1,6 +1,7 @@
 import { useState } from "react";
 import React from "react";
 import TopHeader from "../../../UI/TopHeader/TopHeader";
+import axios from "axios";
 
 const AddProduct = ({ setExpand, setActiveTab }) => {
   setExpand("homeService");
@@ -9,15 +10,51 @@ const AddProduct = ({ setExpand, setActiveTab }) => {
 
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
+  const [pack, setPack] = useState("");
   const [images, setImages] = useState([]);
-  const [label, setLabel] = useState("");
+  const [category, setCategory] = useState("");
+  const [prodCat, setProdCat] = useState("");
+  const [inventory, setInventory] = useState("");
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    console.log(title, content); // Do something with the data
-    setTitle("");
-    setContent("");
-    setImages([]);
+    const data = {
+      title, 
+      content,
+      pack,
+      prodCat,
+      inventory,
+      images,
+      category,
+    }
+    const jsonData = JSON.stringify(data);
+    console.log(jsonData);
+
+    const formData = new FormData();
+    formData.append("prod_name", title);
+    formData.append("proj_category", prodCat);
+    formData.append("inv_count", inventory);
+    formData.append("rate", pack);
+    formData.append("category", category);
+    formData.append("details", content);
+    images.forEach((image, index) => {
+      formData.append(`pic_url${index}`, image);
+    })
+
+    axios.post("/addproducts/", formData)
+    .then((response) => {
+      console.log("Data saved successfully", response);
+      setTitle("");
+      setContent("");
+      setImages([]);
+      setPack("");
+      setProdCat("");
+      setInventory("");
+      setCategory("");
+    })
+    .catch((error) => {
+      console.error("Error saving data", error);
+    });
   };
 
   const handlePhotoUpload = (event) => {
@@ -25,15 +62,22 @@ const AddProduct = ({ setExpand, setActiveTab }) => {
     const uploadedImages = [];
     for (let i = 0; i < files.length; i++) {
       uploadedImages.push({
-        name: files[i].name,
         url: URL.createObjectURL(files[i]),
       });
     }
     setImages(uploadedImages);
   };
 
-  const handleLabelChange = (event) => {
-    setLabel(event.target.value);
+  const handleCategoryChange = (event) => {
+    setCategory(event.target.value);
+  };
+
+  const handleProdCatChange = (event) => {
+    setProdCat(event.target.value);
+  };
+
+  const handleInventoryChange = (event) => {
+    setInventory(event.target.value);
   };
 
   return (
@@ -107,11 +151,11 @@ const AddProduct = ({ setExpand, setActiveTab }) => {
                   marginTop: "5px",
                   fontSize: "14px",
                 }}
-                value={label}
-                onChange={handleLabelChange}
+                value={category}
+                onChange={handleCategoryChange}
               >
                 <option value="">Select Catagory</option>
-                <option value="personal">Admin</option>
+                <option value="admin">Admin</option>
                 <option value="work">Work</option>
                 <option value="other">Other</option>
               </select>
@@ -120,7 +164,7 @@ const AddProduct = ({ setExpand, setActiveTab }) => {
               Package
               <input
                 type="text"
-                // value={name}
+                value={pack}
                 class="outline-none rounded"
                 placeholder="$000.00"
                 style={{
@@ -131,7 +175,7 @@ const AddProduct = ({ setExpand, setActiveTab }) => {
                   marginTop: "5px",
                   fontSize: "14px",
                 }}
-                // onChange={handleNameChange}
+                onChange={(event) => setPack(event.target.value)}
               />
             </label>
           </div>
@@ -150,11 +194,11 @@ const AddProduct = ({ setExpand, setActiveTab }) => {
                   marginTop: "5px",
                   fontSize: "14px",
                 }}
-                value={label}
-                onChange={handleLabelChange}
+                value={prodCat}
+                onChange={handleProdCatChange}
               >
                 <option value="">Select Product Catagory</option>
-                <option value="personal">Admin</option>
+                <option value="admin">Admin</option>
                 <option value="work">Work</option>
                 <option value="other">Other</option>
               </select>
@@ -173,11 +217,11 @@ const AddProduct = ({ setExpand, setActiveTab }) => {
                   marginTop: "5px",
                   fontSize: "14px",
                 }}
-                value={label}
-                onChange={handleLabelChange}
+                value={inventory}
+                onChange={handleInventoryChange}
               >
                 <option value="">Select Number Of Inventory</option>
-                <option value="personal">Admin</option>
+                <option value="admin">Admin</option>
                 <option value="work">Work</option>
                 <option value="other">Other</option>
               </select>

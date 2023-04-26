@@ -3,7 +3,7 @@ import React from "react";
 import TopHeader from "../../../UI/TopHeader/TopHeader";
 import axios from "axios";
 
-const CreateNewPage = ({ setExpand, setActiveTab }) => {
+const EditPage = ({ setExpand, setActiveTab }) => {
   setActiveTab("contentManagement");
   const head = "Create New Page";
 
@@ -14,37 +14,35 @@ const CreateNewPage = ({ setExpand, setActiveTab }) => {
 
 
   const handleSubmit = async (event) => {
-    event.preventDefault();
-
-    const updatedData = {
-      title,
-      content,
-      images,
-    }
-
-    const formData = new FormData();
-    formData.append("pagename", title);
-    formData.append("content", content);
-    images.forEach((image, index) => {
-      formData.append(`media_url${index}`, image);
-    });
-
-    console.log(formData)
-
-    const jsonData=JSON.stringify(updatedData);
-    console.log(jsonData)
-
-    try{
-      const response = await axios.post('/createpage/', formData)
-      .then(response => {
-        setTitle("");
-        setContent("");
-        setImages([]);
-      })
-    }
-    catch(err){
-      console.log("Error saving data", err);
-    }
+    // event.preventDefault();
+  
+    // const config = {
+    //   headers: {
+    //     "Content-Type": "multipart/form-data",
+    //     // Authorization: `Bearer ${localStorage.getItem("token")}`,
+    //   },
+    //   params: {
+    //     uid: userId,
+    //   },
+    // };
+  
+    // const formData = new FormData();
+    // formData.append("name", title);
+    // formData.append("email", content);
+    // if (photo) {
+    //   formData.append("photo", photo);
+    // }
+  
+    // try {
+    //   const response = await axios.put(
+    //     `API_CALL`,
+    //     formData,
+    //     config
+    //   );
+    //   console.log(response);
+    // } catch (error) {
+    //   console.log(error);
+    // }
   };
 
   const handleImageUpload = (event) => {
@@ -77,7 +75,7 @@ const CreateNewPage = ({ setExpand, setActiveTab }) => {
                 height: "50px",
                 width: "1230px",
                 paddingLeft: "20px",
-                border: "2px solid 	#e6f7fe",
+                backgroundColor: "#e5ecff",
                 marginTop: "5px",
                 fontSize: "15px",
               }}
@@ -95,7 +93,7 @@ const CreateNewPage = ({ setExpand, setActiveTab }) => {
               style={{
                 height: "170px",
                 width: "1230px",
-                border: "2px solid #e6f7fe",
+                backgroundColor: "#e5ecff",
                 paddingLeft: "20px",
                 paddingTop: "20px",
                 fontSize: "15px",
@@ -168,4 +166,4 @@ const CreateNewPage = ({ setExpand, setActiveTab }) => {
   );
 };
 
-export default CreateNewPage;
+export default EditPage;

@@ -1,6 +1,7 @@
 import { useState } from "react";
 import React from "react";
 import TopHeader from "../../../UI/TopHeader/TopHeader";
+import axios from "axios";
 
 const AddListing = ({ setExpand, setActiveTab }) => {
   setExpand("marketPlace");
@@ -14,10 +15,26 @@ const AddListing = ({ setExpand, setActiveTab }) => {
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    console.log(title, price); // Do something with the data
-    setTitle("");
-    setPrice("");
-    setImages([]);
+
+    const formData = new FormData();
+    formData.append("service", title);
+    formData.append("rate", price);
+    formData.append("desc", content);
+    images.forEach((image, index) => {
+      formData.append(`pic_url${index}`, image);
+    })
+
+    try {
+      axios.post("/addlisting/", formData)
+      .then((response) => {
+        setTitle("");
+        setContent("");
+        setPrice("");
+        setImages([]);
+      })
+    }catch(err){
+      console.log("Form not submitted", err);
+    }
   };
 
   const handlePhotoUpload = (event) => {
@@ -25,7 +42,6 @@ const AddListing = ({ setExpand, setActiveTab }) => {
     const uploadedImages = [];
     for (let i = 0; i < files.length; i++) {
       uploadedImages.push({
-        name: files[i].name,
         url: URL.createObjectURL(files[i]),
       });
     }
