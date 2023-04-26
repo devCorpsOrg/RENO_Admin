@@ -130,8 +130,7 @@ const CreateNewPage = ({ setExpand, setActiveTab }) => {
               height: "55px",
               color: "white",
             }}
-            type="submit"
-          >
+            type="submit">
             Submit
           </button>
         </form>
