@@ -2,11 +2,14 @@ import { useState } from "react";
 import React from "react";
 import TopHeader from "../../../UI/TopHeader/TopHeader";
 import axios from "axios";
+import { useDispatch } from "react-redux";
+import { addNewProduct } from "../../User_Management/features/userSlice";
 
 const AddProduct = ({ setExpand, setActiveTab }) => {
   setExpand("homeService");
   setActiveTab("productList");
   const head = "Add Product";
+  const dispatch = useDispatch();
 
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
@@ -38,32 +41,20 @@ const AddProduct = ({ setExpand, setActiveTab }) => {
     formData.append("category", category);
     formData.append("details", content);
     images.forEach((image, index) => {
-      formData.append(`pic_url${index}`, image);
+      formData.append(`pic_url`, image);
     })
 
-    axios.post("/addproducts/", formData)
-    .then((response) => {
-      console.log("Data saved successfully", response);
-      setTitle("");
-      setContent("");
-      setImages([]);
-      setPack("");
-      setProdCat("");
-      setInventory("");
-      setCategory("");
-    })
-    .catch((error) => {
-      console.error("Error saving data", error);
-    });
+    dispatch(addNewProduct(formData));
+
   };
 
   const handlePhotoUpload = (event) => {
     const files = event.target.files;
     const uploadedImages = [];
     for (let i = 0; i < files.length; i++) {
-      uploadedImages.push({
-        url: URL.createObjectURL(files[i]),
-      });
+      uploadedImages.push(
+        (files[i]),
+      );
     }
     setImages(uploadedImages);
   };
@@ -248,7 +239,7 @@ const AddProduct = ({ setExpand, setActiveTab }) => {
                   {images.map((image, index) => (
                     <img
                       key={index}
-                      src={image.url} // replace with your image source
+                      src={URL.createObjectURL(image)} // replace with your image source
                       alt={image.name} // replace with your image alt text
                       style={{
                         width: "100px",

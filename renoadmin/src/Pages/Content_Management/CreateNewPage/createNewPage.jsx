@@ -2,58 +2,41 @@ import { useState } from "react";
 import React from "react";
 import TopHeader from "../../../UI/TopHeader/TopHeader";
 import axios from "axios";
+import { useDispatch } from "react-redux";
+import { createNewPage } from "../../User_Management/features/userSlice";
 
 const CreateNewPage = ({ setExpand, setActiveTab }) => {
   setActiveTab("contentManagement");
   const head = "Create New Page";
+  const dispatch = useDispatch();
+
 
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
   const [images, setImages] = useState([]);
 
 
-
   const handleSubmit = async (event) => {
     event.preventDefault();
-
-    const updatedData = {
-      title,
-      content,
-      images,
-    }
 
     const formData = new FormData();
     formData.append("pagename", title);
     formData.append("content", content);
     images.forEach((image, index) => {
-      formData.append(`media_url${index}`, image);
+      formData.append(`media`, image);
     });
 
-    console.log(formData)
+    dispatch(createNewPage(formData));
 
-    const jsonData=JSON.stringify(updatedData);
-    console.log(jsonData)
-
-    try{
-      const response = await axios.post('/createpage/', formData)
-      .then(response => {
-        setTitle("");
-        setContent("");
-        setImages([]);
-      })
-    }
-    catch(err){
-      console.log("Error saving data", err);
-    }
   };
 
   const handleImageUpload = (event) => {
     const files = event.target.files;
     const uploadedImages = [];
     for (let i = 0; i < files.length; i++) {
-      uploadedImages.push({
-        url: URL.createObjectURL(files[i]),
-      });
+      uploadedImages.push(
+         (files[i]),
+      );
     }
     setImages(uploadedImages);
   };
@@ -125,7 +108,7 @@ const CreateNewPage = ({ setExpand, setActiveTab }) => {
                 {images.map((image, index) => (
                   <img
                     key={index}
-                    src={image.url} // replace with your image source
+                    src={URL.createObjectURL(image)} // replace with your image source
                     alt={image.name} // replace with your image alt text
                     style={{
                       width: "100px",

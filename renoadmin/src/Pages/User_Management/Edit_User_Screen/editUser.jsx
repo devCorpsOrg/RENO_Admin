@@ -2,10 +2,14 @@ import React, { useState } from "react";
 import TopHeader from "../../../UI/TopHeader/TopHeader";
 import { Form, Link } from "react-router-dom";
 import axios from "axios";
+import { useDispatch } from "react-redux";
+import { updateUser } from "../features/userSlice";
 
 const EditUser = ({setActiveTab, setExpand}) => {
   setExpand("userManagement");
   setActiveTab("allUsers");
+
+  const dispatch = useDispatch();
   
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
@@ -47,15 +51,6 @@ const EditUser = ({setActiveTab, setExpand}) => {
   const handleSubmit = async (event) => {
     event.preventDefault();
   
-    const config = {
-      headers: {
-        "Content-Type": "multipart/form-data",
-        // Authorization: `Bearer ${localStorage.getItem("token")}`,
-      },
-      params: {
-        uid: userId,
-      },
-    };
   
     const formData = new FormData();
     formData.append("username", name);
@@ -63,20 +58,13 @@ const EditUser = ({setActiveTab, setExpand}) => {
     formData.append("phone", phone);
     formData.append("role", label);
     formData.append("uid", userId);
-    if (photo) {
+    // if (photo) {
       formData.append("pic", photo);
-    }
-  
-    try {
-      const response = await axios.put(
-        `/edituser/`,
-        formData,
-        config
-      );
-      console.log(response);
-    } catch (error) {
-      console.log(error);
-    }
+    // }
+
+    dispatch(updateUser({formData, userId}))
+    
+
   };
   
   
