@@ -1,12 +1,15 @@
-import { useState } from "react";
+import { useDebugValue, useState } from "react";
 import React from "react";
 import TopHeader from "../../../UI/TopHeader/TopHeader";
 import axios from "axios"
+import { addNewPromotion } from "../../User_Management/features/userSlice";
+import { useDispatch } from "react-redux";
 
 const AddPromotion = ({ setExpand, setActiveTab }) => {
   setExpand("homeService");
   setActiveTab("promotionManagement");
   const head = "Add New Promotion";
+  const dispatch = useDispatch();
 
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
@@ -20,29 +23,17 @@ const AddPromotion = ({ setExpand, setActiveTab }) => {
 
     const formData = new FormData();
     formData.append("prod_name", title)
-    formData.append("project_detail", content)
+    formData.append("project_details", content)
     formData.append("prod_category", category)
     formData.append("promotion", promotion)
     formData.append("rate", pack)
     images.forEach((image, index) => {
-      formData.append(`pic${index}`, image)
+      formData.append(`pic`, image)
     })
-    console.log(images)
+    
 
-    console.log(formData);
+    dispatch(addNewPromotion(formData));
   
-    try {
-      const response = await axios.post("/addpromoted/", formData);
-      console.log("Data saved successfully", response);
-      setTitle("");
-      setContent("");
-      setImages([]);
-      setPack("");
-      setPromotion("");
-      setCategory("");
-    } catch (error) {
-      console.error("Error saving data", error);
-    }
   };
   
 
@@ -50,9 +41,9 @@ const AddPromotion = ({ setExpand, setActiveTab }) => {
     const files = event.target.files;
     const uploadedImages = [];
     for (let i = 0; i < files.length; i++) {
-      uploadedImages.push({
-        url: URL.createObjectURL(files[i]),
-      });
+      uploadedImages.push(
+        (files[i]),
+      );
     }
     setImages(uploadedImages);
   };
@@ -208,7 +199,7 @@ const AddPromotion = ({ setExpand, setActiveTab }) => {
                   {images.map((image, index) => (
                     <img
                       key={index}
-                      src={image.url} // replace with your image source
+                      src={URL.createObjectURL(image)} // replace with your image source
                       alt={image.name} // replace with your image alt text
                       style={{
                         width: "100px",

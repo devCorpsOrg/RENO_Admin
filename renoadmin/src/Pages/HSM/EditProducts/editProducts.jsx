@@ -20,23 +20,8 @@ const EditProduct = ({ setExpand, setActiveTab }) => {
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    const updatedProduct ={ 
-      title:title,
-      content:content,
-      images: images,
-      category: category,
-      pack: pack,
-      productCategory: productCategory,
-      inventory: inventory
-    }
 
-    axios.put(`API CALL`, updatedProduct)
-    .then(response => {
-      console.log("Updated Successfully")
-    })
-    .catch(error => {
-      console.log("errors in updating data");
-    })
+
   };
   
 
@@ -44,10 +29,9 @@ const EditProduct = ({ setExpand, setActiveTab }) => {
     const files = event.target.files;
     const uploadedImages = [];
     for (let i = 0; i < files.length; i++) {
-      uploadedImages.push({
-        name: files[i].name,
-        url: URL.createObjectURL(files[i]),
-      });
+      uploadedImages.push(
+        files[i]
+      );
     }
     setImages(uploadedImages);
   };
@@ -227,7 +211,7 @@ const EditProduct = ({ setExpand, setActiveTab }) => {
                 {images.map((image, index) => (
                   <div key={index} className="relative">
                     <img
-                      src={image.url}
+                      src={URL.createObjectURL(image)}
                       alt={image.name}
                       style={{
                         width: "100px",

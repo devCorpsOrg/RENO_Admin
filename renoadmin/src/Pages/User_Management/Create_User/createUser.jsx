@@ -33,7 +33,7 @@ const CreateUser = ({setActiveTab, setExpand}) => {
   };
 
   const handlePhotoChange = (event) => {
-    setPhoto(URL.createObjectURL(event.target.files[0]));
+    setPhoto(event.target.files[0]);
   };
 
   const handleLabelChange = (event) => {
@@ -56,21 +56,25 @@ const CreateUser = ({setActiveTab, setExpand}) => {
     formData.append("phone", phone);
     formData.append("uid", userId);
     formData.append("role", label);
-    formData.append("pic", photo);
+    formData.append("pic", photo, photo.name);
     
     dispatch(createUser(formData));
     
-  //   axios.post("/usercreate/", formData)
-  //   .then((response) =>{
-  //     setName("");
-  //     setEmail("");
-  //     setPhone("");
-  //     setUserId("");
-  //     setLabel("");
-  //     setPhoto("");
-  //   }).catch((err)=>{
-  //     console.log("Form not submitted", err);
-  //   })
+    // axios({
+    //   method: "post",
+    //   url: "/usercreate/",
+    //   data:  formData  ,
+    //   headers: { 'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8' },
+    // })
+    //   .then(function (response) {
+    //     //handle success
+    //     console.log(name)
+    //     console.log(response);
+    //   })
+    //   .catch(function (response) {
+    //     //handle error
+    //     console.log(response);
+    //   });
   };
 
   return (
@@ -80,7 +84,7 @@ const CreateUser = ({setActiveTab, setExpand}) => {
       </div>
 
       <div className="ml-72 mt-20 relative" style={{ marginTop: "140px" }}>
-        <form>
+        <form onSubmit={handleSubmit}>
           <div class="grid grid-cols-3 gap-4">
             <label className="grid pr-6">
               User Name
@@ -169,7 +173,7 @@ const CreateUser = ({setActiveTab, setExpand}) => {
                 <div className="flex items-center">
                   <div className="w-20 h-20 rounded overflow-hidden">
                     <img
-                      src={photo}
+                      src={URL.createObjectURL(photo)}
                       alt="User profile"
                       className="w-full h-full object-cover"
                     />

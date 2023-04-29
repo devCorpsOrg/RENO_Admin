@@ -2,11 +2,14 @@ import { useState } from "react";
 import React from "react";
 import TopHeader from "../../../UI/TopHeader/TopHeader";
 import axios from "axios";
+import { useDispatch } from "react-redux";
+import { addNewListing } from "../../User_Management/features/userSlice";
 
 const AddListing = ({ setExpand, setActiveTab }) => {
   setExpand("marketPlace");
   setActiveTab("listingManagement");
   const head = "Add Listing";
+  const dispatch = useDispatch();
 
   const [title, setTitle] = useState("");
   const [price, setPrice] = useState("");
@@ -21,29 +24,21 @@ const AddListing = ({ setExpand, setActiveTab }) => {
     formData.append("rate", price);
     formData.append("desc", content);
     images.forEach((image, index) => {
-      formData.append(`pic_url${index}`, image);
+      formData.append(`pic_url`, image);
     })
 
-    try {
-      axios.post("/addlisting/", formData)
-      .then((response) => {
-        setTitle("");
-        setContent("");
-        setPrice("");
-        setImages([]);
-      })
-    }catch(err){
-      console.log("Form not submitted", err);
-    }
+    dispatch(addNewListing(formData));
+
+
   };
 
   const handlePhotoUpload = (event) => {
     const files = event.target.files;
     const uploadedImages = [];
     for (let i = 0; i < files.length; i++) {
-      uploadedImages.push({
-        url: URL.createObjectURL(files[i]),
-      });
+      uploadedImages.push(
+        (files[i]),
+      );
     }
     setImages(uploadedImages);
   };
@@ -150,7 +145,7 @@ const AddListing = ({ setExpand, setActiveTab }) => {
                   {images.map((image, index) => (
                     <img
                       key={index}
-                      src={image.url} // replace with your image source
+                      src={URL.createObjectURL(image)} // replace with your image source
                       alt={image.name} // replace with your image alt text
                       style={{
                         width: "100px",

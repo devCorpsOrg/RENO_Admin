@@ -2,11 +2,14 @@ import { useState } from "react";
 import React from "react";
 import TopHeader from "../../../UI/TopHeader/TopHeader";
 import axios from "axios";
+import { useDispatch } from "react-redux";
+import { addNewShowcase } from "../../User_Management/features/userSlice";
 
 const AddNewShowcase = ({ setExpand, setActiveTab }) => {
   setExpand("showcaseManagement");
   setActiveTab("projectList");
   const head = "Add New Showcase";
+  const dispatch = useDispatch();
 
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
@@ -16,47 +19,26 @@ const AddNewShowcase = ({ setExpand, setActiveTab }) => {
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    console.log(title, content); // Do something with the data
-
-    const updatedData ={
-      title,
-      content,
-      images,
-      userType,
-      rate,
-    }
 
     const formData = new FormData();
-
     formData.append("proj_name", title);
     formData.append("proj_category", userType);
     formData.append("rate", rate);
     formData.append("details", content);
     images.forEach((image, index) => {
-      formData.append(`pic${index}`, image);
+      formData.append(`pic`, image);
     })
 
-    const jsonData = JSON.stringify(updatedData);
-    console.log(jsonData);
-    axios.post('/addproject/', formData)
-    .then(response =>{
-      setTitle("");
-      setContent("");
-      setImages([]);
-      setUserType("");
-      setRate("");
-    }).catch(err => {
-      console.log("Error in submission", err);
-    })
+    dispatch(addNewShowcase(formData))
   };
 
   const handleImageUpload = (event) => {
     const files = event.target.files;
     const uploadedImages = [];
     for (let i = 0; i < files.length; i++) {
-      uploadedImages.push({
-        url: URL.createObjectURL(files[i]),
-      });
+      uploadedImages.push(
+        (files[i]),
+      );
     }
     setImages(uploadedImages);
   };
@@ -182,7 +164,7 @@ const AddNewShowcase = ({ setExpand, setActiveTab }) => {
                 {images.map((image, index) => (
                   <img
                     key={index}
-                    src={image.url} // replace with your image source
+                    src={URL.createObjectURL(image)} // replace with your image source
                     alt={image.name} // replace with your image alt text
                     style={{
                       width: "100px",

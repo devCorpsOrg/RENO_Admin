@@ -2,10 +2,13 @@ import { useState } from "react";
 import React from "react";
 import TopHeader from "../../../UI/TopHeader/TopHeader";
 import axios from "axios";
+import { useDispatch } from "react-redux";
+import { updatePage } from "../../User_Management/features/userSlice";
 
 const EditPage = ({ setExpand, setActiveTab }) => {
   setActiveTab("contentManagement");
-  const head = "Create New Page";
+  const head = "Edit Page";
+  const dispatch = useDispatch();
 
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
@@ -14,44 +17,26 @@ const EditPage = ({ setExpand, setActiveTab }) => {
 
 
   const handleSubmit = async (event) => {
-    // event.preventDefault();
+    event.preventDefault();
   
-    // const config = {
-    //   headers: {
-    //     "Content-Type": "multipart/form-data",
-    //     // Authorization: `Bearer ${localStorage.getItem("token")}`,
-    //   },
-    //   params: {
-    //     uid: userId,
-    //   },
-    // };
+    const formData = new FormData();
+    formData.append("pagename", title);
+    formData.append("content", content);
+    images.map((image, index) => {
+      formData.append('media', image);
+    })
   
-    // const formData = new FormData();
-    // formData.append("name", title);
-    // formData.append("email", content);
-    // if (photo) {
-    //   formData.append("photo", photo);
-    // }
-  
-    // try {
-    //   const response = await axios.put(
-    //     `API_CALL`,
-    //     formData,
-    //     config
-    //   );
-    //   console.log(response);
-    // } catch (error) {
-    //   console.log(error);
-    // }
+    dispatch(updatePage({formData, title}))
+
   };
 
   const handleImageUpload = (event) => {
     const files = event.target.files;
     const uploadedImages = [];
     for (let i = 0; i < files.length; i++) {
-      uploadedImages.push({
-        url: URL.createObjectURL(files[i]),
-      });
+      uploadedImages.push(
+       files[i],
+      );
     }
     setImages(uploadedImages);
   };
@@ -123,7 +108,7 @@ const EditPage = ({ setExpand, setActiveTab }) => {
                 {images.map((image, index) => (
                   <img
                     key={index}
-                    src={image.url} // replace with your image source
+                    src={URL.createObjectURL(image)} // replace with your image source
                     alt={image.name} // replace with your image alt text
                     style={{
                       width: "100px",
