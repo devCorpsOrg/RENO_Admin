@@ -2,12 +2,15 @@ import { useState, useRef } from "react";
 import React from "react";
 import TopHeader from "../../../../UI/TopHeader/TopHeader";
 import DisabledByDefaultRoundedIcon from "@mui/icons-material/DisabledByDefaultRounded";
+import { useDispatch } from "react-redux";
+import { updateShowcase } from "../../../User_Management/features/userSlice";
 
 const EditShowcase = ({ setExpand, setActiveTab }) => {
   const fileInputRef = useRef(null);
   setExpand("showcaseManagement");
   setActiveTab("projectList");
   const head = "Edit Showcase";
+  const dispatch = useDispatch();
 
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
@@ -17,21 +20,27 @@ const EditShowcase = ({ setExpand, setActiveTab }) => {
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    console.log(title, content); // Do something with the data
-    setTitle("");
-    setContent("");
-    setLabel("");
-    setRate("");
+
+    const formData = FormData();
+    formData('proj_name', title);
+    formData('proj_category', label);
+    formData('details', content);
+    formData('rate', rate);
+    images.map((image, index) => {
+      formData.append('pic', image);
+    })
+
+    dispatch(updateShowcase({formData, title}))
+    
   };
 
   const handlePhotoUpload = (event) => {
     const files = event.target.files;
     const uploadedImages = [];
     for (let i = 0; i < files.length; i++) {
-      uploadedImages.push({
-        name: files[i].name,
-        url: URL.createObjectURL(files[i]),
-      });
+      uploadedImages.push(
+        files[i]
+      );
     }
     setImages(uploadedImages);
   };
@@ -152,7 +161,7 @@ const EditShowcase = ({ setExpand, setActiveTab }) => {
                   {images.map((image, index) => (
                     <div key={index} className="relative">
                       <img
-                        src={image.url}
+                        src={URL.createObjectURL(image)}
                         alt={image.name}
                         style={{
                           width: "100px",

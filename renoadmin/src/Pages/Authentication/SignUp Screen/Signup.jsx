@@ -51,10 +51,10 @@ function Signup() {
             </label>
             <br />
             <div className="submit">
-              <button className="login_button" type="submit">
+              <button className="login_button" type="submit" style={{width:152}}>
                 Sign In Securely
               </button>
-              <Link to="/" className="forgot">
+              <Link to="/" className="forgot" style={{right:110}}>
                 Cancel
               </Link>
             </div>

@@ -1,39 +1,58 @@
-import { useState } from "react";
+import { useDebugValue, useState } from "react";
 import React from "react";
 import TopHeader from "../../../UI/TopHeader/TopHeader";
+import axios from "axios"
+import { addNewPromotion } from "../../User_Management/features/userSlice";
+import { useDispatch } from "react-redux";
 
 const AddPromotion = ({ setExpand, setActiveTab }) => {
   setExpand("homeService");
   setActiveTab("promotionManagement");
   const head = "Add New Promotion";
+  const dispatch = useDispatch();
 
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
+  const [pack, setPack] = useState("");
   const [images, setImages] = useState([]);
-  const [label, setLabel] = useState("");
+  const [category, setCategory] = useState("");
+  const [promotion, setPromotion] = useState("");
 
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
-    console.log(title, content); // Do something with the data
-    setTitle("");
-    setContent("");
-    setImages([]);
+
+    const formData = new FormData();
+    formData.append("prod_name", title)
+    formData.append("project_details", content)
+    formData.append("prod_category", category)
+    formData.append("promotion", promotion)
+    formData.append("rate", pack)
+    images.forEach((image, index) => {
+      formData.append(`pic`, image)
+    })
+    
+
+    dispatch(addNewPromotion(formData));
+  
   };
+  
 
   const handlePhotoUpload = (event) => {
     const files = event.target.files;
     const uploadedImages = [];
     for (let i = 0; i < files.length; i++) {
-      uploadedImages.push({
-        name: files[i].name,
-        url: URL.createObjectURL(files[i]),
-      });
+      uploadedImages.push(
+        (files[i]),
+      );
     }
     setImages(uploadedImages);
   };
 
-  const handleLabelChange = (event) => {
-    setLabel(event.target.value);
+  const handleCategoryChange = (event) => {
+    setCategory(event.target.value);
+  };
+  const handlePromotionChange = (event) => {
+    setPromotion(event.target.value);
   };
 
   return (
@@ -105,8 +124,8 @@ const AddPromotion = ({ setExpand, setActiveTab }) => {
                   marginTop: "5px",
                   fontSize: "14px",
                 }}
-                value={label}
-                onChange={handleLabelChange}>
+                value={category}
+                onChange={handleCategoryChange}>
                 <option value="">Select Catagory</option>
                 <option value="personal">Admin</option>
                 <option value="work">Work</option>
@@ -117,7 +136,7 @@ const AddPromotion = ({ setExpand, setActiveTab }) => {
               Package
               <input
                 type="text"
-                // value={name}
+                value={pack}
                 class="outline-none rounded"
                 placeholder="$000.00"
                 style={{
@@ -128,7 +147,7 @@ const AddPromotion = ({ setExpand, setActiveTab }) => {
                   marginTop: "5px",
                   fontSize: "14px",
                 }}
-                // onChange={handleNameChange}
+                onChange={(event) => setPack(event.target.value)}
               />
             </label>
           </div>
@@ -147,8 +166,8 @@ const AddPromotion = ({ setExpand, setActiveTab }) => {
                   marginTop: "5px",
                   fontSize: "14px",
                 }}
-                value={label}
-                onChange={handleLabelChange}>
+                value={promotion}
+                onChange={handlePromotionChange}>
                 <option value="">No of Promotion</option>
                 <option value="personal">Admin</option>
                 <option value="work">Work</option>
@@ -180,7 +199,7 @@ const AddPromotion = ({ setExpand, setActiveTab }) => {
                   {images.map((image, index) => (
                     <img
                       key={index}
-                      src={image.url} // replace with your image source
+                      src={URL.createObjectURL(image)} // replace with your image source
                       alt={image.name} // replace with your image alt text
                       style={{
                         width: "100px",

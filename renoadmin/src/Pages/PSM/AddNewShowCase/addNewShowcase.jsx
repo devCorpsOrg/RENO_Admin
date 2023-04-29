@@ -1,39 +1,50 @@
 import { useState } from "react";
 import React from "react";
 import TopHeader from "../../../UI/TopHeader/TopHeader";
+import axios from "axios";
+import { useDispatch } from "react-redux";
+import { addNewShowcase } from "../../User_Management/features/userSlice";
 
 const AddNewShowcase = ({ setExpand, setActiveTab }) => {
   setExpand("showcaseManagement");
   setActiveTab("projectList");
   const head = "Add New Showcase";
+  const dispatch = useDispatch();
 
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
   const [images, setImages] = useState([]);
-  const [label, setLabel] = useState("");
+  const [userType, setUserType] = useState("");
+  const [rate, setRate] = useState("");
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    console.log(title, content); // Do something with the data
-    setTitle("");
-    setContent("");
-    setImages([]);
+
+    const formData = new FormData();
+    formData.append("proj_name", title);
+    formData.append("proj_category", userType);
+    formData.append("rate", rate);
+    formData.append("details", content);
+    images.forEach((image, index) => {
+      formData.append(`pic`, image);
+    })
+
+    dispatch(addNewShowcase(formData))
   };
 
   const handleImageUpload = (event) => {
     const files = event.target.files;
     const uploadedImages = [];
     for (let i = 0; i < files.length; i++) {
-      uploadedImages.push({
-        name: files[i].name,
-        url: URL.createObjectURL(files[i]),
-      });
+      uploadedImages.push(
+        (files[i]),
+      );
     }
     setImages(uploadedImages);
   };
 
-  const handleLabelChange = (event) => {
-    setLabel(event.target.value);
+  const handleUserTypeChange = (event) => {
+    setUserType(event.target.value);
   };
 
   return (
@@ -105,8 +116,8 @@ const AddNewShowcase = ({ setExpand, setActiveTab }) => {
                   marginTop: "5px",
                   fontSize: "14px",
                 }}
-                value={label}
-                onChange={handleLabelChange}>
+                value={userType}
+                onChange={handleUserTypeChange}>
                 <option value="">Select Catagory</option>
                 <option value="personal">Admin</option>
                 <option value="work">Work</option>
@@ -117,7 +128,7 @@ const AddNewShowcase = ({ setExpand, setActiveTab }) => {
               Project Rate
               <input
                 type="text"
-                // value={name}
+                value={rate}
                 class="outline-none rounded"
                 placeholder="$000.00"
                 style={{
@@ -128,7 +139,7 @@ const AddNewShowcase = ({ setExpand, setActiveTab }) => {
                   marginTop: "5px",
                   fontSize: "14px",
                 }}
-                // onChange={handleNameChange}
+                onChange={(event)=>setRate(event.target.value)}
               />
             </label>
           </div>
@@ -153,7 +164,7 @@ const AddNewShowcase = ({ setExpand, setActiveTab }) => {
                 {images.map((image, index) => (
                   <img
                     key={index}
-                    src={image.url} // replace with your image source
+                    src={URL.createObjectURL(image)} // replace with your image source
                     alt={image.name} // replace with your image alt text
                     style={{
                       width: "100px",

@@ -3,30 +3,30 @@ import React from "react";
 import TopHeader from "../../../UI/TopHeader/TopHeader";
 import axios from "axios";
 import { useDispatch } from "react-redux";
-import { createNewPage } from "../../User_Management/features/userSlice";
+import { updatePage } from "../../User_Management/features/userSlice";
 
-const CreateNewPage = ({ setExpand, setActiveTab }) => {
+const EditPage = ({ setExpand, setActiveTab }) => {
   setActiveTab("contentManagement");
-  const head = "Create New Page";
+  const head = "Edit Page";
   const dispatch = useDispatch();
-
 
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
   const [images, setImages] = useState([]);
 
 
+
   const handleSubmit = async (event) => {
     event.preventDefault();
-
+  
     const formData = new FormData();
     formData.append("pagename", title);
     formData.append("content", content);
-    images.forEach((image, index) => {
-      formData.append(`media`, image);
-    });
-
-    dispatch(createNewPage(formData));
+    images.map((image, index) => {
+      formData.append('media', image);
+    })
+  
+    dispatch(updatePage({formData, title}))
 
   };
 
@@ -35,7 +35,7 @@ const CreateNewPage = ({ setExpand, setActiveTab }) => {
     const uploadedImages = [];
     for (let i = 0; i < files.length; i++) {
       uploadedImages.push(
-         (files[i]),
+       files[i],
       );
     }
     setImages(uploadedImages);
@@ -60,7 +60,7 @@ const CreateNewPage = ({ setExpand, setActiveTab }) => {
                 height: "50px",
                 width: "1230px",
                 paddingLeft: "20px",
-                border: "2px solid 	#e6f7fe",
+                backgroundColor: "#e5ecff",
                 marginTop: "5px",
                 fontSize: "15px",
               }}
@@ -78,7 +78,7 @@ const CreateNewPage = ({ setExpand, setActiveTab }) => {
               style={{
                 height: "170px",
                 width: "1230px",
-                border: "2px solid #e6f7fe",
+                backgroundColor: "#e5ecff",
                 paddingLeft: "20px",
                 paddingTop: "20px",
                 fontSize: "15px",
@@ -151,4 +151,4 @@ const CreateNewPage = ({ setExpand, setActiveTab }) => {
   );
 };
 
-export default CreateNewPage;
+export default EditPage;

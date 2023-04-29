@@ -1,35 +1,37 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import React from "react";
 import TopHeader from "../../../UI/TopHeader/TopHeader";
 import DisabledByDefaultRoundedIcon from "@mui/icons-material/DisabledByDefaultRounded";
+import axios from "axios";
 
 
 const EditProduct = ({ setExpand, setActiveTab }) => {
   setExpand("homeService");
-  setActiveTab("produtList");
+  setActiveTab("productList");
   const head = "Edit Project";
 
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
   const [images, setImages] = useState([]);
-  const [label, setLabel] = useState("");
+  const [category, setCategory] = useState("");
+  const [pack, setPack] = useState("");
+  const [productCategory, setProductCategory] = useState("");
+  const [inventory, setInventory] = useState("");
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    console.log(title, content); // Do something with the data
-    setTitle("");
-    setContent("");
-    // setImages([]);
+
+
   };
+  
 
   const handlePhotoUpload = (event) => {
     const files = event.target.files;
     const uploadedImages = [];
     for (let i = 0; i < files.length; i++) {
-      uploadedImages.push({
-        name: files[i].name,
-        url: URL.createObjectURL(files[i]),
-      });
+      uploadedImages.push(
+        files[i]
+      );
     }
     setImages(uploadedImages);
   };
@@ -42,8 +44,14 @@ const EditProduct = ({ setExpand, setActiveTab }) => {
     // fileInputRef.current.value = newImages.length;
   };
 
-  const handleLabelChange = (event) => {
-    setLabel(event.target.value);
+  const handleCategoryChange = (event) => {
+    setCategory(event.target.value);
+  };
+  const handleProductCategoryChange = (event) => {
+    setProductCategory(event.target.value);
+  };
+  const handleInventoryChange = (event) => {
+    setInventory(event.target.value);
   };
 
   return (
@@ -117,8 +125,8 @@ const EditProduct = ({ setExpand, setActiveTab }) => {
                   marginTop: "5px",
                   fontSize: "14px",
                 }}
-                value={label}
-                onChange={handleLabelChange}
+                value={category}
+                onChange={handleCategoryChange}
               >
                 <option value="">Select Catagory</option>
                 <option value="personal">Admin</option>
@@ -130,7 +138,7 @@ const EditProduct = ({ setExpand, setActiveTab }) => {
               Package
               <input
                 type="text"
-                // value={name}
+                value={pack}
                 class="outline-none rounded"
                 placeholder="$000.00"
                 style={{
@@ -141,7 +149,7 @@ const EditProduct = ({ setExpand, setActiveTab }) => {
                   marginTop: "5px",
                   fontSize: "14px",
                 }}
-                // onChange={handleNameChange}
+                onChange={(event)=>setPack(event.target.value)}
               />
             </label>
           </div>
@@ -160,8 +168,8 @@ const EditProduct = ({ setExpand, setActiveTab }) => {
                   marginTop: "5px",
                   fontSize: "14px",
                 }}
-                value={label}
-                onChange={handleLabelChange}
+                value={productCategory}
+                onChange={handleProductCategoryChange}
               >
                 <option value="">Select Product Catagory</option>
                 <option value="personal">Admin</option>
@@ -183,8 +191,8 @@ const EditProduct = ({ setExpand, setActiveTab }) => {
                   marginTop: "5px",
                   fontSize: "14px",
                 }}
-                value={label}
-                onChange={handleLabelChange}
+                value={inventory}
+                onChange={handleInventoryChange}
               >
                 <option value="">Select Number Of Inventory</option>
                 <option value="personal">Admin</option>
@@ -203,7 +211,7 @@ const EditProduct = ({ setExpand, setActiveTab }) => {
                 {images.map((image, index) => (
                   <div key={index} className="relative">
                     <img
-                      src={image.url}
+                      src={URL.createObjectURL(image)}
                       alt={image.name}
                       style={{
                         width: "100px",

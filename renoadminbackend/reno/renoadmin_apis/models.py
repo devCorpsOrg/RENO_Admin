@@ -169,6 +169,11 @@ class listings(models.Model):
 #==========================================================================================================
 
 class Customers(m.Model):
+    def name_file(instance, filename):
+        filename_list = filename.split('.')
+        filename = f'customer_{instance.usname}_{filename_list[0]}.{filename_list[-1]}'
+        return '/'.join(['customer', str(instance.usname), filename])
+    
     id = m.CharField(primary_key=True, default=uuid.uuid4, max_length=200)
     usname = m.CharField(max_length=50, blank=False, null=False, unique=True)
     emai = m.CharField(max_length=64)
@@ -177,7 +182,7 @@ class Customers(m.Model):
     member_name = m.CharField(max_length=100, blank=False, null=False)
     note = m.TextField()
     phone = m.CharField(max_length=50)
-    pic_url = m.URLField()
+    pic_url = models.ImageField(upload_to=name_file, blank=True)
     is_suspended = m.IntegerField(default=0)
 
     class Meta:
@@ -188,8 +193,13 @@ class Customers(m.Model):
 
 
 class Reviews(m.Model):
+    def name_file(instance, filename):
+        filename_list = filename.split('.')
+        filename = f'review_{instance.prod_name}_{instance.reviewer_name}_{filename_list[0]}.{filename_list[-1]}'
+        return '/'.join(['review', str(instance.reviewer_name), filename])
+
     id = m.CharField(primary_key=True, default=uuid.uuid4, max_length=200)
-    pic_url = m.URLField()
+    pic_url = models.ImageField(upload_to=name_file, blank=True)
     prod_name = m.CharField(max_length=100, blank=False, null=False)
     review = m.TextField(blank=False, null=False)
     amt = m.CharField(max_length=50)
@@ -197,8 +207,13 @@ class Reviews(m.Model):
 
 
 class Transactions(m.Model):
+    def name_file(instance, filename):
+        filename_list = filename.split('.')
+        filename = f'transaction_{instance.prod_name}_{instance.user}_{filename_list[0]}.{filename_list[-1]}'
+        return '/'.join(['transaction', str(instance.user), filename])
+
     id = m.CharField(primary_key=True, default=uuid.uuid4, max_length=200)
-    pic_url = m.URLField()
+    pic_url = models.ImageField(upload_to=name_file, blank=True)
     prod_name = m.CharField(max_length=100, blank=False, null=False)
     user = m.CharField(max_length=200, blank=False, null=False)
     desc = m.TextField()
@@ -207,8 +222,13 @@ class Transactions(m.Model):
 
 
 class Products(m.Model):
+    def name_file(instance, filename):
+        filename_list = filename.split('.')
+        filename = f'product_{instance.name}_{filename_list[0]}.{filename_list[-1]}'
+        return '/'.join(['product', str(instance.name), filename])
+
     id = m.CharField(primary_key=True, default=uuid.uuid4, max_length=200)
-    pic_url = m.URLField()
+    pic_url = models.ImageField(upload_to=name_file, blank=True)
     name = m.CharField(max_length=200, blank=False, null=False)
     category = m.CharField(max_length=200)
     proj_category = m.CharField(max_length=200)
@@ -220,11 +240,41 @@ class Products(m.Model):
 
 
 class CRM(m.Model):
+    def name_file(instance, filename):
+        filename_list = filename.split('.')
+        filename = f'crm_{instance.usname}_{filename_list[0]}.{filename_list[-1]}'
+        return '/'.join(['crm', str(instance.usname), filename])
+
     id = m.CharField(primary_key=True, default=uuid.uuid4, max_length=200)
     usname = m.CharField(max_length=50, blank=False, null=False, unique=True)
-    pic_url = m.URLField()
+    pic_url = models.ImageField(upload_to=name_file, blank=True)
     abt = m.TextField()
     phone = m.CharField(max_length=50)
     net_purchase_amount = m.CharField(max_length=50)
     net_purchase_count = m.IntegerField()
     pts = m.TextField()
+
+
+class Categories(m.Model):
+    def name_file(instance, filename):
+        filename_list = filename.split('.')
+        filename = f'category_{instance.prod_category}_{filename_list[0]}.{filename_list[-1]}'
+        return '/'.join(['category', str(instance.prod_category), filename])
+
+    id = m.CharField(primary_key=True, default=uuid.uuid4, max_length=200)
+    pic_url = models.ImageField(upload_to=name_file, blank=True)
+    prod_category = m.CharField(max_length=100, blank=False, null=False)
+
+
+class Deals(m.Model):
+    def name_file(instance, filename):
+        filename_list = filename.split('.')
+        filename = f'deal_{instance.requester}_{filename_list[0]}.{filename_list[-1]}'
+        return '/'.join(['deal', str(instance.requester), filename])
+     
+    id = m.CharField(primary_key=True, default=uuid.uuid4, max_length=200)
+    pic_url = models.ImageField(upload_to=name_file, blank=True)
+    requester = m.CharField(max_length=100, blank=False, null=False)
+    subject = m.CharField(max_length=150, blank=False, null=False)
+    msg = m.TextField()
+    status = m.CharField(max_length=100, blank=False, null=False)
