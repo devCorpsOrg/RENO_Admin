@@ -353,12 +353,12 @@ def search_page(request):
 @api_view(['PUT'])   
 def edit_page(request):
      
-        id=request.query_params['id']
-        print(id)
+        pagename=request.query_params['pagename']
+      
         try:
-         user_objects=cmsModel.objects.get(pageid=id)
+         user_objects=cmsModel.objects.get(pagename=pagename)
         except cmsModel.DoesNotExist:
-         res={'msg':'id Not Found'}
+         res={'msg':'page Not Found'}
          json_data=JSONRenderer().render(res)
          return HttpResponse(json_data,content_type='application/json')
         
@@ -523,9 +523,9 @@ def searchfeaturedprojects(request):
 @api_view(['PUT'])   
 @csrf_exempt    
 def editproject(request):
-        id=request.query_params['id']
+        proj_name=request.query_params['proj_name']
         try:
-         user_objects=ProjectManagementModel.objects.get(proj_id=id)
+         user_objects=ProjectManagementModel.objects.get(proj_name=proj_name)
         except ProjectManagementModel.DoesNotExist:
          res={'msg':'id Not Found'}
          json_data=JSONRenderer().render(res)
@@ -539,17 +539,17 @@ def editproject(request):
         proj_name=data['proj_name']
         proj_category=data['proj_category']
         rate=data['rate']
-        review=data['review']
+        # review=data['review']
         details=data['details']
-        project_type=data['project_type']
+        # project_type=data['project_type']
         # proj_id=python_data.get('proj_id',None)        
         user_objects.pic= pic
         user_objects.proj_name= proj_name
         user_objects.proj_category= proj_category
         user_objects.rate=rate
-        user_objects.review=review
+        # user_objects.review=review
         user_objects.details= details
-        user_objects.project_type=project_type
+        # user_objects.project_type=project_type
         
         user_objects.save()
         serailizer=ProjectManagementSerializer(user_objects)
@@ -815,10 +815,10 @@ def search_listing(request):
 @api_view(['PUT'])   
 @csrf_exempt    
 def edit_listing(request):
-     id=request.query_params['id']
+     service=request.query_params['service']
      if request.method=='PUT':
         try:
-         user_objects=listings.objects.get(id=id)
+         user_objects=listings.objects.get(service=service)
         except listings.DoesNotExist:
          res={'msg':'username Not Found'}
          json_data=JSONRenderer().render(res)
@@ -923,10 +923,10 @@ def delete_customer(request):
 @api_view(['PUT'])
 @csrf_exempt
 def edit_customer(request):
-    id = request.query_params['id']
+    member_name = request.query_params['member_name']
     
     # customer = Customers.objects.filter(id=id, is_suspended=0).values('id', 'usname', 'emai', 'phone', 'role', 'pic_url', 'note').first()
-    customer = Customers.objects.filter(id=id, is_suspended=0).first()
+    customer = Customers.objects.filter(member_name=member_name, is_suspended=0).first()
     
     if not customer:
         return HttpResponseNotFound('Customer not found.')
@@ -1080,8 +1080,8 @@ def export_products(request):
 @api_view(['PUT'])
 @csrf_exempt
 def edit_products(request):
-    id = request.query_params['id']
-    product = Products.objects.filter(id=id).first()
+    prod_name = request.query_params['prod_name']
+    product = Products.objects.filter(name=prod_name).first()
 
     if product:
         product.name = request.POST['prod_name']
@@ -1094,7 +1094,7 @@ def edit_products(request):
 
         product.save()
 
-        return HttpResponse(f'Product with ID: {id} edited successfully.', status=200)
+        return HttpResponse(f'Product with ID: {prod_name} edited successfully.', status=200)
     else:
         return HttpResponseNotFound('Product not found.')
 
@@ -1110,9 +1110,9 @@ def add_products(request):
         inv_count = request.POST['inv_count']
         pic_url = request.POST['pic_url']
         details = request.POST['details']
-        featured_flag = int(request.POST['featured_flag'])
+        # featured_flag = int(request.POST['featured_flag'])
 
-        product = Products(name=name, category=category, proj_category=proj_category, rate=rate, inv_count=inv_count, pic_url=pic_url, details=details, featured_flag=featured_flag)
+        product = Products(name=name, category=category, proj_category=proj_category, rate=rate, inv_count=inv_count, pic_url=pic_url, details=details)
         product.save()
 
         return HttpResponse(f'Product with name: {name} added successfully.', status=200)

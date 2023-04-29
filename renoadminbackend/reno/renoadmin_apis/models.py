@@ -95,7 +95,7 @@ class ProjectManagementModel(models.Model):
     rate=models.IntegerField()    
     review=models.IntegerField(default=0,blank=True)
     details=models.TextField()       
-    project_type=models.CharField(max_length=100,blank=True)       
+    project_type=models.CharField(max_length=100,default='Featured',blank=True,null=True)       
     proj_id=models.CharField(primary_key=True, default=uuid.uuid4,max_length=200)
 
 class Projectbooking(models.Model):
@@ -216,7 +216,7 @@ class Products(m.Model):
     inv_count = m.CharField(max_length=50)
     details = m.TextField()
     net_purchase_item_count = m.IntegerField()
-    featured_flag = m.IntegerField(default=0)
+    featured_flag = m.IntegerField(default=0, blank=True,null=True)
 
 
 class CRM(m.Model):

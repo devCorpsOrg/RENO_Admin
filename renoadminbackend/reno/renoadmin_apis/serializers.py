@@ -108,6 +108,12 @@ class ProjectManagementSerializer1(serializers.ModelSerializer):
         model=ProjectManagementModel
         fields=('pic','proj_name','proj_category','rate','project_type','review')
 
+# class ProjectManagementSerializer2(serializers.ModelSerializer):
+    
+#     class Meta:
+#         model=ProjectManagementModel
+#         fields=('pic','proj_name','proj_category','rate','details')
+
 class BookingSerializer(serializers.ModelSerializer):
     
     class Meta:

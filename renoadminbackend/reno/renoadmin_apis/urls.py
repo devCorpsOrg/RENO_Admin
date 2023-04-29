@@ -61,7 +61,7 @@ urlpatterns = [
 
 #==============================================================================================================
 
-  path('customers', views.customers, name='Customers'),
+    path('customers', views.customers, name='Customers'),
     path('searchcustomers', views.search_customers, name='Search Customers'),
     path('exportcustomers', views.export_customers, name='Export Customers'),
     path('deletecustomer', views.delete_customer, name='Delete Customer'),
