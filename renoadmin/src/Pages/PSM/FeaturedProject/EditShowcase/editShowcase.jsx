@@ -21,11 +21,11 @@ const EditShowcase = ({ setExpand, setActiveTab }) => {
   const handleSubmit = (event) => {
     event.preventDefault();
 
-    const formData = FormData();
-    formData('proj_name', title);
-    formData('proj_category', label);
-    formData('details', content);
-    formData('rate', rate);
+    const formData = new FormData();
+    formData.append('proj_name', title);
+    formData.append('proj_category', label);
+    formData.append('details', content);
+    formData.append('rate', rate);
     images.map((image, index) => {
       formData.append('pic', image);
     })

@@ -1,11 +1,14 @@
 import { useState } from "react";
 import React from "react";
 import TopHeader from "../../../UI/TopHeader/TopHeader";
+import { useDispatch } from "react-redux";
+import { updateListing } from "../../User_Management/features/userSlice";
 
 const EditListing = ({ setExpand, setActiveTab }) => {
   setExpand("marketPlace");
   setActiveTab("listingManagement");
   const head = "Edit Listing";
+  const dispatch = useDispatch();
 
   const [title, setTitle] = useState("");
   const [price, setPrice] = useState("");
@@ -16,8 +19,14 @@ const EditListing = ({ setExpand, setActiveTab }) => {
     event.preventDefault();
 
     const formData = new FormData();
-    
+    formData.append('service', title);
+    formData.append('desc', content);
+    formData.append('rate', price);
+    images.map((image, index) => {
+      formData.append('pic_url', image);
+    })
 
+    dispatch(updateListing({formData, title}));
 
   };
 

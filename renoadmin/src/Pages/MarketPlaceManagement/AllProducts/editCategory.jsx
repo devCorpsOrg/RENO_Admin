@@ -17,9 +17,6 @@ const EditCategory = ({ setExpand, setActiveTab }) => {
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    console.log(title, content); // Do something with the data
-    setTitle("");
-    // setImages([]);
 
     const formData = new FormData();
     formData.append('prod_category', title);

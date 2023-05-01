@@ -129,13 +129,15 @@ export const addNewListing = createAsyncThunk("addNewListing", async (formData, 
   });
 
 
-export const getUser = createAsyncThunk("getUser", async ({ rejectWithValue }) => {
+export const getUser = createAsyncThunk("getUser", async (_,{ rejectWithValue }) => {
+  console.log("hello")
     try {
-      const response = await axios.get("API_CALL").json();
-    //   console.log(formData)
+      const response = await axios.get("/user");
+      console.log(response)
       return response.data;
     } catch (error) {
         console.log("Not submitting data");
+        console.log(error)
       return rejectWithValue(error.response.data);
     }
   });
@@ -191,7 +193,7 @@ export const updateShowcase = createAsyncThunk("updateShowcase", async ({formDat
     try {
       const response = await axios({
         method: "put",
-        url: `/editproject/?pagename=${title}`,  // Change the End points
+        url: `/editproject/?proj_name=${title}`,  // Change the End points
         data:  formData,
         headers: { 'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8' },
       });
@@ -207,7 +209,7 @@ export const updateProject = createAsyncThunk("updateProject", async ({formData,
     try {
       const response = await axios({
         method: "put",
-        url: `/editproducts/?pagename=${title}`,  // Change the End points
+        url: `/editproducts/?prod_name=${title}`,  // Change the End points
         data:  formData,
         headers: { 'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8' },
       });
@@ -223,7 +225,7 @@ export const updateCategory = createAsyncThunk("updateCategory", async ({formDat
     try {
       const response = await axios({
         method: "put",
-        url: `/editcategory/?pagename=${title}`,  // Change the End points
+        url: `/editcategory/?prod_category=${title}`,  // Change the End points
         data:  formData,
         headers: { 'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8' },
       });
@@ -239,7 +241,7 @@ export const updateListing = createAsyncThunk("updateListing", async ({formData,
     try {
       const response = await axios({
         method: "put",
-        url: `/editlisting/?pagename=${title}`,  // Change the End points
+        url: `/editlisting/?service=${title}`,  // Change the End points
         data:  formData,
         headers: { 'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8' },
       });
@@ -259,10 +261,10 @@ export const userDetails = createSlice({
         error: null,
     },
     reducers: {
-
+      dummy: (state) => state,
     },
-    // extraReducers: (builder) => {
-    //     builder
+    extraReducers: (builder) => {
+        builder
     //         .addCase(createUser.pending, (state) => {
     //             state.loading = true;
     //         })
@@ -277,17 +279,17 @@ export const userDetails = createSlice({
 
 
 
-    //         .addCase(getUser.pending, (state) => {
-    //             state.loading = true;
-    //         })
-    //         .addCase(getUser.fulfilled, (state, action) => {
-    //             state.loading = false;
-    //             state.users = (action.payload);
-    //         })
-    //         .addCase(getUser.rejected, (state, action) => {
-    //             state.loading = false;
-    //             state.error = action.payload.message;
-    //         })
+            .addCase(getUser.pending, (state) => {
+                state.loading = true;
+            })
+            .addCase(getUser.fulfilled, (state, action) => {
+                state.loading = false;
+                state.users = (action.payload);
+            })
+            .addCase(getUser.rejected, (state, action) => {
+                state.loading = false;
+                state.error = action.payload?.message;
+            });
 
 
 
@@ -322,7 +324,7 @@ export const userDetails = createSlice({
     //             state.loading = false;
     //             state.error = action.payload.message;
     //         })
-    // },
+    },
 })
 
 export default userDetails.reducer;
