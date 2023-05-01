@@ -3,12 +3,15 @@ import React from "react";
 import TopHeader from "../../../UI/TopHeader/TopHeader";
 import DisabledByDefaultRoundedIcon from "@mui/icons-material/DisabledByDefaultRounded";
 import axios from "axios";
+import { useDispatch } from "react-redux";
+import { updateProject } from "../../User_Management/features/userSlice";
 
 
 const EditProduct = ({ setExpand, setActiveTab }) => {
   setExpand("homeService");
   setActiveTab("productList");
   const head = "Edit Project";
+  const dispatch = useDispatch();
 
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
@@ -20,7 +23,18 @@ const EditProduct = ({ setExpand, setActiveTab }) => {
 
   const handleSubmit = (event) => {
     event.preventDefault();
+    const formData = new FormData();
+    formData.append('prod_name', title)
+    formData.append('details', content)
+    formData.append('rate', pack)
+    formData.append('inv_count', inventory)
+    formData.append('prod_category', productCategory)
+    formData.append('proj_category', category)
+    images.map((image, index)=>{
+      formData.append('pic_url', image);
+    })
 
+    dispatch(updateProject({formData, title}));
 
   };
   
