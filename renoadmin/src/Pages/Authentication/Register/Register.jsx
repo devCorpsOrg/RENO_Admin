@@ -49,7 +49,7 @@ function Register() {
     const jsonData = JSON.stringify(updateData);
     console.log(jsonData);
 
-    fetch("/register/", {
+    fetch("http://139.59.236.50:8000/register/", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -60,6 +60,7 @@ function Register() {
         if (!response.ok) {
           throw new Error("Network response was not ok");
         }
+        console.log(response)
         setUsername("");
         setEmail("");
         setPassword("");
