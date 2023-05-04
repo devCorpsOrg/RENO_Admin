@@ -7,7 +7,7 @@ from .models import cmsModel
 from .models import ProjectManagementModel
 from .models import Projectbooking
 from .models import pmsModel
-from .models import SupportDetails
+from .models import SupportDetails,listings
 
 
 # User Serializer
@@ -59,11 +59,17 @@ class PurchasedSerializer(serializers.ModelSerializer):
         model=Purchased_item
         fields="__all__"
 
-class UserSerializer1(serializers.ModelSerializer):
+class UserSerializer5(serializers.ModelSerializer):
     
     class Meta:
         model=Userdetails
         fields="__all__"
+
+class UserSerializer1(serializers.ModelSerializer):
+    
+    class Meta:
+        model=Userdetails
+        fields=('pic','username','email','suspend_reason','role')
 
 class ProductSerializer(serializers.ModelSerializer):
         
@@ -91,12 +97,22 @@ class ProjectManagementSerializer(serializers.ModelSerializer):
     class Meta:
         model=ProjectManagementModel
         fields="__all__"
+class ProjectbookingSerializer(serializers.ModelSerializer):    
+    class Meta:
+        model=Projectbooking
+        fields="__all__"
 
 class ProjectManagementSerializer1(serializers.ModelSerializer):
     
     class Meta:
         model=ProjectManagementModel
         fields=('pic','proj_name','proj_category','rate','project_type','review')
+
+# class ProjectManagementSerializer2(serializers.ModelSerializer):
+    
+#     class Meta:
+#         model=ProjectManagementModel
+#         fields=('pic','proj_name','proj_category','rate','details')
 
 class BookingSerializer(serializers.ModelSerializer):
     
@@ -117,3 +133,9 @@ class SupportSerializer(serializers.ModelSerializer):
     class Meta:
         model=SupportDetails
         fields="__all__"
+#------------------------------------------------------------------------------------------------------------
+class listingsSerializer(serializers.ModelSerializer):
+    
+    class Meta:
+        model=listings
+        fields=('pic_url','service','desc','rate')

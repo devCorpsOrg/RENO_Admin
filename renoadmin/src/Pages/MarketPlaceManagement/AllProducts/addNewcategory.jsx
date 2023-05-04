@@ -1,11 +1,16 @@
 import { useState } from "react";
 import React from "react";
 import TopHeader from "../../../UI/TopHeader/TopHeader";
+import axios from "axios";
+import { responsiveFontSizes } from "@mui/material";
+import { useDispatch } from "react-redux";
+import { addNewCategory } from "../../User_Management/features/userSlice";
 
 const AddNewCategory = ({ setExpand, setActiveTab }) => {
   setExpand("marketPlace");
   setActiveTab("catagoryManagement");
   const head = "Add New Category";
+  const dispatch = useDispatch();
 
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
@@ -13,19 +18,25 @@ const AddNewCategory = ({ setExpand, setActiveTab }) => {
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    console.log(title, content); // Do something with the data
-    setTitle("");
-    setImages([]);
+
+    const formData = new FormData();
+    formData.append("prod_category", title);
+    images.forEach((image, index) => {
+      formData.append(`pic_url`, image);
+    })
+
+    dispatch(addNewCategory(formData));
+
+
   };
 
   const handlePhotoUpload = (event) => {
     const files = event.target.files;
     const uploadedImages = [];
     for (let i = 0; i < files.length; i++) {
-      uploadedImages.push({
-        name: files[i].name,
-        url: URL.createObjectURL(files[i]),
-      });
+      uploadedImages.push(
+        (files[i]),
+      );
     }
     setImages(uploadedImages);
   };
@@ -107,7 +118,7 @@ const AddNewCategory = ({ setExpand, setActiveTab }) => {
                   {images.map((image, index) => (
                     <img
                       key={index}
-                      src={image.url} // replace with your image source
+                      src={URL.createObjectURL(image)} // replace with your image source
                       alt={image.name} // replace with your image alt text
                       style={{
                         width: "100px",

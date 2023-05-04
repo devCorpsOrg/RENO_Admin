@@ -14,10 +14,10 @@ from .serializers import ChangePasswordSerializer
 from rest_framework.permissions import IsAuthenticated  
 from .models import Userdetails 
 from .models import Purchased_item
-from .models import User_Product
+from .models import User_Product,config_setting
 # from .models import SuspendUser
-from .serializers import UserSerializer,UserSerializer2
-from .serializers import UserSerializer1, PurchasedSerializer, ProductSerializer
+from .serializers import UserSerializer,UserSerializer2,listingsSerializer
+from .serializers import UserSerializer1, PurchasedSerializer, ProductSerializer ,ProjectbookingSerializer,UserSerializer5
 # from .serializers import SuspendUserSerializer
 from rest_framework.renderers import JSONRenderer
 from django.http import HttpResponse 
@@ -44,7 +44,8 @@ from django.http import JsonResponse, HttpResponseNotFound, HttpResponseBadReque
 from django.core import serializers
 import json
 import csv
-from django.http import HttpResponse
+from django.http import HttpResponse, QueryDict
+import time
 
 
 # Register API
@@ -63,7 +64,7 @@ class RegisterAPI(generics.GenericAPIView):
 
 class LoginAPI(KnoxLoginView):
     permission_classes = (permissions.AllowAny,)
-
+    @csrf_exempt  
     def post(self, request, format=None):
         serializer = AuthTokenSerializer(data=request.data)
         serializer.is_valid(raise_exception=True)
@@ -107,24 +108,32 @@ class ChangePasswordView(generics.UpdateAPIView):
 @csrf_exempt
 def user_details(request):
    if request.method=='GET':
-        
+   
     try:
         info=Userdetails.objects.filter(is_suspend=0) 
     except Userdetails.DoesNotExist:
-            res={'msg':'Data Not Found'}
-            json_data=JSONRenderer().render(res)
-            return HttpResponse(json_data,content_type='application/json')
-
+            return []
+            # res={'msg':'Data Not Found'}
+            # json_data=JSONRenderer().render(res)
+            # return HttpResponse(json_data,content_type='application/json')
+    
     serailizer=UserSerializers(info,many=True);
+    
     json_data=JSONRenderer().render(serailizer.data) 
     return HttpResponse(json_data,content_type='application/json')
    
+@api_view(['GET'])
 @csrf_exempt
-def user_History(request,name):
-    if request.method=='GET':
-        
-        info=Userdetails.objects.get(username=name)
-        id=info.id 
+def user_History(request):
+      if request.method=='GET':
+        name=request.query_params['name']
+        try:
+         info=Userdetails.objects.get(username=name)
+        except Userdetails.DoesNotExist:
+         return []
+
+
+        id=info.uid
         print(id)
         info1=Purchased_item.objects.get(UserPK=id)
         info2=User_Product.objects.get(UserPK=id)
@@ -138,14 +147,20 @@ def user_History(request,name):
             }
         json_data=JSONRenderer().render(res)
         return HttpResponse(json_data,content_type='application/json')
-        
+      
+@api_view(['POST'])       
 @csrf_exempt
 def create_user(request):
-    if request.method=='POST':
-        json_data=request.body
-        stream=io.BytesIO(json_data)
-        python_data=JSONParser().parse(stream)
-        serializer= UserSerializer1(data=python_data)
+    # if request.method=='POST':
+        # pic=request.FILES["pic"]
+        # info=Userdetails.objects.all()
+        # info.pic=pic
+        # json_data=request.body
+        # stream=io.BytesIO(json_data)
+        # python_data=JSONParser().parse(stream)
+       
+        
+        serializer= UserSerializer5(data=request.data)
         if serializer.is_valid():
             serializer.save()
             res={'msg':'Data Created Successfully'}
@@ -153,9 +168,11 @@ def create_user(request):
             return HttpResponse(json_data,content_type='application/json')
         return HttpResponse(JSONRenderer().render(serializer.errors),content_type='application/json')
 
+@api_view()
 @csrf_exempt
-def search_user(request,name):
+def search_user(request):
      if request.method=='GET':
+            name=request.query_params['name']
             try:
               info=Userdetails.objects.get(username=name)
             except Userdetails.DoesNotExist:
@@ -166,20 +183,38 @@ def search_user(request,name):
             json_data=JSONRenderer().render(serailizer.data) 
             return HttpResponse(json_data,content_type='application/json')
      
+@api_view(['PUT'])   
 @csrf_exempt    
-def edit_user(request,name):
+def edit_user(request):
+     id=request.query_params['id']
      if request.method=='PUT':
-        json_data=request.body
-        stream=io.BytesIO(json_data)
-        python_data=JSONParser().parse(stream)
+        try:
+         user_objects=Userdetails.objects.get(uid=id)
+        except Userdetails.DoesNotExist:
+         res={'msg':'username Not Found'}
+         json_data=JSONRenderer().render(res)
+         return HttpResponse(json_data,content_type='application/json')
+
+     
+        data=request.data
+        # stream=io.BytesIO(json_data)
+        # python_data=JSONParser().parse(stream)
         
-        username=python_data.get('username',None)
-        email=python_data.get('email',None)
-        phone=python_data.get('phone',None)
-        role=python_data.get('role',None)
-        uid=python_data.get('uid',None)
-        pic=python_data.get('pic',None)
-        user_objects=Userdetails.objects.get(username=name)
+        username=data['username']
+        # name=data['name']
+        # status=data['status']
+        email=data['email']
+        phone=data['phone']
+        role=data['role']
+        # uid=python_data.get('uid',None)
+        pic=data['pic']
+        uid=data['uid']
+        # about=python_data.get('about',None)
+        # is_suspend=python_data.get('is_suspend',None)
+        # suspend_reason=python_data.get('suspend_reason',None)
+        # about=python_data.get('about',None)
+ 
+        
         
         # serailizer=UserSerializer(user_details,many=True);
         user_objects.username=username
@@ -188,16 +223,21 @@ def edit_user(request,name):
         user_objects.role=role
         user_objects.uid=uid
         user_objects.pic=pic
+        # user_objects.about=about
+        # user_objects.is_suspend=is_suspend
+        # user_objects.suspend_reason=suspend_reason
+        # user_objects.name=name
+        # user_objects.status=status
         user_objects.save()
         res={'msg':'Data updated Successfully'}
         json_data=JSONRenderer().render(res)
         return HttpResponse(json_data,content_type='application/json')
                     
 
-
+@api_view(['DELETE'])
 @csrf_exempt        
-def delete_user(request,name):
-     if request.method=='DELETE':
+def delete_user(request):
+          name=request.query_params['name']
         # json_data=request.body
         # stream=io.BytesIO(json_data)
         # python_data=JSONParser().parse(stream)
@@ -217,16 +257,23 @@ def delete_user(request,name):
 
          
 @api_view(['GET','POST'])
-def suspend_user(request,name):
+def suspend_user(request):
+    name=request.query_params['name']
     data=request.data
     suspend_reason=data['suspend_reason']
     info=Userdetails.objects.get(username=name)
-    info.suspend_reason=suspend_reason
-    info.is_suspend=1
-    info.save()
-    res={'msg':'Suspended Successfully'}
-    json_data=JSONRenderer().render(res)
-    return HttpResponse(json_data,content_type='application/json')
+    if info.is_suspend==1:
+        res={'msg':'Already Suspended'}
+        json_data=JSONRenderer().render(res)
+        return HttpResponse(json_data,content_type='application/json')
+
+    else:
+     info.suspend_reason=suspend_reason
+     info.is_suspend=1
+     info.save()
+     res={'msg':'Suspended Successfully'}
+     json_data=JSONRenderer().render(res)
+     return HttpResponse(json_data,content_type='application/json')
     
 
 @csrf_exempt    
@@ -235,9 +282,10 @@ def suspended_users(request):
     try:
      info=Userdetails.objects.filter(is_suspend=1)
     except Userdetails.DoesNotExist:
-         res={'msg':'User is not present'}
-         json_data=JSONRenderer().render(res)
-         return HttpResponse(json_data,content_type='application/json')
+        return []
+        #  res={'msg':'User is not present'}
+        #  json_data=JSONRenderer().render(res)
+        #  return HttpResponse(json_data,content_type='application/json')
 
      
     
@@ -257,32 +305,41 @@ def page(request):
       return HttpResponse(json_data,content_type='application/json')
       
      serailizer1=cmsSerializer1(info,many=True)
-
+     
      json_data=JSONRenderer().render(serailizer1.data)
      return HttpResponse(json_data,content_type='application/json') 
     
-
+@api_view(['POST'])
 @csrf_exempt
 def create_page(request):
     if request.method=='POST':
-        json_data=request.body
-        stream=io.BytesIO(json_data)
-        python_data=JSONParser().parse(stream)
-        serializer= cmsSerializer(data=python_data)
+        # json_data=request.body
+        # stream=io.BytesIO(json_data)
+        # python_data=JSONParser().parse(stream)
+        # python_data['pageid'] = random.getrandbits(32)
+        serializer= cmsSerializer(data=request.data)
+       
+
         if serializer.is_valid():
             serializer.save()
-            res={'msg':'Data Created Successfully'}
+            res={'msg':'page Created Successfully'}
             json_data=JSONRenderer().render(res)
             return HttpResponse(json_data,content_type='application/json')
         return HttpResponse(JSONRenderer().render(serializer.errors),content_type='application/json')
 
 @csrf_exempt
-def search_page(request,name):
+@api_view()
+def search_page(request):
      if request.method=='GET':
+        #   params = request.query_params
+        #   name = request.data.get('name')
+        #   print(name)
+          name=request.query_params['name']
+          print(name)
           try:
             info=cmsModel.objects.get(pagename=name)
           except cmsModel.DoesNotExist:
-            res={'msg':'Data Not Found'}
+            res={'msg':'page Not Found'}
             json_data=JSONRenderer().render(res)
             return HttpResponse(json_data,content_type='application/json')
 
@@ -292,54 +349,63 @@ def search_page(request,name):
           return HttpResponse(json_data,content_type='application/json')
            
                       
-@csrf_exempt    
-def edit_page(request,id):
-     if request.method=='PUT':
-        json_data=request.body
-        stream=io.BytesIO(json_data)
-        python_data=JSONParser().parse(stream)
-        id=id
-        pagename=python_data.get('pagename',None)
-        pageid=python_data.get('pageid',None)
-        title=python_data.get('title',None)
-        content=python_data.get('content',None)
-        media=python_data.get('media',None)
-      
-        user_objects=cmsModel.objects.get(id=id)
+@csrf_exempt 
+@api_view(['PUT'])   
+def edit_page(request):
      
-        user_objects.id=id
+        pagename=request.query_params['pagename']
+      
+        try:
+         user_objects=cmsModel.objects.get(pagename=pagename)
+        except cmsModel.DoesNotExist:
+         res={'msg':'page Not Found'}
+         json_data=JSONRenderer().render(res)
+         return HttpResponse(json_data,content_type='application/json')
+        
+       
+        data=request.data
+        # stream=io.BytesIO(json_data)
+        # python_data=JSONParser().parse(stream)
+       
+        pagename=data['pagename']
+        # pageid=python_data.get('pageid',None)
+        # title=python_data.get('title',None)
+        content=data['content']
+        media=data['media']
+      
+        
+     
         user_objects.pagename=pagename
-        user_objects.pageid=pageid
-        user_objects.title=title
-        user_objects.pageid=pageid
-        user_objects.title=title
+        # user_objects.pageid=pageid
+        # user_objects.title=title
         user_objects.content=content
         user_objects.media=media
         user_objects.save()
         serailizer=cmsSerializer(user_objects)
-        res={'msg':'Data updated Successfully'}
+        res={'msg':'page updated Successfully'}
         json_data=JSONRenderer().render(res)
         return HttpResponse(json_data,content_type='application/json')
                     
 
 
+@api_view(['DELETE']) 
 @csrf_exempt        
-def delete_page(request,id):
-     if request.method=='DELETE':
-       
-        id=id
+def delete_page(request):
+    #  if request.method=='DELETE':
+        id=request.query_params['id']
+
        
         if id is not None:
           try:
              info=cmsModel.objects.get(pageid=id)
           except cmsModel.DoesNotExist:
-             res={'msg':'Data is not present'}
+             res={'msg':'page is not present'}
              json_data=JSONRenderer().render(res)
              return HttpResponse(json_data,content_type='application/json')
              
              
           info.delete()
-          res={'msg':'Data deleted Successfully'}
+          res={'msg':'page deleted Successfully'}
           json_data=JSONRenderer().render(res)
           return HttpResponse(json_data,content_type='application/json')
 
@@ -351,19 +417,36 @@ def projectbookings(request):
      serailizer1=BookingSerializer(info,many=True);    
      json_data=JSONRenderer().render(serailizer1.data)
      return HttpResponse(json_data,content_type='application/json') 
-
-
+   
+@api_view(['POST'])
+@csrf_exempt
+def createprojectbookings(request):
+    if request.method=='POST':
+        # json_data=request.body
+        # stream=io.BytesIO(json_data)
+        # python_data=JSONParser().parse(stream)
+       
+        serializer= ProjectbookingSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            res={'msg':'Data Created Successfully'}
+            json_data=JSONRenderer().render(res)
+            return HttpResponse(json_data,content_type='application/json')
+        return HttpResponse(JSONRenderer().render(serializer.errors),content_type='application/json')
 @csrf_exempt
 def projects(request):
    if request.method=='GET':
+    print("hello")
     try:
      info=ProjectManagementModel.objects.all()
     except ProjectManagementModel.DoesNotExist:
-      res={'msg':'DataBase is Empty'}
-      json_data=JSONRenderer().render(res)
-      return HttpResponse(json_data,content_type='application/json')
+        return []
+    #   res={'msg':'DataBase is Empty'}
+    #   json_data=JSONRenderer().render(res)
+    #   return HttpResponse(json_data,content_type='application/json')
 
-    serailizer1=ProjectManagementSerializer1(info,many=True);    
+    serailizer1=ProjectManagementSerializer1(info,many=True); 
+    # print( serailizer1.data)   
     json_data=JSONRenderer().render(serailizer1.data)
     return HttpResponse(json_data,content_type='application/json') 
    
@@ -378,13 +461,15 @@ def featuredprojects(request):
 
 
 
+@api_view(['POST'])
 @csrf_exempt
 def addproject(request):
-    if request.method=='POST':
-        json_data=request.body
-        stream=io.BytesIO(json_data)
-        python_data=JSONParser().parse(stream)
-        serializer= ProjectManagementSerializer(data=python_data)
+    # if request.method=='POST':
+        # json_data=request.body
+        # stream=io.BytesIO(json_data)
+        # python_data=JSONParser().parse(stream)
+        
+        serializer= ProjectManagementSerializer(data=request.data)
         if serializer.is_valid():
             serializer.save()
             res={'msg':'Data Created Successfully'}
@@ -394,10 +479,11 @@ def addproject(request):
 
 
 
-
+@api_view()
 @csrf_exempt
-def searchproject(request,name):
+def searchproject(request):
      if request.method=='GET':
+          name=request.query_params['name']
           try:
             info=ProjectManagementModel.objects.get(proj_name=name)
           except ProjectManagementModel.DoesNotExist:
@@ -414,10 +500,11 @@ def searchproject(request,name):
 
 
 
-          
+@api_view()       
 @csrf_exempt
-def searchfeaturedprojects(request,name):
+def searchfeaturedprojects(request):
      if request.method=='GET':
+          name=request.query_params['name']
           try: 
             info=ProjectManagementModel.objects.get(proj_name=name,project_type='Featured')
           except ProjectManagementModel.DoesNotExist:
@@ -433,33 +520,37 @@ def searchfeaturedprojects(request,name):
 
 
 
-     
+@api_view(['PUT'])   
 @csrf_exempt    
-def editproject(request,id):
-     if request.method=='PUT':
-        json_data=request.body
-        stream=io.BytesIO(json_data)
-        python_data=JSONParser().parse(stream)
-        id=id
-        pic=python_data.get('pic',None)
-        proj_name=python_data.get('prod_name',None)
-        proj_category=python_data.get('prod_category',None)
-        rate=python_data.get('rate',None)
-        review=python_data.get('review',None)
-        details=python_data.get('details',None)
-        project_type=python_data.get('project_type',None)
-        proj_id=python_data.get('proj_id',None)
+def editproject(request):
+        proj_name=request.query_params['proj_name']
+        try:
+         user_objects=ProjectManagementModel.objects.get(proj_name=proj_name)
+        except ProjectManagementModel.DoesNotExist:
+         res={'msg':'data Not Found'}
+         json_data=JSONRenderer().render(res)
+         return HttpResponse(json_data,content_type='application/json')
 
-        user_objects=ProjectManagementModel.objects.get(id=id)
+        data=request.data
+        # stream=io.BytesIO(json_data)
+        # python_data=JSONParser().parse(stream)
+        
+        pic=data['pic']
+        proj_name=data['proj_name']
+        proj_category=data['proj_category']
+        rate=data['rate']
+        # review=data['review']
+        details=data['details']
+        # project_type=data['project_type']
+        # proj_id=python_data.get('proj_id',None)        
         user_objects.pic= pic
         user_objects.proj_name= proj_name
         user_objects.proj_category= proj_category
-        user_objects.rate=  rate
-        user_objects.rate= rate
-        user_objects.review=review
+        user_objects.rate=rate
+        # user_objects.review=review
         user_objects.details= details
-        user_objects.project_type=project_type
-        user_objects.proj_id= proj_id
+        # user_objects.project_type=project_type
+        
         user_objects.save()
         serailizer=ProjectManagementSerializer(user_objects)
         res={'msg':'Data updated Successfully'}
@@ -469,15 +560,16 @@ def editproject(request,id):
 
 
 
-
+@api_view(['DELETE'])
 @csrf_exempt        
-def deleteproject(request,id):
-     if request.method=='DELETE':
+def deleteproject(request):
+     
+        id=request.query_params['id']
         # json_data=request.body
         # stream=io.BytesIO(json_data)
         # python_data=JSONParser().parse(stream)
         # id=python_data.get('pageid',None)
-        id=id
+       
         print(id)
         if id is not None:
           try:
@@ -502,6 +594,8 @@ def export(request):
         writer.writerow([employee.pic,employee.proj_name,employee.proj_category,employee.rate,employee.review,employee.project_type])  
     return response  
 
+
+
 #-------------------------------------------------------------------------------------------------------------
 @csrf_exempt
 def promotions(request):
@@ -518,24 +612,27 @@ def promotions(request):
     # serailizer=cmsSerializer(info);
     # json_data=JSONRenderer().render(serailizer.data) 
     # return HttpResponse(json_data,content_type='application/json')
-
+@api_view(['POST'])
 @csrf_exempt
 def addpromoted(request):
-    if request.method=='POST':
-        json_data=request.body
-        stream=io.BytesIO(json_data)
-        python_data=JSONParser().parse(stream)
-        serializer= pmsSerializer(data=python_data)
+    # if request.method=='POST':
+        # json_data=request.body
+        # stream=io.BytesIO(json_data)
+        # python_data=JSONParser().parse(stream)
+       
+        serializer= pmsSerializer(data=request.data)
         if serializer.is_valid():
             serializer.save()
             res={'msg':'Data Created Successfully'}
             json_data=JSONRenderer().render(res)
             return HttpResponse(json_data,content_type='application/json')
         return HttpResponse(JSONRenderer().render(serializer.errors),content_type='application/json')
-
+    
+@api_view(['GET'])
 @csrf_exempt
-def searchpromoted(request,name):
-     if request.method=='GET':
+def searchpromoted(request):
+    
+            name=request.query_params['name']
             info=pmsModel.objects.get(prod_name=name)
             serailizer=pmsSerializer(info);
            
@@ -544,28 +641,38 @@ def searchpromoted(request,name):
            
                     
 
-     
+@api_view(['PUT'])   
 @csrf_exempt    
-def editpromoted(request,id):
-     if request.method=='PUT':
-        json_data=request.body
-        stream=io.BytesIO(json_data)
-        python_data=JSONParser().parse(stream)
-        id=id
-        pic=python_data.get('pic',None)
-        prod_name=python_data.get('prod_name',None)
-        prod_category=python_data.get('prod_category',None)
-        inv_count=python_data.get('inv_count',None)
-        rate=python_data.get('rate',None)
-        prod_id=python_data.get('prod_id',None)
+def editpromoted(request):
+     
+        prod_name=request.query_params['prod_name']
+        try:
+         user_objects=pmsModel.objects.get(prod_name=prod_name)
+        except pmsModel.DoesNotExist:
+         res={'msg':'data Not Found'}
+         json_data=JSONRenderer().render(res)
+         return HttpResponse(json_data,content_type='application/json')
+        
+        data=request.data
+        # stream=io.BytesIO(json_data)
+        # python_data=JSONParser().parse(stream)
+        
+        pic=data['pic']
+        prod_name=data['prod_name']
+        prod_category=data['prod_category']
+        inv_count=data['inv_count']
+        rate=data['rate']
+        project_details=data['project_details']
+        # prod_id=python_data.get('prod_id',None)
       
-        user_objects=pmsModel.objects.get(id=id)
+        
         user_objects.pic= pic
         user_objects.prod_name= prod_name
         user_objects.prod_category=prod_category
         user_objects.inv_count= inv_count
         user_objects.rate= rate
-        user_objects. prod_id= prod_id
+        user_objects.project_details=project_details
+        # user_objects. prod_id= prod_id
         user_objects.save()
         serailizer=pmsSerializer(user_objects)
         res={'msg':'Data updated Successfully'}
@@ -573,10 +680,11 @@ def editpromoted(request,id):
         return HttpResponse(json_data,content_type='application/json')
                     
 
-
+@api_view(['DELETE'])
 @csrf_exempt        
-def deletepromoted(request,id):
-     if request.method=='DELETE':
+def deletepromoted(request):
+     
+        id=request.query_params['id']
         # json_data=request.body
         # stream=io.BytesIO(json_data)
         # python_data=JSONParser().parse(stream)
@@ -598,26 +706,171 @@ def usersupport(request):
     json_data=JSONRenderer().render(serailizer.data) 
     return HttpResponse(json_data,content_type='application/json')
    
-
+@api_view(['DELETE'])
 @csrf_exempt 
-def delete_records(request,id):
-     if request.method=='DELETE':
+def delete_records(request):
+        id=request.query_params['id']
       #   json_data=request.body
       #   stream=io.BytesIO(json_data)
       #   python_data=JSONParser().parse(stream)
       #   id=python_data.get('id',None)
-        id=id
+        
         if id is not None:
-             info=SupportDetails.objects.get(id=id)
+             info=SupportDetails.objects.get(support_id=id)
              info.delete()
              res={'msg':'Data updated Successfully'}
              json_data=JSONRenderer().render(res)
              return HttpResponse(json_data,content_type='application/json')
+#-----------------------------------------------------------------------------------------------------------
+@api_view(['PUT'])
+@csrf_exempt
+def settings(request):
+  
+        name=request.query_params['name']
+        try:
+         user_objects=config_setting.objects.get(username=name)
+        except config_setting.DoesNotExist:
+         res={'msg':'username Not Found'}
+         json_data=JSONRenderer().render(res)
+         return HttpResponse(json_data,content_type='application/json')
         
+        json_data=request.body
+        stream=io.BytesIO(json_data)
+        python_data=JSONParser().parse(stream)
+        
+        username=python_data.get('username',None)
+        sitename=python_data.get('sitename',None)
+        url=python_data.get('url',None)
+        email=python_data.get('email',None)
+        smtp_details=python_data.get('smtp_details',None)
+
+      
+        
+        user_objects.username=username
+        user_objects.sitename= sitename
+        user_objects.url=url
+        user_objects.email=email
+        user_objects.smtp_details=smtp_details
+        # user_objects.ids=random.getrandbits(32)
+        
+        user_objects.save()
+        # serailizer=config_settingSerializer(user_objects)
+        res={'msg':'Data updated Successfully'}
+        json_data=JSONRenderer().render(res)
+        return HttpResponse(json_data,content_type='application/json')
+#---------------------------------------------------------------------------------------------------------------
+@csrf_exempt
+def listing(request):
+   if request.method=='GET':
+   
+    try:
+        info=listings.objects.all()
+    except listings.DoesNotExist:
+            return []
+            # res={'msg':'Data Not Found'}
+            # json_data=JSONRenderer().render(res)
+            # return HttpResponse(json_data,content_type='application/json')
+    
+    serailizer=listingsSerializer(info,many=True);
+    
+    json_data=JSONRenderer().render(serailizer.data) 
+    return HttpResponse(json_data,content_type='application/json')
+
+      
+@api_view(['POST'])       
+@csrf_exempt
+def add_listing(request):
+    # if request.method=='POST':
+        # pic=request.FILES["pic"]
+        # info=Userdetails.objects.all()
+        # info.pic=pic
+        # json_data=request.body
+        # stream=io.BytesIO(json_data)
+        # python_data=JSONParser().parse(stream)
+       
+        
+        serializer= listingsSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            res={'msg':'Data Created Successfully'}
+            json_data=JSONRenderer().render(res)
+            return HttpResponse(json_data,content_type='application/json')
+        return HttpResponse(JSONRenderer().render(serializer.errors),content_type='application/json')
+
+@api_view()
+@csrf_exempt
+def search_listing(request):
+     if request.method=='GET':
+            id=request.query_params['id']
+            try:
+              info=listings.objects.get(id=id)
+            except listings.DoesNotExist:
+              res={'msg':'Data Not Found'}
+              json_data=JSONRenderer().render(res)
+              return HttpResponse(json_data,content_type='application/json')
+            serailizer=listingsSerializer(info);
+            json_data=JSONRenderer().render(serailizer.data) 
+            return HttpResponse(json_data,content_type='application/json')
+     
+@api_view(['PUT'])   
+@csrf_exempt    
+def edit_listing(request):
+     service=request.query_params['service']
+     if request.method=='PUT':
+        try:
+         user_objects=listings.objects.get(service=service)
+        except listings.DoesNotExist:
+         res={'msg':'username Not Found'}
+         json_data=JSONRenderer().render(res)
+         return HttpResponse(json_data,content_type='application/json')
+
+     
+        data=request.data
+        # stream=io.BytesIO(json_data)
+        # python_data=JSONParser().parse(stream)
+        
+        service=data['service']
+        desc=data['desc']  
+        pic_url=data['pic_url']
+        rate=data['rate']
+        print(service)
+        user_objects.service=service
+        user_objects.desc=desc
+        user_objects.pic_url= pic_url
+        user_objects.rate=rate
+       
+        user_objects.save()
+        res={'msg':'Data updated Successfully'}
+        json_data=JSONRenderer().render(res)
+        return HttpResponse(json_data,content_type='application/json')
+                    
+
+@api_view(['DELETE'])
+@csrf_exempt        
+def delete_listing(request):
+          id=request.query_params['id']
+        # json_data=request.body
+        # stream=io.BytesIO(json_data)
+        # python_data=JSONParser().parse(stream)
+        # id=python_data.get('id',None)
+        # if id is not None:
+          try:
+             info=listings.objects.get(id=id)
+          except listings.DoesNotExist:
+             res={'msg':'not present'}
+             json_data=JSONRenderer().render(res)
+             return HttpResponse(json_data,content_type='application/json')
+             
+          info.delete()
+          res={'msg':'deleted Successfully'}
+          json_data=JSONRenderer().render(res)
+          return HttpResponse(json_data,content_type='application/json')
+
 
 #===========================================================================================================
 #===========================================================================================================
 #===========================================================================================================
+@api_view(['GET'])
 def customers(request):
     customers = Customers.objects.filter(is_suspended=0).only('pic_url', 'member_name', 'phone', 'note', 'inv_count', 'id').all()
     data = serializers.serialize('json', customers)
@@ -625,7 +878,9 @@ def customers(request):
     return HttpResponse(formatted_data, content_type='application/json')
 
 
-def search_customers(request, id):
+@api_view(['GET'])
+def search_customers(request):
+    id = request.query_params['id']    
     customer = Customers.objects.filter(id=id).only('pic_url', 'member_name', 'phone', 'note', 'inv_count', 'id').first()
 
     if customer:
@@ -636,9 +891,10 @@ def search_customers(request, id):
         formatted_data = json.dumps(json.loads(data), indent=4)
         return HttpResponse(formatted_data, content_type='application/json')
     else:
-        return HttpResponseNotFound('Customer not found.')
+        return JsonResponse([], safe=False)
 
 
+@api_view(['GET'])
 def export_customers(request):
     response = HttpResponse(content_type='text/csv')
     response['Content-Disposition'] = 'attachment; filename="renovation_customers.csv"'
@@ -652,8 +908,11 @@ def export_customers(request):
     return response
 
 
-def delete_customer(request, id):
+@api_view(['DELETE'])
+def delete_customer(request):
+    id = request.query_params['id']
     customer = Customers.objects.filter(id=id).first()
+
     if customer:
         customer.delete()
         return HttpResponse('OK', status=200)
@@ -661,32 +920,38 @@ def delete_customer(request, id):
         return HttpResponseNotFound('Customer not found.')
 
 
+@api_view(['PUT'])
 @csrf_exempt
-def edit_customer(request, id):
-    if request.method == 'POST':
-        # customer = Customers.objects.filter(id=id, is_suspended=0).values('id', 'usname', 'emai', 'phone', 'role', 'pic_url', 'note').first()
-        customer = Customers.objects.filter(id=id, is_suspended=0).first()
-        
-        if not customer:
-            return HttpResponseNotFound('Customer not found.')
-        
-        customer.note = request.POST['note']
-        customer.emai = request.POST['emai']
-        customer.member_name = request.POST['member_name']
-        customer.phone = request.POST['phone']
-        customer.pic_url = request.POST['pic_url']
-        customer.role = request.POST['role']
-        customer.id = request.POST['uid']
-        customer.usname = request.POST['usname']
-        
-        customer.save()
+def edit_customer(request):
+    member_name = request.query_params['member_name']
+    
+    # customer = Customers.objects.filter(id=id, is_suspended=0).values('id', 'usname', 'emai', 'phone', 'role', 'pic_url', 'note').first()
+    customer = Customers.objects.filter(member_name=member_name, is_suspended=0).first()
+    
+    if not customer:
+        return HttpResponseNotFound('Customer not found.')
+    
+    params = QueryDict(request.body)
+    customer.note = params['note']
+    customer.emai = params['emai']
+    customer.member_name = params['member_name']
+    customer.phone = params['phone']
+    # if 'pic_url' in request.FILES:
+    #     customer.pic_url = request.FILES['pic_url']
+    customer.role = params['role']
+    customer.id = params['uid']
+    customer.usname = params['usname']
+    
+    customer.save()
 
-        data = serializers.serialize('json', [customer])
-        formatted_data = json.dumps(json.loads(data), indent=4)  # Indent the JSON data
-        return HttpResponse(formatted_data, content_type='application/json')
+    data = serializers.serialize('json', [customer])
+    formatted_data = json.dumps(json.loads(data), indent=4)  # Indent the JSON data
+    return HttpResponse(formatted_data, content_type='application/json')
 
 
-def suspend_customer(request, id):
+@api_view(['GET'])
+def suspend_customer(request):
+    id = request.query_params['id']
     customer = Customers.objects.filter(id=id).first()
     
     if customer:
@@ -697,6 +962,7 @@ def suspend_customer(request, id):
         return HttpResponseNotFound('Customer not found.')
 
 
+@api_view(['GET'])
 def suspended_customers(request):
     customers = Customers.objects.filter(is_suspended=1).all()
 
@@ -706,6 +972,7 @@ def suspended_customers(request):
 
 
 # reviews
+@api_view(['GET'])
 def reviews(request):
     reviews = Reviews.objects.only('prod_name', 'pic_url', 'review', 'amt', 'id').all()
 
@@ -714,7 +981,9 @@ def reviews(request):
     return HttpResponse(formatted_data, content_type='application/json')
 
 
-def delete_review(request, id):
+@api_view(['DELETE'])
+def delete_review(request):
+    id = request.query_params['id']
     review = Reviews.objects.filter(id=id).first()
 
     if review:
@@ -724,7 +993,9 @@ def delete_review(request, id):
         return HttpResponseNotFound('Review not found.')
     
 
-def review(request, id):
+@api_view(['GET'])
+def review(request):
+    id = request.query_params['id']
     review = Reviews.objects.filter(id=id).first()
 
     if review:
@@ -735,6 +1006,7 @@ def review(request, id):
         return HttpResponseNotFound('Review not found.')
     
 
+@api_view(['GET'])
 def purchases(request):
     transactions = Transactions.objects.all()
 
@@ -743,7 +1015,9 @@ def purchases(request):
     return HttpResponse(formatted_data, content_type='application/json')
 
 
-def search_transactions(request, prod_name):
+@api_view(['GET'])
+def search_transactions(request):
+    prod_name = request.query_params['prod_name']
     transactions = Transactions.objects.filter(prod_name=prod_name).all()
 
     if transactions:
@@ -751,10 +1025,11 @@ def search_transactions(request, prod_name):
         formatted_data = json.dumps(json.loads(data), indent=4)  # Indent the JSON data
         return HttpResponse(formatted_data, content_type='application/json')
     else:
-        return HttpResponseNotFound(f'Transactions not found of product: {prod_name}.')
+        return JsonResponse([], safe=False)
 
-
+#19fb320a59ed89e51795724776fa5550e6792188d0222e9486ccdb8bd59a5c0d
 # IMS - products
+@api_view(['GET'])
 def products(request):
     products = Products.objects.all()
 
@@ -763,7 +1038,9 @@ def products(request):
     return HttpResponse(formatted_data, content_type='application/json')
 
 
-def search_products(request, name):
+@api_view(['GET'])
+def search_products(request):
+    name = request.query_params['name']
     product = Products.objects.filter(name=name).first()
 
     if product:
@@ -771,11 +1048,16 @@ def search_products(request, name):
         formatted_data = json.dumps(json.loads(data), indent=4)  # Indent the JSON data
         return HttpResponse(formatted_data, content_type='application/json')
     else:
-        return HttpResponseNotFound('Product not found.')
+        return JsonResponse([], safe=False)
 
 
-def export_products(request, file_format):
+@api_view(['GET'])
+def export_products(request):
+    file_format = request.query_params['file_format']
     products = Products.objects.all()
+
+    if (file_format == 'json' or file_format == 'csv') and not products:
+        return JsonResponse([], safe=False)
     
     if file_format == 'json':
         data = serializers.serialize('json', products)
@@ -797,26 +1079,29 @@ def export_products(request, file_format):
         return HttpResponseBadRequest('Invalid file format..')
 
 
+@api_view(['PUT'])
 @csrf_exempt
-def edit_products(request, id):
-    product = Products.objects.filter(id=id).first()
+def edit_products(request):
+    prod_name = request.query_params['prod_name']
+    product = Products.objects.filter(name=prod_name).first()
 
     if product:
-        product.name = request.POST['prod_name']
-        product.category = request.POST['prod_category']
-        product.proj_category = request.POST['proj_category']
-        product.rate = request.POST['rate']
-        product.inv_count = request.POST['inv_count']
-        product.pic_url = request.POST['pic_url']
-        product.details = request.POST['details']
+        params = QueryDict(request.body)
+        product.name = params['prod_name']
+        product.category = params['prod_category']
+        product.proj_category = params['proj_category']
+        product.rate = params['rate']
+        product.inv_count = params['inv_count']
+        product.details = params['details']
 
         product.save()
 
-        return HttpResponse(f'Product with ID: {id} edited successfully.', status=200)
+        return HttpResponse(f'Product with ID: {prod_name} edited successfully.', status=200)
     else:
         return HttpResponseNotFound('Product not found.')
 
 
+@api_view(['POST'])
 @csrf_exempt
 def add_products(request):
     if request.method == 'POST':
@@ -825,11 +1110,13 @@ def add_products(request):
         proj_category = request.POST['proj_category']
         rate = request.POST['rate']
         inv_count = request.POST['inv_count']
-        pic_url = request.POST['pic_url']
+        pic_url = None
+        if 'pic_url' in request.FILES:
+            pic_url = request.FILES['pic_url']            
         details = request.POST['details']
-        featured_flag = int(request.POST['featured_flag'])
+        # featured_flag = int(request.POST['featured_flag'])
 
-        product = Products(name=name, category=category, proj_category=proj_category, rate=rate, inv_count=inv_count, pic_url=pic_url, details=details, featured_flag=featured_flag)
+        product = Products(name=name, category=category, proj_category=proj_category, rate=rate, inv_count=inv_count, pic_url=pic_url, details=details)
         product.save()
 
         return HttpResponse(f'Product with name: {name} added successfully.', status=200)
@@ -837,7 +1124,9 @@ def add_products(request):
         return HttpResponseBadRequest('Invalid request type.')
 
 
-def delete_products(request, id):
+@api_view(['DELETE'])
+def delete_products(request):
+    id = request.query_params['id']
     product = Products.objects.filter(id=id).first()
 
     if product:
@@ -847,11 +1136,13 @@ def delete_products(request, id):
         return HttpResponseNotFound('Product not found.')
 
 
-def export_featured_products(request, file_format):
+@api_view(['GET'])
+def export_featured_products(request):
+    file_format = request.query_params['file_format']
     products = Products.objects.filter(featured_flag=1).all()
     
     if (file_format == 'json' or file_format == 'csv') and not products:
-        return JsonResponse({404: 'Featured Products not found.'})
+        return JsonResponse([], safe=False)
     
     elif file_format == 'json':
         data = serializers.serialize('json', products)
@@ -873,6 +1164,7 @@ def export_featured_products(request, file_format):
         return HttpResponseBadRequest('Invalid file format..')
 
 
+@api_view(['GET'])
 def featured_products(request):
     products = Products.objects.filter(featured_flag=1).all()
 
@@ -885,6 +1177,7 @@ def featured_products(request):
 
 
 # CRM - members
+@api_view(['GET'])
 def members(request):
     members = CRM.objects.all()
     data = serializers.serialize('json', members)
@@ -892,7 +1185,9 @@ def members(request):
     return HttpResponse(formatted_data, content_type='application/json')
 
 
-def search_member(request, usname):
+@api_view(['GET'])
+def search_member(request):
+    usname = request.query_params['usname']
     member = CRM.objects.filter(usname=usname).first()
 
     if member:
@@ -900,10 +1195,12 @@ def search_member(request, usname):
         formatted_data = json.dumps(json.loads(data), indent=4)
         return HttpResponse(formatted_data, content_type='application/json')
     else:
-        return HttpResponseNotFound('Member not found.')
+        return JsonResponse([], safe=False)
     
 
-def delete_member(request, usname):
+@api_view(['DELETE'])
+def delete_member(request):
+    usname = request.query_params['usname']
     member = CRM.objects.filter(usname=usname).first()
 
     if member:
@@ -911,9 +1208,11 @@ def delete_member(request, usname):
         return HttpResponse(f'Member with username: {usname} deleted successfully.', status=200)
     else:
         return HttpResponseNotFound('Member not found.')
-    
 
-def member_details(request, usname):
+
+@api_view(['GET'])
+def member_details(request):
+    usname = request.query_params['usname']
     member = CRM.objects.filter(usname=usname).first()
 
     if member:
@@ -921,10 +1220,12 @@ def member_details(request, usname):
         formatted_data = json.dumps(json.loads(data), indent=4)
         return HttpResponse(formatted_data, content_type='application/json')
     else:
-        return HttpResponseNotFound('Member not found.')
+        return JsonResponse([], safe=False)
     
 
-def export_members(request, file_format):
+@api_view(['GET'])
+def export_members(request):
+    file_format = request.query_params['file_format']
     if file_format == 'json':
         members = CRM.objects.all()
         data = serializers.serialize('json', members)
@@ -943,10 +1244,9 @@ def export_members(request, file_format):
 
     return response
 
+@api_view(['GET'])
 def roles(request):
     # users = Users.objects.only('usname', 'name', 'email', 'role', 'status').all()
-  if request.method=='GET':
-        
     try:
         info=Userdetails.objects.all() 
     except Userdetails.DoesNotExist:
@@ -964,22 +1264,22 @@ def roles(request):
     # return HttpResponse(formatted_data, content_type='application/json')
     
 
-
+@api_view(['POST'])
 def create_role(request):
-    if request.method == 'POST':
-        # usname,name,email,role(admin/marketplace/superadmin),status
-        username = request.POST['username']
-        # user = Users.objects.filter(usname=usname).first()
-        username = request.POST['username']
-        user = Userdetails.objects.filter(username=username).first()
-        if user:
-            role = request.POST['role']
-            if role == 'admin' or role == 'marketplace' or role == 'superadmin':
-              return HttpResponse(f'User role for username: {username} created successfully.')
+    # usname,name,email,role(admin/marketplace/superadmin),status
+    username = request.POST['username']
+    # user = Users.objects.filter(usname=usname).first()
+    username = request.POST['username']
+    user = Userdetails.objects.filter(username=username).first()
+    if user:
+        role = request.POST['role']
+        if role == 'admin' or role == 'marketplace' or role == 'superadmin':
+            return HttpResponse(f'User role for username: {username} created successfully.')
 
 
-
-def search_role(request, name):
+@api_view(['GET'])
+def search_role(request):
+    name = request.query_params['name']
     # users = Users.objects.filter(name=name).only('usname', 'name', 'role', 'status').all()
     users = Userdetails.objects.filter(name=name).only('username', 'name', 'role', 'status').all()
 
@@ -992,7 +1292,9 @@ def search_role(request, name):
         # return HttpResponseNotFound(f'User(s) with name: {name} not found.')
 
 
-def delete_role(request, usname):
+@api_view(['DELETE'])
+def delete_role(request):
+    usname = request.query_params['usname']
     # user = Users.objects.filter(usname=usname).first()
     user = Userdetails.objects.filter(username=usname).first()
 
@@ -1001,3 +1303,103 @@ def delete_role(request, usname):
         return HttpResponse(f'User with username: {usname} deleted successfully.', status=200)
     else:
         return HttpResponseNotFound('User not found.')
+
+
+@api_view(['GET'])
+def categories(request):
+    categories = Categories.objects.all()
+    data = serializers.serialize('json', categories)
+    formatted_data = json.dumps(json.loads(data), indent=4)
+    return HttpResponse(formatted_data, content_type='application/json')
+
+
+@api_view(['GET'])
+def search_category(request):
+    prod_category = request.query_params['prod_category']
+    category = Categories.objects.filter(prod_category=prod_category)
+    data = serializers.serialize('json', category)
+    formatted_data = json.dumps(json.loads(data), indent=4)
+    return HttpResponse(formatted_data, content_type='application/json')
+
+
+@api_view(['GET'])
+def export_categories(request):
+    response = HttpResponse(content_type='text/csv')
+    response['Content-Disposition'] = 'attachment; filename="categories.csv"'
+
+    writer = csv.writer(response)
+    writer.writerow(['id', 'prod_category', 'pic_url'])
+
+    for category in Categories.objects.all():
+        writer.writerow([category.id, category.prod_category, category.pic_url])
+
+    return response
+
+
+@api_view(['POST'])
+def add_category(request):
+    prod_category = request.POST['prod_category']
+    pic_url = None
+    if 'pic_url' in request.FILES:
+        pic_url = request.FILES['pic_url']
+
+    category = Categories(prod_category=prod_category, pic_url=pic_url)
+    category.save()
+
+    return HttpResponse(f'Category: {prod_category} added successfully.', status=200)
+
+
+@api_view(['PUT'])
+def edit_category(request):
+    prod_category = request.query_params['prod_category']
+    category = Categories.objects.filter(prod_category=prod_category).first()
+    
+    if category:
+        data = request.data
+        category.prod_category = data['prod_category']
+        category.save()
+
+        return HttpResponse(f'Category with ID: {prod_category} edited successfully.', status=200)
+    else:
+        return HttpResponseNotFound('Category not found.')
+
+
+@api_view(['DELETE'])
+def delete_category(request):
+    id = request.query_params['catgid']
+    category = Categories.objects.filter(id=id).first()
+
+    if category:
+        category.delete()
+        return HttpResponse(f'Category with ID: {id} deleted successfully.', status=200)
+    else:
+        return HttpResponseNotFound('Category not found.')
+    
+
+@api_view(['GET'])
+def deals(request):
+    deals = Deals.objects.all()
+    data = serializers.serialize('json', deals)
+    formatted_data = json.dumps(json.loads(data), indent=4)
+    return HttpResponse(formatted_data, content_type='application/json')
+
+
+@api_view(['GET'])
+def search_deals(request):
+    requester = request.query_params['requester']
+    deals = Deals.objects.filter(requester=requester).all()
+    data = serializers.serialize('json', deals)
+    formatted_data = json.dumps(json.loads(data), indent=4)
+    return HttpResponse(formatted_data, content_type='application/json')
+
+
+@api_view(['DELETE'])
+def delete_deal(request):
+    id = request.query_params['d_id']
+    deal = Deals.objects.filter(id=id).first()
+
+    if deal:
+        deal.delete()
+        return HttpResponse(f'Deal with ID: {id} deleted successfully.', status=200)
+    else:
+        return HttpResponseNotFound('Deal not found.')

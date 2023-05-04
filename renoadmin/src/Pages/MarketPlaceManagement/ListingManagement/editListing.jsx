@@ -1,11 +1,14 @@
 import { useState } from "react";
 import React from "react";
 import TopHeader from "../../../UI/TopHeader/TopHeader";
+import { useDispatch } from "react-redux";
+import { updateListing } from "../../User_Management/features/userSlice";
 
 const EditListing = ({ setExpand, setActiveTab }) => {
   setExpand("marketPlace");
   setActiveTab("listingManagement");
   const head = "Edit Listing";
+  const dispatch = useDispatch();
 
   const [title, setTitle] = useState("");
   const [price, setPrice] = useState("");
@@ -14,20 +17,26 @@ const EditListing = ({ setExpand, setActiveTab }) => {
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    console.log(title, price); // Do something with the data
-    setTitle("");
-    setPrice("");
-    setImages([]);
+
+    const formData = new FormData();
+    formData.append('service', title);
+    formData.append('desc', content);
+    formData.append('rate', price);
+    images.map((image, index) => {
+      formData.append('pic_url', image);
+    })
+
+    dispatch(updateListing({formData, title}));
+
   };
 
   const handlePhotoUpload = (event) => {
     const files = event.target.files;
     const uploadedImages = [];
     for (let i = 0; i < files.length; i++) {
-      uploadedImages.push({
-        name: files[i].name,
-        url: URL.createObjectURL(files[i]),
-      });
+      uploadedImages.push(
+        files[i]
+      );
     }
     setImages(uploadedImages);
   };
@@ -134,7 +143,7 @@ const EditListing = ({ setExpand, setActiveTab }) => {
                   {images.map((image, index) => (
                     <img
                       key={index}
-                      src={image.url} // replace with your image source
+                      src={URL.createObjectURL(image)} // replace with your image source
                       alt={image.name} // replace with your image alt text
                       style={{
                         width: "100px",

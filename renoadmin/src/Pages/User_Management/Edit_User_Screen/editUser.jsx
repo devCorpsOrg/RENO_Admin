@@ -1,10 +1,16 @@
 import React, { useState } from "react";
 import TopHeader from "../../../UI/TopHeader/TopHeader";
-import { Link } from "react-router-dom";
+import { Form, Link } from "react-router-dom";
+import axios from "axios";
+import { useDispatch } from "react-redux";
+import { updateUser } from "../features/userSlice";
 
 const EditUser = ({setActiveTab, setExpand}) => {
   setExpand("userManagement");
-  setActiveTab("allUsers")
+  setActiveTab("allUsers");
+
+  const dispatch = useDispatch();
+  
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [phone, setPhone] = useState("");
@@ -42,7 +48,26 @@ const EditUser = ({setActiveTab, setExpand}) => {
 
   const head = "Edit User";
 
-  const handleSubmit = () => {};
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+  
+  
+    const formData = new FormData();
+    formData.append("username", name);
+    formData.append("email", email);
+    formData.append("phone", phone);
+    formData.append("role", label);
+    formData.append("uid", userId);
+    // if (photo) {
+      formData.append("pic", photo);
+    // }
+
+    dispatch(updateUser({formData, userId}))
+    
+
+  };
+  
+  
 
   return (
     <div>
@@ -181,6 +206,7 @@ const EditUser = ({setActiveTab, setExpand}) => {
                 color: "white",
               }}
               type="submit"
+              onClick={handleSubmit}
             >
               SAVE
             </button>

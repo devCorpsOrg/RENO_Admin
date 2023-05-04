@@ -3,7 +3,10 @@ import Table from "../../../UI/CommonTable/Table";
 import { deleteIcon, edit, images } from "./Assets/index";
 import TopHeader from "../../../UI/TopHeader/TopHeader";
 import { useNavigate } from "react-router-dom";
-import axios from "axios";
+import { useDispatch, useSelector } from "react-redux";
+
+import { Grid } from "react-loader-spinner";
+import { featuredProjects } from "../../User_Management/features/userSlice";
 
 const Action = () => {
   const Navigate = useNavigate();
@@ -26,21 +29,23 @@ const Photo = () => {
   );
 };
 
-const AllFeaturedProjects = () => {
+const FeaturedProject = () => {
   const head = "Featured Project";
 
-  const [featuredProj, setFeaturedProj] = useState([]);
+  const dispatch = useDispatch();
+  const [loading, setLoading] = useState(true);
+  const featuredData = useSelector(
+    (state) => state.userManagement.featuredproj
+  );
 
-  const url = "/featuredprojects";
   useEffect(() => {
-    axios
-      .get(url)
-      .then((response) => {
-        setFeaturedProj(response.data);
-        console.log(response.data); //Have to remove this at the end.
-      })
-      .catch((error) => console.log(error));
-  }, [featuredProj]);
+    const fetchUserData = async () => {
+      setLoading(true);
+      await dispatch(featuredProjects());
+      setLoading(false);
+    };
+    fetchUserData();
+  }, [dispatch]);
 
   const columns = [
     {
@@ -69,7 +74,7 @@ const AllFeaturedProjects = () => {
     },
   ];
 
-  const data = featuredProj.map((user) => ({
+  const data = featuredData.map((user) => ({
     photo: <Photo />,
     projectname: user.proj_name,
     category: user.proj_category,
@@ -79,15 +84,31 @@ const AllFeaturedProjects = () => {
   }));
 
   const blackButtonText = "Export All";
-  const pageSize = 4; // Number of Pages to be display on a single page.
+
+  // Number of Pages to be display on a single page.
+  const pageSize = 4;
 
   return (
     <div>
       <div className="flex fixed z-10">
         <TopHeader className="fixed" head={head} />
       </div>
+      {loading ? (
+        <div className="fixed inset-0 bg-gray-700 opacity-80 flex justify-center items-center z-50">
+          <Grid
+            height="80"
+            width="80"
+            color="#4fa94d"
+            ariaLabel="grid-loading"
+            radius="12.5"
+            wrapperStyle={{}}
+            wrapperClass=""
+            visible={true}
+          />
+        </div>
+      ) : null}
       <div className=" ml-72 mt-28 h-[85vh] min-w-[140vh] relative">
-        {featuredProj.length > 0 ? (
+        {featuredData.length > 0 ? (
           <Table
             columns={columns}
             data={data}
@@ -112,4 +133,4 @@ const AllFeaturedProjects = () => {
   );
 };
 
-export default AllFeaturedProjects;
+export default FeaturedProject;

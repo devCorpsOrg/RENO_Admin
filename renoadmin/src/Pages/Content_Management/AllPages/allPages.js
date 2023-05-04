@@ -3,7 +3,9 @@ import Table from "../../../UI/CommonTable/Table";
 import { deleteIcon, editIcon } from "./Assets/index";
 import TopHeader from "../../../UI/TopHeader/TopHeader";
 import { useNavigate } from "react-router-dom";
-import axios from "axios";
+import { useDispatch, useSelector } from "react-redux";
+import { allPages } from "../../User_Management/features/userSlice";
+import { Grid } from "react-loader-spinner";
 
 const Action = () => {
   return (
@@ -19,17 +21,18 @@ const AllPages = () => {
   const GreenClicked = () => {
     Navigate("/Home/createNewPage");
   };
+  const [loading, setLoading] = useState(true);
+  const dispatch = useDispatch();
+  const pageData = useSelector((state) => state.userManagement.allpages);
 
-  const [pageData, setPageData] = useState([]);
   useEffect(() => {
-    axios
-      .get("/pages")
-      .then((response) => {
-        console.log(response.data);
-        setPageData(response.data);
-      })
-      .catch((error) => console.log(error));
-  }, []);
+    const fetchUserData = async () => {
+      setLoading(true);
+      await dispatch(allPages());
+      setLoading(false);
+    };
+    fetchUserData();
+  }, [dispatch]);
 
   const columns = [
     {
@@ -42,12 +45,12 @@ const AllPages = () => {
     },
   ];
 
-  const data = pageData.map((user) => ({
+  const Data = pageData.map((user) => ({
     pagename: user.pagename,
     action: <Action />,
   }));
 
-  const pageSize = 6;
+  const pageSize = 7;
   const greenButtonText = "Create New Page";
   const head = "All Pages";
 
@@ -56,11 +59,25 @@ const AllPages = () => {
       <div className="flex fixed z-10">
         <TopHeader className="fixed" head={head} />
       </div>
-      <div className=" ml-72 mt-28 h-[85vh] min-w-[140vh] relative">
+      {loading ? (
+        <div className="fixed inset-0 bg-gray-700 opacity-80 flex justify-center items-center z-50">
+          <Grid
+            height="80"
+            width="80"
+            color="#4fa94d"
+            ariaLabel="grid-loading"
+            radius="12.5"
+            wrapperStyle={{}}
+            wrapperClass=""
+            visible={true}
+          />
+        </div>
+      ) : null}
+      <div className=" ml-72 mt-28 h-[85vh] w-[140vh] relative">
         {pageData.length > 0 ? (
           <Table
             columns={columns}
-            data={data}
+            data={Data}
             pageSize={pageSize}
             greenButtonText={greenButtonText}
             greenClicked={GreenClicked}
@@ -69,7 +86,7 @@ const AllPages = () => {
           <>
             <Table
               columns={columns}
-              data={data}
+              data={Data}
               pageSize={pageSize}
               greenButtonText={greenButtonText}
               greenClicked={GreenClicked}

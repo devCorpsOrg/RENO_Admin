@@ -1,32 +1,32 @@
 import React, { useState, useEffect } from "react";
 import "./Login.css";
 import { Link, useNavigate } from "react-router-dom";
+import axios from "axios";
 
 function Login() {
   const navigate = useNavigate();
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+  const [result, setResult] = useState("");
   //   const [result, setResult] = useState("");
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-    setUsername("");
-    setPassword("");
-    navigate("/home");
-    // try {
-    //   const response = await axios
-    //     .post("http://localhost:4000/", { username, password })
-    //     .then((res) => {
-    //       console.log(res);
-    //       if ((res?.data == "Login successfull")) {
-    //         setResult("Login Successfull")
-    //         navigate("/main");
-    //       }
-    //     }); // Login .
-    // } catch (error) {
-    //   setResult(error.response.data);
-    // }
-    // console.log(`Submitting ${username} and ${password}`);
+    const updatedData = {
+      username,
+      password
+    };
+
+    const jsonData = JSON.stringify(updatedData);
+    console.log(jsonData)
+    axios.post('login/', {username, password})
+    .then((response) => {
+      setUsername("");
+      setPassword("");
+      navigate('/home');
+    }).catch((err) => {
+      console.log("Problem", err);
+    })
   };
 
   return (
@@ -36,7 +36,7 @@ function Login() {
         <div className="login_header">
           <h1 className="headl">Login</h1>
           <div className="signup">
-            Need an account? <a href="">Sign Up</a>
+            Need an account? <a href="/register">Sign Up</a>
           </div>
         </div>
         <div className="login_form">

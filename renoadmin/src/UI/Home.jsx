@@ -41,6 +41,9 @@ import ListingManagement from "../Pages/MarketPlaceManagement/ListingManagement/
 import ReviewMPM from "../Pages/MarketPlaceManagement/ReviewManagement/reviewManagement";
 import AllChats from "../Pages/MarketPlaceManagement/AllChats/allchats";
 import ProjectBooking from "../Pages/PSM/ProjectBookings/projectBookings";
+import CreateUser from "../Pages/User_Management/Create_User/createUser";
+import EditPage from "../Pages/Content_Management/EditPage/editPage";
+
 
 function Home() {
   const [expand, setExpand] = useState("");
@@ -129,6 +132,16 @@ function Home() {
         />
         <Route
           exact
+          path="/editPage"
+          element={
+            <EditPage
+              setExpand={togleExpand}
+              setActiveTab={handleActiveTab}
+            />
+          }
+        />
+        <Route
+          exact
           path="/editMember"
           element={
             <EditMember
@@ -176,6 +189,13 @@ function Home() {
           path="/UserDetails"
           element={
             <ViewUser setExpand={togleExpand} setActiveTab={handleActiveTab} />
+          }
+        />
+        <Route
+          exact
+          path="/createUser"
+          element={
+            <CreateUser setExpand={togleExpand} setActiveTab={handleActiveTab} />
           }
         />
         <Route

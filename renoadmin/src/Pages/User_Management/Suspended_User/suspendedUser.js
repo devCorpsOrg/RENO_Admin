@@ -3,7 +3,9 @@ import Table from "../../../UI/CommonTable/Table";
 import { deleteIcon, Photo, View } from "./Assets/index";
 import TopHeader from "../../../UI/TopHeader/TopHeader";
 import { useNavigate } from "react-router-dom";
-import axios from "axios";
+import { useDispatch, useSelector } from "react-redux";
+import { Grid } from "react-loader-spinner";
+import { suspendUsers } from "../features/userSlice";
 
 // Component inside action column
 // The details of user shall be different for every users. It will be integrated at authentication of the users.
@@ -29,21 +31,24 @@ const ProfilePhoto = () => {
   );
 };
 
-const AllMembers = () => {
+const SuspendUsers = () => {
   const head = "Suspend User List";
 
-  const [suspendUser, setSuspendUsers] = useState([]);
+  const dispatch = useDispatch();
+  const [loading, setLoading] = useState(true);
 
-  const url = "/searchusers/asd123";
+  const suspendedData = useSelector(
+    (state) => state.userManagement.suspendUsers
+  );
+
   useEffect(() => {
-    axios
-      .get(url)
-      .then((response) => {
-        setSuspendUsers(response.data);
-        console.log(response.data); // check what is being returned
-      })
-      .catch((err) => console.log(err));
-  }, []);
+    const fetchUserData = async () => {
+      setLoading(true);
+      await dispatch(suspendUsers());
+      setLoading(false);
+    };
+    fetchUserData();
+  }, [dispatch]);
 
   const columns = [
     {
@@ -56,11 +61,11 @@ const AllMembers = () => {
     },
     {
       header: "Email Address",
-      accessor: "email",
+      accessor: "emailaddress",
     },
     {
       header: "Suspended Reason",
-      accessor: "suspendedReason",
+      accessor: "suspendedreason",
     },
     {
       header: "Role",
@@ -71,40 +76,50 @@ const AllMembers = () => {
       accessor: "action",
     },
   ];
-  const pageSize = 10;
 
-  // const data = suspendUser.map((user) => ({
-  //   photo: <ProfilePhoto />,
-  //   username: user.username,
-  //   email: user.email,
-  //   suspendedReason: user.suspended_reason,
-  //   role: user.role,
-  //   action: <Action />,
-  // }));
-
-  const data = {
+  const data = suspendedData.map((user) => ({
     photo: <ProfilePhoto />,
-    username: "John Doe",
-    email: "John@sample.com",
-    suspendedReason: "This is the reason of suspension",
-    role: "Admin",
+    username: user.usmame,
+    emailaddress: user.email,
+    suspendedreason: user.suspend_reason,
+    role: user.role,
     action: <Action />,
-  };
+  }));
 
+  const pageSize = 10;
   return (
     <div>
       <div className="flex fixed z-10">
         <TopHeader head={head} />
       </div>
-      <div className="ml-72 mt-18 h-[98vh] min-w-[94%] relative">
-        {suspendUser.length > 0 ? (
+      {loading ? (
+        <div className="fixed inset-0 bg-gray-700 opacity-80 flex justify-center items-center z-50">
+          <Grid
+            height="80"
+            width="80"
+            color="#4fa94d"
+            ariaLabel="grid-loading"
+            radius="12.5"
+            wrapperStyle={{}}
+            wrapperClass=""
+            visible={true}
+          />
+        </div>
+      ) : null}
+      <div className=" ml-72 mt-18 h-[98vh] w-[140vh] relative">
+        {suspendedData.length > 0 ? (
           <Table columns={columns} data={data} pageSize={pageSize} />
         ) : (
-          <h2>No data</h2>
+          <>
+            <Table columns={columns} data={data} pageSize={pageSize} />
+            <div className="flex ml-5 justify-center w-full mt-40">
+              <h2 className="text-4xl font-bold text-gray-500">No Data!</h2>
+            </div>
+          </>
         )}
       </div>
     </div>
   );
 };
 
-export default AllMembers;
+export default SuspendUsers;

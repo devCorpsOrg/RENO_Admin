@@ -2,7 +2,8 @@ import { useState } from "react";
 import React from "react";
 import TopHeader from "../../../UI/TopHeader/TopHeader";
 import DisabledByDefaultRoundedIcon from "@mui/icons-material/DisabledByDefaultRounded";
-
+import { useDispatch } from "react-redux";
+import { updateCategory } from "../../User_Management/features/userSlice";
 
 const EditCategory = ({ setExpand, setActiveTab }) => {
   setExpand("marketPlace");
@@ -12,22 +13,25 @@ const EditCategory = ({ setExpand, setActiveTab }) => {
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
   const [images, setImages] = useState([]);
+  const dispatch = useDispatch();
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    console.log(title, content); // Do something with the data
-    setTitle("");
-    // setImages([]);
+
+    const formData = new FormData();
+    formData.append('prod_category', title);
+    images.map((image, index) => {
+      formData.append('media', image);
+    })
+
+    dispatch(updateCategory({formData, title}))
   };
 
   const handlePhotoUpload = (event) => {
     const files = event.target.files;
     const uploadedImages = [];
     for (let i = 0; i < files.length; i++) {
-      uploadedImages.push({
-        name: files[i].name,
-        url: URL.createObjectURL(files[i]),
-      });
+      uploadedImages.push(files[i]);
     }
     setImages(uploadedImages);
   };
@@ -96,54 +100,53 @@ const EditCategory = ({ setExpand, setActiveTab }) => {
             />
           </label>
 
-
           <label className="grid pr-6" style={{ marginTop: "20px" }}>
             Photos
-          <div style={{ width: "600px", marginTop: "10px" }}>
-            {(images && images.length > 0) ? (
-              <div className="grid grid-cols-4 gap-2">
-                {images.map((image, index) => (
-                  <div key={index} className="relative">
-                    <img
-                      src={image.url}
-                      alt={image.name}
-                      style={{
-                        width: "100px",
-                        height: "100px",
-                        objectFit: "cover",
-                        marginRight: "10px",
-                      }}
-                    />
-                    <button
-                      className="absolute top-0 text-white" style={{right:46}}
-                      onClick={() => handleRemoveImage(index)}
-                    >
-                      <DisabledByDefaultRoundedIcon style={{fill:"red"}} />
-                    </button>
-                  </div>
-                ))}
-              </div>
-            ) : (
+            <div style={{ width: "600px", marginTop: "10px" }}>
+              {images && images.length > 0 ? (
+                <div className="grid grid-cols-4 gap-2">
+                  {images.map((image, index) => (
+                    <div key={index} className="relative">
+                      <img
+                        src={URL.createObjectURL(image)}
+                        alt={image.name}
+                        style={{
+                          width: "100px",
+                          height: "100px",
+                          objectFit: "cover",
+                          marginRight: "10px",
+                        }}
+                      />
+                      <button
+                        className="absolute top-0 text-white"
+                        style={{ right: 46 }}
+                        onClick={() => handleRemoveImage(index)}
+                      >
+                        <DisabledByDefaultRoundedIcon style={{ fill: "red" }} />
+                      </button>
+                    </div>
+                  ))}
+                </div>
+              ) : (
                 <input
-                style={{
-                  height: "48px",
-                  width: "590px",
-                  paddingLeft: "0px",
-                  border: "2px solid 	#e6f7fe",
-                  marginTop: "5px",
-                  fontSize: "14px",
-                }}
-                class="file:bg-black file:px-6 file:py-3 file:border-none file:rounded file:text-white file:cursor-pointer placeholder-transparent mt-3 rounded appearance-none placeholder-transparent"
-                type="file"
-                accept="image/*"
-                multiple
-                onChange={handlePhotoUpload}
-                placeholder=""
-              />
-            )}
-          </div>
-          </label> 
-
+                  style={{
+                    height: "48px",
+                    width: "590px",
+                    paddingLeft: "0px",
+                    border: "2px solid 	#e6f7fe",
+                    marginTop: "5px",
+                    fontSize: "14px",
+                  }}
+                  class="file:bg-black file:px-6 file:py-3 file:border-none file:rounded file:text-white file:cursor-pointer placeholder-transparent mt-3 rounded appearance-none placeholder-transparent"
+                  type="file"
+                  accept="image/*"
+                  multiple
+                  onChange={handlePhotoUpload}
+                  placeholder=""
+                />
+              )}
+            </div>
+          </label>
 
           {/* <div> */}
           <button

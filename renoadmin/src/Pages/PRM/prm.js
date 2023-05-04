@@ -3,8 +3,10 @@ import Table from "../../UI/CommonTable/Table";
 import { deleteIcon, view, edit } from "./Assets/index";
 import TopHeader from "../../UI/TopHeader/TopHeader";
 import { useNavigate } from "react-router-dom";
-import axios from "axios";
+import { useDispatch, useSelector } from "react-redux";
 
+import { Grid } from "react-loader-spinner";
+import { RoleManagement } from "../User_Management/features/userSlice";
 // Component inside action column
 const Action = () => {
   return (
@@ -23,17 +25,18 @@ const PMS = () => {
   };
   const head = "Permission and Role Management";
 
-  const [role, setRole] = useState([]);
-  const url = "/roles";
+  const dispatch = useDispatch();
+  const [loading, setLoading] = useState(true);
+  const roleData = useSelector((state) => state.userManagement.role);
+
   useEffect(() => {
-    axios
-      .get(url)
-      .then((response) => {
-        setRole(response.data);
-        console.log(response.data); //Have to remove this at the end.
-      })
-      .catch((error) => console.log(error));
-  }, [role]);
+    const fetchUserData = async () => {
+      setLoading(true);
+      await dispatch(RoleManagement());
+      setLoading(false);
+    };
+    fetchUserData();
+  }, [dispatch]);
 
   const columns = [
     {
@@ -63,7 +66,7 @@ const PMS = () => {
   ];
 
   let count = 1; // initialize counter variable
-  const data = role.map((user) => ({
+  const data = roleData.map((user) => ({
     serial: count++,
     name: user.name,
     emailaddress: user.email,
@@ -72,7 +75,7 @@ const PMS = () => {
     action: <Action />,
   }));
 
-  const pageSize = 10;
+  const pageSize = 7;
   const greenButtonText = "Add New Role";
 
   return (
@@ -80,8 +83,22 @@ const PMS = () => {
       <div className="flex fixed z-10">
         <TopHeader className="fixed" head={head} />
       </div>
+      {loading ? (
+        <div className="fixed inset-0 bg-gray-700 opacity-80 flex justify-center items-center z-50">
+          <Grid
+            height="80"
+            width="80"
+            color="#4fa94d"
+            ariaLabel="grid-loading"
+            radius="12.5"
+            wrapperStyle={{}}
+            wrapperClass=""
+            visible={true}
+          />
+        </div>
+      ) : null}
       <div className=" ml-72 mt-28 h-[85vh] w-[140vh] relative">
-        {role.length > 0 ? (
+        {roleData.length > 0 ? (
           <Table
             columns={columns}
             data={data}
