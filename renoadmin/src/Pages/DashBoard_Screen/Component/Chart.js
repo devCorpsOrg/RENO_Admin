@@ -56,7 +56,7 @@ const Chart = ({ heading, fields }) => {
         </p>
       </div>
       <div className="flex flex-col sm:flex-row justify-center pl-5 pr-5 items-center pt-5 ">
-        <div className="flex justify-between items-center  w-full h-80">
+        <div className="flex justify-between items-center gap-5  w-full h-80">
           <div>
             <Pie data={data} options={options} />
           </div>

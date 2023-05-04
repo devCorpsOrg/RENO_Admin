@@ -70,9 +70,9 @@ const EditUser = ({ setActiveTab, setExpand }) => {
         <TopHeader className="fixed" head={head} />
       </div>
 
-      <div className="ml-72 mt-20 relative" style={{ marginTop: "140px" }}>
+      <div className="ml-80 mt-20 relative" style={{ marginTop: "140px" }}>
         <form>
-          <div className="grid grid-cols-3 gap-4">
+          <div className="grid grid-cols-2 gap-4">
             <label className="grid pr-6">
               User Name
               <input
@@ -189,11 +189,10 @@ const EditUser = ({ setActiveTab, setExpand }) => {
               )}
             </label>
           </div>
-          <div className="flex mt-7 items-center">
+          <div className="flex mt-10 gap-5 items-center">
             <button
-              className="rounded"
+              className="rounded bg-lime-600 hover:bg-lime-700"
               style={{
-                backgroundColor: "rgba(153, 190, 17, 0.831)",
                 width: "130px",
                 height: "55px",
                 color: "white",
@@ -202,9 +201,15 @@ const EditUser = ({ setActiveTab, setExpand }) => {
               onClick={handleSubmit}>
               SAVE
             </button>
-            <Link to="/home/allUsers" style={{ paddingLeft: "50px" }}>
-              Back
-            </Link>
+            <button
+              className="rounded bg-black hover:bg-gray-800"
+              style={{
+                width: "130px",
+                height: "55px",
+                color: "white",
+              }}>
+              <Link to="/home/allUsers">Back</Link>
+            </button>
           </div>
         </form>
       </div>
