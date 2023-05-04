@@ -53,21 +53,8 @@ const EditMember = ({ setExpand, setActiveTab }) => {
         <TopHeader className="fixed" head={head} />
       </div>
 
-      <div className="ml-72 mt-20 w-[80%] relative">
+      <div className="ml-72 mt-40 w-[80%] relative">
         <form onSubmit={handleSubmit}>
-          <div className="flex justify-end items-center gap-5">
-            <button
-              className="rounded mt-10 bg-black w-[130px] h-[47px] text-white"
-              type="submit">
-              Cancel
-            </button>
-
-            <button
-              className="rounded mt-10 w-[130px] h-[47px] text-white bg-[#8FC743]"
-              type="submit">
-              Save
-            </button>
-          </div>
 
           <div className="grid grid-cols-3 gap-4 mt-5">
             <label className="grid pr-6">

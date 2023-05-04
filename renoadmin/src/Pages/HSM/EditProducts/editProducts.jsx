@@ -10,7 +10,7 @@ import { updateProject } from "../../User_Management/features/userSlice";
 const EditProduct = ({ setExpand, setActiveTab }) => {
   setExpand("homeService");
   setActiveTab("productList");
-  const head = "Edit Project";
+  const head = "Edit Product";
   const dispatch = useDispatch();
 
   const [title, setTitle] = useState("");
@@ -74,36 +74,8 @@ const EditProduct = ({ setExpand, setActiveTab }) => {
         <TopHeader className="fixed" head={head} />
       </div>
 
-      <div className=" ml-72 mb-10 relative" style={{ marginTop: "70px" }}>
+      <div className=" ml-72 mb-10 relative" style={{ marginTop: "120px" }}>
         <form onSubmit={handleSubmit}>
-          <div style={{ marginRight: 0, marginLeft: 920 }}>
-            <button
-              className="rounded mt-10"
-              style={{
-                backgroundColor: "black",
-                width: "130px",
-                height: "47px",
-                color: "white",
-              }}
-              type="submit"
-            >
-              Cancel
-            </button>
-
-            <button
-              className="rounded mt-10"
-              style={{
-                backgroundColor: "rgba(153, 190, 17, 0.831)",
-                width: "130px",
-                height: "47px",
-                color: "white",
-                marginLeft: "30px",
-              }}
-              type="submit"
-            >
-              Save
-            </button>
-          </div>
           <label className="grid mt-5">
             Product Title
             <input
@@ -209,9 +181,9 @@ const EditProduct = ({ setExpand, setActiveTab }) => {
                 onChange={handleInventoryChange}
               >
                 <option value="">Select Number Of Inventory</option>
-                <option value="personal">Admin</option>
-                <option value="work">Work</option>
-                <option value="other">Other</option>
+                <option value="personal">1</option>
+                <option value="work">2</option>
+                <option value="other">3</option>
               </select>
             </label>
           </div>

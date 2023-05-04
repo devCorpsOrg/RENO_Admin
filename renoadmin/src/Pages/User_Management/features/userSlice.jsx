@@ -1,297 +1,395 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
+import cookie from "js-cookie";
 
 //create action
 
-export const createUser = createAsyncThunk("createUser", async (formData, { rejectWithValue }) => {
+const csrfToken = cookie.get("csrftoken");
+
+export const createUser = createAsyncThunk(
+  "createUser",
+  async (formData, { rejectWithValue }) => {
     try {
       const response = await axios({
         method: "post",
         url: "/usercreate/",
-        data:  formData  ,
-        headers: { 'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8' },
+        data: formData,
+        headers: {
+          "Content-Type": "application/x-www-form-urlencoded;charset=UTF-8",
+          "X-CSRFToken": csrfToken,
+        },
       });
-      console.log(...formData)
-      console.log(response)
-
+      console.log(...formData);
+      console.log(csrfToken)
+      console.log(response);
+      alert('User created successfully')
       return response.data;
     } catch (error) {
-        console.log("Not submitting data");
+      alert('Operation failed')
+      console.log("Not submitting data");
       return rejectWithValue(error.response.data);
     }
-  });
+  }
+);
 
-export const createNewPage = createAsyncThunk("createNewPage", async (formData, { rejectWithValue }) => {
+export const createNewPage = createAsyncThunk(
+  "createNewPage",
+  async (formData, { rejectWithValue }) => {
     try {
       const response = await axios({
         method: "post",
         url: "/createpage/",
-        data:  formData,
-        headers: { 'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8' },
+        data: formData,
+        headers: {
+          "Content-Type": "application/x-www-form-urlencoded;charset=UTF-8",
+          "X-CSRFToken": csrfToken,
+        },
       });
-      console.log(...formData)
-      console.log(response)
+      console.log(...formData);
+      console.log(csrfToken)
+      console.log(response);
+      alert('Page created successfully')
       return response.data;
     } catch (error) {
-        console.log("Not submitting data");
+      console.log("Not submitting data");
+      alert('Operation failed')
       return rejectWithValue(error.response.data);
     }
-  });
+  }
+);
 
-
-export const addNewShowcase = createAsyncThunk("addNewShowcase", async (formData, { rejectWithValue }) => {
+export const addNewShowcase = createAsyncThunk(
+  "addNewShowcase",
+  async (formData, { rejectWithValue }) => {
     try {
       const response = await axios({
         method: "post",
         url: "/addproject/",
-        data:  formData,
-        headers: { 'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8' },
+        data: formData,
+        headers: {
+          "Content-Type": "application/x-www-form-urlencoded;charset=UTF-8",
+          "X-CSRFToken": csrfToken,
+        },
       });
-      console.log(...formData)
-      console.log(response)
+      console.log(...formData);
+      alert('Data created successfully')
+      console.log(response);
       return response.data;
     } catch (error) {
-        console.log("Not submitting data");
+      alert('Operation failed')
+      console.log("Not submitting data");
       return rejectWithValue(error.response.data);
     }
-  });
+  }
+);
 
-
-export const addNewPromotion = createAsyncThunk("addNewPromotion", async (formData, { rejectWithValue }) => {
+export const addNewPromotion = createAsyncThunk(
+  "addNewPromotion",
+  async (formData, { rejectWithValue }) => {
     try {
       const response = await axios({
         method: "post",
         url: "/addpromoted/",
-        data:  formData,
-        headers: { 'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8' },
+        data: formData,
+        headers: {
+          "Content-Type": "application/x-www-form-urlencoded;charset=UTF-8",
+          "X-CSRFToken": csrfToken,
+        },
       });
-      console.log(...formData)
-      console.log(response)
+      console.log(...formData);
+      console.log(response);
+      alert('Data created successfully')
       return response.data;
     } catch (error) {
-        console.log("Not submitting data");
+      alert('Operation failed')
+      console.log("Not submitting data");
       return rejectWithValue(error.response.data);
     }
-  });
+  }
+);
 
-
-export const addNewProduct = createAsyncThunk("addNewProduct", async (formData, { rejectWithValue }) => {
+export const addNewProduct = createAsyncThunk(
+  "addNewProduct",
+  async (formData, { rejectWithValue }) => {
     try {
       const response = await axios({
         method: "post",
-        url: "/addproducts/",
-        data:  formData,
-        headers: { 'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8' },
+        url: "/addproducts",
+        data: formData,
+        headers: {
+          "Content-Type": "application/x-www-form-urlencoded;charset=UTF-8",
+          "X-CSRFToken": csrfToken,
+        },
       });
-      console.log(...formData)
-      console.log(response)
+      console.log(...formData);
+      alert('Data created successfully')
+      console.log(response);
       return response.data;
     } catch (error) {
-        console.log("Not submitting data");
+      alert('Operation failed')
+      console.log("Not submitting data");
       return rejectWithValue(error.response.data);
     }
-  });
+  }
+);
 
-
-export const addNewCategory = createAsyncThunk("addNewCategory", async (formData, { rejectWithValue }) => {
+export const addNewCategory = createAsyncThunk(
+  "addNewCategory",
+  async (formData, { rejectWithValue }) => {
     try {
       const response = await axios({
         method: "post",
         url: "/addcategory",
-        data:  formData,
-        headers: { 'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8' },
+        data: formData,
+        headers: {
+          "Content-Type": "application/x-www-form-urlencoded;charset=UTF-8",
+          "X-CSRFToken": csrfToken,
+        },
       });
-      console.log(...formData)
-      console.log(response)
+      console.log(...formData);
+      alert('Data created successfully')
+      console.log(response);
       return response.data;
     } catch (error) {
-        console.log("Not submitting data");
+      alert('Operation failed')
+      console.log("Not submitting data");
       return rejectWithValue(error.response.data);
     }
-  });
+  }
+);
 
-
-export const addNewListing = createAsyncThunk("addNewListing", async (formData, { rejectWithValue }) => {
+export const addNewListing = createAsyncThunk(
+  "addNewListing",
+  async (formData, { rejectWithValue }) => {
     try {
       const response = await axios({
         method: "post",
         url: "/addlisting/",
-        data:  formData,
-        headers: { 'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8' },
+        data: formData,
+        headers: {
+          "Content-Type": "application/x-www-form-urlencoded;charset=UTF-8",
+          "X-CSRFToken": csrfToken,
+        },
       });
-      console.log(...formData)
-      console.log(response)
+      console.log(...formData);
+      console.log(response);
+      alert('Data created successfully')
       return response.data;
     } catch (error) {
-        console.log("Not submitting data");
+      alert('Operation failed')
+      console.log("Not submitting data");
       return rejectWithValue(error.response.data);
     }
-  });
+  }
+);
 
-
-export const getUser = createAsyncThunk("getUser", async (_,{ rejectWithValue }) => {
-  console.log("hello")
+export const getUser = createAsyncThunk(
+  "getUser",
+  async (_, { rejectWithValue }) => {
+    console.log("hello");
     try {
       const response = await axios.get("/user");
-      console.log(response)
+      console.log(response);
       return response.data;
     } catch (error) {
-        console.log("Not submitting data");
-        console.log(error)
+      alert('Operation failed')
+      console.log("Not submitting data");
+      console.log(error);
       return rejectWithValue(error.response.data);
     }
-  });
+  }
+);
 
-
-export const deleteUser = createAsyncThunk("deleteUser", async (value, { rejectWithValue }) => {
+export const deleteUser = createAsyncThunk(
+  "deleteUser",
+  async (value, { rejectWithValue }) => {
     try {
       const response = await axios.delete(`API_CALL${value}`).json();
-    //   console.log(formData)
+      //   console.log(formData)
       return response.data;
     } catch (error) {
-        console.log("Not submitting data");
+      alert('Operation failed')
+      console.log("Not submitting data");
       return rejectWithValue(error.response.data);
     }
-  });
+  }
+);
 
-
-export const updateUser = createAsyncThunk("updateUser", async ({formData, userId}, { rejectWithValue }) => {
+export const updateUser = createAsyncThunk(
+  "updateUser",
+  async ({ formData, userId }, { rejectWithValue }) => {
     try {
       const response = await axios({
         method: "put",
         url: `/edituser/?id=${userId}`,
-        data:  formData,
-        headers: { 'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8' },
+        data: formData,
+        headers: {
+          "Content-Type": "application/x-www-form-urlencoded;charset=UTF-8",
+          "X-CSRFToken": csrfToken,
+        },
       });
       console.log(userId);
       console.log(response);
+      alert('Data updated successfully')
     } catch (error) {
+      alert('Operation failed')
       console.log(userId);
-        console.log("Not submitting data");
+      console.log("Not submitting data");
       return rejectWithValue(error.response.data);
     }
-  });
+  }
+);
 
-
-export const updatePage = createAsyncThunk("updatePage", async ({formData, title}, { rejectWithValue }) => {
+export const updatePage = createAsyncThunk(
+  "updatePage",
+  async ({ formData, title }, { rejectWithValue }) => {
     try {
       const response = await axios({
         method: "put",
         url: `/editpage/?pagename=${title}`,
-        data:  formData,
-        headers: { 'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8' },
+        data: formData,
+        headers: {
+          "Content-Type": "application/x-www-form-urlencoded;charset=UTF-8",
+          "X-CSRFToken": csrfToken,
+        },
       });
       console.log(response);
+      alert('Data updated successfully')
     } catch (error) {
-        console.log("Not submitting data");
+      alert('Operation failed')
+      console.log("Not submitting data");
       return rejectWithValue(error.response.data);
     }
-  });
+  }
+);
 
-
-export const updateShowcase = createAsyncThunk("updateShowcase", async ({formData, title}, { rejectWithValue }) => {
+export const updateShowcase = createAsyncThunk(
+  "updateShowcase",
+  async ({ formData, title }, { rejectWithValue }) => {
     try {
       const response = await axios({
         method: "put",
-        url: `/editproject/?proj_name=${title}`,  // Change the End points
-        data:  formData,
-        headers: { 'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8' },
+        url: `/editproject/?proj_name=${title}`, // Change the End points
+        data: formData,
+        headers: {
+          "Content-Type": "application/x-www-form-urlencoded;charset=UTF-8",
+          "X-CSRFToken": csrfToken,
+        },
       });
       console.log(response);
+      alert('Data updated successfully')
     } catch (error) {
-        console.log("Not submitting data");
+      alert('Operation failed')
+      console.log("Not submitting data");
       return rejectWithValue(error.response.data);
     }
-  });
+  }
+);
 
-
-export const updateProject = createAsyncThunk("updateProject", async ({formData, title}, { rejectWithValue }) => {
+export const updateProject = createAsyncThunk(
+  "updateProject",
+  async ({ formData, title }, { rejectWithValue }) => {
     try {
       const response = await axios({
         method: "put",
-        url: `/editproducts/?prod_name=${title}`,  // Change the End points
-        data:  formData,
-        headers: { 'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8' },
+        url: `/editproducts/?prod_name=${title}`, // Change the End points
+        data: formData,
+        headers: {
+          "Content-Type": "application/x-www-form-urlencoded;charset=UTF-8",
+          "X-CSRFToken": csrfToken,
+        },
       });
       console.log(response);
+      alert('Data updated successfully')
     } catch (error) {
-        console.log("Not submitting data");
+      alert('Operation failed')
+      console.log("Not submitting data");
       return rejectWithValue(error.response.data);
     }
-  });
+  }
+);
 
-
-export const updateCategory = createAsyncThunk("updateCategory", async ({formData, title}, { rejectWithValue }) => {
+export const updateCategory = createAsyncThunk(
+  "updateCategory",
+  async ({ formData, title }, { rejectWithValue }) => {
     try {
       const response = await axios({
         method: "put",
-        url: `/editcategory/?prod_category=${title}`,  // Change the End points
-        data:  formData,
-        headers: { 'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8' },
+        url: `/editcategory/?prod_category=${title}`, // Change the End points
+        data: formData,
+        headers: {
+          "Content-Type": "application/x-www-form-urlencoded;charset=UTF-8",
+          "X-CSRFToken": csrfToken,
+        },
       });
       console.log(response);
+      alert('Data updated successfully')
     } catch (error) {
-        console.log("Not submitting data");
+      alert('Operation failed')
+      console.log("Not submitting data");
       return rejectWithValue(error.response.data);
     }
-  });
+  }
+);
 
-
-export const updateListing = createAsyncThunk("updateListing", async ({formData, title}, { rejectWithValue }) => {
+export const updateListing = createAsyncThunk(
+  "updateListing",
+  async ({ formData, title }, { rejectWithValue }) => {
     try {
       const response = await axios({
         method: "put",
-        url: `/editlisting/?service=${title}`,  // Change the End points
-        data:  formData,
-        headers: { 'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8' },
+        url: `/editlisting/?service=${title}`, // Change the End points
+        data: formData,
+        headers: {
+          "Content-Type": "application/x-www-form-urlencoded;charset=UTF-8",
+          "X-CSRFToken": csrfToken,
+        },
       });
       console.log(response);
+      alert('Data updated successfully')
     } catch (error) {
-        console.log("Not submitting data");
+      alert('Operation failed')
+      console.log("Not submitting data");
       return rejectWithValue(error.response.data);
     }
-  });
-
+  }
+);
 
 export const userDetails = createSlice({
-    name: "userDetail",
-    initialState: {
-        users: [],
-        loading: false,
-        error: null,
-    },
-    reducers: {
-      dummy: (state) => state,
-    },
-    extraReducers: (builder) => {
-        builder
-    //         .addCase(createUser.pending, (state) => {
-    //             state.loading = true;
-    //         })
-    //         .addCase(createUser.fulfilled, (state, action) => {
-    //             state.loading = false;
-    //             state.users.push(action.payload);
-    //         })
-    //         .addCase(createUser.rejected, (state, action) => {
-    //             state.loading = false;
-    //             state.error = action.payload.message;
-    //         })
+  name: "userDetail",
+  initialState: {
+    users: [],
+    loading: false,
+    error: null,
+  },
+  reducers: {
+    dummy: (state) => state,
+  },
+  extraReducers: (builder) => {
+    builder
+      //         .addCase(createUser.pending, (state) => {
+      //             state.loading = true;
+      //         })
+      //         .addCase(createUser.fulfilled, (state, action) => {
+      //             state.loading = false;
+      //             state.users.push(action.payload);
+      //         })
+      //         .addCase(createUser.rejected, (state, action) => {
+      //             state.loading = false;
+      //             state.error = action.payload.message;
+      //         })
 
-
-
-            .addCase(getUser.pending, (state) => {
-                state.loading = true;
-            })
-            .addCase(getUser.fulfilled, (state, action) => {
-                state.loading = false;
-                state.users = (action.payload);
-            })
-            .addCase(getUser.rejected, (state, action) => {
-                state.loading = false;
-                state.error = action.payload?.message;
-            });
-
-
+      .addCase(getUser.pending, (state) => {
+        state.loading = true;
+      })
+      .addCase(getUser.fulfilled, (state, action) => {
+        state.loading = false;
+        state.users = action.payload;
+      })
+      .addCase(getUser.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload?.message;
+      });
 
     //         .addCase(deleteUser.pending, (state) => {
     //             state.loading = true;
@@ -310,7 +408,6 @@ export const userDetails = createSlice({
     //             state.error = action.payload.message;
     //         })
 
-
     //         .addCase(updateUser.pending, (state) => {
     //           state.loading = true;
     //         })
@@ -324,7 +421,7 @@ export const userDetails = createSlice({
     //             state.loading = false;
     //             state.error = action.payload.message;
     //         })
-    },
-})
+  },
+});
 
 export default userDetails.reducer;
