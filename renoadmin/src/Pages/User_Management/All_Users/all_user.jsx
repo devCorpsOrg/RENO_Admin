@@ -6,7 +6,7 @@ import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { useDispatch, useSelector } from "react-redux";
 import { getUser } from "../features/userSlice";
-// import { getUser } from "../features/userSlice";
+import { Grid } from "react-loader-spinner";
 
 // Component inside action column
 const Action = () => {
@@ -35,28 +35,20 @@ const Allmembers = () => {
   const head = "All Users";
   const Navigate = useNavigate();
   const greenClicked = () => {
-    Navigate("/home/editDetails");
+    Navigate("/home/createUser");
   };
 
-  // const [userData, setUserData] = useState([]);
-
-  // const url = "/user";
-  // useEffect(() => {
-  //   axios
-  //     .get(url)
-  //     .then((response) => {
-  //       setUserData(response.data);
-  //       console.log(response.data);
-  //     })
-  //     .catch((error) => console.log(error));
-  // }, []);
-
   const dispatch = useDispatch();
-  const userData = useSelector((state) => state.userManagement);
-  // console.log(userData)
+  const userData = useSelector((state) => state.userManagement.users);
+  const [loading, setLoading] = useState(true);
+
   useEffect(() => {
-    console.log("hey")
-    dispatch(getUser());
+    const fetchUserData = async () => {
+      setLoading(true);
+      await dispatch(getUser());
+      setLoading(false);
+    };
+    fetchUserData();
   }, [dispatch]);
 
   const columns = [
@@ -93,24 +85,38 @@ const Allmembers = () => {
   const pageSize = 5;
   const greenButtonText = "Add User";
 
-  // const data = userData.map((user) => ({
-  //   photo: <ProfilePhoto />,
-  //   username: user.username,
-  //   emailaddress: user.email,
-  //   contact: user.phone,
-  //   usertype: user.role,
-  //   userid: user.uid,
-  //   action: <Action />,
-  // }));
+  const data = userData.map((user) => ({
+    photo: <ProfilePhoto />,
+    username: user.username,
+    emailaddress: user.email,
+    contact: user.phone,
+    usertype: user.role,
+    userid: user.uid,
+    action: <Action />,
+  }));
 
   return (
     <div>
-      {/* <div className="flex fixed z-10">
+      <div className="flex fixed z-10">
         <TopHeader className="fixed" head={head} />
       </div>
 
+      {loading ? (
+        <div className="fixed inset-0 bg-gray-700 opacity-80 flex justify-center items-center z-50">
+          <Grid
+            height="80"
+            width="80"
+            color="#4fa94d"
+            ariaLabel="grid-loading"
+            radius="12.5"
+            wrapperStyle={{}}
+            wrapperClass=""
+            visible={true}
+          />
+        </div>
+      ) : null}
       <div
-        className=" ml-72 h-[90vh] min-w-[75%] relative"
+        className=" ml-72 h-[90vh] w-[140vh] relative"
         style={{ marginTop: "70px" }}>
         {userData.length > 0 ? (
           <Table
@@ -134,7 +140,7 @@ const Allmembers = () => {
             </div>
           </>
         )}
-      </div> */}
+      </div>
     </div>
   );
 };
