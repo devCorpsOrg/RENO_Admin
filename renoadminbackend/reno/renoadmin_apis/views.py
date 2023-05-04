@@ -46,7 +46,14 @@ import json
 import csv
 from django.http import HttpResponse, QueryDict
 import time
-
+from rest_framework.views import APIView
+from rest_framework import status
+from rest_framework.response import Response
+# from django.contrib.auth import logout as auth_logout
+# from django.contrib.auth import get_user_model, logout
+# from rest_framework import viewsets, status
+# from rest_framework.decorators import action
+# from rest_framework.permissions import AllowAny
 
 # Register API
 class RegisterAPI(generics.GenericAPIView):
@@ -60,17 +67,36 @@ class RegisterAPI(generics.GenericAPIView):
         "user": UserSerializer(user, context=self.get_serializer_context()).data,
         "token": AuthToken.objects.create(user)[1]
         })
+        
 
+def get(self, request, format=None):
+        # simply delete the token to force a login
+        request.user.auth_token.delete()
+        return Response(status=status.HTTP_200_OK)
 
 class LoginAPI(KnoxLoginView):
     permission_classes = (permissions.AllowAny,)
     @csrf_exempt  
     def post(self, request, format=None):
+       
+        # data=request.data
+        # username=data['username']
+        # info=Userdetails.objects.get(username=username)
+        # info=User.objects.get(username=username)
         serializer = AuthTokenSerializer(data=request.data)
         serializer.is_valid(raise_exception=True)
         user = serializer.validated_data['user']
         login(request, user)
-        return super(LoginAPI, self).post(request, format=None)
+        ans=[]
+        # ans.append( serializer['username'])
+        # ans.append( serializer['email'])
+        # ans.append(info.username)
+        # ans.append(info.email)
+        # ans.append(info.uid)
+        # ans.append(info.pic)
+        # and Response(super(LoginAPI, self).post(request, format=None)
+        return  super(LoginAPI, self).post(request, format=None)
+
     
 class ChangePasswordView(generics.UpdateAPIView):
    
