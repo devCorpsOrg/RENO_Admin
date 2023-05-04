@@ -59,13 +59,18 @@ MIDDLEWARE = [
     'corsheaders.middleware.CorsMiddleware',
 ]
 
+CORS_ALLOW_ALL_ORIGINS = True
 CORS_ALLOWED_ORIGINS = [
     # "https://reno-admin-kklj.vercel.app",
     "http://127.0.0.1:3000",
     "http://139.59.236.50:3000"
     
 ]
+CORS_ALLOW_ALL_ORIGINS = True
 
+# CORS_ALLOWED_ORIGINS = [
+#     "*"
+# ]
 ROOT_URLCONF = 'reno.urls'
 
 TEMPLATES = [
