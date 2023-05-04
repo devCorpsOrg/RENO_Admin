@@ -14,11 +14,11 @@ function Login() {
   const handleSubmit = async (event) => {
     event.preventDefault();
 
-    axios.post('http://139.59.236.50:8000/login/', {username, password})
+    axios.post('/login/', {username, password})
     .then((response) => {
       setUsername("");
       setPassword("");
-      console.log(response.data.token)
+      console.log(response)
       const token = response.data.token;
       Cookies.set('token', token); // Store token in a cookie
       setResult("Logged in Successfully")
