@@ -35,7 +35,7 @@ const Allmembers = () => {
   const head = "All Users";
   const Navigate = useNavigate();
   const greenClicked = () => {
-    Navigate("/home/editDetails");
+    Navigate("/home/createUser");
   };
 
   const dispatch = useDispatch();

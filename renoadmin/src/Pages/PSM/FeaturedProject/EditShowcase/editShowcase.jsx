@@ -22,25 +22,22 @@ const EditShowcase = ({ setExpand, setActiveTab }) => {
     event.preventDefault();
 
     const formData = new FormData();
-    formData.append('proj_name', title);
-    formData.append('proj_category', label);
-    formData.append('details', content);
-    formData.append('rate', rate);
+    formData.append("proj_name", title);
+    formData.append("proj_category", label);
+    formData.append("details", content);
+    formData.append("rate", rate);
     images.map((image, index) => {
-      formData.append('pic', image);
-    })
+      formData.append("pic", image);
+    });
 
-    dispatch(updateShowcase({formData, title}))
-    
+    dispatch(updateShowcase({ formData, title }));
   };
 
   const handlePhotoUpload = (event) => {
     const files = event.target.files;
     const uploadedImages = [];
     for (let i = 0; i < files.length; i++) {
-      uploadedImages.push(
-        files[i]
-      );
+      uploadedImages.push(files[i]);
     }
     setImages(uploadedImages);
   };
@@ -63,44 +60,18 @@ const EditShowcase = ({ setExpand, setActiveTab }) => {
         <TopHeader className="fixed" head={head} />
       </div>
 
-      <div className=" ml-72 mb-10 relative" style={{ marginTop: "70px" }}>
+      <div className=" ml-80 mb-10 relative" style={{ marginTop: "120px" }}>
         <form onSubmit={handleSubmit}>
-          <div style={{ marginRight: 0, marginLeft: 920 }}>
-            <button
-              className="rounded mt-10"
-              style={{
-                backgroundColor: "black",
-                width: "130px",
-                height: "47px",
-                color: "white",
-              }}
-              type="submit">
-              Cancel
-            </button>
-
-            <button
-              className="rounded mt-10"
-              style={{
-                backgroundColor: "rgba(153, 190, 17, 0.831)",
-                width: "130px",
-                height: "47px",
-                color: "white",
-                marginLeft: "30px",
-              }}
-              type="submit">
-              Save
-            </button>
-          </div>
           <label className="grid mt-5">
             Project Title
             <input
               type="text"
               placeholder="Enter Title"
               id="title"
-              className="rounded outline-none"
+              className="rounded w-[100vh] outline-none"
               style={{
                 height: "50px",
-                width: "1210px",
+                // width: "1210px",
                 paddingLeft: "10px",
                 backgroundColor: "#e5ecff",
                 marginTop: "5px",
@@ -111,16 +82,16 @@ const EditShowcase = ({ setExpand, setActiveTab }) => {
             />
           </label>
 
-          <div className="grid grid-cols-2 gap-4 mt-5">
-            <label className="grid pr-6">
+          <div className="grid grid-cols-2 mt-5">
+            <label className="grid">
               User Type
               <select
                 id="label"
                 name="label"
-                class="outline-none rounded"
+                className="outline-none w-[49vh] rounded"
                 style={{
                   height: "50px",
-                  width: "590px",
+                  // width: "590px",
                   paddingLeft: "5px",
                   backgroundColor: "#e5ecff",
                   marginTop: "5px",
@@ -134,16 +105,16 @@ const EditShowcase = ({ setExpand, setActiveTab }) => {
                 <option value="other">Other</option>
               </select>
             </label>
-            <label className="grid pr-6">
+            <label className="grid">
               Project Rate
               <input
                 type="text"
                 value={rate}
-                class="outline-none rounded"
+                className="outline-none w-[49vh] rounded"
                 placeholder="$000.00"
                 style={{
                   height: "50px",
-                  width: "586px",
+                  // width: "586px",
                   paddingLeft: "10px",
                   backgroundColor: "#e5ecff",
                   marginTop: "5px",
@@ -155,7 +126,7 @@ const EditShowcase = ({ setExpand, setActiveTab }) => {
           </div>
           <label className="grid pr-6" style={{ marginTop: "20px" }}>
             Photos
-            <div style={{ width: "600px", marginTop: "10px" }}>
+            <div className="w-[100vh]" style={{ marginTop: "10px" }}>
               {images && images.length > 0 ? (
                 <div className="grid grid-cols-4 gap-2">
                   {images.map((image, index) => (
@@ -217,10 +188,10 @@ const EditShowcase = ({ setExpand, setActiveTab }) => {
             <textarea
               id="content"
               placeholder="Enter Details"
-              className="rounded outline-none pt-2"
+              className="rounded w-[100vh] outline-none pt-2"
               style={{
                 height: "170px",
-                width: "1210px",
+                // width: "1210px",
                 backgroundColor: "#e5ecff",
                 paddingLeft: "10px",
                 paddingTop: "20px",
@@ -233,9 +204,8 @@ const EditShowcase = ({ setExpand, setActiveTab }) => {
           </label>
           {/* <div> */}
           <button
-            className="rounded mt-10"
+            className="rounded mt-10 bg-lime-600 hover:bg-lime-700"
             style={{
-              backgroundColor: "rgba(153, 190, 17, 0.831)",
               width: "170px",
               height: "55px",
               color: "white",
@@ -244,9 +214,8 @@ const EditShowcase = ({ setExpand, setActiveTab }) => {
             Save
           </button>
           <button
-            className="rounded mt-10"
+            className="rounded mt-10 bg-black hover:bg-gray-800"
             style={{
-              backgroundColor: "black",
               width: "170px",
               height: "55px",
               color: "white",

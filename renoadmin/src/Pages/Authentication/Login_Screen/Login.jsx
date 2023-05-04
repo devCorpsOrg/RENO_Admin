@@ -2,12 +2,13 @@ import React, { useState } from "react";
 import "./Login.css";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
+import Cookies from "js-cookie";
 
 function Login() {
   const navigate = useNavigate();
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
-  // const [result, setResult] = useState("");
+  const [result, setResult] = useState("");
   //   const [result, setResult] = useState("");
 
   const handleSubmit = async (event) => {
@@ -24,10 +25,15 @@ function Login() {
       .then((response) => {
         setUsername("");
         setPassword("");
+        console.log(response.data.token);
+        const token = response.data.token;
+        Cookies.set("token", token); // Store token in a cookie
+        setResult("Logged in Successfully");
         navigate("/home");
       })
       .catch((err) => {
         console.log("Problem", err);
+        setResult("Authentication Failed !");
       });
   };
 
@@ -76,7 +82,7 @@ function Login() {
                 Forgot Password?
               </Link>
             </div>
-            <div className="result">{/* {result} */}</div>
+            <div className="result">{result}</div>
           </form>
         </div>
       </div>

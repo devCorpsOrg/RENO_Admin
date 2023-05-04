@@ -12,6 +12,8 @@ import SettingsOutlinedIcon from "@mui/icons-material/SettingsOutlined";
 import AddOutlinedIcon from "@mui/icons-material/AddOutlined";
 import RemoveIcon from "@mui/icons-material/Remove";
 import axios from "axios";
+import cookie from 'js-cookie';
+
 
 function SideNavBar({ expand, setExpand, activeTab, setActiveTab }) {
   const activeMenu = true;
@@ -24,24 +26,23 @@ function SideNavBar({ expand, setExpand, activeTab, setActiveTab }) {
   };
 
   const handleLogout = () => {
-      // axios
-      //   .post(`/logout/`, {}, {
-      //     headers: {
-      //       Authorization: `Bearer ${localStorage.getItem("csrftoken")}`,
-      //       "X-Session-ID": localStorage.getItem("sessionId"),
-      //     },
-      //   })
-      //   .then((response) => {
-      //     // clear token and session ID from localStorage
-      //     localStorage.removeItem("csrftoken");
-      //     localStorage.removeItem("sessionId");
-
-      //     // redirect to home page
-      //     navigate('/');
-      //   })
-      //   .catch((error) => {
-      //     console.log(error);
-      //   });
+      try {
+        const response = axios({
+          method: "post",
+          url: "/logout/",
+          headers: {
+            'Authorization':`Token ${cookie.get('token')}`,
+          },
+        });
+        console.log(response);
+          cookie.remove('csrftoken');
+          cookie.remove('token');
+          navigate('/');
+          console.log('Logged Out sucessfully')
+      } catch (error) {
+        console.log(error);
+        console.log("Not submitting data");
+      }
   };
 
   return (

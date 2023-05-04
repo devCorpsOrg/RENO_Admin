@@ -13,7 +13,20 @@ function Table({
   const [currentPage, setCurrentPage] = useState(0);
   const [searchTerm, setSearchTerm] = useState("");
 
-  const pageCount = Math.ceil(data.length / pageSize);
+  const filteredData = data.filter((row) =>
+    Object.values(row).some((value) =>
+      value.toString().toLowerCase().includes(searchTerm.toLowerCase())
+    )
+  );
+
+  const pageCount = Math.ceil(filteredData.length / pageSize);
+
+  const paginatedData = filteredData.slice(
+    currentPage * pageSize,
+    (currentPage + 1) * pageSize
+  );
+
+  const showPagination = data.length > 0 && filteredData.length > 0;
 
   const handleNextPage = () => {
     setCurrentPage(currentPage + 1);
@@ -28,21 +41,10 @@ function Table({
     setCurrentPage(0);
   };
 
-  const filteredData = data.filter((row) =>
-    Object.values(row).some((value) =>
-      value.toString().toLowerCase().includes(searchTerm.toLowerCase())
-    )
-  );
-
-  const paginatedData = filteredData.slice(
-    currentPage * pageSize,
-    (currentPage + 1) * pageSize
-  );
-
   return (
     <>
       <div className="p-5 table-container">
-        <div className="flex justify-between items-center mb-5">
+        <div className="flex w-full justify-between items-center mb-5">
           <div className="w-1/3 relative">
             <input
               type="text"
@@ -103,29 +105,33 @@ function Table({
             ))}
           </tbody>
         </table>
-      </div>
-      <div className="pagination absolute bottom-0 left-0 right-0 flex justify-end p-5 gap-3">
-        <button
-          className={`px-4 border-2 rounded-md ${
-            currentPage === 0
-              ? "bg-[#DDDEF9] text-gray-500 cursor-default"
-              : "bg-white text-gray-700 "
-          }`}
-          disabled={currentPage === 0}
-          onClick={handlePreviousPage}>
-          {"<"} Prev
-        </button>
-        <span className="px-4 py-2">{`${currentPage + 1} - ${pageCount}`}</span>
-        <button
-          className={`px-4 border-2 rounded-md ${
-            currentPage === pageCount - 1
-              ? "bg-[#DDDEF9] text-gray-500 cursor-default"
-              : "bg-white text-gray-700"
-          }`}
-          disabled={currentPage === pageCount - 1}
-          onClick={handleNextPage}>
-          Next {">"}
-        </button>
+        {showPagination ? (
+          <div className="pagination absolute left-0 right-0 flex justify-end p-5 gap-3">
+            <button
+              className={`px-4 border-2 rounded-md ${
+                currentPage === 0
+                  ? "bg-[#DDDEF9] text-gray-500 cursor-default"
+                  : "bg-white text-gray-700 "
+              }`}
+              disabled={currentPage === 0}
+              onClick={handlePreviousPage}>
+              {"<"} Prev
+            </button>
+            <span className="px-4 py-2">{`${
+              currentPage + 1
+            } - ${pageCount}`}</span>
+            <button
+              className={`px-4 border-2 rounded-md ${
+                currentPage === pageCount - 1
+                  ? "bg-[#DDDEF9] text-gray-500 cursor-default"
+                  : "bg-white text-gray-700"
+              }`}
+              disabled={currentPage === pageCount - 1}
+              onClick={handleNextPage}>
+              Next {">"}
+            </button>
+          </div>
+        ) : null}
       </div>
     </>
   );

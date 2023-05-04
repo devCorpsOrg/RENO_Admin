@@ -19,12 +19,12 @@ const EditCategory = ({ setExpand, setActiveTab }) => {
     event.preventDefault();
 
     const formData = new FormData();
-    formData.append('prod_category', title);
+    formData.append("prod_category", title);
     images.map((image, index) => {
-      formData.append('media', image);
-    })
+      formData.append("media", image);
+    });
 
-    dispatch(updateCategory({formData, title}))
+    dispatch(updateCategory({ formData, title }));
   };
 
   const handlePhotoUpload = (event) => {
@@ -50,46 +50,17 @@ const EditCategory = ({ setExpand, setActiveTab }) => {
         <TopHeader className="fixed" head={head} />
       </div>
 
-      <div className=" ml-72 mb-10 relative" style={{ marginTop: "70px" }}>
+      <div className=" ml-72 mb-10 relative" style={{ marginTop: "120px" }}>
         <form onSubmit={handleSubmit}>
-          <div style={{ marginRight: 0, marginLeft: 920 }}>
-            <button
-              className="rounded mt-10"
-              style={{
-                backgroundColor: "black",
-                width: "130px",
-                height: "47px",
-                color: "white",
-              }}
-              type="submit"
-            >
-              Cancel
-            </button>
-
-            <button
-              className="rounded mt-10"
-              style={{
-                backgroundColor: "rgba(153, 190, 17, 0.831)",
-                width: "130px",
-                height: "47px",
-                color: "white",
-                marginLeft: "30px",
-              }}
-              type="submit"
-            >
-              Save
-            </button>
-          </div>
           <label className="grid mt-5">
             Category Name
             <input
               type="text"
               placeholder="Enter Title"
               id="title"
-              className="rounded outline-none"
+              className="rounded w-[100vh] outline-none"
               style={{
                 height: "50px",
-                width: "1210px",
                 paddingLeft: "10px",
                 backgroundColor: "#e5ecff",
                 marginTop: "5px",
@@ -120,8 +91,7 @@ const EditCategory = ({ setExpand, setActiveTab }) => {
                       <button
                         className="absolute top-0 text-white"
                         style={{ right: 46 }}
-                        onClick={() => handleRemoveImage(index)}
-                      >
+                        onClick={() => handleRemoveImage(index)}>
                         <DisabledByDefaultRoundedIcon style={{ fill: "red" }} />
                       </button>
                     </div>
@@ -150,28 +120,24 @@ const EditCategory = ({ setExpand, setActiveTab }) => {
 
           {/* <div> */}
           <button
-            className="rounded mt-10"
+            className="rounded mt-10 bg-lime-600 hover:bg-lime-700"
             style={{
-              backgroundColor: "rgba(153, 190, 17, 0.831)",
               width: "170px",
               height: "55px",
               color: "white",
             }}
-            type="submit"
-          >
+            type="submit">
             Save
           </button>
           <button
-            className="rounded mt-10"
+            className="rounded mt-10 bg-black hover:bg-gray-800"
             style={{
-              backgroundColor: "black",
               width: "170px",
               height: "55px",
               color: "white",
               marginLeft: "30px",
             }}
-            type="submit"
-          >
+            type="submit">
             Cancel
           </button>
         </form>
