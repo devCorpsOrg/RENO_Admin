@@ -14,7 +14,7 @@ function Login() {
   const handleSubmit = async (event) => {
     event.preventDefault();
 
-    axios.post('/login/', {username, password})
+    axios.post('http://139.59.236.50:8000/login/', {username, password})
     .then((response) => {
       setUsername("");
       setPassword("");
