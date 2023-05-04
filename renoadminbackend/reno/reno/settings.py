@@ -12,7 +12,7 @@ https://docs.djangoproject.com/en/3.2/ref/settings/
 
 from pathlib import Path
 import os
-
+from datetime import timedelta
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -41,6 +41,10 @@ INSTALLED_APPS = [
     'renoadmin_apis',
     'knox',
     'django_rest_passwordreset',
+    'rest_framework',
+    'corsheaders',
+
+
     
 ]
 
@@ -52,6 +56,12 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
+]
+
+CORS_ALLOWED_ORIGINS = [
+    "https://reno-admin-kklj.vercel.app",
+    
 ]
 
 ROOT_URLCONF = 'reno.urls'
@@ -152,9 +162,22 @@ MEDIA_ROOT="/var/www/html/Renoadmin"
 
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 
-DEFAULTS={
+# DEFAULTS={
+#     'DEFAULT_AUTHENTICATION_CLASSES': [
+#     # 'rest_framework.authentication.SessionAuthentication',
+#        'rest_framework.authentication.BasicAuthentication',
+
+# ]
+# }
+REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': [
-    # 'rest_framework.authentication.SessionAuthentication',
-       'rest_framework.authentication.BasicAuthentication',
-]
+        # 'rest_framework.authentication.BasicAuthentication',
+        # 'rest_framework.authentication.SessionAuthentication',
+        'knox.auth.TokenAuthentication',
+    ]
 }
+
+# REST_KNOX = {
+#     'USER_SERIALIZER': 'accounts.serializers.UserSerializer',
+#     'TOKEN_TTL': timedelta(hours=48)
+# }
