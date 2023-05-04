@@ -60,7 +60,8 @@ MIDDLEWARE = [
 ]
 
 CORS_ALLOWED_ORIGINS = [
-    "https://reno-admin-kklj.vercel.app/"
+    "https://reno-admin-kklj.vercel.app/",
+    "*"
 ]
 
 ROOT_URLCONF = 'reno.urls'
