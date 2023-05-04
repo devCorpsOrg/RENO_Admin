@@ -1,7 +1,6 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import "./Register.css";
-import { Link, useNavigate } from "react-router-dom";
-import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 function Register() {
   const navigate = useNavigate();
@@ -11,66 +10,65 @@ function Register() {
   const [result, setResult] = useState("");
   //   const [result, setResult] = useState("");
 
-//   const handleSubmit = (event) => {
-//     event.preventDefault();
+  //   const handleSubmit = (event) => {
+  //     event.preventDefault();
 
-//     const updateData = {
-//         username,
-//         email,
-//         password
-//     }
+  //     const updateData = {
+  //         username,
+  //         email,
+  //         password
+  //     }
 
-//     const jsonData = JSON.stringify(updateData);
-//     console.log(jsonData);
+  //     const jsonData = JSON.stringify(updateData);
+  //     console.log(jsonData);
 
-//     try {
-//         axios.post('/register/', jsonData)
-//         .then((response) => {
-//             setUsername("");
-//             setEmail("");
-//             setPassword("");
-//             navigate("/")
-//         })
-        
-//     }catch(err){
-//         console.log("Error in sign up", err);
-//     }
+  //     try {
+  //         axios.post('/register/', jsonData)
+  //         .then((response) => {
+  //             setUsername("");
+  //             setEmail("");
+  //             setPassword("");
+  //             navigate("/")
+  //         })
 
-//   };
+  //     }catch(err){
+  //         console.log("Error in sign up", err);
+  //     }
 
-const handleSubmit = (event) => {
+  //   };
+
+  const handleSubmit = (event) => {
     event.preventDefault();
-  
+
     const updateData = {
       username,
       email,
-      password
+      password,
     };
-  
+
     const jsonData = JSON.stringify(updateData);
     console.log(jsonData);
-  
-    fetch('/register/', {
-      method: 'POST',
+
+    fetch("/register/", {
+      method: "POST",
       headers: {
-        'Content-Type': 'application/json'
+        "Content-Type": "application/json",
       },
-      body: jsonData
+      body: jsonData,
     })
-    .then((response) => {
-      if (!response.ok) {
-        throw new Error('Network response was not ok');
-      }
-      setUsername("");
-      setEmail("");
-      setPassword("");
-      navigate("/");
-    })
-    .catch((error) => {
-      console.error('There was an error:', error);
-    });
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error("Network response was not ok");
+        }
+        setUsername("");
+        setEmail("");
+        setPassword("");
+        navigate("/");
+      })
+      .catch((error) => {
+        console.error("There was an error:", error);
+      });
   };
-  
 
   return (
     <div className="login">
@@ -78,9 +76,7 @@ const handleSubmit = (event) => {
         <img className="logo" src="/images/logo.png" alt="" />
         <div className="login_header">
           <h1 className="headl">Sign Up</h1>
-          <div className="signup">
-            Create your account here
-          </div>
+          <div className="signup">Create your account here</div>
         </div>
         <div className="login_form">
           <form onSubmit={handleSubmit}>
@@ -122,7 +118,7 @@ const handleSubmit = (event) => {
                 onClick={handleSubmit}
                 className="login_button"
                 type="submit">
-                    Sign Up
+                Sign Up
               </button>
             </div>
           </form>
@@ -132,4 +128,4 @@ const handleSubmit = (event) => {
   );
 }
 
-export default Register
+export default Register;

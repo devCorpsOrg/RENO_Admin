@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import "./Login.css";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
@@ -7,26 +7,28 @@ function Login() {
   const navigate = useNavigate();
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
-  const [result, setResult] = useState("");
+  // const [result, setResult] = useState("");
   //   const [result, setResult] = useState("");
 
   const handleSubmit = async (event) => {
     event.preventDefault();
     const updatedData = {
       username,
-      password
+      password,
     };
 
     const jsonData = JSON.stringify(updatedData);
-    console.log(jsonData)
-    axios.post('login/', {username, password})
-    .then((response) => {
-      setUsername("");
-      setPassword("");
-      navigate('/home');
-    }).catch((err) => {
-      console.log("Problem", err);
-    })
+    console.log(jsonData);
+    axios
+      .post("login/", { username, password })
+      .then((response) => {
+        setUsername("");
+        setPassword("");
+        navigate("/home");
+      })
+      .catch((err) => {
+        console.log("Problem", err);
+      });
   };
 
   return (

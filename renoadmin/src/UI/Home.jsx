@@ -44,7 +44,6 @@ import ProjectBooking from "../Pages/PSM/ProjectBookings/projectBookings";
 import CreateUser from "../Pages/User_Management/Create_User/createUser";
 import EditPage from "../Pages/Content_Management/EditPage/editPage";
 
-
 function Home() {
   const [expand, setExpand] = useState("");
   const [activeTab, setActiveTab] = useState("dashboard");
@@ -134,10 +133,7 @@ function Home() {
           exact
           path="/editPage"
           element={
-            <EditPage
-              setExpand={togleExpand}
-              setActiveTab={handleActiveTab}
-            />
+            <EditPage setExpand={togleExpand} setActiveTab={handleActiveTab} />
           }
         />
         <Route
@@ -195,7 +191,10 @@ function Home() {
           exact
           path="/createUser"
           element={
-            <CreateUser setExpand={togleExpand} setActiveTab={handleActiveTab} />
+            <CreateUser
+              setExpand={togleExpand}
+              setActiveTab={handleActiveTab}
+            />
           }
         />
         <Route

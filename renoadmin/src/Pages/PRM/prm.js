@@ -76,7 +76,7 @@ const PMS = () => {
     action: <Action />,
   }));
 
-  const pageSize = 10;
+  const pageSize = 7;
   const greenButtonText = "Add New Role";
 
   return (
