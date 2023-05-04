@@ -1,15 +1,15 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import "./Login.css";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
-import Cookies from 'js-cookie';
+import Cookies from "js-cookie";
 
 function Login() {
   const navigate = useNavigate();
   const [username, setUsername] = useState();
   const [password, setPassword] = useState();
   const [result, setResult] = useState("");
-    // const [result, setResult] = useState("");
+  //   const [result, setResult] = useState("");
 
   const handleSubmit = async (event) => {
     event.preventDefault();

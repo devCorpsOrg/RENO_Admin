@@ -23,24 +23,19 @@ const AddNewCategory = ({ setExpand, setActiveTab }) => {
     formData.append("prod_category", title);
     images.forEach((image, index) => {
       formData.append(`pic_url`, image);
-    })
+    });
 
     dispatch(addNewCategory(formData));
-
-
   };
 
   const handlePhotoUpload = (event) => {
     const files = event.target.files;
     const uploadedImages = [];
     for (let i = 0; i < files.length; i++) {
-      uploadedImages.push(
-        (files[i]),
-      );
+      uploadedImages.push(files[i]);
     }
     setImages(uploadedImages);
   };
-
 
   return (
     <div>
@@ -51,15 +46,14 @@ const AddNewCategory = ({ setExpand, setActiveTab }) => {
       <div className=" ml-72 mb-10 relative" style={{ marginTop: "120px" }}>
         <form onSubmit={handleSubmit}>
           <label className="grid mt-5">
-             Category Name
+            Category Name
             <input
               type="text"
               placeholder="Enter Category Name"
               id="title"
-              className="rounded outline-none"
+              className="rounded w-[100vh] outline-none"
               style={{
                 height: "50px",
-                width: "1210px",
                 paddingLeft: "10px",
                 border: "2px solid 	#e6f7fe",
                 marginTop: "5px",
@@ -86,49 +80,45 @@ const AddNewCategory = ({ setExpand, setActiveTab }) => {
               />
             </label>
           </div>
-          <div style={{ width: "600px", marginTop:"10px" }}>
-              {images && images.length > 0 && (
-                <div className="grid grid-cols-6 gap-2">
-                  {images.map((image, index) => (
-                    <img
-                      key={index}
-                      src={URL.createObjectURL(image)} // replace with your image source
-                      alt={image.name} // replace with your image alt text
-                      style={{
-                        width: "100px",
-                        height: "100px",
-                        objectFit: "cover",
-                        marginRight: "10px",
-                      }} // set width, height, object-fit, and margin-right styles
-                    />
-                  ))}
-                </div>
-              )}
-            </div>
+          <div style={{ width: "600px", marginTop: "10px" }}>
+            {images && images.length > 0 && (
+              <div className="grid grid-cols-6 gap-2">
+                {images.map((image, index) => (
+                  <img
+                    key={index}
+                    src={URL.createObjectURL(image)} // replace with your image source
+                    alt={image.name} // replace with your image alt text
+                    style={{
+                      width: "100px",
+                      height: "100px",
+                      objectFit: "cover",
+                      marginRight: "10px",
+                    }} // set width, height, object-fit, and margin-right styles
+                  />
+                ))}
+              </div>
+            )}
+          </div>
 
           <button
-            className="rounded mt-10"
+            className="rounded mt-10 bg-lime-600 hover:bg-lime-700"
             style={{
-              backgroundColor: "rgba(153, 190, 17, 0.831)",
               width: "170px",
               height: "55px",
               color: "white",
             }}
-            type="submit"
-          >
+            type="submit">
             Save
           </button>
           <button
-            className="rounded mt-10"
+            className="rounded mt-10 bg-black hover:bg-gray-800"
             style={{
-              backgroundColor: "black",
               width: "170px",
               height: "55px",
               color: "white",
               marginLeft: "30px",
             }}
-            type="submit"
-          >
+            type="submit">
             Cancel
           </button>
         </form>

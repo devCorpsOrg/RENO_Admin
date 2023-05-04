@@ -27,18 +27,16 @@ const AddNewShowcase = ({ setExpand, setActiveTab }) => {
     formData.append("details", content);
     images.forEach((image, index) => {
       formData.append(`pic`, image);
-    })
+    });
 
-    dispatch(addNewShowcase(formData))
+    dispatch(addNewShowcase(formData));
   };
 
   const handleImageUpload = (event) => {
     const files = event.target.files;
     const uploadedImages = [];
     for (let i = 0; i < files.length; i++) {
-      uploadedImages.push(
-        (files[i]),
-      );
+      uploadedImages.push(files[i]);
     }
     setImages(uploadedImages);
   };
@@ -53,7 +51,9 @@ const AddNewShowcase = ({ setExpand, setActiveTab }) => {
         <TopHeader className="fixed" head={head} />
       </div>
 
-      <div className=" ml-72 mb-10  relative" style={{ marginTop: "120px" }}>
+      <div
+        className=" ml-80 mb-10 w-[100vh] relative"
+        style={{ marginTop: "120px" }}>
         <form onSubmit={handleSubmit}>
           <label className="grid mt-5">
             Project Title
@@ -61,10 +61,10 @@ const AddNewShowcase = ({ setExpand, setActiveTab }) => {
               type="text"
               placeholder="Enter Title"
               id="title"
-              className="rounded outline-none"
+              className="rounded w-[100vh] outline-none"
               style={{
                 height: "50px",
-                width: "1210px",
+                // width: "1210px",
                 paddingLeft: "10px",
                 border: "2px solid 	#e6f7fe",
                 marginTop: "5px",
@@ -82,10 +82,10 @@ const AddNewShowcase = ({ setExpand, setActiveTab }) => {
               <select
                 id="label"
                 name="label"
-                class="outline-none rounded"
+                class="outline-none w-[50vh] rounded"
                 style={{
                   height: "50px",
-                  width: "590px",
+                  // width: "590px",
                   paddingLeft: "5px",
                   border: "2px solid 	#e6f7fe",
                   marginTop: "5px",
@@ -104,11 +104,11 @@ const AddNewShowcase = ({ setExpand, setActiveTab }) => {
               <input
                 type="text"
                 value={rate}
-                class="outline-none rounded"
+                className="outline-none w-[50vh] rounded"
                 placeholder="$000.00"
                 style={{
                   height: "50px",
-                  width: "586px",
+                  // width: "586px",
                   paddingLeft: "10px",
                   border: "2px solid 	#e6f7fe",
                   marginTop: "5px",
@@ -124,8 +124,8 @@ const AddNewShowcase = ({ setExpand, setActiveTab }) => {
             <label className="grid mt-5" style={{ fontSize: "15px" }}>
               Upload Photos
               <input
-                class="file:bg-black file:px-6 file:py-3 file:border-none file:rounded file:text-white file:cursor-pointer placeholder-transparent mt-3 rounded appearance-none placeholder-transparent"
-                style={{ border: "2px solid #e6f7fe", width: "450px" }}
+                className="w-[50vh] file:bg-black file:px-6 file:py-3 file:border-none file:rounded file:text-white file:cursor-pointer placeholder-transparent mt-3 rounded appearance-none placeholder-transparent"
+                style={{ border: "2px solid #e6f7fe" }}
                 type="file"
                 placeholder=""
                 accept="image/*"
@@ -172,10 +172,10 @@ const AddNewShowcase = ({ setExpand, setActiveTab }) => {
             <textarea
               id="content"
               placeholder="Enter Details"
-              className="rounded outline-none pt-2"
+              className="rounded outline-none w-[100vh] pt-2"
               style={{
                 height: "170px",
-                width: "1210px",
+                // width: "1210px",
                 border: "2px solid #e6f7fe",
                 paddingLeft: "10px",
                 paddingTop: "20px",
@@ -189,9 +189,8 @@ const AddNewShowcase = ({ setExpand, setActiveTab }) => {
           </label>
           {/* <div> */}
           <button
-            className="rounded mt-10"
+            className="rounded mt-10 bg-lime-600 hover:bg-lime-700 "
             style={{
-              backgroundColor: "rgba(153, 190, 17, 0.831)",
               width: "170px",
               height: "55px",
               color: "white",
@@ -200,9 +199,9 @@ const AddNewShowcase = ({ setExpand, setActiveTab }) => {
             Publish
           </button>
           <button
-            className="rounded mt-10"
+            className="rounded mt-10 bg-black hover:bg-gray-800"
             style={{
-              backgroundColor: "black",
+              // backgroundColor: "black",
               width: "170px",
               height: "55px",
               color: "white",

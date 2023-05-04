@@ -5,12 +5,12 @@ import axios from "axios";
 import { useDispatch } from "react-redux";
 import { updateUser } from "../features/userSlice";
 
-const EditUser = ({setActiveTab, setExpand}) => {
+const EditUser = ({ setActiveTab, setExpand }) => {
   setExpand("userManagement");
   setActiveTab("allUsers");
 
   const dispatch = useDispatch();
-  
+
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [phone, setPhone] = useState("");
@@ -50,8 +50,7 @@ const EditUser = ({setActiveTab, setExpand}) => {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-  
-  
+
     const formData = new FormData();
     formData.append("username", name);
     formData.append("email", email);
@@ -59,15 +58,11 @@ const EditUser = ({setActiveTab, setExpand}) => {
     formData.append("role", label);
     formData.append("uid", userId);
     // if (photo) {
-      formData.append("pic", photo);
+    formData.append("pic", photo);
     // }
 
-    dispatch(updateUser({formData, userId}))
-    
-
+    dispatch(updateUser({ formData, userId }));
   };
-  
-  
 
   return (
     <div>
@@ -77,13 +72,13 @@ const EditUser = ({setActiveTab, setExpand}) => {
 
       <div className="ml-72 mt-20 relative" style={{ marginTop: "140px" }}>
         <form>
-          <div class="grid grid-cols-3 gap-4">
+          <div className="grid grid-cols-3 gap-4">
             <label className="grid pr-6">
               User Name
               <input
                 type="text"
                 value={name}
-                class="outline-none rounded"
+                className="outline-none rounded"
                 style={{
                   height: "50px",
                   width: "380px",
@@ -99,7 +94,7 @@ const EditUser = ({setActiveTab, setExpand}) => {
               <input
                 type="email"
                 value={email}
-                class="outline-none rounded"
+                className="outline-none rounded"
                 style={{
                   height: "50px",
                   width: "380px",
@@ -115,7 +110,7 @@ const EditUser = ({setActiveTab, setExpand}) => {
               <input
                 type="tel"
                 value={phone}
-                class="outline-none rounded"
+                className="outline-none rounded"
                 style={{
                   height: "50px",
                   width: "380px",
@@ -131,7 +126,7 @@ const EditUser = ({setActiveTab, setExpand}) => {
               <input
                 type="userId"
                 value={userId}
-                class="outline-none rounded"
+                className="outline-none rounded"
                 style={{
                   height: "50px",
                   width: "380px",
@@ -147,7 +142,7 @@ const EditUser = ({setActiveTab, setExpand}) => {
               <select
                 id="label"
                 name="label"
-                class="outline-none rounded"
+                className="outline-none rounded"
                 style={{
                   height: "50px",
                   width: "380px",
@@ -181,11 +176,10 @@ const EditUser = ({setActiveTab, setExpand}) => {
                         color: "red",
                         paddingLeft: "5px",
                         cursor: "pointer",
-                        backgroundColor:"white",
-                        marginLeft: "20px"
+                        backgroundColor: "white",
+                        marginLeft: "20px",
                       }}
-                      onClick={handlePhotoRemove}
-                    >
+                      onClick={handlePhotoRemove}>
                       Remove
                     </button>
                   </div>

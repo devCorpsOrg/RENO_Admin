@@ -73,6 +73,7 @@ const EditMember = ({ setExpand, setActiveTab }) => {
                 }}
                 value={title}
                 onChange={(event) => setTitle(event.target.value)}
+                required
               />
             </label>
             <label className="grid pr-6">
@@ -91,6 +92,7 @@ const EditMember = ({ setExpand, setActiveTab }) => {
                 }}
                 value={email}
                 onChange={(event) => setEmail(event.target.value)}
+                required
               />
             </label>
             <label className="grid pr-6">
@@ -109,6 +111,7 @@ const EditMember = ({ setExpand, setActiveTab }) => {
                 }}
                 value={contact}
                 onChange={(event) => setContact(event.target.value)}
+                required
               />
             </label>
           </div>
@@ -129,6 +132,7 @@ const EditMember = ({ setExpand, setActiveTab }) => {
                 }}
                 value={userId}
                 onChange={(event) => setUserId(event.target.value)}
+                required
               />
             </label>
             <label className="grid pr-6">
@@ -194,6 +198,7 @@ const EditMember = ({ setExpand, setActiveTab }) => {
                     accept="image/*"
                     onChange={handlePhotoUpload}
                     placeholder=""
+                    required
                   />
                 )}
               </div>
@@ -215,6 +220,7 @@ const EditMember = ({ setExpand, setActiveTab }) => {
                 }}
                 value={content}
                 onChange={(event) => setContent(event.target.value)}
+                required
               />
             </label>
           </div>
