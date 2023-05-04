@@ -1,11 +1,10 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import Table from "../../../UI/CommonTable/Table";
 import { deleteIcon, edit, images } from "./Assets/index";
 import TopHeader from "../../../UI/TopHeader/TopHeader";
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 
-import { useEffect, useState } from "react";
 import { Grid } from "react-loader-spinner";
 import { allProjects } from "../../User_Management/features/userSlice";
 

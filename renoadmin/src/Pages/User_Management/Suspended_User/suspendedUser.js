@@ -1,24 +1,23 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import Table from "../../../UI/CommonTable/Table";
 import { deleteIcon, Photo, View } from "./Assets/index";
 import TopHeader from "../../../UI/TopHeader/TopHeader";
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { useEffect, useState } from "react";
 import { Grid } from "react-loader-spinner";
 import { suspendUsers } from "../features/userSlice";
 
 // Component inside action column
 // The details of user shall be different for every users. It will be integrated at authentication of the users.
 const Action = () => {
-  const Navigate = useNavigate();
+  const navigate = useNavigate();
   const handleClick = () => {
-    Navigate("/home/userDetails");
+    navigate("/home/userDetails");
   };
   const head = "Suspended Users";
   return (
     <div className="w-6 h-6 flex gap-3 cursor-pointer">
-      <img src={View} onClick={handleClick} alt="Edit" />
+      <img src={View} onClick={handleClick} alt="View" />
       <img src={deleteIcon} alt="Delete" />
     </div>
   );
@@ -91,7 +90,7 @@ const SuspendUsers = () => {
   return (
     <div>
       <div className="flex fixed z-10">
-        <TopHeader className="fixed" head={head} />
+        <TopHeader head={head} />
       </div>
       {loading ? (
         <div className="fixed inset-0 bg-gray-700 opacity-80 flex justify-center items-center z-50">

@@ -1,11 +1,10 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Table from "../../UI/CommonTable/Table";
 import { deleteIcon, view, edit } from "./Assets/index";
 import TopHeader from "../../UI/TopHeader/TopHeader";
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 
-import { useEffect, useState } from "react";
 import { Grid } from "react-loader-spinner";
 import { RoleManagement } from "../User_Management/features/userSlice";
 // Component inside action column
@@ -76,7 +75,7 @@ const PMS = () => {
     action: <Action />,
   }));
 
-  const pageSize = 10;
+  const pageSize = 7;
   const greenButtonText = "Add New Role";
 
   return (
