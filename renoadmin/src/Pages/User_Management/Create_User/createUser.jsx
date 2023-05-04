@@ -191,7 +191,8 @@ const CreateUser = ({ setActiveTab, setExpand }) => {
                         backgroundColor: "white",
                         marginLeft: "20px",
                       }}
-                      onClick={handlePhotoRemove}>
+                      onClick={handlePhotoRemove}
+                    >
                       Remove
                     </button>
                   </div>
@@ -203,6 +204,8 @@ const CreateUser = ({ setActiveTab, setExpand }) => {
                   name="photo"
                   accept="image/*"
                   onChange={handlePhotoChange}
+                  class="file:bg-black file:px-6 file:py-3 file:border-none file:rounded file:text-white file:cursor-pointer placeholder-transparent mt-3 rounded appearance-none placeholder-transparent w-[50vh]"
+                  style={{ border: "2px solid #e6f7fe" }}
                   required
                 />
               )}
@@ -227,7 +230,8 @@ const CreateUser = ({ setActiveTab, setExpand }) => {
                 width: "130px",
                 height: "55px",
                 color: "white",
-              }}>
+              }}
+            >
               <Link to="/home/allUsers">Back</Link>
             </button>
           </div>

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import Table from "../../../UI/CommonTable/Table";
-import { deleteIcon, Photo, View } from "./Assets/index";
+import { deleteIcon, Photo, View, Edit, Suspend } from "./Assets/index";
 import TopHeader from "../../../UI/TopHeader/TopHeader";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
@@ -10,14 +10,18 @@ import { Grid } from "react-loader-spinner";
 
 // Component inside action column
 const Action = () => {
+  const Navigate = useNavigate();
+  const handleEditClick = () => {
+    Navigate("/home/editDetails");
+  };
+
   return (
-    <div className="flex gap-3 items-center mr-10">
-      <button className="bg-[#8FC743] hover:bg-lime-600 h-10 w-28 text-white px-3 py-1 rounded">
-        Suspend
-      </button>
-      <div className="flex w-6 h-6 flex gap-3 cursor-pointer">
+    <div className="flex gap-3 items-center pr-20">
+      <div className="flex w-5 h-5 flex gap-2 cursor-pointer">
+        <img src={Edit} onClick={handleEditClick} alt="Edit" />
         <img src={View} alt="View" />
         <img src={deleteIcon} alt="Delete" />
+        <img src={Suspend} alt="suspendUser" />
       </div>
     </div>
   );
