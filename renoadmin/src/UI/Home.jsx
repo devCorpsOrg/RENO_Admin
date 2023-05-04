@@ -46,7 +46,6 @@ import EditPage from "../Pages/Content_Management/EditPage/editPage";
 import cookie from 'js-cookie';
 // import { useLocation } from 'react-router-dom';
 
-
 function Home() {
   const [expand, setExpand] = useState("");
   // const location = useLocation();
@@ -143,10 +142,7 @@ function Home() {
           exact
           path="/editPage"
           element={
-            <EditPage
-              setExpand={togleExpand}
-              setActiveTab={handleActiveTab}
-            />
+            <EditPage setExpand={togleExpand} setActiveTab={handleActiveTab} />
           }
         />
         <Route
@@ -204,7 +200,10 @@ function Home() {
           exact
           path="/createUser"
           element={
-            <CreateUser setExpand={togleExpand} setActiveTab={handleActiveTab} />
+            <CreateUser
+              setExpand={togleExpand}
+              setActiveTab={handleActiveTab}
+            />
           }
         />
         <Route

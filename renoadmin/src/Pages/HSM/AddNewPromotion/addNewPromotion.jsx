@@ -1,7 +1,7 @@
 import { useDebugValue, useState } from "react";
 import React from "react";
 import TopHeader from "../../../UI/TopHeader/TopHeader";
-import axios from "axios"
+import axios from "axios";
 import { addNewPromotion } from "../../User_Management/features/userSlice";
 import { useDispatch } from "react-redux";
 
@@ -22,28 +22,23 @@ const AddPromotion = ({ setExpand, setActiveTab }) => {
     event.preventDefault();
 
     const formData = new FormData();
-    formData.append("prod_name", title)
-    formData.append("project_details", content)
-    formData.append("prod_category", category)
-    formData.append("promotion", promotion)
-    formData.append("rate", pack)
+    formData.append("prod_name", title);
+    formData.append("project_details", content);
+    formData.append("prod_category", category);
+    formData.append("promotion", promotion);
+    formData.append("rate", pack);
     images.forEach((image, index) => {
-      formData.append(`pic`, image)
-    })
-    
+      formData.append(`pic`, image);
+    });
 
     dispatch(addNewPromotion(formData));
-  
   };
-  
 
   const handlePhotoUpload = (event) => {
     const files = event.target.files;
     const uploadedImages = [];
     for (let i = 0; i < files.length; i++) {
-      uploadedImages.push(
-        (files[i]),
-      );
+      uploadedImages.push(files[i]);
     }
     setImages(uploadedImages);
   };
@@ -61,7 +56,7 @@ const AddPromotion = ({ setExpand, setActiveTab }) => {
         <TopHeader className="fixed" head={head} />
       </div>
 
-      <div className=" ml-72 mb-10 relative" style={{ marginTop: "120px" }}>
+      <div className=" ml-80 mb-10 relative" style={{ marginTop: "120px" }}>
         <form onSubmit={handleSubmit}>
           <label className="grid mt-5">
             Promotion Title
@@ -69,10 +64,9 @@ const AddPromotion = ({ setExpand, setActiveTab }) => {
               type="text"
               placeholder="Enter Promotion Title"
               id="title"
-              className="rounded outline-none"
+              className="rounded w-[100vh] outline-none"
               style={{
                 height: "50px",
-                width: "1210px",
                 paddingLeft: "10px",
                 border: "2px solid 	#e6f7fe",
                 marginTop: "5px",
@@ -83,16 +77,16 @@ const AddPromotion = ({ setExpand, setActiveTab }) => {
             />
           </label>
 
-          <div className="grid grid-cols-2 gap-4 mt-5">
-            <label className="grid pr-6">
+          <div className="grid grid-cols-2 w-[98vh] gap-5 mt-5">
+            <label className="grid">
               Catagory
               <select
                 id="label"
                 name="label"
-                class="outline-none rounded"
+                className="outline-none w-[50vh] rounded"
                 style={{
                   height: "50px",
-                  width: "590px",
+                  // width: "590px",
                   paddingLeft: "5px",
                   border: "2px solid 	#e6f7fe",
                   marginTop: "5px",
@@ -106,16 +100,16 @@ const AddPromotion = ({ setExpand, setActiveTab }) => {
                 <option value="other">Other</option>
               </select>
             </label>
-            <label className="grid pr-6">
+            <label className="grid">
               Package
               <input
                 type="text"
                 value={pack}
-                class="outline-none rounded"
+                className="outline-none w-[50vh] rounded"
                 placeholder="$000.00"
                 style={{
                   height: "50px",
-                  width: "586px",
+                  // width: "586px",
                   paddingLeft: "10px",
                   border: "2px solid 	#e6f7fe",
                   marginTop: "5px",
@@ -124,17 +118,14 @@ const AddPromotion = ({ setExpand, setActiveTab }) => {
                 onChange={(event) => setPack(event.target.value)}
               />
             </label>
-          </div>
-          <div className="grid grid-cols-2 gap-4 mt-5">
-            <label className="grid pr-6">
+            <label className="grid">
               No Of Promotion
               <select
                 id="label"
                 name="label"
-                class="outline-none rounded"
+                className="outline-none w-[50vh] rounded"
                 style={{
                   height: "50px",
-                  width: "590px",
                   paddingLeft: "5px",
                   border: "2px solid 	#e6f7fe",
                   marginTop: "5px",
@@ -148,18 +139,19 @@ const AddPromotion = ({ setExpand, setActiveTab }) => {
                 <option value="other">Other</option>
               </select>
             </label>
-            <label className="grid pr-6">
+            <label className="grid">
               Photos
               <input
+                className="w-[50vh]"
                 style={{
                   height: "50px",
-                  width: "590px",
+                  // width: "590px",
                   paddingLeft: "0px",
                   border: "2px solid 	#e6f7fe",
                   marginTop: "5px",
                   fontSize: "14px",
                 }}
-                class="file:bg-black file:px-6 file:py-3 file:border-none file:rounded file:text-white file:cursor-pointer placeholder-transparent mt-3 rounded appearance-none placeholder-transparent"
+                class="w-[50vh] file:bg-black file:px-6 file:py-3 file:border-none file:rounded file:text-white file:cursor-pointer mt-3 rounded appearance-none placeholder-transparent"
                 type="file"
                 accept="image/*"
                 multiple
@@ -167,25 +159,26 @@ const AddPromotion = ({ setExpand, setActiveTab }) => {
                 placeholder=""
               />
             </label>
-            <div style={{ marginLeft: "625px", width: "600px" }}>
-              {images && images.length > 0 && (
-                <div className="grid grid-cols-4 gap-3">
-                  {images.map((image, index) => (
-                    <img
-                      key={index}
-                      src={URL.createObjectURL(image)} // replace with your image source
-                      alt={image.name} // replace with your image alt text
-                      style={{
-                        width: "100px",
-                        height: "100px",
-                        objectFit: "cover",
-                        marginRight: "10px",
-                      }} // set width, height, object-fit, and margin-right styles
-                    />
-                  ))}
-                </div>
-              )}
-            </div>
+          </div>
+
+          <div style={{ marginLeft: "625px", width: "600px" }}>
+            {images && images.length > 0 && (
+              <div className="grid grid-cols-4 gap-3">
+                {images.map((image, index) => (
+                  <img
+                    key={index}
+                    src={URL.createObjectURL(image)} // replace with your image source
+                    alt={image.name} // replace with your image alt text
+                    style={{
+                      width: "100px",
+                      height: "100px",
+                      objectFit: "cover",
+                      marginRight: "10px",
+                    }} // set width, height, object-fit, and margin-right styles
+                  />
+                ))}
+              </div>
+            )}
           </div>
 
           <label className="grid mt-5">
@@ -193,10 +186,10 @@ const AddPromotion = ({ setExpand, setActiveTab }) => {
             <textarea
               id="content"
               placeholder="Enter Details"
-              className="rounded outline-none pt-2"
+              className="rounded outline-none w-[100vh] pt-2"
               style={{
                 height: "170px",
-                width: "1210px",
+                // width: "1210px",
                 border: "2px solid #e6f7fe",
                 paddingLeft: "10px",
                 paddingTop: "20px",
@@ -209,9 +202,8 @@ const AddPromotion = ({ setExpand, setActiveTab }) => {
           </label>
           {/* <div> */}
           <button
-            className="rounded mt-10"
+            className="rounded mt-10 bg-lime-600 hover:bg-lime-700"
             style={{
-              backgroundColor: "rgba(153, 190, 17, 0.831)",
               width: "170px",
               height: "55px",
               color: "white",
@@ -220,9 +212,8 @@ const AddPromotion = ({ setExpand, setActiveTab }) => {
             Publish
           </button>
           <button
-            className="rounded mt-10"
+            className="rounded mt-10 bg-black hover:bg-gray-800"
             style={{
-              backgroundColor: "black",
               width: "170px",
               height: "55px",
               color: "white",

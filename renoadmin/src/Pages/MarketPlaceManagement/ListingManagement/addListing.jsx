@@ -25,20 +25,16 @@ const AddListing = ({ setExpand, setActiveTab }) => {
     formData.append("desc", content);
     images.forEach((image, index) => {
       formData.append(`pic_url`, image);
-    })
+    });
 
     dispatch(addNewListing(formData));
-
-
   };
 
   const handlePhotoUpload = (event) => {
     const files = event.target.files;
     const uploadedImages = [];
     for (let i = 0; i < files.length; i++) {
-      uploadedImages.push(
-        (files[i]),
-      );
+      uploadedImages.push(files[i]);
     }
     setImages(uploadedImages);
   };
@@ -53,19 +49,17 @@ const AddListing = ({ setExpand, setActiveTab }) => {
         <TopHeader className="fixed" head={head} />
       </div>
 
-      <div className=" ml-72 mb-10 relative" style={{ marginTop: "120px" }}>
+      <div className=" ml-80 mb-10 relative" style={{ marginTop: "120px" }}>
         <form onSubmit={handleSubmit}>
-
           <label className="grid mt-5">
             Service Name
             <input
               type="text"
               placeholder="Electician Services"
               id="title"
-              className="rounded outline-none"
+              className="rounded w-[100vh] outline-none"
               style={{
                 height: "50px",
-                width: "1210px",
                 paddingLeft: "10px",
                 border: "2px solid 	#e6f7fe",
                 marginTop: "5px",
@@ -76,16 +70,15 @@ const AddListing = ({ setExpand, setActiveTab }) => {
             />
           </label>
 
-          <div className="grid grid-cols-2 gap-3 mt-5">
-            <label className="grid pr-6">
+          <div className="grid grid-cols-2 w-[100vh] gap-2 mt-5">
+            <label className="grid">
               Price
               <input
                 id="label"
-                class="outline-none rounded"
+                class="outline-none  w-[49vh] rounded"
                 placeholder="$000.00"
                 style={{
                   height: "50px",
-                  width: "590px",
                   paddingLeft: "5px",
                   border: "2px solid 	#e6f7fe",
                   marginTop: "5px",
@@ -95,12 +88,11 @@ const AddListing = ({ setExpand, setActiveTab }) => {
                 onChange={handlePriceChange}
               />
             </label>
-            <label className="grid pr-6">
+            <label className="grid w-[49vh]">
               Upload Photos
               <input
                 style={{
                   height: "50px",
-                  width: "590px",
                   paddingLeft: "0px",
                   border: "2px solid 	#e6f7fe",
                   marginTop: "5px",
@@ -114,7 +106,7 @@ const AddListing = ({ setExpand, setActiveTab }) => {
                 placeholder=""
               />
             </label>
-            <div style={{ marginLeft: "625px", width: "600px" }}>
+            <div style={{ marginLeft: "600px", width: "600px" }}>
               {images && images.length > 0 && (
                 <div className="grid grid-cols-4 gap-3">
                   {images.map((image, index) => (
@@ -140,10 +132,9 @@ const AddListing = ({ setExpand, setActiveTab }) => {
             <textarea
               id="content"
               placeholder="Enter Description"
-              className="rounded outline-none pt-2"
+              className="rounded w-[100vh] outline-none pt-2"
               style={{
                 height: "170px",
-                width: "1210px",
                 border: "2px solid #e6f7fe",
                 paddingLeft: "10px",
                 paddingTop: "20px",
@@ -156,9 +147,8 @@ const AddListing = ({ setExpand, setActiveTab }) => {
           </label>
           {/* <div> */}
           <button
-            className="rounded mt-10"
+            className="rounded bg-lime-600 hover:bg-lime-700 mt-10"
             style={{
-              backgroundColor: "rgba(153, 190, 17, 0.831)",
               width: "170px",
               height: "55px",
               color: "white",
@@ -167,9 +157,8 @@ const AddListing = ({ setExpand, setActiveTab }) => {
             Save
           </button>
           <button
-            className="rounded mt-10"
+            className="rounded bg-black hover:bg-gray-800 mt-10"
             style={{
-              backgroundColor: "black",
               width: "170px",
               height: "55px",
               color: "white",

@@ -5,9 +5,9 @@ import axios from "axios";
 import { useDispatch } from "react-redux";
 import { createUser } from "../features/userSlice";
 
-const CreateUser = ({setActiveTab, setExpand}) => {
+const CreateUser = ({ setActiveTab, setExpand }) => {
   setExpand("userManagement");
-  setActiveTab("allUsers")
+  setActiveTab("allUsers");
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [phone, setPhone] = useState("");
@@ -49,7 +49,6 @@ const CreateUser = ({setActiveTab, setExpand}) => {
   const handleSubmit = async (event) => {
     event.preventDefault();
 
-    
     const formData = new FormData();
     formData.append("username", name);
     formData.append("email", email);
@@ -57,9 +56,9 @@ const CreateUser = ({setActiveTab, setExpand}) => {
     formData.append("uid", userId);
     formData.append("role", label);
     formData.append("pic", photo, photo.name);
-    
+
     dispatch(createUser(formData));
-    
+
     // axios({
     //   method: "post",
     //   url: "/usercreate/",
@@ -83,9 +82,9 @@ const CreateUser = ({setActiveTab, setExpand}) => {
         <TopHeader className="fixed" head={head} />
       </div>
 
-      <div className="ml-72 mt-20 relative" style={{ marginTop: "140px" }}>
+      <div className="ml-80 mt-20 relative" style={{ marginTop: "140px" }}>
         <form onSubmit={handleSubmit}>
-          <div class="grid grid-cols-3 gap-4">
+          <div class="grid grid-cols-2 gap-4">
             <label className="grid pr-6">
               User Name
               <input
@@ -159,8 +158,7 @@ const CreateUser = ({setActiveTab, setExpand}) => {
                   paddingLeft: "5px",
                 }}
                 value={label}
-                onChange={handleLabelChange}
-              >
+                onChange={handleLabelChange}>
                 <option value="">Select a label</option>
                 <option value="personal">Admin</option>
                 <option value="work">Work</option>
@@ -184,11 +182,10 @@ const CreateUser = ({setActiveTab, setExpand}) => {
                         color: "red",
                         paddingLeft: "5px",
                         cursor: "pointer",
-                        backgroundColor:"white",
-                        marginLeft: "20px"
+                        backgroundColor: "white",
+                        marginLeft: "20px",
                       }}
-                      onClick={handlePhotoRemove}
-                    >
+                      onClick={handlePhotoRemove}>
                       Remove
                     </button>
                   </div>
@@ -204,23 +201,27 @@ const CreateUser = ({setActiveTab, setExpand}) => {
               )}
             </label>
           </div>
-          <div className="flex mt-7 items-center">
+          <div className="flex mt-10 gap-10 items-center">
             <button
-              className="rounded"
+              className="rounded bg-lime-600 hover:bg-lime-700"
               style={{
-                backgroundColor: "rgba(153, 190, 17, 0.831)",
                 width: "130px",
                 height: "55px",
                 color: "white",
               }}
               type="submit"
-              onClick={handleSubmit}
-            >
+              onClick={handleSubmit}>
               SAVE
             </button>
-            <Link to="/home/allUsers" style={{ paddingLeft: "50px" }}>
-              Back
-            </Link>
+            <button
+              className="rounded bg-amber-600 hover:bg-amber-700"
+              style={{
+                width: "130px",
+                height: "55px",
+                color: "white",
+              }}>
+              <Link to="/home/allUsers">Back</Link>
+            </button>
           </div>
         </form>
       </div>
