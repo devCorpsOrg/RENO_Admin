@@ -5,12 +5,12 @@ import axios from "axios";
 import { useDispatch } from "react-redux";
 import { updateUser } from "../features/userSlice";
 
-const EditUser = ({setActiveTab, setExpand}) => {
+const EditUser = ({ setActiveTab, setExpand }) => {
   setExpand("userManagement");
   setActiveTab("allUsers");
 
   const dispatch = useDispatch();
-  
+
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [phone, setPhone] = useState("");
@@ -50,8 +50,7 @@ const EditUser = ({setActiveTab, setExpand}) => {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-  
-  
+
     const formData = new FormData();
     formData.append("username", name);
     formData.append("email", email);
@@ -59,15 +58,11 @@ const EditUser = ({setActiveTab, setExpand}) => {
     formData.append("role", label);
     formData.append("uid", userId);
     // if (photo) {
-      formData.append("pic", photo);
+    formData.append("pic", photo);
     // }
 
-    dispatch(updateUser({formData, userId}))
-    
-
+    dispatch(updateUser({ formData, userId }));
   };
-  
-  
 
   return (
     <div>
@@ -75,15 +70,15 @@ const EditUser = ({setActiveTab, setExpand}) => {
         <TopHeader className="fixed" head={head} />
       </div>
 
-      <div className="ml-72 mt-20 relative" style={{ marginTop: "140px" }}>
+      <div className="ml-80 mt-20 relative" style={{ marginTop: "140px" }}>
         <form>
-          <div class="grid grid-cols-3 gap-4">
+          <div className="grid grid-cols-2 gap-4">
             <label className="grid pr-6">
               User Name
               <input
                 type="text"
                 value={name}
-                class="outline-none rounded"
+                className="outline-none rounded"
                 style={{
                   height: "50px",
                   width: "380px",
@@ -91,6 +86,7 @@ const EditUser = ({setActiveTab, setExpand}) => {
                   paddingLeft: "5px",
                 }}
                 onChange={handleNameChange}
+                required
               />
             </label>
             <label className="grid pr-6">
@@ -98,7 +94,7 @@ const EditUser = ({setActiveTab, setExpand}) => {
               <input
                 type="email"
                 value={email}
-                class="outline-none rounded"
+                className="outline-none rounded"
                 style={{
                   height: "50px",
                   width: "380px",
@@ -106,6 +102,7 @@ const EditUser = ({setActiveTab, setExpand}) => {
                   paddingLeft: "5px",
                 }}
                 onChange={handleEmailChange}
+                required
               />
             </label>
             <label className="grid pr-6">
@@ -113,7 +110,7 @@ const EditUser = ({setActiveTab, setExpand}) => {
               <input
                 type="tel"
                 value={phone}
-                class="outline-none rounded"
+                className="outline-none rounded"
                 style={{
                   height: "50px",
                   width: "380px",
@@ -121,6 +118,7 @@ const EditUser = ({setActiveTab, setExpand}) => {
                   paddingLeft: "5px",
                 }}
                 onChange={handlePhoneChange}
+                required
               />
             </label>
             <label className="grid pr-6">
@@ -128,7 +126,7 @@ const EditUser = ({setActiveTab, setExpand}) => {
               <input
                 type="userId"
                 value={userId}
-                class="outline-none rounded"
+                className="outline-none rounded"
                 style={{
                   height: "50px",
                   width: "380px",
@@ -136,6 +134,7 @@ const EditUser = ({setActiveTab, setExpand}) => {
                   paddingLeft: "5px",
                 }}
                 onChange={handleUserIdChange}
+                required
               />
             </label>
             <label className="grid pr-6">
@@ -143,7 +142,7 @@ const EditUser = ({setActiveTab, setExpand}) => {
               <select
                 id="label"
                 name="label"
-                class="outline-none rounded"
+                className="outline-none rounded"
                 style={{
                   height: "50px",
                   width: "380px",
@@ -152,6 +151,7 @@ const EditUser = ({setActiveTab, setExpand}) => {
                 }}
                 value={label}
                 onChange={handleLabelChange}
+                required
               >
                 <option value="">Select a label</option>
                 <option value="personal">Admin</option>
@@ -176,11 +176,10 @@ const EditUser = ({setActiveTab, setExpand}) => {
                         color: "red",
                         paddingLeft: "5px",
                         cursor: "pointer",
-                        backgroundColor:"white",
-                        marginLeft: "20px"
+                        backgroundColor: "white",
+                        marginLeft: "20px",
                       }}
-                      onClick={handlePhotoRemove}
-                    >
+                      onClick={handlePhotoRemove}>
                       Remove
                     </button>
                   </div>
@@ -192,27 +191,35 @@ const EditUser = ({setActiveTab, setExpand}) => {
                   name="photo"
                   accept="image/*"
                   onChange={handlePhotoChange}
+                  required
+                  class="file:bg-black file:px-6 file:py-3 file:border-none file:rounded file:text-white file:cursor-pointer placeholder-transparent mt-3 rounded appearance-none placeholder-transparent w-[50vh]"
+                  style={{ border: "2px solid #e6f7fe" }}
                 />
               )}
             </label>
           </div>
-          <div className="flex mt-7 items-center">
+          <div className="flex mt-10 gap-5 items-center">
             <button
-              className="rounded"
+              className="rounded bg-lime-600 hover:bg-lime-700"
               style={{
-                backgroundColor: "rgba(153, 190, 17, 0.831)",
                 width: "130px",
                 height: "55px",
                 color: "white",
               }}
               type="submit"
-              onClick={handleSubmit}
+              // onClick={handleSubmit}
             >
               SAVE
             </button>
-            <Link to="/home/allUsers" style={{ paddingLeft: "50px" }}>
-              Back
-            </Link>
+            <button
+              className="rounded bg-black hover:bg-gray-800"
+              style={{
+                width: "130px",
+                height: "55px",
+                color: "white",
+              }}>
+              <Link to="/home/allUsers">Back</Link>
+            </button>
           </div>
         </form>
       </div>

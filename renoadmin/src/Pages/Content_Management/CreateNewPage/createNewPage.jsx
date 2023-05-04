@@ -10,11 +10,9 @@ const CreateNewPage = ({ setExpand, setActiveTab }) => {
   const head = "Create New Page";
   const dispatch = useDispatch();
 
-
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
   const [images, setImages] = useState([]);
-
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -27,16 +25,13 @@ const CreateNewPage = ({ setExpand, setActiveTab }) => {
     });
 
     dispatch(createNewPage(formData));
-
   };
 
   const handleImageUpload = (event) => {
     const files = event.target.files;
     const uploadedImages = [];
     for (let i = 0; i < files.length; i++) {
-      uploadedImages.push(
-         (files[i]),
-      );
+      uploadedImages.push(files[i]);
     }
     setImages(uploadedImages);
   };
@@ -47,7 +42,7 @@ const CreateNewPage = ({ setExpand, setActiveTab }) => {
         <TopHeader className="fixed" head={head} />
       </div>
 
-      <div className=" ml-72 mt-20 relative" style={{ marginTop: "140px" }}>
+      <div className=" ml-80 mt-20 relative" style={{ marginTop: "140px" }}>
         <form onSubmit={handleSubmit}>
           <label className="grid">
             Page Title
@@ -55,10 +50,10 @@ const CreateNewPage = ({ setExpand, setActiveTab }) => {
               type="text"
               placeholder="Enter Page Title"
               id="title"
-              className="rounded outline-none"
+              className="rounded w-[100vh] outline-none"
               style={{
                 height: "50px",
-                width: "1230px",
+                // width: "1230px",
                 paddingLeft: "20px",
                 border: "2px solid 	#e6f7fe",
                 marginTop: "5px",
@@ -66,6 +61,7 @@ const CreateNewPage = ({ setExpand, setActiveTab }) => {
               }}
               value={title}
               onChange={(event) => setTitle(event.target.value)}
+              required
             />
           </label>
 
@@ -74,10 +70,10 @@ const CreateNewPage = ({ setExpand, setActiveTab }) => {
             <textarea
               id="content"
               placeholder="Enter Page Content"
-              className="rounded outline-none pt-2"
+              className="rounded w-[100vh] outline-none pt-2"
               style={{
                 height: "170px",
-                width: "1230px",
+                // width: "1230px",
                 border: "2px solid #e6f7fe",
                 paddingLeft: "20px",
                 paddingTop: "20px",
@@ -86,19 +82,21 @@ const CreateNewPage = ({ setExpand, setActiveTab }) => {
               }}
               value={content}
               onChange={(event) => setContent(event.target.value)}
+              required
             />
           </label>
           <div>
             <label className="grid mt-5" style={{ fontSize: "15px" }}>
               Upload Media
               <input
-                class="file:bg-black file:px-6 file:py-3 file:border-none file:rounded file:text-white file:cursor-pointer placeholder-transparent mt-3 rounded appearance-none placeholder-transparent"
-                style={{ border: "2px solid #e6f7fe", width: "350px" }}
+                class="file:bg-black file:px-6 file:py-3 file:border-none file:rounded file:text-white file:cursor-pointer placeholder-transparent mt-3 rounded appearance-none placeholder-transparent w-[49vh]"
+                style={{ border: "2px solid #e6f7fe" }}
                 type="file"
                 placeholder=""
                 accept="image/*"
                 multiple
                 onChange={handleImageUpload}
+                required
               />
             </label>
           </div>
@@ -121,7 +119,7 @@ const CreateNewPage = ({ setExpand, setActiveTab }) => {
               </div>
             )}
           </div>
-          <div style={{ fontSize: "10px", marginTop: "8px" }}>
+          <div className="text-md mt-8">
             <ul className="list-disc ml-3 text-gray-500">
               <li>Allowed banner image extension .jpg | .jpeg | .png</li>
               <li>
@@ -134,15 +132,14 @@ const CreateNewPage = ({ setExpand, setActiveTab }) => {
             </ul>
           </div>
           <button
-            className="rounded mt-10"
+            className="rounded bg-lime-600 hover:bg-lime-700 mt-10"
             style={{
-              backgroundColor: "rgba(153, 190, 17, 0.831)",
+              // backgroundColor: "rgba(153, 190, 17, 0.831)",
               width: "130px",
               height: "55px",
               color: "white",
             }}
-            type="submit"
-          >
+            type="submit">
             Submit
           </button>
         </form>

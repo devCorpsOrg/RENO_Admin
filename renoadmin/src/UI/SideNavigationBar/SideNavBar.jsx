@@ -12,6 +12,7 @@ import SettingsOutlinedIcon from "@mui/icons-material/SettingsOutlined";
 import AddOutlinedIcon from "@mui/icons-material/AddOutlined";
 import RemoveIcon from "@mui/icons-material/Remove";
 import axios from "axios";
+import cookie from "js-cookie";
 
 function SideNavBar({ expand, setExpand, activeTab, setActiveTab }) {
   const activeMenu = true;
@@ -24,31 +25,29 @@ function SideNavBar({ expand, setExpand, activeTab, setActiveTab }) {
   };
 
   const handleLogout = () => {
-      // axios
-      //   .post(`/logout/`, {}, {
-      //     headers: {
-      //       Authorization: `Bearer ${localStorage.getItem("csrftoken")}`,
-      //       "X-Session-ID": localStorage.getItem("sessionId"),
-      //     },
-      //   })
-      //   .then((response) => {
-      //     // clear token and session ID from localStorage
-      //     localStorage.removeItem("csrftoken");
-      //     localStorage.removeItem("sessionId");
-
-      //     // redirect to home page
-      //     navigate('/');
-      //   })
-      //   .catch((error) => {
-      //     console.log(error);
-      //   });
+      try {
+        const response = axios({
+          method: "post",
+          url: "/logoutall/",
+          headers: {
+            'Authorization':`Token ${cookie.get('token')}`,
+          },
+        });
+        console.log(response.status);
+          cookie.remove('csrftoken');
+          cookie.remove('token');
+          navigate('/');
+          console.log('Logged Out sucessfully')
+      } catch (error) {
+        console.log(error);
+        console.log("Not submitting data");
+      }
   };
 
   return (
     <div
       className="w-72 h-screen fixed "
-      style={{ backgroundColor: "#EEEEEE", width: "17.3rem" }}
-    >
+      style={{ backgroundColor: "#EEEEEE", width: "17.3rem" }}>
       <div className=" hello ml-3 h-screen overflow-auto pb-10 scrollbar-hide">
         {activeMenu && (
           <>
@@ -56,8 +55,8 @@ function SideNavBar({ expand, setExpand, activeTab, setActiveTab }) {
               <img
                 className="h-auto max-w-[70%] flex ml-8 mt-2"
                 src="/images/logo.png"
-                alt=""
-                srcset=""
+                alt="logo"
+                srcSet=""
               />
             </div>
 
@@ -71,14 +70,13 @@ function SideNavBar({ expand, setExpand, activeTab, setActiveTab }) {
                   color: activeTab == "dashboard" ? "green" : "#545e6f",
                   fontWeight: activeTab == "dashboard" ? "bold" : "inherit",
                 }}
-                activeClassName="active"
+                activeclassname="active"
                 to="/home"
                 className="flex items-center"
                 onClick={() => {
                   setActiveTab("dashboard");
                   setExpand("dashboard");
-                }}
-              >
+                }}>
                 <SpeedIcon style={{ transform: "scale(0.65)" }} />
                 <span className="pl-1">Dashboard</span>
               </NavLink>
@@ -97,9 +95,8 @@ function SideNavBar({ expand, setExpand, activeTab, setActiveTab }) {
                     setExpand("userManagement"); // open if closed
                   }
                 }}
-                activeClassName="active"
-                className="flex items-center"
-              >
+                activeclassname="active"
+                className="flex items-center">
                 <PersonOutlineOutlinedIcon
                   style={{ transform: "scale(0.65)" }}
                 />
@@ -109,8 +106,7 @@ function SideNavBar({ expand, setExpand, activeTab, setActiveTab }) {
                     transform: "scale(0.65)",
                     position: "relative",
                     left: "92px",
-                  }}
-                >
+                  }}>
                   {expand == "userManagement" ? (
                     <RemoveIcon />
                   ) : (
@@ -132,8 +128,7 @@ function SideNavBar({ expand, setExpand, activeTab, setActiveTab }) {
                       onClick={() => {
                         setActiveTab("allUsers");
                         setExpand("userManagement");
-                      }}
-                    >
+                      }}>
                       All Users
                     </NavLink>
                   </div>
@@ -149,8 +144,7 @@ function SideNavBar({ expand, setExpand, activeTab, setActiveTab }) {
                       onClick={() => {
                         setActiveTab("suspendUsers");
                         setExpand("userManagement");
-                      }}
-                    >
+                      }}>
                       Suspend Users
                     </NavLink>
                   </div>
@@ -166,14 +160,13 @@ function SideNavBar({ expand, setExpand, activeTab, setActiveTab }) {
                   fontWeight:
                     activeTab == "customerRelationship" ? "bold" : "inherit",
                 }}
-                activeClassName="active"
+                activeclassname="active"
                 to="/home/customerRelationship"
                 className="flex items-center"
                 onClick={() => {
                   setActiveTab("customerRelationship");
                   setExpand("customerRelationship");
-                }}
-              >
+                }}>
                 <PeopleAltOutlinedIcon style={{ transform: "scale(0.65)" }} />
                 <span className="pl-1">Customer Relationship</span>
               </NavLink>
@@ -186,14 +179,13 @@ function SideNavBar({ expand, setExpand, activeTab, setActiveTab }) {
                   fontWeight:
                     activeTab == "contentManagement" ? "bold" : "inherit",
                 }}
-                activeClassName="active"
+                activeclassname="active"
                 to="/home/contentManagement"
                 className="flex items-center"
                 onClick={() => {
                   setActiveTab("contentManagement");
                   setExpand("contentManagement");
-                }}
-              >
+                }}>
                 <InsertDriveFileOutlinedIcon
                   style={{ transform: "scale(0.65)" }}
                 />
@@ -216,9 +208,8 @@ function SideNavBar({ expand, setExpand, activeTab, setActiveTab }) {
                     setExpand("showcaseManagement"); // open if closed
                   }
                 }}
-                activeClassName="active"
-                className="flex items-center"
-              >
+                activeclassname="active"
+                className="flex items-center">
                 <WidgetsOutlinedIcon style={{ transform: "scale(0.65)" }} />
                 <span className="pl-1">Showcase Management</span>
                 <div
@@ -226,8 +217,7 @@ function SideNavBar({ expand, setExpand, activeTab, setActiveTab }) {
                     transform: "scale(0.65)",
                     position: "relative",
                     left: "57px",
-                  }}
-                >
+                  }}>
                   {expand == "showcaseManagement" ? (
                     <RemoveIcon />
                   ) : (
@@ -249,8 +239,7 @@ function SideNavBar({ expand, setExpand, activeTab, setActiveTab }) {
                       onClick={() => {
                         setActiveTab("projectList");
                         setExpand("showcaseManagement");
-                      }}
-                    >
+                      }}>
                       Project List
                     </NavLink>
                   </div>
@@ -266,8 +255,7 @@ function SideNavBar({ expand, setExpand, activeTab, setActiveTab }) {
                       onClick={() => {
                         setActiveTab("featuredProject");
                         setExpand("showcaseManagement");
-                      }}
-                    >
+                      }}>
                       Featured Project
                     </NavLink>
                   </div>
@@ -282,8 +270,7 @@ function SideNavBar({ expand, setExpand, activeTab, setActiveTab }) {
                       onClick={() => {
                         setActiveTab("bookings");
                         setExpand("showcaseManagement");
-                      }}
-                    >
+                      }}>
                       Bookings
                     </NavLink>
                   </div>
@@ -298,7 +285,7 @@ function SideNavBar({ expand, setExpand, activeTab, setActiveTab }) {
 
                   fontWeight: expand == "homeService" ? "bold" : "inherit",
                 }}
-                activeClassName="active"
+                activeclassname="active"
                 className="flex items-center"
                 onClick={() => {
                   // setExpand("homeService");
@@ -307,8 +294,7 @@ function SideNavBar({ expand, setExpand, activeTab, setActiveTab }) {
                   } else {
                     setExpand("homeService"); // open if closed
                   }
-                }}
-              >
+                }}>
                 <HomeOutlinedIcon style={{ transform: "scale(0.65)" }} />
                 <span className="pl-1">Home Service Management</span>
                 <div
@@ -316,8 +302,7 @@ function SideNavBar({ expand, setExpand, activeTab, setActiveTab }) {
                     transform: "scale(0.65)",
                     position: "relative",
                     left: "36px",
-                  }}
-                >
+                  }}>
                   {expand == "homeService" ? (
                     <RemoveIcon />
                   ) : (
@@ -338,8 +323,7 @@ function SideNavBar({ expand, setExpand, activeTab, setActiveTab }) {
                       onClick={() => {
                         setActiveTab("productList");
                         setExpand("homeService");
-                      }}
-                    >
+                      }}>
                       Product List
                     </NavLink>
                   </div>
@@ -355,8 +339,7 @@ function SideNavBar({ expand, setExpand, activeTab, setActiveTab }) {
                       onClick={() => {
                         setActiveTab("featuredProduct");
                         setExpand("homeService");
-                      }}
-                    >
+                      }}>
                       Featured Product and Services
                     </NavLink>
                   </div>
@@ -376,8 +359,7 @@ function SideNavBar({ expand, setExpand, activeTab, setActiveTab }) {
                       onClick={() => {
                         setActiveTab("promotionManagement");
                         setExpand("homeService");
-                      }}
-                    >
+                      }}>
                       Promotion Management
                     </NavLink>
                   </div>
@@ -397,8 +379,7 @@ function SideNavBar({ expand, setExpand, activeTab, setActiveTab }) {
                       onClick={() => {
                         setActiveTab("transactionHistory");
                         setExpand("homeService");
-                      }}
-                    >
+                      }}>
                       Transaction/Purchase History
                     </NavLink>
                   </div>
@@ -414,8 +395,7 @@ function SideNavBar({ expand, setExpand, activeTab, setActiveTab }) {
                       onClick={() => {
                         setActiveTab("reviewManagement");
                         setExpand("homeService");
-                      }}
-                    >
+                      }}>
                       Review Management
                     </NavLink>
                   </div>
@@ -430,8 +410,7 @@ function SideNavBar({ expand, setExpand, activeTab, setActiveTab }) {
                       onClick={() => {
                         setActiveTab("helpDesk");
                         setExpand("homeService");
-                      }}
-                    >
+                      }}>
                       Help Desk Chat
                     </NavLink>
                   </div>
@@ -453,8 +432,7 @@ function SideNavBar({ expand, setExpand, activeTab, setActiveTab }) {
                     setExpand("marketPlace"); // open if closed
                   }
                 }}
-                className="flex items-center"
-              >
+                className="flex items-center">
                 <StorefrontOutlinedIcon style={{ transform: "scale(0.65)" }} />
                 <span className="pl-1">Market Place Management</span>
                 <div
@@ -462,8 +440,7 @@ function SideNavBar({ expand, setExpand, activeTab, setActiveTab }) {
                     transform: "scale(0.65)",
                     position: "relative",
                     left: "41.5px",
-                  }}
-                >
+                  }}>
                   {expand == "marketPlace" ? (
                     <RemoveIcon />
                   ) : (
@@ -484,8 +461,7 @@ function SideNavBar({ expand, setExpand, activeTab, setActiveTab }) {
                       onClick={() => {
                         setActiveTab("allMembers");
                         setExpand("marketPlace");
-                      }}
-                    >
+                      }}>
                       All Members
                     </NavLink>
                   </div>
@@ -503,8 +479,7 @@ function SideNavBar({ expand, setExpand, activeTab, setActiveTab }) {
                       onClick={() => {
                         setActiveTab("suspendMarketUser");
                         setExpand("marketPlace");
-                      }}
-                    >
+                      }}>
                       Suspend User
                     </NavLink>
                   </div>
@@ -524,8 +499,7 @@ function SideNavBar({ expand, setExpand, activeTab, setActiveTab }) {
                       onClick={() => {
                         setActiveTab("catagoryManagement");
                         setExpand("marketPlace");
-                      }}
-                    >
+                      }}>
                       Catagory Management
                     </NavLink>
                   </div>
@@ -543,8 +517,7 @@ function SideNavBar({ expand, setExpand, activeTab, setActiveTab }) {
                       onClick={() => {
                         setActiveTab("listingManagement");
                         setExpand("marketPlace");
-                      }}
-                    >
+                      }}>
                       Listing Management
                     </NavLink>
                   </div>
@@ -560,8 +533,7 @@ function SideNavBar({ expand, setExpand, activeTab, setActiveTab }) {
                       onClick={() => {
                         setActiveTab("chatsAndDeals");
                         setExpand("marketPlace");
-                      }}
-                    >
+                      }}>
                       All Chats and Deals
                     </NavLink>
                   </div>
@@ -581,8 +553,7 @@ function SideNavBar({ expand, setExpand, activeTab, setActiveTab }) {
                       onClick={() => {
                         setActiveTab("reviewMarketManagement");
                         setExpand("marketPlace");
-                      }}
-                    >
+                      }}>
                       Review Management
                     </NavLink>
                   </div>
@@ -596,14 +567,13 @@ function SideNavBar({ expand, setExpand, activeTab, setActiveTab }) {
                   color: activeTab == "permission" ? "green" : "#545e6f",
                   fontWeight: activeTab == "permission" ? "bold" : "inherit",
                 }}
-                activeClassName="active"
+                activeclassname="active"
                 to="/home/permission"
                 className="flex items-center"
                 onClick={() => {
                   setActiveTab("permission");
                   setExpand("permission");
-                }}
-              >
+                }}>
                 <TurnedInNotOutlinedIcon style={{ transform: "scale(0.65)" }} />
                 <span className="pl-1">Permission and Role</span>
               </NavLink>
@@ -615,14 +585,13 @@ function SideNavBar({ expand, setExpand, activeTab, setActiveTab }) {
                   color: activeTab == "settings" ? "green" : "#545e6f",
                   fontWeight: activeTab == "settings" ? "bold" : "inherit",
                 }}
-                activeClassName="active"
+                activeclassname="active"
                 to="/home/settings"
                 className="flex items-center"
                 onClick={() => {
                   setActiveTab("settings");
                   setExpand("settings");
-                }}
-              >
+                }}>
                 <SettingsOutlinedIcon style={{ transform: "scale(0.65)" }} />
                 <span className="pl-1">Settings</span>
               </NavLink>
@@ -630,7 +599,7 @@ function SideNavBar({ expand, setExpand, activeTab, setActiveTab }) {
 
             <div className="flex justify-center" style={{ marginTop: "150px" }}>
               <button onClick={handleLogout}>
-                <img src="/images/logout.png" alt="" srcset="" />
+                <img src="/images/logout.png" alt="logout" srcSet="" />
               </button>
             </div>
           </>

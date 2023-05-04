@@ -1,58 +1,55 @@
-import React from "react";
-import { useEffect, useState } from "react";
-import { Grid } from "react-loader-spinner";
+import React, { useState, useEffect } from "react";
 import Table from "../../../UI/CommonTable/Table";
-import { deleteIcon, edit, plumbing } from "../Assets/index";
+import { deleteIcon, Photo, View, Edit, Suspend } from "./Assets/index";
 import TopHeader from "../../../UI/TopHeader/TopHeader";
 import { useNavigate } from "react-router-dom";
+import axios from "axios";
 import { useDispatch, useSelector } from "react-redux";
-import { MPM_category } from "../../User_Management/features/userSlice";
+import { getUser } from "../features/userSlice";
+import { Grid } from "react-loader-spinner";
 
+// Component inside action column
 const Action = () => {
   const Navigate = useNavigate();
-  const handleClick = () => {
-    Navigate("/home/editCategory");
+  const handleEditClick = () => {
+    Navigate("/home/editDetails");
   };
+
   return (
-    <div className="w-6 h-6 flex gap-3 cursor-pointer">
-      <img onClick={handleClick} src={edit} alt="edit" />
-      <img src={deleteIcon} alt="Delete" />
+    <div className="flex gap-3 items-center pr-20">
+      <div className="flex w-5 h-5 flex gap-2 cursor-pointer">
+        <img src={Edit} onClick={handleEditClick} alt="Edit" />
+        <img src={View} alt="View" />
+        <img src={deleteIcon} alt="Delete" />
+        <img src={Suspend} alt="suspendUser" />
+      </div>
     </div>
   );
 };
 
-const Photo = (pic_url) => {
-  if (pic_url) {
-    return (
-      <div>
-        <img className="w-14 h-14 rounded" src={pic_url} alt="Photo" />
-      </div>
-    );
-  } else {
-    return (
-      <div>
-        <img className="w-14 h-14 rounded" src={plumbing} alt="Photo" />
-      </div>
-    );
-  }
+const ProfilePhoto = () => {
+  return (
+    <div>
+      <img className="w-12 h-12 rounded-full" src={Photo} alt="photo" />
+    </div>
+  );
 };
 
-const AllProducts = () => {
-  const head = "All Products";
+const Allmembers = () => {
+  const head = "All Users";
   const Navigate = useNavigate();
   const greenClicked = () => {
-    Navigate("/home/addNewCategory");
+    Navigate("/home/createUser");
   };
 
   const dispatch = useDispatch();
+  const userData = useSelector((state) => state.userManagement.users);
   const [loading, setLoading] = useState(true);
-
-  const productData = useSelector((state) => state.userManagement.mpm_category);
 
   useEffect(() => {
     const fetchUserData = async () => {
       setLoading(true);
-      await dispatch(MPM_category());
+      await dispatch(getUser());
       setLoading(false);
     };
     fetchUserData();
@@ -64,8 +61,24 @@ const AllProducts = () => {
       accessor: "photo",
     },
     {
-      header: "Category Name",
-      accessor: "category",
+      header: "Username",
+      accessor: "username",
+    },
+    {
+      header: "Email Address",
+      accessor: "emailaddress",
+    },
+    {
+      header: "Contact No.",
+      accessor: "contact",
+    },
+    {
+      header: "User Type",
+      accessor: "usertype",
+    },
+    {
+      header: "User ID",
+      accessor: "userid",
     },
     {
       header: "Action",
@@ -73,23 +86,25 @@ const AllProducts = () => {
     },
   ];
 
-  const data = productData.map((user) => ({
-    photo: <Photo prop={user.fields.pic_url} />,
-    category: user.fields.prod_category,
+  const pageSize = 5;
+  const greenButtonText = "Add User";
+
+  const data = userData.map((user) => ({
+    photo: <ProfilePhoto />,
+    username: user.username,
+    emailaddress: user.email,
+    contact: user.phone,
+    usertype: user.role,
+    userid: user.uid,
     action: <Action />,
   }));
-
-  const blackButtonText = "Export All";
-  const greenButtonText = "Add New";
-
-  // Number of Pages to be display on a single page.
-  const pageSize = 4;
 
   return (
     <div>
       <div className="flex fixed z-10">
         <TopHeader className="fixed" head={head} />
       </div>
+
       {loading ? (
         <div className="fixed inset-0 bg-gray-700 opacity-80 flex justify-center items-center z-50">
           <Grid
@@ -104,13 +119,14 @@ const AllProducts = () => {
           />
         </div>
       ) : null}
-      <div className=" ml-72 mt-28 h-[85vh] min-w-[135%] relative">
-        {productData.length > 0 ? (
+      <div
+        className=" ml-72 h-[90vh] w-[140vh] relative"
+        style={{ marginTop: "70px" }}>
+        {userData.length > 0 ? (
           <Table
             columns={columns}
             data={data}
             pageSize={pageSize}
-            blackButtonText={blackButtonText}
             greenButtonText={greenButtonText}
             greenClicked={greenClicked}
           />
@@ -120,7 +136,6 @@ const AllProducts = () => {
               columns={columns}
               data={data}
               pageSize={pageSize}
-              blackButtonText={blackButtonText}
               greenButtonText={greenButtonText}
               greenClicked={greenClicked}
             />
@@ -134,4 +149,4 @@ const AllProducts = () => {
   );
 };
 
-export default AllProducts;
+export default Allmembers;

@@ -1,8 +1,8 @@
 import { combineReducers, configureStore } from "@reduxjs/toolkit";
-import { userDetails } from "../Pages/User_Management/features/userSlice";
+import  userDetails  from "../Pages/User_Management/features/userSlice";
 
 const rootReducer = combineReducers({
-    userManagement: userDetails.reducer,
+    userManagement: userDetails,
 })
 
 const store = configureStore({
