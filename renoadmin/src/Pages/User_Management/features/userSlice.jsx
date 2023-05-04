@@ -12,7 +12,7 @@ export const createUser = createAsyncThunk(
     try {
       const response = await axios({
         method: "post",
-        url: "/usercreate/",
+        url: "http://139.59..50:8000/usercreate/",
         data: formData,
         headers: {
           "Content-Type": "application/x-www-form-urlencoded;charset=UTF-8",
@@ -189,7 +189,7 @@ export const getUser = createAsyncThunk(
   async (_, { rejectWithValue }) => {
     console.log("hello");
     try {
-      const response = await axios.get("http://139.59.236.50:8000/user");
+      const response = await axios.get("http://139.59..50:8000/user");
       console.log(response);
       return response.data;
     } catch (error) {
