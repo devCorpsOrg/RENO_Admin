@@ -61,7 +61,8 @@ MIDDLEWARE = [
 
 CORS_ALLOWED_ORIGINS = [
     # "https://reno-admin-kklj.vercel.app",
-    "http://127.0.0.1:3000"
+    "http://127.0.0.1:3000",
+    "http://139.59.236.50:3000"
     
 ]
 
