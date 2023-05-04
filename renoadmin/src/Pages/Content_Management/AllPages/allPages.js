@@ -8,9 +8,13 @@ import { allPages } from "../../User_Management/features/userSlice";
 import { Grid } from "react-loader-spinner";
 
 const Action = () => {
+  const Navigate = useNavigate();
+  const handleEdit = () => {
+    Navigate("/home/editPage");
+  };
   return (
     <div className="w-6 h-6 flex gap-3 cursor-pointer">
-      <img src={editIcon} alt="Edit" />
+      <img src={editIcon} onClick={handleEdit} alt="Edit" />
       <img src={deleteIcon} alt="Delete" />
     </div>
   );

@@ -20,13 +20,13 @@ export const createUser = createAsyncThunk(
         },
       });
       console.log(...formData);
-      console.log(csrfToken)
+      console.log(csrfToken);
       console.log(response);
-      alert('User created successfully')
+      alert("User created successfully");
       return response.data;
     } catch (error) {
-      alert('Operation failed')
-      console.log(csrfToken)
+      alert("Operation failed");
+      console.log(csrfToken);
       console.log("Not submitting data");
       return rejectWithValue(error.response.data);
     }
@@ -47,13 +47,13 @@ export const createNewPage = createAsyncThunk(
         },
       });
       console.log(...formData);
-      console.log(csrfToken)
+      console.log(csrfToken);
       console.log(response);
-      alert('Page created successfully')
+      alert("Page created successfully");
       return response.data;
     } catch (error) {
       console.log("Not submitting data");
-      alert('Operation failed')
+      alert("Operation failed");
       return rejectWithValue(error.response.data);
     }
   }
@@ -73,11 +73,11 @@ export const addNewShowcase = createAsyncThunk(
         },
       });
       console.log(...formData);
-      alert('Data created successfully')
+      alert("Data created successfully");
       console.log(response);
       return response.data;
     } catch (error) {
-      alert('Operation failed')
+      alert("Operation failed");
       console.log("Not submitting data");
       return rejectWithValue(error.response.data);
     }
@@ -99,10 +99,10 @@ export const addNewPromotion = createAsyncThunk(
       });
       console.log(...formData);
       console.log(response);
-      alert('Data created successfully')
+      alert("Data created successfully");
       return response.data;
     } catch (error) {
-      alert('Operation failed')
+      alert("Operation failed");
       console.log("Not submitting data");
       return rejectWithValue(error.response.data);
     }
@@ -123,11 +123,11 @@ export const addNewProduct = createAsyncThunk(
         },
       });
       console.log(...formData);
-      alert('Data created successfully')
+      alert("Data created successfully");
       console.log(response);
       return response.data;
     } catch (error) {
-      alert('Operation failed')
+      alert("Operation failed");
       console.log("Not submitting data");
       return rejectWithValue(error.response.data);
     }
@@ -148,11 +148,11 @@ export const addNewCategory = createAsyncThunk(
         },
       });
       console.log(...formData);
-      alert('Data created successfully')
+      alert("Data created successfully");
       console.log(response);
       return response.data;
     } catch (error) {
-      alert('Operation failed')
+      alert("Operation failed");
       console.log("Not submitting data");
       return rejectWithValue(error.response.data);
     }
@@ -174,10 +174,10 @@ export const addNewListing = createAsyncThunk(
       });
       console.log(...formData);
       console.log(response);
-      alert('Data created successfully')
+      alert("Data created successfully");
       return response.data;
     } catch (error) {
-      alert('Operation failed')
+      alert("Operation failed");
       console.log("Not submitting data");
       return rejectWithValue(error.response.data);
     }
@@ -189,11 +189,11 @@ export const getUser = createAsyncThunk(
   async (_, { rejectWithValue }) => {
     console.log("hello");
     try {
-      const response = await axios.get("/user");
+      const response = await axios.get("http://139.59.236.50:8000/user");
       console.log(response);
       return response.data;
     } catch (error) {
-      alert('Operation failed')
+      alert("Operation failed");
       console.log("Not submitting data");
       console.log(error);
       return rejectWithValue(error.response.data);
@@ -209,7 +209,7 @@ export const deleteUser = createAsyncThunk(
       //   console.log(formData)
       return response.data;
     } catch (error) {
-      alert('Operation failed')
+      alert("Operation failed");
       console.log("Not submitting data");
       return rejectWithValue(error.response.data);
     }
@@ -231,9 +231,9 @@ export const updateUser = createAsyncThunk(
       });
       console.log(userId);
       console.log(response);
-      alert('Data updated successfully')
+      alert("Data updated successfully");
     } catch (error) {
-      alert('Operation failed')
+      alert("Operation failed");
       console.log(userId);
       console.log("Not submitting data");
       return rejectWithValue(error.response.data);
@@ -255,9 +255,9 @@ export const updatePage = createAsyncThunk(
         },
       });
       console.log(response);
-      alert('Data updated successfully')
+      alert("Data updated successfully");
     } catch (error) {
-      alert('Operation failed')
+      alert("Operation failed");
       console.log("Not submitting data");
       return rejectWithValue(error.response.data);
     }
@@ -278,9 +278,9 @@ export const updateShowcase = createAsyncThunk(
         },
       });
       console.log(response);
-      alert('Data updated successfully')
+      alert("Data updated successfully");
     } catch (error) {
-      alert('Operation failed')
+      alert("Operation failed");
       console.log("Not submitting data");
       return rejectWithValue(error.response.data);
     }
@@ -301,9 +301,9 @@ export const updateProject = createAsyncThunk(
         },
       });
       console.log(response);
-      alert('Data updated successfully')
+      alert("Data updated successfully");
     } catch (error) {
-      alert('Operation failed')
+      alert("Operation failed");
       console.log("Not submitting data");
       return rejectWithValue(error.response.data);
     }
@@ -324,9 +324,9 @@ export const updateCategory = createAsyncThunk(
         },
       });
       console.log(response);
-      alert('Data updated successfully')
+      alert("Data updated successfully");
     } catch (error) {
-      alert('Operation failed')
+      alert("Operation failed");
       console.log("Not submitting data");
       return rejectWithValue(error.response.data);
     }
@@ -347,9 +347,9 @@ export const updateListing = createAsyncThunk(
         },
       });
       console.log(response);
-      alert('Data updated successfully')
+      alert("Data updated successfully");
     } catch (error) {
-      alert('Operation failed')
+      alert("Operation failed");
       console.log("Not submitting data");
       return rejectWithValue(error.response.data);
     }
