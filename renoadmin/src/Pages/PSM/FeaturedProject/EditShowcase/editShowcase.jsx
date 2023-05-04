@@ -79,6 +79,7 @@ const EditShowcase = ({ setExpand, setActiveTab }) => {
               }}
               value={title}
               onChange={(event) => setTitle(event.target.value)}
+              required
             />
           </label>
 
@@ -121,6 +122,7 @@ const EditShowcase = ({ setExpand, setActiveTab }) => {
                   fontSize: "14px",
                 }}
                 onChange={(event) => setRate(event.target.value)}
+                required
               />
             </label>
           </div>
@@ -166,6 +168,7 @@ const EditShowcase = ({ setExpand, setActiveTab }) => {
                   multiple
                   onChange={handlePhotoUpload}
                   placeholder=""
+                  required
                 />
               )}
             </div>
@@ -200,6 +203,7 @@ const EditShowcase = ({ setExpand, setActiveTab }) => {
               }}
               value={content}
               onChange={(event) => setContent(event.target.value)}
+              required
             />
           </label>
           {/* <div> */}

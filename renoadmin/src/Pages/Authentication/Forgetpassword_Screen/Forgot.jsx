@@ -44,6 +44,7 @@ function Forgot() {
                 type="email"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
+                required
               />
             </label>
             <br />

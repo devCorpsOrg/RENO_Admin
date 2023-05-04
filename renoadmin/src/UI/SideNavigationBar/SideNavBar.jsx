@@ -25,23 +25,23 @@ function SideNavBar({ expand, setExpand, activeTab, setActiveTab }) {
   };
 
   const handleLogout = () => {
-    try {
-      const response = axios({
-        method: "post",
-        url: "/logout/",
-        headers: {
-          Authorization: `Token ${cookie.get("token")}`,
-        },
-      });
-      console.log(response);
-      cookie.remove("csrftoken");
-      cookie.remove("token");
-      navigate("/");
-      console.log("Logged Out sucessfully");
-    } catch (error) {
-      console.log(error);
-      console.log("Not submitting data");
-    }
+      try {
+        const response = axios({
+          method: "post",
+          url: "/logoutall/",
+          headers: {
+            'Authorization':`Token ${cookie.get('token')}`,
+          },
+        });
+        console.log(response.status);
+          cookie.remove('csrftoken');
+          cookie.remove('token');
+          navigate('/');
+          console.log('Logged Out sucessfully')
+      } catch (error) {
+        console.log(error);
+        console.log("Not submitting data");
+      }
   };
 
   return (

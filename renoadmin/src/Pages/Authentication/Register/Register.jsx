@@ -76,7 +76,9 @@ function Register() {
         <img className="logo" src="/images/logo.png" alt="" />
         <div className="login_header">
           <h1 className="headl">Sign Up</h1>
-          <div className="signup">Create your account here</div>
+          <div className="signup">
+            Create your account here. Already have an account? <a href="/">Login</a>
+          </div>
         </div>
         <div className="login_form">
           <form onSubmit={handleSubmit}>
@@ -88,6 +90,7 @@ function Register() {
                 type="text"
                 value={username}
                 onChange={(e) => setUsername(e.target.value)}
+                required
               />
             </label>
             <br />
@@ -99,6 +102,7 @@ function Register() {
                 type="email"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
+                required
               />
             </label>
             <br />
@@ -110,6 +114,7 @@ function Register() {
                 type="password"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
+                required
               />
             </label>
             <br />

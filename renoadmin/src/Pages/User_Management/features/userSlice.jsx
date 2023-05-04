@@ -26,6 +26,7 @@ export const createUser = createAsyncThunk(
       return response.data;
     } catch (error) {
       alert('Operation failed')
+      console.log(csrfToken)
       console.log("Not submitting data");
       return rejectWithValue(error.response.data);
     }

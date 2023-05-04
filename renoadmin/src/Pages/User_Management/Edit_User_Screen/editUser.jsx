@@ -86,6 +86,7 @@ const EditUser = ({ setActiveTab, setExpand }) => {
                   paddingLeft: "5px",
                 }}
                 onChange={handleNameChange}
+                required
               />
             </label>
             <label className="grid pr-6">
@@ -101,6 +102,7 @@ const EditUser = ({ setActiveTab, setExpand }) => {
                   paddingLeft: "5px",
                 }}
                 onChange={handleEmailChange}
+                required
               />
             </label>
             <label className="grid pr-6">
@@ -116,6 +118,7 @@ const EditUser = ({ setActiveTab, setExpand }) => {
                   paddingLeft: "5px",
                 }}
                 onChange={handlePhoneChange}
+                required
               />
             </label>
             <label className="grid pr-6">
@@ -131,6 +134,7 @@ const EditUser = ({ setActiveTab, setExpand }) => {
                   paddingLeft: "5px",
                 }}
                 onChange={handleUserIdChange}
+                required
               />
             </label>
             <label className="grid pr-6">
@@ -146,7 +150,9 @@ const EditUser = ({ setActiveTab, setExpand }) => {
                   paddingLeft: "5px",
                 }}
                 value={label}
-                onChange={handleLabelChange}>
+                onChange={handleLabelChange}
+                required
+              >
                 <option value="">Select a label</option>
                 <option value="personal">Admin</option>
                 <option value="work">Work</option>
@@ -185,6 +191,9 @@ const EditUser = ({ setActiveTab, setExpand }) => {
                   name="photo"
                   accept="image/*"
                   onChange={handlePhotoChange}
+                  required
+                  class="file:bg-black file:px-6 file:py-3 file:border-none file:rounded file:text-white file:cursor-pointer placeholder-transparent mt-3 rounded appearance-none placeholder-transparent w-[50vh]"
+                  style={{ border: "2px solid #e6f7fe" }}
                 />
               )}
             </label>
@@ -198,7 +207,8 @@ const EditUser = ({ setActiveTab, setExpand }) => {
                 color: "white",
               }}
               type="submit"
-              onClick={handleSubmit}>
+              // onClick={handleSubmit}
+            >
               SAVE
             </button>
             <button

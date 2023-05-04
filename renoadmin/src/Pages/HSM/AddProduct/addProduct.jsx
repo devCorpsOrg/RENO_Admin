@@ -92,6 +92,7 @@ const AddProduct = ({ setExpand, setActiveTab }) => {
               }}
               value={title}
               onChange={(event) => setTitle(event.target.value)}
+              required
             />
           </label>
 
@@ -110,7 +111,9 @@ const AddProduct = ({ setExpand, setActiveTab }) => {
                   fontSize: "14px",
                 }}
                 value={category}
-                onChange={handleCategoryChange}>
+                onChange={handleCategoryChange}
+                required
+              >
                 <option value="">Select Catagory</option>
                 <option value="admin">Admin</option>
                 <option value="work">Work</option>
@@ -132,6 +135,7 @@ const AddProduct = ({ setExpand, setActiveTab }) => {
                   fontSize: "14px",
                 }}
                 onChange={(event) => setPack(event.target.value)}
+                required
               />
             </label>
           </div>
@@ -150,7 +154,9 @@ const AddProduct = ({ setExpand, setActiveTab }) => {
                   fontSize: "14px",
                 }}
                 value={prodCat}
-                onChange={handleProdCatChange}>
+                onChange={handleProdCatChange}
+                required
+              >
                 <option value="">Select Product Catagory</option>
                 <option value="admin">Admin</option>
                 <option value="work">Work</option>
@@ -171,7 +177,9 @@ const AddProduct = ({ setExpand, setActiveTab }) => {
                   fontSize: "14px",
                 }}
                 value={inventory}
-                onChange={handleInventoryChange}>
+                onChange={handleInventoryChange}
+                required
+              >
                 <option value="">Select Number Of Inventory</option>
                 <option value="admin">1</option>
                 <option value="work">2</option>
@@ -242,6 +250,7 @@ const AddProduct = ({ setExpand, setActiveTab }) => {
               }}
               value={content}
               onChange={(event) => setContent(event.target.value)}
+              required
             />
           </label>
           {/* <div> */}

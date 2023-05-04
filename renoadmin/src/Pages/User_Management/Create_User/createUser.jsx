@@ -98,6 +98,7 @@ const CreateUser = ({ setActiveTab, setExpand }) => {
                   paddingLeft: "5px",
                 }}
                 onChange={handleNameChange}
+                required
               />
             </label>
             <label className="grid pr-6">
@@ -113,6 +114,7 @@ const CreateUser = ({ setActiveTab, setExpand }) => {
                   paddingLeft: "5px",
                 }}
                 onChange={handleEmailChange}
+                required
               />
             </label>
             <label className="grid pr-6">
@@ -128,6 +130,7 @@ const CreateUser = ({ setActiveTab, setExpand }) => {
                   paddingLeft: "5px",
                 }}
                 onChange={handlePhoneChange}
+                required
               />
             </label>
             <label className="grid pr-6">
@@ -143,6 +146,7 @@ const CreateUser = ({ setActiveTab, setExpand }) => {
                   paddingLeft: "5px",
                 }}
                 onChange={handleUserIdChange}
+                required
               />
             </label>
             <label className="grid pr-6">
@@ -158,7 +162,9 @@ const CreateUser = ({ setActiveTab, setExpand }) => {
                   paddingLeft: "5px",
                 }}
                 value={label}
-                onChange={handleLabelChange}>
+                onChange={handleLabelChange}
+                required
+              >
                 <option value="">Select a label</option>
                 <option value="personal">Admin</option>
                 <option value="work">Work</option>
@@ -185,7 +191,8 @@ const CreateUser = ({ setActiveTab, setExpand }) => {
                         backgroundColor: "white",
                         marginLeft: "20px",
                       }}
-                      onClick={handlePhotoRemove}>
+                      onClick={handlePhotoRemove}
+                    >
                       Remove
                     </button>
                   </div>
@@ -197,6 +204,9 @@ const CreateUser = ({ setActiveTab, setExpand }) => {
                   name="photo"
                   accept="image/*"
                   onChange={handlePhotoChange}
+                  class="file:bg-black file:px-6 file:py-3 file:border-none file:rounded file:text-white file:cursor-pointer placeholder-transparent mt-3 rounded appearance-none placeholder-transparent w-[50vh]"
+                  style={{ border: "2px solid #e6f7fe" }}
+                  required
                 />
               )}
             </label>
@@ -210,7 +220,8 @@ const CreateUser = ({ setActiveTab, setExpand }) => {
                 color: "white",
               }}
               type="submit"
-              onClick={handleSubmit}>
+              // onClick={handleSubmit}
+            >
               SAVE
             </button>
             <button
@@ -219,7 +230,8 @@ const CreateUser = ({ setActiveTab, setExpand }) => {
                 width: "130px",
                 height: "55px",
                 color: "white",
-              }}>
+              }}
+            >
               <Link to="/home/allUsers">Back</Link>
             </button>
           </div>
