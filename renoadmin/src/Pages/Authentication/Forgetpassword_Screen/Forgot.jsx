@@ -6,7 +6,7 @@ import axios from "axios";
 function Forgot() {
   const navigate = useNavigate();
   const [email, setEmail] = useState("");
-//   const [result, setResult] = useState("");
+  const [result, setResult] = useState("");
 
   const handleSubmit = async (event) => {
 
@@ -17,12 +17,13 @@ function Forgot() {
 
     const jsonData = JSON.stringify(updatedData);
     console.log(jsonData)
-    axios.post('/password_reset/', {email})
+    axios.post('/forget_password/', {email})
     .then((response) => {
       setEmail("");
       navigate('/Signup');
     }).catch((err) => {
       console.log("Problem", err);
+      setResult("Operation failed")
     })
 
   };
@@ -59,7 +60,7 @@ function Forgot() {
               </Link>
             </div>
             <div className="result">
-              {/* {result} */}
+              {result}
             </div>
           </form>
         </div>

@@ -1,7 +1,10 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
+import cookie from "js-cookie";
 
 //create action
+
+const csrfToken = cookie.get("csrftoken");
 
 export const createUser = createAsyncThunk(
   "createUser",
@@ -13,13 +16,16 @@ export const createUser = createAsyncThunk(
         data: formData,
         headers: {
           "Content-Type": "application/x-www-form-urlencoded;charset=UTF-8",
+          "X-CSRFToken": csrfToken,
         },
       });
       console.log(...formData);
+      console.log(csrfToken)
       console.log(response);
-
+      alert('User created successfully')
       return response.data;
     } catch (error) {
+      alert('Operation failed')
       console.log("Not submitting data");
       return rejectWithValue(error.response.data);
     }
@@ -36,13 +42,17 @@ export const createNewPage = createAsyncThunk(
         data: formData,
         headers: {
           "Content-Type": "application/x-www-form-urlencoded;charset=UTF-8",
+          "X-CSRFToken": csrfToken,
         },
       });
       console.log(...formData);
+      console.log(csrfToken)
       console.log(response);
+      alert('Page created successfully')
       return response.data;
     } catch (error) {
       console.log("Not submitting data");
+      alert('Operation failed')
       return rejectWithValue(error.response.data);
     }
   }
@@ -58,12 +68,15 @@ export const addNewShowcase = createAsyncThunk(
         data: formData,
         headers: {
           "Content-Type": "application/x-www-form-urlencoded;charset=UTF-8",
+          "X-CSRFToken": csrfToken,
         },
       });
       console.log(...formData);
+      alert('Data created successfully')
       console.log(response);
       return response.data;
     } catch (error) {
+      alert('Operation failed')
       console.log("Not submitting data");
       return rejectWithValue(error.response.data);
     }
@@ -80,12 +93,15 @@ export const addNewPromotion = createAsyncThunk(
         data: formData,
         headers: {
           "Content-Type": "application/x-www-form-urlencoded;charset=UTF-8",
+          "X-CSRFToken": csrfToken,
         },
       });
       console.log(...formData);
       console.log(response);
+      alert('Data created successfully')
       return response.data;
     } catch (error) {
+      alert('Operation failed')
       console.log("Not submitting data");
       return rejectWithValue(error.response.data);
     }
@@ -98,16 +114,19 @@ export const addNewProduct = createAsyncThunk(
     try {
       const response = await axios({
         method: "post",
-        url: "/addproducts/",
+        url: "/addproducts",
         data: formData,
         headers: {
           "Content-Type": "application/x-www-form-urlencoded;charset=UTF-8",
+          "X-CSRFToken": csrfToken,
         },
       });
       console.log(...formData);
+      alert('Data created successfully')
       console.log(response);
       return response.data;
     } catch (error) {
+      alert('Operation failed')
       console.log("Not submitting data");
       return rejectWithValue(error.response.data);
     }
@@ -124,12 +143,15 @@ export const addNewCategory = createAsyncThunk(
         data: formData,
         headers: {
           "Content-Type": "application/x-www-form-urlencoded;charset=UTF-8",
+          "X-CSRFToken": csrfToken,
         },
       });
       console.log(...formData);
+      alert('Data created successfully')
       console.log(response);
       return response.data;
     } catch (error) {
+      alert('Operation failed')
       console.log("Not submitting data");
       return rejectWithValue(error.response.data);
     }
@@ -146,12 +168,15 @@ export const addNewListing = createAsyncThunk(
         data: formData,
         headers: {
           "Content-Type": "application/x-www-form-urlencoded;charset=UTF-8",
+          "X-CSRFToken": csrfToken,
         },
       });
       console.log(...formData);
       console.log(response);
+      alert('Data created successfully')
       return response.data;
     } catch (error) {
+      alert('Operation failed')
       console.log("Not submitting data");
       return rejectWithValue(error.response.data);
     }
@@ -167,6 +192,7 @@ export const getUser = createAsyncThunk(
       console.log(response);
       return response.data;
     } catch (error) {
+      alert('Operation failed')
       console.log("Not submitting data");
       console.log(error);
       return rejectWithValue(error.response.data);
@@ -182,6 +208,7 @@ export const deleteUser = createAsyncThunk(
       //   console.log(formData)
       return response.data;
     } catch (error) {
+      alert('Operation failed')
       console.log("Not submitting data");
       return rejectWithValue(error.response.data);
     }
@@ -198,11 +225,14 @@ export const updateUser = createAsyncThunk(
         data: formData,
         headers: {
           "Content-Type": "application/x-www-form-urlencoded;charset=UTF-8",
+          "X-CSRFToken": csrfToken,
         },
       });
       console.log(userId);
       console.log(response);
+      alert('Data updated successfully')
     } catch (error) {
+      alert('Operation failed')
       console.log(userId);
       console.log("Not submitting data");
       return rejectWithValue(error.response.data);
@@ -220,10 +250,13 @@ export const updatePage = createAsyncThunk(
         data: formData,
         headers: {
           "Content-Type": "application/x-www-form-urlencoded;charset=UTF-8",
+          "X-CSRFToken": csrfToken,
         },
       });
       console.log(response);
+      alert('Data updated successfully')
     } catch (error) {
+      alert('Operation failed')
       console.log("Not submitting data");
       return rejectWithValue(error.response.data);
     }
@@ -240,10 +273,13 @@ export const updateShowcase = createAsyncThunk(
         data: formData,
         headers: {
           "Content-Type": "application/x-www-form-urlencoded;charset=UTF-8",
+          "X-CSRFToken": csrfToken,
         },
       });
       console.log(response);
+      alert('Data updated successfully')
     } catch (error) {
+      alert('Operation failed')
       console.log("Not submitting data");
       return rejectWithValue(error.response.data);
     }
@@ -260,10 +296,13 @@ export const updateProject = createAsyncThunk(
         data: formData,
         headers: {
           "Content-Type": "application/x-www-form-urlencoded;charset=UTF-8",
+          "X-CSRFToken": csrfToken,
         },
       });
       console.log(response);
+      alert('Data updated successfully')
     } catch (error) {
+      alert('Operation failed')
       console.log("Not submitting data");
       return rejectWithValue(error.response.data);
     }
@@ -280,10 +319,13 @@ export const updateCategory = createAsyncThunk(
         data: formData,
         headers: {
           "Content-Type": "application/x-www-form-urlencoded;charset=UTF-8",
+          "X-CSRFToken": csrfToken,
         },
       });
       console.log(response);
+      alert('Data updated successfully')
     } catch (error) {
+      alert('Operation failed')
       console.log("Not submitting data");
       return rejectWithValue(error.response.data);
     }
@@ -300,10 +342,13 @@ export const updateListing = createAsyncThunk(
         data: formData,
         headers: {
           "Content-Type": "application/x-www-form-urlencoded;charset=UTF-8",
+          "X-CSRFToken": csrfToken,
         },
       });
       console.log(response);
+      alert('Data updated successfully')
     } catch (error) {
+      alert('Operation failed')
       console.log("Not submitting data");
       return rejectWithValue(error.response.data);
     }

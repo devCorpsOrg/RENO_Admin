@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import SideNavBar from "./SideNavigationBar/SideNavBar";
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import { BrowserRouter as Router, Routes, Route, useNavigate } from "react-router-dom";
 import Dashboard from "../Pages/DashBoard_Screen/Dashboard";
 import UserDetails from "../Pages/User_Management/All_Users/all_user";
 import Configuration from "../Pages/Configuration_Screen/Configuration";
@@ -43,11 +43,16 @@ import AllChats from "../Pages/MarketPlaceManagement/AllChats/allchats";
 import ProjectBooking from "../Pages/PSM/ProjectBookings/projectBookings";
 import CreateUser from "../Pages/User_Management/Create_User/createUser";
 import EditPage from "../Pages/Content_Management/EditPage/editPage";
+import cookie from 'js-cookie';
+// import { useLocation } from 'react-router-dom';
 
 
 function Home() {
   const [expand, setExpand] = useState("");
+  // const location = useLocation();
+  const navigate = useNavigate();
   const [activeTab, setActiveTab] = useState("dashboard");
+  // const token = location.state.token;
 
   const handleActiveTab = (tab) => {
     setActiveTab(tab);
@@ -58,6 +63,10 @@ function Home() {
   };
   return (
     <div className="flex">
+
+      {cookie.get('csrftoken') && (
+        <>
+      
       <SideNavBar
         expand={expand}
         setExpand={togleExpand}
@@ -448,6 +457,8 @@ function Home() {
           }
         />
       </Routes>
+      </>
+      )}
     </div>
   );
 }

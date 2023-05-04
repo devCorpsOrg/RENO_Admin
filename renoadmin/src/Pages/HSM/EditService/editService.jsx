@@ -3,12 +3,15 @@ import React from "react";
 import TopHeader from "../../../UI/TopHeader/TopHeader";
 import DisabledByDefaultRoundedIcon from "@mui/icons-material/DisabledByDefaultRounded";
 import axios from "axios";
+import { useDispatch } from "react-redux";
+import { updateProject } from "../../User_Management/features/userSlice";
 
 
 const EditService = ({ setExpand, setActiveTab }) => {
   setExpand("homeService");
   setActiveTab("featuredProduct");
-  const head = "Edit Service";
+  const head = "Edit Product and Services";
+  const dispatch = useDispatch()
 
 
 
@@ -22,23 +25,19 @@ const EditService = ({ setExpand, setActiveTab }) => {
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    const updatedProduct ={ 
-      title:title,
-      content:content,
-      images: images,
-      category: category,
-      pack: pack,
-      productCategory: productCategory,
-      inventory: inventory
-    }
+    const formData = new FormData();
+    formData.append('prod_name', title)
+    formData.append('details', content)
+    formData.append('rate', pack)
+    formData.append('inv_count', inventory)
+    formData.append('prod_category', productCategory)
+    formData.append('proj_category', category)
+    images.map((image, index)=>{
+      formData.append('pic_url', image);
+    })
 
-    axios.put(`API CALL`, updatedProduct)
-    .then(response => {
-      console.log("Updated Successfully")
-    })
-    .catch(error => {
-      console.log("errors in updating data");
-    })
+    dispatch(updateProject({formData, title}));
+
   };
 
   useEffect(() => {
@@ -62,10 +61,9 @@ const EditService = ({ setExpand, setActiveTab }) => {
     const files = event.target.files;
     const uploadedImages = [];
     for (let i = 0; i < files.length; i++) {
-      uploadedImages.push({
-        name: files[i].name,
-        url: URL.createObjectURL(files[i]),
-      });
+      uploadedImages.push(
+        files[i]
+      );
     }
     setImages(uploadedImages);
   };
@@ -94,36 +92,8 @@ const EditService = ({ setExpand, setActiveTab }) => {
         <TopHeader className="fixed" head={head} />
       </div>
 
-      <div className=" ml-72 mb-10 relative" style={{ marginTop: "70px" }}>
+      <div className=" ml-72 mb-10 relative" style={{ marginTop: "120px" }}>
         <form onSubmit={handleSubmit}>
-          <div style={{ marginRight: 0, marginLeft: 920 }}>
-            <button
-              className="rounded mt-10"
-              style={{
-                backgroundColor: "black",
-                width: "130px",
-                height: "47px",
-                color: "white",
-              }}
-              type="submit"
-            >
-              Cancel
-            </button>
-
-            <button
-              className="rounded mt-10"
-              style={{
-                backgroundColor: "rgba(153, 190, 17, 0.831)",
-                width: "130px",
-                height: "47px",
-                color: "white",
-                marginLeft: "30px",
-              }}
-              type="submit"
-            >
-              Save
-            </button>
-          </div>
           <label className="grid mt-5">
             Product Title
             <input
@@ -229,9 +199,9 @@ const EditService = ({ setExpand, setActiveTab }) => {
                 onChange={handleInventoryChange}
               >
                 <option value="">Select Number Of Inventory</option>
-                <option value="personal">Admin</option>
-                <option value="work">Work</option>
-                <option value="other">Other</option>
+                <option value="personal">1</option>
+                <option value="work">2</option>
+                <option value="other">3</option>
               </select>
             </label>
           </div>
@@ -245,7 +215,7 @@ const EditService = ({ setExpand, setActiveTab }) => {
                 {images.map((image, index) => (
                   <div key={index} className="relative">
                     <img
-                      src={image.url}
+                      src={URL.createObjectURL(image)}
                       alt={image.name}
                       style={{
                         width: "100px",

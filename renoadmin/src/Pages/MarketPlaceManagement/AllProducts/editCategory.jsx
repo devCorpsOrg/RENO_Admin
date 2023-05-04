@@ -50,36 +50,8 @@ const EditCategory = ({ setExpand, setActiveTab }) => {
         <TopHeader className="fixed" head={head} />
       </div>
 
-      <div className=" ml-72 mb-10 relative" style={{ marginTop: "70px" }}>
+      <div className=" ml-72 mb-10 relative" style={{ marginTop: "120px" }}>
         <form onSubmit={handleSubmit}>
-          <div style={{ marginRight: 0, marginLeft: 920 }}>
-            <button
-              className="rounded mt-10"
-              style={{
-                backgroundColor: "black",
-                width: "130px",
-                height: "47px",
-                color: "white",
-              }}
-              type="submit"
-            >
-              Cancel
-            </button>
-
-            <button
-              className="rounded mt-10"
-              style={{
-                backgroundColor: "rgba(153, 190, 17, 0.831)",
-                width: "130px",
-                height: "47px",
-                color: "white",
-                marginLeft: "30px",
-              }}
-              type="submit"
-            >
-              Save
-            </button>
-          </div>
           <label className="grid mt-5">
             Category Name
             <input

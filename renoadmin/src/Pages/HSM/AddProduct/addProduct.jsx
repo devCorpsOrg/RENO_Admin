@@ -38,7 +38,7 @@ const AddProduct = ({ setExpand, setActiveTab }) => {
     formData.append("proj_category", prodCat);
     formData.append("inv_count", inventory);
     formData.append("rate", pack);
-    formData.append("category", category);
+    formData.append("prod_category", category);
     formData.append("details", content);
     images.forEach((image, index) => {
       formData.append(`pic_url`, image);
@@ -77,36 +77,8 @@ const AddProduct = ({ setExpand, setActiveTab }) => {
         <TopHeader className="fixed" head={head} />
       </div>
 
-      <div className=" ml-72 mb-10 relative" style={{ marginTop: "70px" }}>
+      <div className=" ml-72 mb-10 relative" style={{ marginTop: "120px" }}>
         <form onSubmit={handleSubmit}>
-          <div style={{ marginRight: 0, marginLeft: 920 }}>
-            <button
-              className="rounded mt-10"
-              style={{
-                backgroundColor: "black",
-                width: "130px",
-                height: "47px",
-                color: "white",
-              }}
-              type="submit"
-            >
-              Draft
-            </button>
-
-            <button
-              className="rounded mt-10"
-              style={{
-                backgroundColor: "rgba(153, 190, 17, 0.831)",
-                width: "130px",
-                height: "47px",
-                color: "white",
-                marginLeft: "30px",
-              }}
-              type="submit"
-            >
-              Publish
-            </button>
-          </div>
           <label className="grid mt-5">
             Product Title
             <input
@@ -212,9 +184,9 @@ const AddProduct = ({ setExpand, setActiveTab }) => {
                 onChange={handleInventoryChange}
               >
                 <option value="">Select Number Of Inventory</option>
-                <option value="admin">Admin</option>
-                <option value="work">Work</option>
-                <option value="other">Other</option>
+                <option value="admin">1</option>
+                <option value="work">2</option>
+                <option value="other">3</option>
               </select>
             </label>
           </div>
