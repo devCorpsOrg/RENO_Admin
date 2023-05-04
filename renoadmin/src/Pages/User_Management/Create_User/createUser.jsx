@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 import axios from "axios";
 import { useDispatch } from "react-redux";
 import { createUser } from "../features/userSlice";
+import { useNavigate } from "react-router-dom";
 
 const CreateUser = ({ setActiveTab, setExpand }) => {
   setExpand("userManagement");
@@ -45,6 +46,7 @@ const CreateUser = ({ setActiveTab, setExpand }) => {
   };
 
   const head = "Create User";
+  const Navigate = useNavigate();
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -58,22 +60,9 @@ const CreateUser = ({ setActiveTab, setExpand }) => {
     formData.append("pic", photo, photo.name);
 
     dispatch(createUser(formData));
-
-    // axios({
-    //   method: "post",
-    //   url: "/usercreate/",
-    //   data:  formData  ,
-    //   headers: { 'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8' },
-    // })
-    //   .then(function (response) {
-    //     //handle success
-    //     console.log(name)
-    //     console.log(response);
-    //   })
-    //   .catch(function (response) {
-    //     //handle error
-    //     console.log(response);
-    //   });
+    if (formData) {
+      await Navigate("/home/allUsers");
+    }
   };
 
   return (
@@ -83,7 +72,7 @@ const CreateUser = ({ setActiveTab, setExpand }) => {
       </div>
 
       <div className="ml-80 mt-20 relative" style={{ marginTop: "140px" }}>
-        <form onSubmit={handleSubmit}>
+        <form>
           <div class="grid grid-cols-2 gap-4">
             <label className="grid pr-6">
               User Name
@@ -163,8 +152,7 @@ const CreateUser = ({ setActiveTab, setExpand }) => {
                 }}
                 value={label}
                 onChange={handleLabelChange}
-                required
-              >
+                required>
                 <option value="">Select a label</option>
                 <option value="personal">Admin</option>
                 <option value="work">Work</option>
@@ -191,8 +179,7 @@ const CreateUser = ({ setActiveTab, setExpand }) => {
                         backgroundColor: "white",
                         marginLeft: "20px",
                       }}
-                      onClick={handlePhotoRemove}
-                    >
+                      onClick={handlePhotoRemove}>
                       Remove
                     </button>
                   </div>
@@ -211,31 +198,29 @@ const CreateUser = ({ setActiveTab, setExpand }) => {
               )}
             </label>
           </div>
-          <div className="flex mt-10 gap-10 items-center">
-            <button
-              className="rounded bg-lime-600 hover:bg-lime-700"
-              style={{
-                width: "130px",
-                height: "55px",
-                color: "white",
-              }}
-              type="submit"
-              // onClick={handleSubmit}
-            >
-              SAVE
-            </button>
-            <button
-              className="rounded bg-amber-600 hover:bg-amber-700"
-              style={{
-                width: "130px",
-                height: "55px",
-                color: "white",
-              }}
-            >
-              <Link to="/home/allUsers">Back</Link>
-            </button>
-          </div>
         </form>
+        <div className="flex mt-10 gap-10 items-center">
+          <button
+            className="rounded bg-lime-600 hover:bg-lime-700"
+            style={{
+              width: "130px",
+              height: "55px",
+              color: "white",
+            }}
+            type="submit"
+            onClick={handleSubmit}>
+            SAVE
+          </button>
+          <button
+            className="rounded bg-amber-600 hover:bg-amber-700"
+            style={{
+              width: "130px",
+              height: "55px",
+              color: "white",
+            }}>
+            <Link to="/home/allUsers">Back</Link>
+          </button>
+        </div>
       </div>
     </div>
   );
