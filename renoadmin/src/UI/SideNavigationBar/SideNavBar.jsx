@@ -29,12 +29,12 @@ function SideNavBar({ expand, setExpand, activeTab, setActiveTab }) {
       try {
         const response = axios({
           method: "post",
-          url: "/logout/",
+          url: "/logoutall/",
           headers: {
             'Authorization':`Token ${cookie.get('token')}`,
           },
         });
-        console.log(response);
+        console.log(response.status);
           cookie.remove('csrftoken');
           cookie.remove('token');
           navigate('/');

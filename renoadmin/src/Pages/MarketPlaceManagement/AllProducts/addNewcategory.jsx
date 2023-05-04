@@ -67,6 +67,7 @@ const AddNewCategory = ({ setExpand, setActiveTab }) => {
               }}
               value={title}
               onChange={(event) => setTitle(event.target.value)}
+              required
             />
           </label>
 
@@ -81,6 +82,7 @@ const AddNewCategory = ({ setExpand, setActiveTab }) => {
                 multiple
                 onChange={handlePhotoUpload}
                 placeholder=""
+                required
               />
             </label>
           </div>

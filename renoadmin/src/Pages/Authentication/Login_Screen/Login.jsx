@@ -6,21 +6,15 @@ import Cookies from 'js-cookie';
 
 function Login() {
   const navigate = useNavigate();
-  const [username, setUsername] = useState("");
-  const [password, setPassword] = useState("");
+  const [username, setUsername] = useState();
+  const [password, setPassword] = useState();
   const [result, setResult] = useState("");
     // const [result, setResult] = useState("");
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-    const updatedData = {
-      username,
-      password
-    };
 
-    const jsonData = JSON.stringify(updatedData);
-    console.log(jsonData)
-    axios.post('login/', {username, password})
+    axios.post('/login/', {username, password})
     .then((response) => {
       setUsername("");
       setPassword("");
@@ -51,10 +45,12 @@ function Login() {
               Username
               <input
                 className="input_edit"
+                required
                 placeholder="Enter your username"
                 type="text"
                 value={username}
                 onChange={(e) => setUsername(e.target.value)}
+                
               />
             </label>
             <br />
@@ -66,12 +62,13 @@ function Login() {
                 type="password"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
+                required
               />
             </label>
             <br />
             <div className="submit">
               <button
-                onClick={handleSubmit}
+                // onSubmit={handleSubmit}
                 className="login_button"
                 type="submit">
                 Login

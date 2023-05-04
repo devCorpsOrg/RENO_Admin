@@ -91,6 +91,7 @@ const EditUser = ({setActiveTab, setExpand}) => {
                   paddingLeft: "5px",
                 }}
                 onChange={handleNameChange}
+                required
               />
             </label>
             <label className="grid pr-6">
@@ -106,6 +107,7 @@ const EditUser = ({setActiveTab, setExpand}) => {
                   paddingLeft: "5px",
                 }}
                 onChange={handleEmailChange}
+                required
               />
             </label>
             <label className="grid pr-6">
@@ -121,6 +123,7 @@ const EditUser = ({setActiveTab, setExpand}) => {
                   paddingLeft: "5px",
                 }}
                 onChange={handlePhoneChange}
+                required
               />
             </label>
             <label className="grid pr-6">
@@ -136,6 +139,7 @@ const EditUser = ({setActiveTab, setExpand}) => {
                   paddingLeft: "5px",
                 }}
                 onChange={handleUserIdChange}
+                required
               />
             </label>
             <label className="grid pr-6">
@@ -152,6 +156,7 @@ const EditUser = ({setActiveTab, setExpand}) => {
                 }}
                 value={label}
                 onChange={handleLabelChange}
+                required
               >
                 <option value="">Select a label</option>
                 <option value="personal">Admin</option>
@@ -192,6 +197,7 @@ const EditUser = ({setActiveTab, setExpand}) => {
                   name="photo"
                   accept="image/*"
                   onChange={handlePhotoChange}
+                  required
                 />
               )}
             </label>
@@ -206,7 +212,7 @@ const EditUser = ({setActiveTab, setExpand}) => {
                 color: "white",
               }}
               type="submit"
-              onClick={handleSubmit}
+              // onClick={handleSubmit}
             >
               SAVE
             </button>

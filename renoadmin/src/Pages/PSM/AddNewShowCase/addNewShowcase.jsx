@@ -72,6 +72,7 @@ const AddNewShowcase = ({ setExpand, setActiveTab }) => {
               }}
               value={title}
               onChange={(event) => setTitle(event.target.value)}
+              required
             />
           </label>
 
@@ -114,6 +115,7 @@ const AddNewShowcase = ({ setExpand, setActiveTab }) => {
                   fontSize: "14px",
                 }}
                 onChange={(event)=>setRate(event.target.value)}
+                required
               />
             </label>
           </div>
@@ -129,6 +131,7 @@ const AddNewShowcase = ({ setExpand, setActiveTab }) => {
                 accept="image/*"
                 multiple
                 onChange={handleImageUpload}
+                required
               />
             </label>
           </div>
@@ -181,6 +184,7 @@ const AddNewShowcase = ({ setExpand, setActiveTab }) => {
               }}
               value={content}
               onChange={(event) => setContent(event.target.value)}
+              required
             />
           </label>
           {/* <div> */}

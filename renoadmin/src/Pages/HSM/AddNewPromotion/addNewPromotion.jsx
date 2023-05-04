@@ -80,6 +80,7 @@ const AddPromotion = ({ setExpand, setActiveTab }) => {
               }}
               value={title}
               onChange={(event) => setTitle(event.target.value)}
+              required
             />
           </label>
 
@@ -122,6 +123,7 @@ const AddPromotion = ({ setExpand, setActiveTab }) => {
                   fontSize: "14px",
                 }}
                 onChange={(event) => setPack(event.target.value)}
+                required
               />
             </label>
           </div>
@@ -165,6 +167,7 @@ const AddPromotion = ({ setExpand, setActiveTab }) => {
                 multiple
                 onChange={handlePhotoUpload}
                 placeholder=""
+                required
               />
             </label>
             <div style={{ marginLeft: "625px", width: "600px" }}>
@@ -205,6 +208,7 @@ const AddPromotion = ({ setExpand, setActiveTab }) => {
               }}
               value={content}
               onChange={(event) => setContent(event.target.value)}
+              required
             />
           </label>
           {/* <div> */}

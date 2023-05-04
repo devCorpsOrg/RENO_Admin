@@ -69,6 +69,7 @@ const EditCategory = ({ setExpand, setActiveTab }) => {
               }}
               value={title}
               onChange={(event) => setTitle(event.target.value)}
+              required
             />
           </label>
 
@@ -115,6 +116,7 @@ const EditCategory = ({ setExpand, setActiveTab }) => {
                   multiple
                   onChange={handlePhotoUpload}
                   placeholder=""
+                  required
                 />
               )}
             </div>

@@ -73,6 +73,7 @@ const AddListing = ({ setExpand, setActiveTab }) => {
               }}
               value={title}
               onChange={(event) => setTitle(event.target.value)}
+              required
             />
           </label>
 
@@ -93,6 +94,7 @@ const AddListing = ({ setExpand, setActiveTab }) => {
                 }}
                 value={price}
                 onChange={handlePriceChange}
+                required
               />
             </label>
             <label className="grid pr-6">
@@ -112,6 +114,7 @@ const AddListing = ({ setExpand, setActiveTab }) => {
                 multiple
                 onChange={handlePhotoUpload}
                 placeholder=""
+                required
               />
             </label>
             <div style={{ marginLeft: "625px", width: "600px" }}>
@@ -152,6 +155,7 @@ const AddListing = ({ setExpand, setActiveTab }) => {
               }}
               value={content}
               onChange={(event) => setContent(event.target.value)}
+              required
             />
           </label>
           {/* <div> */}

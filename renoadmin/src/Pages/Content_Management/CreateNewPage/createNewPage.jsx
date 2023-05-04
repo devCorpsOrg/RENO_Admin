@@ -66,6 +66,7 @@ const CreateNewPage = ({ setExpand, setActiveTab }) => {
               }}
               value={title}
               onChange={(event) => setTitle(event.target.value)}
+              required
             />
           </label>
 
@@ -86,6 +87,7 @@ const CreateNewPage = ({ setExpand, setActiveTab }) => {
               }}
               value={content}
               onChange={(event) => setContent(event.target.value)}
+              required
             />
           </label>
           <div>
@@ -99,6 +101,7 @@ const CreateNewPage = ({ setExpand, setActiveTab }) => {
                 accept="image/*"
                 multiple
                 onChange={handleImageUpload}
+                required
               />
             </label>
           </div>

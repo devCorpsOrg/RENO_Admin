@@ -79,7 +79,7 @@ const handleSubmit = (event) => {
         <div className="login_header">
           <h1 className="headl">Sign Up</h1>
           <div className="signup">
-            Create your account here
+            Create your account here. Already have an account? <a href="/">Login</a>
           </div>
         </div>
         <div className="login_form">
@@ -92,6 +92,7 @@ const handleSubmit = (event) => {
                 type="text"
                 value={username}
                 onChange={(e) => setUsername(e.target.value)}
+                required
               />
             </label>
             <br />
@@ -103,6 +104,7 @@ const handleSubmit = (event) => {
                 type="email"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
+                required
               />
             </label>
             <br />
@@ -114,6 +116,7 @@ const handleSubmit = (event) => {
                 type="password"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
+                required
               />
             </label>
             <br />
