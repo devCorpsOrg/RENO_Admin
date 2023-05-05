@@ -7,7 +7,7 @@ from .models import cmsModel
 from .models import ProjectManagementModel
 from .models import Projectbooking
 from .models import pmsModel
-from .models import SupportDetails,listings
+from .models import SupportDetails,listings,config_setting
 
 #===================================================================================
 
@@ -155,3 +155,9 @@ class listingsSerializer(serializers.ModelSerializer):
     class Meta:
         model=listings
         fields=('pic_url','service','desc','rate')
+
+class SettingSerializer(serializers.ModelSerializer):
+    
+    class Meta:
+        model=config_setting
+        fields="__all__"

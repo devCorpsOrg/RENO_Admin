@@ -17,7 +17,7 @@ from .models import Purchased_item
 from .models import User_Product,config_setting
 # from .models import SuspendUser
 from .serializers import UserSerializer,UserSerializer2,listingsSerializer
-from .serializers import UserSerializer1, PurchasedSerializer, ProductSerializer ,ProjectbookingSerializer,UserSerializer5
+from .serializers import UserSerializer1, PurchasedSerializer, ProductSerializer ,ProjectbookingSerializer,UserSerializer5, SettingSerializer
 # from .serializers import SuspendUserSerializer
 from rest_framework.renderers import JSONRenderer
 from django.http import HttpResponse 
@@ -798,42 +798,17 @@ def delete_records(request):
              json_data=JSONRenderer().render(res)
              return HttpResponse(json_data,content_type='application/json')
 #-----------------------------------------------------------------------------------------------------------
-@api_view(['PUT'])
+@api_view(['POST'])
 @csrf_exempt
 def settings(request):
   
-        name=request.query_params['name']
-        try:
-         user_objects=config_setting.objects.get(username=name)
-        except config_setting.DoesNotExist:
-         res={'msg':'username Not Found'}
-         json_data=JSONRenderer().render(res)
-         return HttpResponse(json_data,content_type='application/json')
-        
-        json_data=request.body
-        stream=io.BytesIO(json_data)
-        python_data=JSONParser().parse(stream)
-        
-        username=python_data.get('username',None)
-        sitename=python_data.get('sitename',None)
-        url=python_data.get('url',None)
-        email=python_data.get('email',None)
-        smtp_details=python_data.get('smtp_details',None)
-
-      
-        
-        user_objects.username=username
-        user_objects.sitename= sitename
-        user_objects.url=url
-        user_objects.email=email
-        user_objects.smtp_details=smtp_details
-        # user_objects.ids=random.getrandbits(32)
-        
-        user_objects.save()
-        # serailizer=config_settingSerializer(user_objects)
-        res={'msg':'Data updated Successfully'}
-        json_data=JSONRenderer().render(res)
-        return HttpResponse(json_data,content_type='application/json')
+       serializer=SettingSerializer(data=request.data)
+       if serializer.is_valid():
+            serializer.save()
+            res={'msg':'Data Created Successfully'}
+            json_data=JSONRenderer().render(res)
+            return HttpResponse(json_data,content_type='application/json')
+       return HttpResponse(JSONRenderer().render(serializer.errors),content_type='application/json')
 #---------------------------------------------------------------------------------------------------------------
 @csrf_exempt
 def listing(request):
