@@ -369,7 +369,7 @@ export const suspendUsers = createAsyncThunk(
   async (_, { rejectWithValue }) => {
     console.log("hello");
     try {
-      const response = await axios.get("/suspendedusers");
+      const response = await axios.get("http://139.59.236.50:8000/suspendedusers");
       console.log(response);
       return response.data;
     } catch (error) {
