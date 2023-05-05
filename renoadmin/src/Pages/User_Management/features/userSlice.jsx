@@ -16,17 +16,17 @@ export const createUser = createAsyncThunk(
         data: formData,
         headers: {
           "Content-Type": "application/x-www-form-urlencoded;charset=UTF-8",
-          "X-CSRFToken": csrfToken,
+          // "X-CSRFToken": csrfToken,
         },
       });
       console.log(...formData);
-      console.log(csrfToken)
+      // console.log(csrfToken)
       console.log(response);
       alert('User created successfully')
       return response.data;
     } catch (error) {
       alert('Operation failed')
-      console.log(csrfToken)
+      // console.log(csrfToken)
       console.log("Not submitting data");
       return rejectWithValue(error.response.data);
     }
@@ -43,11 +43,11 @@ export const createNewPage = createAsyncThunk(
         data: formData,
         headers: {
           "Content-Type": "application/x-www-form-urlencoded;charset=UTF-8",
-          "X-CSRFToken": csrfToken,
+          // "X-CSRFToken": csrfToken,
         },
       });
       console.log(...formData);
-      console.log(csrfToken)
+      // console.log(csrfToken)
       console.log(response);
       alert('Page created successfully')
       return response.data;
@@ -69,7 +69,7 @@ export const addNewShowcase = createAsyncThunk(
         data: formData,
         headers: {
           "Content-Type": "application/x-www-form-urlencoded;charset=UTF-8",
-          "X-CSRFToken": csrfToken,
+          // "X-CSRFToken": csrfToken,
         },
       });
       console.log(...formData);
@@ -94,7 +94,7 @@ export const addNewPromotion = createAsyncThunk(
         data: formData,
         headers: {
           "Content-Type": "application/x-www-form-urlencoded;charset=UTF-8",
-          "X-CSRFToken": csrfToken,
+          // "X-CSRFToken": csrfToken,
         },
       });
       console.log(...formData);
@@ -119,7 +119,7 @@ export const addNewProduct = createAsyncThunk(
         data: formData,
         headers: {
           "Content-Type": "application/x-www-form-urlencoded;charset=UTF-8",
-          "X-CSRFToken": csrfToken,
+          // "X-CSRFToken": csrfToken,
         },
       });
       console.log(...formData);
@@ -144,7 +144,7 @@ export const addNewCategory = createAsyncThunk(
         data: formData,
         headers: {
           "Content-Type": "application/x-www-form-urlencoded;charset=UTF-8",
-          "X-CSRFToken": csrfToken,
+          // "X-CSRFToken": csrfToken,
         },
       });
       console.log(...formData);
@@ -169,7 +169,7 @@ export const addNewListing = createAsyncThunk(
         data: formData,
         headers: {
           "Content-Type": "application/x-www-form-urlencoded;charset=UTF-8",
-          "X-CSRFToken": csrfToken,
+          // "X-CSRFToken": csrfToken,
         },
       });
       console.log(...formData);
@@ -226,7 +226,7 @@ export const updateUser = createAsyncThunk(
         data: formData,
         headers: {
           "Content-Type": "application/x-www-form-urlencoded;charset=UTF-8",
-          "X-CSRFToken": csrfToken,
+          // "X-CSRFToken": csrfToken,
         },
       });
       console.log(userId);
@@ -251,7 +251,7 @@ export const updatePage = createAsyncThunk(
         data: formData,
         headers: {
           "Content-Type": "application/x-www-form-urlencoded;charset=UTF-8",
-          "X-CSRFToken": csrfToken,
+          // "X-CSRFToken": csrfToken,
         },
       });
       console.log(response);
@@ -274,7 +274,7 @@ export const updateShowcase = createAsyncThunk(
         data: formData,
         headers: {
           "Content-Type": "application/x-www-form-urlencoded;charset=UTF-8",
-          "X-CSRFToken": csrfToken,
+          // "X-CSRFToken": csrfToken,
         },
       });
       console.log(response);
@@ -297,7 +297,7 @@ export const updateProject = createAsyncThunk(
         data: formData,
         headers: {
           "Content-Type": "application/x-www-form-urlencoded;charset=UTF-8",
-          "X-CSRFToken": csrfToken,
+          // "X-CSRFToken": csrfToken,
         },
       });
       console.log(response);
@@ -320,7 +320,7 @@ export const updateCategory = createAsyncThunk(
         data: formData,
         headers: {
           "Content-Type": "application/x-www-form-urlencoded;charset=UTF-8",
-          "X-CSRFToken": csrfToken,
+          // "X-CSRFToken": csrfToken,
         },
       });
       console.log(response);
@@ -343,7 +343,7 @@ export const updateListing = createAsyncThunk(
         data: formData,
         headers: {
           "Content-Type": "application/x-www-form-urlencoded;charset=UTF-8",
-          "X-CSRFToken": csrfToken,
+          // "X-CSRFToken": csrfToken,
         },
       });
       console.log(response);

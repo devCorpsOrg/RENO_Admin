@@ -19,8 +19,8 @@ function Login() {
       setUsername("");
       setPassword("");
       console.log(response)
-      const token = response.data.token;
-      Cookies.set('token', token); // Store token in a cookie
+      // const token = response.data.token;
+      // Cookies.set('token', token); 
       setResult("Logged in Successfully")
       navigate('/home');
     }).catch((err) => {
