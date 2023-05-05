@@ -63,7 +63,7 @@ function Home() {
   return (
     <div className="flex">
 
-      {cookie.get('csrftoken') && (
+      {cookie.get('jwt') && (
         <>
       
       <SideNavBar

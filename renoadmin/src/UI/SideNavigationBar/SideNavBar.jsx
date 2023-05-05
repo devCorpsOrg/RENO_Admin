@@ -28,14 +28,14 @@ function SideNavBar({ expand, setExpand, activeTab, setActiveTab }) {
       try {
         const response = axios({
           method: "post",
-          url: "/logoutall/",
-          headers: {
-            'Authorization':`Token ${cookie.get('token')}`,
-          },
+          url: "http://139.59.236.50:8000/logout",
+          // headers: {
+          //   'Authorization':`Token ${cookie.get('token')}`,
+          // },
         });
-        console.log(response.status);
-          cookie.remove('csrftoken');
-          cookie.remove('token');
+        console.log(response);
+          // cookie.remove('csrftoken');
+          cookie.remove('jwt');
           navigate('/');
           console.log('Logged Out sucessfully')
       } catch (error) {

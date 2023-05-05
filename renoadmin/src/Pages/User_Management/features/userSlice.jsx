@@ -12,21 +12,21 @@ export const createUser = createAsyncThunk(
     try {
       const response = await axios({
         method: "post",
-        url: "/usercreate/",
+        url: "http://139.59.236.50:8000/usercreate/",
         data: formData,
         headers: {
           "Content-Type": "application/x-www-form-urlencoded;charset=UTF-8",
-          "X-CSRFToken": csrfToken,
+          // "X-CSRFToken": csrfToken,
         },
       });
       console.log(...formData);
-      console.log(csrfToken);
+      // console.log(csrfToken)
       console.log(response);
       alert("User created successfully");
       return response.data;
     } catch (error) {
-      alert("Operation failed");
-      console.log(csrfToken);
+      alert('Operation failed')
+      // console.log(csrfToken)
       console.log("Not submitting data");
       return rejectWithValue(error.response.data);
     }
@@ -39,15 +39,15 @@ export const createNewPage = createAsyncThunk(
     try {
       const response = await axios({
         method: "post",
-        url: "/createpage/",
+        url: "http://139.59.236.50:8000/createpage/",
         data: formData,
         headers: {
           "Content-Type": "application/x-www-form-urlencoded;charset=UTF-8",
-          "X-CSRFToken": csrfToken,
+          // "X-CSRFToken": csrfToken,
         },
       });
       console.log(...formData);
-      console.log(csrfToken);
+      // console.log(csrfToken)
       console.log(response);
       alert("Page created successfully");
       return response.data;
@@ -65,11 +65,11 @@ export const addNewShowcase = createAsyncThunk(
     try {
       const response = await axios({
         method: "post",
-        url: "/addproject/",
+        url: "http://139.59.236.50:8000/addproject/",
         data: formData,
         headers: {
           "Content-Type": "application/x-www-form-urlencoded;charset=UTF-8",
-          "X-CSRFToken": csrfToken,
+          // "X-CSRFToken": csrfToken,
         },
       });
       console.log(...formData);
@@ -90,11 +90,11 @@ export const addNewPromotion = createAsyncThunk(
     try {
       const response = await axios({
         method: "post",
-        url: "/addpromoted/",
+        url: "http://139.59.236.50:8000/addpromoted/",
         data: formData,
         headers: {
           "Content-Type": "application/x-www-form-urlencoded;charset=UTF-8",
-          "X-CSRFToken": csrfToken,
+          // "X-CSRFToken": csrfToken,
         },
       });
       console.log(...formData);
@@ -115,11 +115,11 @@ export const addNewProduct = createAsyncThunk(
     try {
       const response = await axios({
         method: "post",
-        url: "/addproducts",
+        url: "http://139.59.236.50:8000/addproducts",
         data: formData,
         headers: {
           "Content-Type": "application/x-www-form-urlencoded;charset=UTF-8",
-          "X-CSRFToken": csrfToken,
+          // "X-CSRFToken": csrfToken,
         },
       });
       console.log(...formData);
@@ -140,11 +140,11 @@ export const addNewCategory = createAsyncThunk(
     try {
       const response = await axios({
         method: "post",
-        url: "/addcategory",
+        url: "http://139.59.236.50:8000/addcategory",
         data: formData,
         headers: {
           "Content-Type": "application/x-www-form-urlencoded;charset=UTF-8",
-          "X-CSRFToken": csrfToken,
+          // "X-CSRFToken": csrfToken,
         },
       });
       console.log(...formData);
@@ -165,11 +165,11 @@ export const addNewListing = createAsyncThunk(
     try {
       const response = await axios({
         method: "post",
-        url: "/addlisting/",
+        url: "http://139.59.236.50:8000/addlisting/",
         data: formData,
         headers: {
           "Content-Type": "application/x-www-form-urlencoded;charset=UTF-8",
-          "X-CSRFToken": csrfToken,
+          // "X-CSRFToken": csrfToken,
         },
       });
       console.log(...formData);
@@ -189,9 +189,11 @@ export const getUser = createAsyncThunk(
   async (_, { rejectWithValue }) => {
     console.log("hello");
     try {
-      const response = await axios.get("/user", {
+      const response = await axios({
+        method: "get",
+        url: "http://139.59.236.50:8000/user/",
         headers: {
-          "Access-Control-Allow-Origin": "*",
+          // "Access-Control-Allow-Origin": "*",
           "Content-Type": "application/json",
         },
       });
@@ -227,11 +229,11 @@ export const updateUser = createAsyncThunk(
     try {
       const response = await axios({
         method: "put",
-        url: `/edituser/?id=${userId}`,
+        url: `http://139.59.236.50:8000/edituser/?id=${userId}`,
         data: formData,
         headers: {
           "Content-Type": "application/x-www-form-urlencoded;charset=UTF-8",
-          "X-CSRFToken": csrfToken,
+          // "X-CSRFToken": csrfToken,
         },
       });
       console.log(userId);
@@ -252,11 +254,11 @@ export const updatePage = createAsyncThunk(
     try {
       const response = await axios({
         method: "put",
-        url: `/editpage/?pagename=${title}`,
+        url: `http://139.59.236.50:8000/editpage/?pagename=${title}`,
         data: formData,
         headers: {
           "Content-Type": "application/x-www-form-urlencoded;charset=UTF-8",
-          "X-CSRFToken": csrfToken,
+          // "X-CSRFToken": csrfToken,
         },
       });
       console.log(response);
@@ -275,11 +277,11 @@ export const updateShowcase = createAsyncThunk(
     try {
       const response = await axios({
         method: "put",
-        url: `/editproject/?proj_name=${title}`, // Change the End points
+        url: `http://139.59.236.50:8000/editproject/?proj_name=${title}`, // Change the End points
         data: formData,
         headers: {
           "Content-Type": "application/x-www-form-urlencoded;charset=UTF-8",
-          "X-CSRFToken": csrfToken,
+          // "X-CSRFToken": csrfToken,
         },
       });
       console.log(response);
@@ -298,11 +300,11 @@ export const updateProject = createAsyncThunk(
     try {
       const response = await axios({
         method: "put",
-        url: `/editproducts/?prod_name=${title}`, // Change the End points
+        url: `http://139.59.236.50:8000/editproducts/?prod_name=${title}`, // Change the End points
         data: formData,
         headers: {
           "Content-Type": "application/x-www-form-urlencoded;charset=UTF-8",
-          "X-CSRFToken": csrfToken,
+          // "X-CSRFToken": csrfToken,
         },
       });
       console.log(response);
@@ -321,11 +323,11 @@ export const updateCategory = createAsyncThunk(
     try {
       const response = await axios({
         method: "put",
-        url: `/editcategory/?prod_category=${title}`, // Change the End points
+        url: `http://139.59.236.50:8000/editcategory/?prod_category=${title}`, // Change the End points
         data: formData,
         headers: {
           "Content-Type": "application/x-www-form-urlencoded;charset=UTF-8",
-          "X-CSRFToken": csrfToken,
+          // "X-CSRFToken": csrfToken,
         },
       });
       console.log(response);
@@ -344,11 +346,11 @@ export const updateListing = createAsyncThunk(
     try {
       const response = await axios({
         method: "put",
-        url: `/editlisting/?service=${title}`, // Change the End points
+        url: `http://139.59.236.50:8000/editlisting/?service=${title}`, // Change the End points
         data: formData,
         headers: {
           "Content-Type": "application/x-www-form-urlencoded;charset=UTF-8",
-          "X-CSRFToken": csrfToken,
+          // "X-CSRFToken": csrfToken,
         },
       });
       console.log(response);
@@ -367,7 +369,7 @@ export const suspendUsers = createAsyncThunk(
   async (_, { rejectWithValue }) => {
     console.log("hello");
     try {
-      const response = await axios.get("/suspendedusers");
+      const response = await axios.get("http://139.59.236.50:8000/suspendedusers");
       console.log(response);
       return response.data;
     } catch (error) {
@@ -382,7 +384,7 @@ export const suspendUsers = createAsyncThunk(
 export const CRM = createAsyncThunk("CRM", async (_, { rejectWithValue }) => {
   console.log("hello");
   try {
-    const response = await axios.get("/members");
+    const response = await axios.get("http://139.59.236.50:8000/members");
     console.log(response);
     return response.data;
   } catch (error) {
@@ -398,7 +400,7 @@ export const allPages = createAsyncThunk(
   async (_, { rejectWithValue }) => {
     console.log("hello");
     try {
-      const response = await axios.get("/pages");
+      const response = await axios.get("http://139.59.236.50:8000/pages/");
       console.log(response);
       return response.data;
     } catch (error) {
@@ -415,7 +417,7 @@ export const allProjects = createAsyncThunk(
   async (_, { rejectWithValue }) => {
     console.log("hello");
     try {
-      const response = await axios.get("/projects");
+      const response = await axios.get("http://139.59.236.50:8000/projects/");
       console.log(response);
       return response.data;
     } catch (error) {
@@ -432,7 +434,7 @@ export const featuredProjects = createAsyncThunk(
   async (_, { rejectWithValue }) => {
     console.log("hello");
     try {
-      const response = await axios.get("/featuredprojects");
+      const response = await axios.get("http://139.59.236.50:8000/featuredprojects/");
       console.log(response);
       return response.data;
     } catch (error) {
@@ -449,7 +451,7 @@ export const HSM_allProduct = createAsyncThunk(
   async (_, { rejectWithValue }) => {
     console.log("hello");
     try {
-      const response = await axios.get("/products");
+      const response = await axios.get("http://139.59.236.50:8000/products");
       console.log(response);
       return response.data;
     } catch (error) {
@@ -466,7 +468,7 @@ export const HSM_featuredProduct = createAsyncThunk(
   async (_, { rejectWithValue }) => {
     console.log("hello");
     try {
-      const response = await axios.get("/featuredproducts");
+      const response = await axios.get("http://139.59.236.50:8000/featuredproducts");
       console.log(response);
       return response.data;
     } catch (error) {
@@ -483,7 +485,7 @@ export const HSM_promotion = createAsyncThunk(
   async (_, { rejectWithValue }) => {
     console.log("hello");
     try {
-      const response = await axios.get("/promotions");
+      const response = await axios.get("http://139.59.236.50:8000/promotions/");
       console.log(response);
       return response.data;
     } catch (error) {
@@ -500,7 +502,7 @@ export const HSM_transaction = createAsyncThunk(
   async (_, { rejectWithValue }) => {
     console.log("hello");
     try {
-      const response = await axios.get("/purchases");
+      const response = await axios.get("http://139.59.236.50:8000/purchases");
       console.log(response);
       return response.data;
     } catch (error) {
@@ -517,7 +519,7 @@ export const HSM_review = createAsyncThunk(
   async (_, { rejectWithValue }) => {
     console.log("hello");
     try {
-      const response = await axios.get("/reviews");
+      const response = await axios.get("http://139.59.236.50:8000/reviews");
       console.log(response);
       return response.data;
     } catch (error) {
@@ -534,7 +536,7 @@ export const HSM_helpdesk = createAsyncThunk(
   async (_, { rejectWithValue }) => {
     console.log("hello");
     try {
-      const response = await axios.get("/support");
+      const response = await axios.get("http://139.59.236.50:8000/support/");
       console.log(response);
       return response.data;
     } catch (error) {
@@ -551,7 +553,7 @@ export const MPM_allmembers = createAsyncThunk(
   async (_, { rejectWithValue }) => {
     console.log("hello");
     try {
-      const response = await axios.get("/customers");
+      const response = await axios.get("http://139.59.236.50:8000/customers");
       console.log(response);
       return response.data;
     } catch (error) {
@@ -568,7 +570,7 @@ export const MPM_suspended = createAsyncThunk(
   async (_, { rejectWithValue }) => {
     console.log("hello");
     try {
-      const response = await axios.get("/suspendedcustomers");
+      const response = await axios.get("http://139.59.236.50:8000/suspendedcustomers");
       console.log(response);
       return response.data;
     } catch (error) {
@@ -585,7 +587,7 @@ export const MPM_category = createAsyncThunk(
   async (_, { rejectWithValue }) => {
     console.log("hello");
     try {
-      const response = await axios.get("/categories");
+      const response = await axios.get("http://139.59.236.50:8000/categories");
       console.log(response);
       return response.data;
     } catch (error) {
@@ -602,7 +604,7 @@ export const MPM_listing = createAsyncThunk(
   async (_, { rejectWithValue }) => {
     console.log("hello");
     try {
-      const response = await axios.get("/listings");
+      const response = await axios.get("http://139.59.236.50:8000/listings/");
       console.log(response);
       return response.data;
     } catch (error) {
@@ -619,7 +621,7 @@ export const MPM_allchats = createAsyncThunk(
   async (_, { rejectWithValue }) => {
     console.log("hello");
     try {
-      const response = await axios.get("/deals");
+      const response = await axios.get("http://139.59.236.50:8000/deals");
       console.log(response);
       return response.data;
     } catch (error) {
@@ -636,7 +638,7 @@ export const MPM_review = createAsyncThunk(
   async (_, { rejectWithValue }) => {
     console.log("hello");
     try {
-      const response = await axios.get("/reviews");
+      const response = await axios.get("http://139.59.236.50:8000/reviews");
       console.log(response);
       return response.data;
     } catch (error) {
@@ -653,7 +655,7 @@ export const RoleManagement = createAsyncThunk(
   async (_, { rejectWithValue }) => {
     console.log("hello");
     try {
-      const response = await axios.get("/roles");
+      const response = await axios.get("http://139.59.236.50:8000/roles");
       console.log(response);
       return response.data;
     } catch (error) {
