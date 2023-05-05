@@ -1,19 +1,26 @@
-from .views import RegisterAPI
+# from .views import RegisterAPI
 from knox import views as knox_views
-from .views import LoginAPI
+# from .views import LoginAPI
 from django.urls import path,include
 from .views import ChangePasswordView
 from . import views
 from django.conf import settings
 from django.conf.urls.static import static
+from .views import RegisterView, LoginView, LogoutView
+
 
 urlpatterns = [
-    path('register/', RegisterAPI.as_view(), name='register'),
-    path('login/', LoginAPI.as_view(), name='login'),
-    path('logout/', knox_views.LogoutView.as_view(), name='logout'),
-    path('logoutall/', knox_views.LogoutAllView.as_view(), name='logoutall'),
-    path('reset-password/', ChangePasswordView.as_view(), name='change-password'),
-    path('password_reset/', include('django_rest_passwordreset.urls', namespace='password_reset')),
+     path('register', RegisterView.as_view()),
+    path('login', LoginView.as_view()),
+  
+    path('logout', LogoutView.as_view()),
+    # path('register/', RegisterAPI.as_view(), name='register'),
+    # path('login/', LoginAPI.as_view(), name='login'),
+
+    # path('logout/', knox_views.LogoutView.as_view(), name='logout'),
+    # path('logoutall/', knox_views.LogoutAllView.as_view(), name='logoutall'),
+    # path('reset-password/', ChangePasswordView.as_view(), name='change-password'),
+    # path('password_reset/', include('django_rest_passwordreset.urls', namespace='password_reset')),
 # -------------------------------------------------------------------------------------------------------
     path('user/',views.user_details,name="user"),
     path('usercreate/',views.create_user,name="createuser"),
