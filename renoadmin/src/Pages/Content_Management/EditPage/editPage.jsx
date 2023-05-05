@@ -1,7 +1,6 @@
 import { useState } from "react";
 import React from "react";
 import TopHeader from "../../../UI/TopHeader/TopHeader";
-import axios from "axios";
 import { useDispatch } from "react-redux";
 import { updatePage } from "../../User_Management/features/userSlice";
 
@@ -14,29 +13,24 @@ const EditPage = ({ setExpand, setActiveTab }) => {
   const [content, setContent] = useState("");
   const [images, setImages] = useState([]);
 
-
-
   const handleSubmit = async (event) => {
     event.preventDefault();
-  
+
     const formData = new FormData();
     formData.append("pagename", title);
     formData.append("content", content);
     images.map((image, index) => {
-      formData.append('media', image);
-    })
-  
-    dispatch(updatePage({formData, title}))
+      formData.append("media", image);
+    });
 
+    dispatch(updatePage({ formData, title }));
   };
 
   const handleImageUpload = (event) => {
     const files = event.target.files;
     const uploadedImages = [];
     for (let i = 0; i < files.length; i++) {
-      uploadedImages.push(
-       files[i],
-      );
+      uploadedImages.push(files[i]);
     }
     setImages(uploadedImages);
   };
@@ -47,7 +41,7 @@ const EditPage = ({ setExpand, setActiveTab }) => {
         <TopHeader className="fixed" head={head} />
       </div>
 
-      <div className=" ml-72 mt-20 relative" style={{ marginTop: "140px" }}>
+      <div className=" ml-80 mt-20 relative" style={{ marginTop: "140px" }}>
         <form onSubmit={handleSubmit}>
           <label className="grid">
             Page Title
@@ -55,10 +49,9 @@ const EditPage = ({ setExpand, setActiveTab }) => {
               type="text"
               placeholder="Enter Page Title"
               id="title"
-              className="rounded outline-none"
+              className="rounded w-[100vh] outline-none"
               style={{
                 height: "50px",
-                width: "1230px",
                 paddingLeft: "20px",
                 backgroundColor: "#e5ecff",
                 marginTop: "5px",
@@ -75,10 +68,9 @@ const EditPage = ({ setExpand, setActiveTab }) => {
             <textarea
               id="content"
               placeholder="Enter Page Content"
-              className="rounded outline-none pt-2"
+              className="rounded w-[100vh] outline-none pt-2"
               style={{
                 height: "170px",
-                width: "1230px",
                 backgroundColor: "#e5ecff",
                 paddingLeft: "20px",
                 paddingTop: "20px",
@@ -136,15 +128,13 @@ const EditPage = ({ setExpand, setActiveTab }) => {
             </ul>
           </div>
           <button
-            className="rounded mt-10"
+            className="rounded bg-lime-600 hover:bg-lime-700 mt-10"
             style={{
-              backgroundColor: "rgba(153, 190, 17, 0.831)",
               width: "130px",
               height: "55px",
               color: "white",
             }}
-            type="submit"
-          >
+            type="submit">
             Submit
           </button>
         </form>

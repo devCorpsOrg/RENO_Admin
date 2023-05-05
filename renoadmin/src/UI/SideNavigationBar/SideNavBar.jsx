@@ -28,7 +28,7 @@ function SideNavBar({ expand, setExpand, activeTab, setActiveTab }) {
       try {
         const response = axios({
           method: "post",
-          url: "http://139.59.236.50:8000/logoutall/",
+          url: "http://139.59.236.50:8000/logout",
           // headers: {
           //   'Authorization':`Token ${cookie.get('token')}`,
           // },

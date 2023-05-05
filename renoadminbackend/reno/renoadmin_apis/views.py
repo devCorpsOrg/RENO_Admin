@@ -2,7 +2,7 @@ from django.shortcuts import render
 from rest_framework import generics, permissions
 from rest_framework.response import Response
 from knox.models import AuthToken
-from .serializers import UserSerializers, RegisterSerializer
+from .serializers import UserSerializers
 from django.contrib.auth import login
 from rest_framework import permissions
 from rest_framework.authtoken.serializers import AuthTokenSerializer
@@ -49,6 +49,8 @@ import time
 from rest_framework.views import APIView
 from rest_framework import status
 from rest_framework.response import Response
+import jwt, datetime
+from rest_framework.exceptions import AuthenticationFailed
 # from django.contrib.auth import logout as auth_logout
 # from django.contrib.auth import get_user_model, logout
 # from rest_framework import viewsets, status
@@ -56,46 +58,46 @@ from rest_framework.response import Response
 # from rest_framework.permissions import AllowAny
 
 # Register API
-class RegisterAPI(generics.GenericAPIView):
-    serializer_class = RegisterSerializer
+# class RegisterAPI(generics.GenericAPIView):
+#     serializer_class = RegisterSerializer
 
-    def post(self, request, *args, **kwargs):
-        serializer = self.get_serializer(data=request.data)
-        serializer.is_valid(raise_exception=True)
-        user = serializer.save()
-        return Response({
-        "user": UserSerializer(user, context=self.get_serializer_context()).data,
-        "token": AuthToken.objects.create(user)[1]
-        })
+#     def post(self, request, *args, **kwargs):
+#         serializer = self.get_serializer(data=request.data)
+#         serializer.is_valid(raise_exception=True)
+#         user = serializer.save()
+#         return Response({
+#         "user": UserSerializer(user, context=self.get_serializer_context()).data,
+#         "token": AuthToken.objects.create(user)[1]
+#         })
         
 
-def get(self, request, format=None):
-        # simply delete the token to force a login
-        request.user.auth_token.delete()
-        return Response(status=status.HTTP_200_OK)
+# def get(self, request, format=None):
+#         # simply delete the token to force a login
+#         request.user.auth_token.delete()
+#         return Response(status=status.HTTP_200_OK)
 
-class LoginAPI(KnoxLoginView):
-    permission_classes = (permissions.AllowAny,)
-    @csrf_exempt  
-    def post(self, request, format=None):
+# class LoginAPI(KnoxLoginView):
+#     permission_classes = (permissions.AllowAny,)
+#     @csrf_exempt  
+#     def post(self, request, format=None):
        
-        # data=request.data
-        # username=data['username']
-        # info=Userdetails.objects.get(username=username)
-        # info=User.objects.get(username=username)
-        serializer = AuthTokenSerializer(data=request.data)
-        serializer.is_valid(raise_exception=True)
-        user = serializer.validated_data['user']
-        login(request, user)
-        ans=[]
-        # ans.append( serializer['username'])
-        # ans.append( serializer['email'])
-        # ans.append(info.username)
-        # ans.append(info.email)
-        # ans.append(info.uid)
-        # ans.append(info.pic)
-        # and Response(super(LoginAPI, self).post(request, format=None)
-        return  super(LoginAPI, self).post(request, format=None)
+#         # data=request.data
+#         # username=data['username']
+#         # info=Userdetails.objects.get(username=username)
+#         # info=User.objects.get(username=username)
+#         serializer = AuthTokenSerializer(data=request.data)
+#         serializer.is_valid(raise_exception=True)
+#         user = serializer.validated_data['user']
+#         login(request, user)
+#         ans=[]
+#         # ans.append( serializer['username'])
+#         # ans.append( serializer['email'])
+#         # ans.append(info.username)
+#         # ans.append(info.email)
+#         # ans.append(info.uid)
+#         # ans.append(info.pic)
+#         # and Response(super(LoginAPI, self).post(request, format=None)
+#         return  super(LoginAPI, self).post(request, format=None)
 
     
 class ChangePasswordView(generics.UpdateAPIView):
@@ -130,7 +132,55 @@ class ChangePasswordView(generics.UpdateAPIView):
 
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 # ----------------------------------------------------------------------------------------------------------
+class RegisterView(APIView):
+    def post(self, request):
+        serializer = UserSerializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        serializer.save()
+        return Response(serializer.data)
+    
+class LoginView(APIView):
+    def post(self, request):
+        username = request.data['username']
+        password = request.data['password']
 
+        user = User.objects.filter(username=username).first()
+
+        if user is None:
+            raise AuthenticationFailed('User not found!')
+
+        if not user.check_password(password):
+            raise AuthenticationFailed('Incorrect password!')
+
+        payload = {
+            'id': user.id,
+            'exp': datetime.datetime.utcnow() + datetime.timedelta(minutes=60),
+            'iat': datetime.datetime.utcnow()
+        }
+
+        token = jwt.encode(payload, 'secret', algorithm='HS256')
+
+        response = Response()
+
+        response.set_cookie(key='jwt', value=token, httponly=True)
+        response.data = {
+            'jwt': token
+        }
+        return response
+
+
+class LogoutView(APIView):
+    def post(self, request):
+        response = Response()
+        response.delete_cookie('jwt')
+        response.data = {
+            'message': 'success'
+        }
+        return response
+
+
+
+#=============================================================================================================
 @csrf_exempt
 def user_details(request):
    if request.method=='GET':

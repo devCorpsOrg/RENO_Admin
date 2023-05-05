@@ -9,12 +9,28 @@ from .models import Projectbooking
 from .models import pmsModel
 from .models import SupportDetails,listings
 
+#===================================================================================
 
-# User Serializer
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
-        fields = ('id', 'username', 'email')
+        fields = ('id', 'username', 'email','password')
+
+    def create(self, validated_data):
+        password = validated_data.pop('password', None)
+        instance = self.Meta.model(**validated_data)
+        if password is not None:
+            instance.set_password(password)
+        instance.save()
+        return instance
+
+
+#=====================================================================================
+# User Serializer
+# class UserSerializer(serializers.ModelSerializer):
+#     class Meta:
+#         model = User
+#         fields = ('id', 'username', 'email')
 
 # User Serializer
 class UserSerializer2(serializers.ModelSerializer):
@@ -23,16 +39,16 @@ class UserSerializer2(serializers.ModelSerializer):
         fields = ('username', 'name','email', 'role', 'status')
 
 # Register Serializer
-class RegisterSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = User
-        fields = ('id', 'username', 'email', 'password')
-        extra_kwargs = {'password': {'write_only': True}}
+# class RegisterSerializer(serializers.ModelSerializer):
+#     class Meta:
+#         model = User
+#         fields = ('id', 'username', 'email', 'password')
+#         extra_kwargs = {'password': {'write_only': True}}
 
-    def create(self, validated_data):
-        user = User.objects.create_user(validated_data['username'], validated_data['email'], validated_data['password'])
+#     def create(self, validated_data):
+#         user = User.objects.create_user(validated_data['username'], validated_data['email'], validated_data['password'])
 
-        return user
+#         return user
     
 
 class ChangePasswordSerializer(serializers.Serializer):
