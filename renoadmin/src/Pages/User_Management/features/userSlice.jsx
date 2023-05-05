@@ -189,7 +189,12 @@ export const getUser = createAsyncThunk(
   async (_, { rejectWithValue }) => {
     console.log("hello");
     try {
-      const response = await axios.get("/user");
+      const response = await axios.get("/user", {
+        headers: {
+          "Access-Control-Allow-Origin": "*",
+          "Content-Type": "application/json",
+        },
+      });
       console.log(response);
       return response.data;
     } catch (error) {
