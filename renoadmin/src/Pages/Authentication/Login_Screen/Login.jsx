@@ -14,13 +14,13 @@ function Login() {
   const handleSubmit = async (event) => {
     event.preventDefault();
 
-    axios.post('http://139.59.236.50:8000/login/', {username, password})
+    axios.post('http://139.59.236.50:8000/login', {username, password})
     .then((response) => {
       setUsername("");
       setPassword("");
       console.log(response)
-      const token = response.data.token;
-      Cookies.set('token', token); // Store token in a cookie
+      const token = response.data.jwt;
+      Cookies.set('jwt', token); 
       setResult("Logged in Successfully")
       navigate('/home');
     }).catch((err) => {
