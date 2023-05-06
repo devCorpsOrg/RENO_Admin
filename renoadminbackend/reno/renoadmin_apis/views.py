@@ -1320,7 +1320,7 @@ def create_role(request):
     # usname,name,email,role(admin/marketplace/superadmin),status
     username = request.POST['username']
     # user = Users.objects.filter(usname=usname).first()
-    username = request.POST['username']
+    # username = request.POST['username']
     user = Userdetails.objects.filter(username=username).first()
     if user:
         role = request.POST['role']
