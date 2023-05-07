@@ -138,7 +138,7 @@ class SupportDetails(models.Model):
 
 class config_setting(models.Model):
      id=models.CharField(primary_key=True, default=uuid.uuid4,max_length=200)
-     username=models.CharField(max_length=100,unique=True,default="")
+     mail=models.CharField(max_length=100,default="")
      sitename=models.CharField(max_length=100)
      url=models.CharField(max_length=100)
      email=models.CharField(max_length=100)
