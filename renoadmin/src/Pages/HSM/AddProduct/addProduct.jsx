@@ -6,7 +6,7 @@ import { useDispatch } from "react-redux";
 import { addNewProduct } from "../../User_Management/features/userSlice";
 
 const AddProduct = ({ setExpand, setActiveTab }) => {
-  setExpand("homeService");
+  // setExpand("homeService");
   setActiveTab("productList");
   const head = "Add Product";
   const dispatch = useDispatch();

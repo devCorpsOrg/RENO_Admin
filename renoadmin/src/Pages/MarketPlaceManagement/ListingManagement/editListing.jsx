@@ -5,7 +5,7 @@ import { useDispatch } from "react-redux";
 import { updateListing } from "../../User_Management/features/userSlice";
 
 const EditListing = ({ setExpand, setActiveTab }) => {
-  setExpand("marketPlace");
+  // setExpand("marketPlace");
   setActiveTab("listingManagement");
   const head = "Edit Listing";
   const dispatch = useDispatch();

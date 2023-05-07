@@ -6,7 +6,7 @@ import { useDispatch } from "react-redux";
 import { updateCategory } from "../../User_Management/features/userSlice";
 
 const EditCategory = ({ setExpand, setActiveTab }) => {
-  setExpand("marketPlace");
+  // setExpand("marketPlace");
   setActiveTab("catagoryManagement");
   const head = "Edit Category";
 

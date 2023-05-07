@@ -206,6 +206,8 @@ function SideNavBar({ expand, setExpand, activeTab, setActiveTab }) {
                     setExpand(null); // close if already open
                   } else {
                     setExpand("showcaseManagement"); // open if closed
+                    console.log(expand)
+                    console.log('clicked')
                   }
                 }}
                 activeclassname="active"

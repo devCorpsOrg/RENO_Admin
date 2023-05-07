@@ -7,7 +7,7 @@ import { createUser } from "../features/userSlice";
 import { useNavigate } from "react-router-dom";
 
 const CreateUser = ({ setActiveTab, setExpand }) => {
-  setExpand("userManagement");
+  // setExpand("userManagement");
   setActiveTab("allUsers");
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");

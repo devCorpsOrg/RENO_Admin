@@ -6,7 +6,7 @@ import { addNewPromotion } from "../../User_Management/features/userSlice";
 import { useDispatch } from "react-redux";
 
 const AddPromotion = ({ setExpand, setActiveTab }) => {
-  setExpand("homeService");
+  // setExpand("homeService");
   setActiveTab("promotionManagement");
   const head = "Add New Promotion";
   const dispatch = useDispatch();
