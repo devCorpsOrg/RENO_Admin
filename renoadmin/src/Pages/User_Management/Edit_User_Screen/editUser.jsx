@@ -6,7 +6,7 @@ import { useDispatch } from "react-redux";
 import { updateUser } from "../features/userSlice";
 
 const EditUser = ({ setActiveTab, setExpand }) => {
-  setExpand("userManagement");
+  // setExpand("userManagement");
   setActiveTab("allUsers");
 
   const dispatch = useDispatch();

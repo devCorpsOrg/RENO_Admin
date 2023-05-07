@@ -6,7 +6,7 @@ import { useDispatch } from "react-redux";
 import { addNewShowcase } from "../../User_Management/features/userSlice";
 
 const AddNewShowcase = ({ setExpand, setActiveTab }) => {
-  setExpand("showcaseManagement");
+  // setExpand("showcaseManagement");
   setActiveTab("projectList");
   const head = "Add New Showcase";
   const dispatch = useDispatch();

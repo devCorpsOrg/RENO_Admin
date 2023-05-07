@@ -39,7 +39,7 @@ const AddNewRole = ({setActiveTab}) => {
     const jsonData=JSON.stringify(updatedData);
     console.log(jsonData);
     try{
-      const response = await axios.post('/createrole/', jsonData)
+      const response = await axios.post('http://139.59.236.50:8000/createrole/', jsonData)
       .then(response => {
         setUserName("");
         setEmailAddress("");

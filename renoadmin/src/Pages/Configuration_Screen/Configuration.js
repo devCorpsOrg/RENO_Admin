@@ -1,10 +1,38 @@
 import React, { useState } from "react";
 import TopHeader from "../../UI/TopHeader/TopHeader";
+import axios from "axios";
 
-const Configuration = () => {
-  const handleSubmit = (e) => {
+const Configuration = ({setActiveTab}) => {
+  const[sitename, setName] = useState("");
+  const[mail, setEmail] = useState("");
+  const[email, setSiteEmail] = useState("");
+  const[url, setUrl] = useState("");
+  const[smtp_details, setDetails] = useState("");
+
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
+    const data = {
+      sitename:sitename,
+      mail:mail,
+      email:email,
+      url:url,
+      smtp_details:smtp_details
+    }
+    const jsonData = JSON.stringify(data);
+    console.log(jsonData)
+    try{
+      const response = await axios.post('http://139.59.236.50:8000/setting/', {sitename, mail, email, url, smtp_details})
+      .then(response => {
+        console.log(response)
+      })
+    }
+    catch(err){
+      console.log("Error saving data", err);
+    }
   };
+
+
   const head = "Configuration";
 
   return (
@@ -14,7 +42,7 @@ const Configuration = () => {
       </div>
       <div className=" ml-72 mt-32 w-[100%] relative">
         <div className="flex flex-row w-full h-full justify-center sm:justify-start items-center m-3">
-          <form action="submit" className="w-full sm:w-2/3 px-5">
+          <form action="submit" className="w-full sm:w-2/3 px-5" onSubmit={handleSubmit}>
             <h2 className="font-semibold text-2xl mb-10">
               Configuration and Settings
             </h2>
@@ -23,6 +51,9 @@ const Configuration = () => {
                 <span className="mr-2 w-32 inline-block">Site Name</span>
                 <input
                   type="text"
+                  value={sitename}
+                  onChange={(event) => setName(event.target.value)}
+                  required
                   name="siteName"
                   placeholder="Enter Site Name"
                   className="h-18 p-3 w-full border rounded-md border-blue-200 focus:border-blue-300"
@@ -32,6 +63,9 @@ const Configuration = () => {
                 <span className="mr-2 w-32 inline-block">Portal URL</span>
                 <input
                   type="text"
+                  value={url}
+                  onChange={(event) => setUrl(event.target.value)}
+                  required
                   name="portalUrl"
                   placeholder="Enter Portal URL"
                   className="h-18 p-3 w-full border rounded-md border-blue-200 focus:border-blue-300"
@@ -43,6 +77,9 @@ const Configuration = () => {
                 <span className="mr-2 w-32 inline-block">Admin Email</span>
                 <input
                   type="email"
+                  value={mail}
+                  onChange={(event) => setEmail(event.target.value)}
+                  required
                   name="adminEmail"
                   placeholder="Enter Admin Email"
                   className="h-18 p-3 w-full border rounded-md border-blue-200 focus:border-blue-300"
@@ -52,6 +89,9 @@ const Configuration = () => {
                 <span className="mr-2 w-32 inline-block">Support Mail</span>
                 <input
                   type="email"
+                  value={email}
+                  onChange={(event) => setSiteEmail(event.target.value)}
+                  required
                   name="supportMail"
                   placeholder="Enter Support Mail"
                   className="h-18 p-3 w-full border rounded-md border-blue-200 focus:border-blue-300"
@@ -62,11 +102,14 @@ const Configuration = () => {
               <span>SMTP Details</span>
               <textarea
                 name="smtpDetails"
+                required
+                value={smtp_details}
+                onChange={(event) => setDetails(event.target.value)}
                 placeholder="Enter Details"
                 className="h-32 p-3 w-full border rounded-md border-blue-100 focus:border-blue-200"></textarea>
             </div>
             <button
-              type="submit"
+              // type="submit"
               onSubmit={handleSubmit}
               className="bg-lime-500 hover:bg-lime-700 text-white font-bold w-[20vh] h-[7vh] py-2 px-4 rounded-md">
               Submit
