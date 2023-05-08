@@ -67,7 +67,7 @@ class UserSerializers(serializers.ModelSerializer):
     class Meta:
         model=Userdetails
         fields="__all__"
-        # fields=('pic','username','email','phone','role','uid')
+        # fields=('pic','username','email','phone','role')
 
 class PurchasedSerializer(serializers.ModelSerializer):
     
@@ -122,7 +122,7 @@ class ProjectManagementSerializer1(serializers.ModelSerializer):
     
     class Meta:
         model=ProjectManagementModel
-        fields=('pic','proj_name','proj_category','rate','project_type','review')
+        fields=('proj_id','pic','proj_name','proj_category','rate','project_type','review')
 
 # class ProjectManagementSerializer2(serializers.ModelSerializer):
     
@@ -154,7 +154,7 @@ class listingsSerializer(serializers.ModelSerializer):
     
     class Meta:
         model=listings
-        fields=('pic_url','service','desc','rate')
+        fields=('id','pic_url','service','desc','rate')
 
 class SettingSerializer(serializers.ModelSerializer):
     
