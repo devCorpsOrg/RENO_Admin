@@ -66,8 +66,8 @@ class UserSerializers(serializers.ModelSerializer):
     
     class Meta:
         model=Userdetails
-        # fields="__all__"
-        fields=('pic','username','email','phone','role','uid')
+        fields="__all__"
+        # fields=('pic','username','email','phone','role','uid')
 
 class PurchasedSerializer(serializers.ModelSerializer):
     

@@ -40,7 +40,7 @@ class Userdetails(models.Model):
     email=models.EmailField(max_length=256)
     phone=models.CharField(max_length=100)
     role=models.CharField(max_length=100)
-    uid=models.IntegerField(primary_key=True)
+    uid=models.CharField(primary_key=True, default=uuid.uuid4,max_length=200)
     pic=models.ImageField(upload_to=nameFile)
     is_suspend=models.IntegerField(choices=((0,0),(1,1)),default=0)
     suspend_reason=models.TextField(null=True,blank=True)

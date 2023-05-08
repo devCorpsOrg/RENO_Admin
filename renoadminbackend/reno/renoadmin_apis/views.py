@@ -186,7 +186,7 @@ def user_details(request):
    if request.method=='GET':
    
     try:
-        info=Userdetails.objects.filter(is_suspend=0) 
+        info=Userdetails.objects.all()
     except Userdetails.DoesNotExist:
             return []
             # res={'msg':'Data Not Found'}
@@ -1345,7 +1345,7 @@ def search_role(request):
 
 @api_view(['DELETE'])
 def delete_role(request):
-    usname = request.query_params['usname']
+    username = request.query_params['username']
     # user = Users.objects.filter(usname=usname).first()
     user = Userdetails.objects.filter(username=usname).first()
 
