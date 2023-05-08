@@ -129,7 +129,7 @@ const AllProduct = () => {
             columns={columns}
             data={data}
             pageSize={pageSize}
-            blackButtonText={blackButtonText}
+            blackButtonText={<a href="http://139.59.236.50:8000/exportproducts?file_format=csv">{blackButtonText}</a> }
             greenButtonText={greenButtonText}
             greenClicked={greenClicked}
           />
@@ -139,7 +139,7 @@ const AllProduct = () => {
               columns={columns}
               data={data}
               pageSize={pageSize}
-              blackButtonText={blackButtonText}
+              blackButtonText={<a href="http://139.59.236.50:8000/exportproducts?file_format=csv">{blackButtonText}</a> }
               greenButtonText={greenButtonText}
               greenClicked={greenClicked}
             />
