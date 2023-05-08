@@ -124,7 +124,7 @@ const AllProjects = () => {
             data={data}
             pageSize={pageSize}
             greenButtonText={greenButtonText}
-            blackButtonText={blackButtonText}
+            blackButtonText={<a href="http://139.59.236.50:8000/exportproducts?file_format=csv">{blackButtonText}</a>}
             greenClicked={greenClicked}
           />
         ) : (
@@ -134,7 +134,7 @@ const AllProjects = () => {
               data={data}
               pageSize={pageSize}
               greenButtonText={greenButtonText}
-              blackButtonText={blackButtonText}
+              blackButtonText={<a href="http://139.59.236.50:8000/exportproducts?file_format=csv">{blackButtonText}</a>}
               greenClicked={greenClicked}
             />
             <div className="flex ml-5 justify-center w-full mt-40">

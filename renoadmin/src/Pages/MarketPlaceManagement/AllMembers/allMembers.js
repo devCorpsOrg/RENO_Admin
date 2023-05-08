@@ -118,7 +118,7 @@ const AllMember = () => {
             columns={columns}
             data={data}
             pageSize={pageSize}
-            blackButtonText={blackButtonText}
+            blackButtonText={<a href="http://139.59.236.50:8000/exportproducts?file_format=csv">{blackButtonText}</a>}
             greenClicked={greenClicked}
           />
         ) : (
@@ -127,7 +127,7 @@ const AllMember = () => {
               columns={columns}
               data={data}
               pageSize={pageSize}
-              blackButtonText={blackButtonText}
+              blackButtonText={<a href="http://139.59.236.50:8000/exportproducts?file_format=csv">{blackButtonText}</a>}
               greenClicked={greenClicked}
             />
             <div className="flex ml-5 justify-center w-full mt-40">
