@@ -1297,49 +1297,62 @@ def export_members(request):
 
 @api_view(['GET'])
 def roles(request):
-    # users = Users.objects.only('usname', 'name', 'email', 'role', 'status').all()
-    try:
-        info=Userdetails.objects.all() 
-    except Userdetails.DoesNotExist:
-            res={'msg':'Data Not Found'}
-            json_data=JSONRenderer().render(res)
-            return HttpResponse(json_data,content_type='application/json')
+    # try:
+    #     info=Userdetails.objects.all() 
+    # except Userdetails.DoesNotExist:
+    #         res={'msg':'Data Not Found'}
+    #         json_data=JSONRenderer().render(res)
+    #         return HttpResponse(json_data,content_type='application/json')
 
-    serailizer=UserSerializer2(info,many=True);
-    json_data=JSONRenderer().render(serailizer.data) 
-    return HttpResponse(json_data,content_type='application/json')
-    # users = Userdetails.objects.only('username', 'name', 'email', 'role', 'status')
-
-    # data = serializers.serialize('json', users)
-    # formatted_data = json.dumps(json.loads(data), indent=4)
-    # return HttpResponse(formatted_data, content_type='application/json')
+    # serailizer=UserSerializer2(info,many=True);
+    # json_data=JSONRenderer().render(serailizer.data) 
+    # return HttpResponse(json_data,content_type='application/json')
     
+    roles = Roles.objects.all()
+    data = serializers.serialize('json', roles)
+    formatted_data = json.dumps(json.loads(data), indent=4)  # Indent the JSON data
+    return HttpResponse(formatted_data, content_type='application/json')
+
 
 @api_view(['POST'])
 def create_role(request):
-    # usname,name,email,role(admin/marketplace/superadmin),status
-    username = request.POST['username']
-    # user = Users.objects.filter(usname=usname).first()
+    # # usname,name,email,role(admin/marketplace/superadmin),status
     # username = request.POST['username']
+    # user = Userdetails.objects.filter(username=username).first()
+    # if user:
+    #     role = request.POST['role']
+    #     if role == 'admin' or role == 'marketplace' or role == 'superadmin':
+    #         return HttpResponse(f'User role for username: {username} created successfully.')
+
+    data = json.loads(request.body)
+    username = data['username']
     user = Userdetails.objects.filter(username=username).first()
     if user:
-        role = request.POST['role']
-        if role == 'admin' or role == 'marketplace' or role == 'superadmin':
-            return HttpResponse(f'User role for username: {username} created successfully.')
+        role = data['role']
+        status = data['status']
+        email = data['email']
+        if role == 'Admin' or role == 'Editor' or role == 'Viewer':
+            role = Roles(usname=user.username, name=user.name, email=email, status=status, role=role)
+            role.save()
+            return HttpResponse(f'Role for username: {username} created successfully.')
+        else:
+            return HttpResponseBadRequest('Invalid role.')
+    else:
+        return HttpResponseNotFound('User not found.')
 
 
 @api_view(['GET'])
 def search_role(request):
-    name = request.query_params['name']
+    usname = request.query_params['username']
     # users = Users.objects.filter(name=name).only('usname', 'name', 'role', 'status').all()
-    users = Userdetails.objects.filter(name=name).only('username', 'name', 'role', 'status').all()
+    roles = Roles.objects.filter(usname=usname).only('usname', 'name', 'role', 'status').all()
 
-    if users:
-        data = serializers.serialize('json', users)
+    if roles:
+        data = serializers.serialize('json', roles)
         formatted_data = json.dumps(json.loads(data), indent=4)
         return HttpResponse(formatted_data, content_type='application/json')
     else:
-        return HttpResponseNotFound(f'User/s with name: {name} not found.')
+        return HttpResponseNotFound(f'Role/s with usname: {usname} not found.')
         # return HttpResponseNotFound(f'User(s) with name: {name} not found.')
 
 
@@ -1347,13 +1360,13 @@ def search_role(request):
 def delete_role(request):
     usname = request.query_params['usname']
     # user = Users.objects.filter(usname=usname).first()
-    user = Userdetails.objects.filter(username=usname).first()
+    role = Roles.objects.filter(usname=usname).first()
 
-    if user:
-        user.delete()
-        return HttpResponse(f'User with username: {usname} deleted successfully.', status=200)
+    if role:
+        role.delete()
+        return HttpResponse(f'Role for username: {usname} deleted successfully.', status=200)
     else:
-        return HttpResponseNotFound('User not found.')
+        return HttpResponseNotFound('Role not found.')
 
 
 @api_view(['GET'])
