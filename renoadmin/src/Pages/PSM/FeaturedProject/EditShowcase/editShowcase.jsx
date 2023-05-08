@@ -7,7 +7,7 @@ import { updateShowcase } from "../../../User_Management/features/userSlice";
 
 const EditShowcase = ({ setExpand, setActiveTab }) => {
   const fileInputRef = useRef(null);
-  setExpand("showcaseManagement");
+  // setExpand("showcaseManagement");
   setActiveTab("projectList");
   const head = "Edit Showcase";
   const dispatch = useDispatch();

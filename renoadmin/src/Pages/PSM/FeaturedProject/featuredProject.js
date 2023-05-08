@@ -114,7 +114,7 @@ const FeaturedProject = () => {
             columns={columns}
             data={data}
             pageSize={pageSize}
-            blackButtonText={blackButtonText}
+            blackButtonText={<a href="http://139.59.236.50:8000/exportfeaturedprod?file_format=csv">{blackButtonText}</a> }
           />
         ) : (
           <>
@@ -122,7 +122,7 @@ const FeaturedProject = () => {
               columns={columns}
               data={data}
               pageSize={pageSize}
-              blackButtonText={blackButtonText}
+              blackButtonText={<a href="http://139.59.236.50:8000/exportfeaturedprod?file_format=csv">{blackButtonText}</a> }
             />
             <div className="flex ml-5 justify-center w-full mt-40">
               <h2 className="text-4xl font-bold text-gray-500">No Data!</h2>

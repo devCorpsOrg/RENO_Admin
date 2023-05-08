@@ -60,6 +60,12 @@ function Home() {
   const togleExpand = (menu) => {
     setExpand(menu);
   };
+
+  // if (!cookie.get('jwt')) {
+  //   navigate('/'); // Redirect to login page
+  //   return null; // Return null to prevent rendering the component
+  // }
+
   return (
     <div className="flex">
 

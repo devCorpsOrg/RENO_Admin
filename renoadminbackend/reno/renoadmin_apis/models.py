@@ -278,3 +278,12 @@ class Deals(m.Model):
     subject = m.CharField(max_length=150, blank=False, null=False)
     msg = m.TextField()
     status = m.CharField(max_length=100, blank=False, null=False)
+
+
+class Roles(m.Model):
+    id = m.CharField(primary_key=True, default=uuid.uuid4, max_length=200)
+    usname = m.CharField(max_length=50, blank=False, null=False, unique=True)
+    name = models.CharField(max_length=100, blank=True)
+    email = models.EmailField(max_length=256)
+    role = models.CharField(max_length=32)
+    status = models.CharField(max_length=200)

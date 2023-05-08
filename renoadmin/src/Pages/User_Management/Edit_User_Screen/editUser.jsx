@@ -6,7 +6,7 @@ import { useDispatch } from "react-redux";
 import { updateUser } from "../features/userSlice";
 
 const EditUser = ({ setActiveTab, setExpand }) => {
-  setExpand("userManagement");
+  // setExpand("userManagement");
   setActiveTab("allUsers");
 
   const dispatch = useDispatch();
@@ -71,7 +71,7 @@ const EditUser = ({ setActiveTab, setExpand }) => {
       </div>
 
       <div className="ml-80 mt-20 relative" style={{ marginTop: "140px" }}>
-        <form>
+        <form onSubmit={handleSubmit}>
           <div className="grid grid-cols-2 gap-4">
             <label className="grid pr-6">
               User Name
@@ -207,7 +207,7 @@ const EditUser = ({ setActiveTab, setExpand }) => {
                 color: "white",
               }}
               type="submit"
-              // onClick={handleSubmit}
+              onClick={handleSubmit}
             >
               SAVE
             </button>

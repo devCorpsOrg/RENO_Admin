@@ -6,6 +6,7 @@ import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { CRM } from "../../User_Management/features/userSlice";
 import { Grid } from "react-loader-spinner";
+import axios from "axios";
 
 // Component inside action column
 const Action = () => {
@@ -89,6 +90,15 @@ const Allmembers = () => {
   const pageSize = 10;
   const greenButtonText = "Export All";
 
+  // const handleButtonClick = () => {
+  //   axios.get('http://139.59.236.50:8000/exportcustomers')
+  //   .then((response)=>{
+  //     console.log(response)
+  //   }).catch((err)=>{
+  //     console.log('Error to call API', err)
+  //   })
+  // }
+
   return (
     <div>
       <div className="flex fixed z-10">
@@ -114,7 +124,11 @@ const Allmembers = () => {
             columns={columns}
             data={data}
             pageSize={pageSize}
-            greenButtonText={greenButtonText}
+            greenButtonText={
+              <a href="http://139.59.236.50:8000/exportcustomers">
+              {greenButtonText}
+            </a>
+          }
           />
         ) : (
           <>
@@ -122,7 +136,11 @@ const Allmembers = () => {
               columns={columns}
               data={data}
               pageSize={pageSize}
-              greenButtonText={greenButtonText}
+              greenButtonText={
+                <a href="http://139.59.236.50:8000/exportcustomers">
+                {greenButtonText}
+              </a>
+            }
             />
             <div className="flex ml-5 justify-center w-full mt-40">
               <h2 className="text-4xl font-bold text-gray-500">No Data!</h2>

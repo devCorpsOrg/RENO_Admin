@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import "./Register.css";
 import { useNavigate } from "react-router-dom";
+import axios from "axios";
 
 function Register() {
   const navigate = useNavigate();
@@ -49,17 +50,8 @@ function Register() {
     const jsonData = JSON.stringify(updateData);
     console.log(jsonData);
 
-    fetch("http://139.59.236.50:8000/register/", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: jsonData,
-    })
+axios.post(`http://139.59.236.50:8000/register`, {username, email, password})
       .then((response) => {
-        if (!response.ok) {
-          throw new Error("Network response was not ok");
-        }
         console.log(response)
         setUsername("");
         setEmail("");
