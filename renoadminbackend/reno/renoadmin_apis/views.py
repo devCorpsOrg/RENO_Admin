@@ -186,7 +186,7 @@ def user_details(request):
    if request.method=='GET':
    
     try:
-        info=Userdetails.objects.filter(is_suspend=0) 
+        info=Userdetails.objects.all()
     except Userdetails.DoesNotExist:
             return []
             # res={'msg':'Data Not Found'}
@@ -284,7 +284,7 @@ def edit_user(request):
         role=data['role']
         # uid=python_data.get('uid',None)
         pic=data['pic']
-        uid=data['uid']
+        # uid=data['uid']
         # about=python_data.get('about',None)
         # is_suspend=python_data.get('is_suspend',None)
         # suspend_reason=python_data.get('suspend_reason',None)
@@ -297,7 +297,7 @@ def edit_user(request):
         user_objects.email=email
         user_objects.phone=phone
         user_objects.role=role
-        user_objects.uid=uid
+        # user_objects.uid=uid
         user_objects.pic=pic
         # user_objects.about=about
         # user_objects.is_suspend=is_suspend
@@ -337,7 +337,13 @@ def suspend_user(request):
     name=request.query_params['name']
     data=request.data
     suspend_reason=data['suspend_reason']
-    info=Userdetails.objects.get(username=name)
+    try:
+             info=Userdetails.objects.get(username=name)
+    except Userdetails.DoesNotExist:
+             res={'msg':'User is not present'}
+             json_data=JSONRenderer().render(res)
+             return HttpResponse(json_data,content_type='application/json')
+
     if info.is_suspend==1:
         res={'msg':'Already Suspended'}
         json_data=JSONRenderer().render(res)
@@ -512,7 +518,6 @@ def createprojectbookings(request):
 @csrf_exempt
 def projects(request):
    if request.method=='GET':
-    print("hello")
     try:
      info=ProjectManagementModel.objects.all()
     except ProjectManagementModel.DoesNotExist:
@@ -1358,7 +1363,7 @@ def search_role(request):
 
 @api_view(['DELETE'])
 def delete_role(request):
-    usname = request.query_params['usname']
+    username = request.query_params['username']
     # user = Users.objects.filter(usname=usname).first()
     role = Roles.objects.filter(usname=usname).first()
 
