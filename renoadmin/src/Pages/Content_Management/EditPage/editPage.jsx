@@ -3,6 +3,7 @@ import React from "react";
 import TopHeader from "../../../UI/TopHeader/TopHeader";
 import { useDispatch } from "react-redux";
 import { updatePage } from "../../User_Management/features/userSlice";
+import { Link } from "react-router-dom";
 
 const EditPage = ({ setExpand, setActiveTab }) => {
   setActiveTab("contentManagement");
@@ -127,6 +128,7 @@ const EditPage = ({ setExpand, setActiveTab }) => {
               </li>
             </ul>
           </div>
+        </form>
           <button
             className="rounded bg-lime-600 hover:bg-lime-700 mt-10"
             style={{
@@ -134,10 +136,21 @@ const EditPage = ({ setExpand, setActiveTab }) => {
               height: "55px",
               color: "white",
             }}
-            type="submit">
+            type="submit"
+            onSubmit={handleSubmit}>
             Submit
           </button>
-        </form>
+          <button
+            className="rounded bg-black hover:bg-gray-800"
+            style={{
+              width: "130px",
+              height: "55px",
+              color: "white",
+              marginLeft:"50px"
+            }}
+            >
+            <Link to='/home/contentManagement'>Cancel</Link>
+          </button>
       </div>
     </div>
   );

@@ -4,6 +4,7 @@ import TopHeader from "../../../UI/TopHeader/TopHeader";
 import axios from "axios";
 import { useDispatch } from "react-redux";
 import { addNewProduct } from "../../User_Management/features/userSlice";
+import { Link } from "react-router-dom";
 
 const AddProduct = ({ setExpand, setActiveTab }) => {
   // setExpand("homeService");
@@ -254,6 +255,8 @@ const AddProduct = ({ setExpand, setActiveTab }) => {
             />
           </label>
           {/* <div> */}
+          {/* </div> */}
+        </form>
           <button
             className="rounded mt-10 bg-lime-600 hover:bg-lime-700"
             style={{
@@ -261,6 +264,7 @@ const AddProduct = ({ setExpand, setActiveTab }) => {
               height: "55px",
               color: "white",
             }}
+            onClick={handleSubmit}
             type="submit">
             Publish
           </button>
@@ -272,11 +276,21 @@ const AddProduct = ({ setExpand, setActiveTab }) => {
               color: "white",
               marginLeft: "30px",
             }}
-            type="submit">
+            >
             Draft
           </button>
-          {/* </div> */}
-        </form>
+          <button
+            className="rounded mt-10 bg-amber-600 hover:bg-amber-700"
+            style={{
+              width: "170px",
+              height: "55px",
+              color: "white",
+              marginLeft: "30px",
+            }}
+            
+          >
+            <Link to='/home/productList'>Back</Link>
+          </button>
       </div>
     </div>
   );
