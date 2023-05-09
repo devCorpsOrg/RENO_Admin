@@ -12,9 +12,10 @@ admin.site.register(SupportDetails)
 admin.site.register(Customers)
 admin.site.register(Reviews)
 admin.site.register(Transactions)
-admin.site.register(Products)
 admin.site.register(CRM)
 admin.site.register(config_setting)
 admin.site.register(listings)
+admin.site.register(Products)
+admin.site.register(Deals)
+admin.site.register(Roles)
 
- 

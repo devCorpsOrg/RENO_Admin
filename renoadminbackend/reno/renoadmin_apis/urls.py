@@ -52,7 +52,7 @@ urlpatterns = [
     path('addpromoted/',views.addpromoted,name="addpromoted"),
     path('searchpromoted/',views.searchpromoted,name="searchpromoted"),
     path('editpromoted/',views.editpromoted,name="eeditpromoted"),
-    path('deletepromoted/',views.deletepromoted,name="deletepromoted"),
+    path('deletepromoted',views.deletepromoted,name="deletepromoted"),
 #==========================================================================================================
 
     path('support/',views.usersupport,name="supportuser"),

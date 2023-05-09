@@ -143,9 +143,13 @@ class LoginView(APIView):
     def post(self, request):
         username = request.data['username']
         password = request.data['password']
-
+        ans=[]  
+       
+        info=Userdetails.objects.get(username=username)
+       
+        
         user = User.objects.filter(username=username).first()
-
+        
         if user is None:
             raise AuthenticationFailed('User not found!')
 
@@ -157,14 +161,19 @@ class LoginView(APIView):
             'exp': datetime.datetime.utcnow() + datetime.timedelta(minutes=60),
             'iat': datetime.datetime.utcnow()
         }
-
+        # ans.append(info.username)
+        # ans.append(info.pic)
+        # ans.append(info.role)
         token = jwt.encode(payload, 'secret', algorithm='HS256')
 
         response = Response()
-
+        # ans.append(response)
         response.set_cookie(key='jwt', value=token, httponly=True)
         response.data = {
-            'jwt': token
+            'jwt': token,
+            "username":info.username,
+            "pic":"http://139.59.236.50/Renoadmin/"+str(info.pic),
+            "role":info.role
         }
         return response
 
@@ -773,7 +782,7 @@ def deletepromoted(request):
         id=id
         print(id)
         if id is not None:
-             info=pmsModel.objects.get(pageid=id)
+             info=pmsModel.objects.get(prod_id=id)
              info.delete()
              res={'msg':'Data deleted Successfully'}
              json_data=JSONRenderer().render(res)
