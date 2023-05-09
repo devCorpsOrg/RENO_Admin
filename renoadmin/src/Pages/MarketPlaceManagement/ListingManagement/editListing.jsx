@@ -3,6 +3,7 @@ import React from "react";
 import TopHeader from "../../../UI/TopHeader/TopHeader";
 import { useDispatch } from "react-redux";
 import { updateListing } from "../../User_Management/features/userSlice";
+import { Link } from "react-router-dom";
 
 const EditListing = ({ setExpand, setActiveTab }) => {
   // setExpand("marketPlace");
@@ -149,6 +150,8 @@ const EditListing = ({ setExpand, setActiveTab }) => {
             />
           </label>
           {/* <div> */}
+          {/* </div> */}
+        </form>
           <button
             className="rounded mt-10 bg-lime-600 hover:bg-lime-700"
             style={{
@@ -156,7 +159,8 @@ const EditListing = ({ setExpand, setActiveTab }) => {
               height: "55px",
               color: "white",
             }}
-            type="submit">
+            type="submit"
+            onSubmit={handleSubmit}>
             Save
           </button>
           <button
@@ -168,10 +172,8 @@ const EditListing = ({ setExpand, setActiveTab }) => {
               marginLeft: "30px",
             }}
             type="submit">
-            Cancel
+            <Link to='/home/listingManagement'>Cancel</Link>
           </button>
-          {/* </div> */}
-        </form>
       </div>
     </div>
   );

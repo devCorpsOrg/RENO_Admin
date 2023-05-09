@@ -5,6 +5,7 @@ import axios from "axios";
 import { responsiveFontSizes } from "@mui/material";
 import { useDispatch } from "react-redux";
 import { addNewCategory } from "../../User_Management/features/userSlice";
+import { Link } from "react-router-dom";
 
 const AddNewCategory = ({ setExpand, setActiveTab }) => {
   // setExpand("marketPlace");
@@ -100,6 +101,7 @@ const AddNewCategory = ({ setExpand, setActiveTab }) => {
             )}
           </div>
 
+        </form>
           <button
             className="rounded mt-10 bg-lime-600 hover:bg-lime-700"
             style={{
@@ -119,9 +121,8 @@ const AddNewCategory = ({ setExpand, setActiveTab }) => {
               marginLeft: "30px",
             }}
             type="submit">
-            Cancel
+            <Link to='/home/catagoryManagement'>Cancel</Link>
           </button>
-        </form>
       </div>
     </div>
   );

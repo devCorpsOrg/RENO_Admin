@@ -4,6 +4,7 @@ import TopHeader from "../../../UI/TopHeader/TopHeader";
 import axios from "axios";
 import { useDispatch } from "react-redux";
 import { createNewPage } from "../../User_Management/features/userSlice";
+import { Link } from "react-router-dom";
 
 const CreateNewPage = ({ setExpand, setActiveTab }) => {
   setActiveTab("contentManagement");
@@ -131,18 +132,33 @@ const CreateNewPage = ({ setExpand, setActiveTab }) => {
               </li>
             </ul>
           </div>
-          <button
-            className="rounded bg-lime-600 hover:bg-lime-700 mt-10"
-            style={{
-              // backgroundColor: "rgba(153, 190, 17, 0.831)",
-              width: "130px",
-              height: "55px",
-              color: "white",
-            }}
-            type="submit">
-            Submit
-          </button>
         </form>
+          <div style={{paddingLeft:"5px"}}>
+            <button
+              className="rounded bg-lime-600 hover:bg-lime-700 mt-10"
+              style={{
+                // backgroundColor: "rgba(153, 190, 17, 0.831)",
+                width: "130px",
+                height: "55px",
+                color: "white",
+              }}
+              type="submit"
+              onClick={handleSubmit}
+            >
+              Submit
+            </button>
+            <button
+              className="rounded bg-amber-600 hover:bg-amber-700"
+              style={{
+                width: "130px",
+                height: "55px",
+                color: "white",
+                marginLeft: "50px"
+              }}
+            >
+              <Link to="/home/contentManagement">Back</Link>
+            </button>
+          </div>
       </div>
     </div>
   );

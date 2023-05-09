@@ -4,6 +4,7 @@ import TopHeader from "../../../UI/TopHeader/TopHeader";
 import axios from "axios";
 import { useDispatch } from "react-redux";
 import { addNewShowcase } from "../../User_Management/features/userSlice";
+import { Link } from "react-router-dom";
 
 const AddNewShowcase = ({ setExpand, setActiveTab }) => {
   // setExpand("showcaseManagement");
@@ -188,6 +189,8 @@ const AddNewShowcase = ({ setExpand, setActiveTab }) => {
             />
           </label>
           {/* <div> */}
+          {/* </div> */}
+        </form>
           <button
             className="rounded mt-10 bg-lime-600 hover:bg-lime-700 "
             style={{
@@ -195,6 +198,7 @@ const AddNewShowcase = ({ setExpand, setActiveTab }) => {
               height: "55px",
               color: "white",
             }}
+            onClick={handleSubmit}
             type="submit">
             Publish
           </button>
@@ -206,12 +210,21 @@ const AddNewShowcase = ({ setExpand, setActiveTab }) => {
               height: "55px",
               color: "white",
               marginLeft: "30px",
-            }}
-            type="submit">
+            }}>
             Draft
           </button>
-          {/* </div> */}
-        </form>
+          <button
+            className="rounded mt-10 bg-amber-600 hover:bg-amber-700"
+            style={{
+              // backgroundColor: "black",
+              width: "170px",
+              height: "55px",
+              color: "white",
+              marginLeft: "30px",
+            }}
+            >
+            <Link to='/home/projectList'>Back</Link>
+          </button>
       </div>
     </div>
   );
