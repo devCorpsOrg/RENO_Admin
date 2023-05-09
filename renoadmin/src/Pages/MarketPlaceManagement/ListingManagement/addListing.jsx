@@ -4,6 +4,7 @@ import TopHeader from "../../../UI/TopHeader/TopHeader";
 import axios from "axios";
 import { useDispatch } from "react-redux";
 import { addNewListing } from "../../User_Management/features/userSlice";
+import { Link } from "react-router-dom";
 
 const AddListing = ({ setExpand, setActiveTab }) => {
   // setExpand("marketPlace");
@@ -150,6 +151,8 @@ const AddListing = ({ setExpand, setActiveTab }) => {
             />
           </label>
           {/* <div> */}
+          {/* </div> */}
+        </form>
           <button
             className="rounded bg-lime-600 hover:bg-lime-700 mt-10"
             style={{
@@ -169,10 +172,8 @@ const AddListing = ({ setExpand, setActiveTab }) => {
               marginLeft: "30px",
             }}
             type="submit">
-            Cancel
+            <Link to='/home/listingManagement'>Cancel</Link>
           </button>
-          {/* </div> */}
-        </form>
       </div>
     </div>
   );

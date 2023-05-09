@@ -4,6 +4,7 @@ import TopHeader from "../../../UI/TopHeader/TopHeader";
 import DisabledByDefaultRoundedIcon from "@mui/icons-material/DisabledByDefaultRounded";
 import { useDispatch } from "react-redux";
 import { updateCategory } from "../../User_Management/features/userSlice";
+import { Link } from "react-router-dom";
 
 const EditCategory = ({ setExpand, setActiveTab }) => {
   // setExpand("marketPlace");
@@ -121,6 +122,7 @@ const EditCategory = ({ setExpand, setActiveTab }) => {
           </label>
 
           {/* <div> */}
+        </form>
           <button
             className="rounded mt-10 bg-lime-600 hover:bg-lime-700"
             style={{
@@ -128,7 +130,8 @@ const EditCategory = ({ setExpand, setActiveTab }) => {
               height: "55px",
               color: "white",
             }}
-            type="submit">
+            type="submit"
+            onSubmit={handleSubmit}>
             Save
           </button>
           <button
@@ -139,10 +142,9 @@ const EditCategory = ({ setExpand, setActiveTab }) => {
               color: "white",
               marginLeft: "30px",
             }}
-            type="submit">
-            Cancel
+            >
+            <Link to='/home/catagoryManagement'>Cancel</Link>
           </button>
-        </form>
       </div>
     </div>
   );

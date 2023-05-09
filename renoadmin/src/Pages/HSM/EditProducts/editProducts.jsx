@@ -5,6 +5,7 @@ import DisabledByDefaultRoundedIcon from "@mui/icons-material/DisabledByDefaultR
 import axios from "axios";
 import { useDispatch } from "react-redux";
 import { updateProject } from "../../User_Management/features/userSlice";
+import { Link } from "react-router-dom";
 
 const EditProduct = ({ setExpand, setActiveTab }) => {
   // setExpand("homeService");
@@ -253,6 +254,8 @@ const EditProduct = ({ setExpand, setActiveTab }) => {
             />
           </label>
           {/* <div> */}
+          {/* </div> */}
+        </form>
           <button
             className="rounded bg-lime-600 hover:bg-lime-700 mt-10"
             style={{
@@ -260,7 +263,8 @@ const EditProduct = ({ setExpand, setActiveTab }) => {
               height: "55px",
               color: "white",
             }}
-            type="submit">
+            type="submit"
+            onSubmit={handleSubmit}>
             Save
           </button>
           <button
@@ -272,10 +276,8 @@ const EditProduct = ({ setExpand, setActiveTab }) => {
               marginLeft: "30px",
             }}
             type="submit">
-            Cancel
+            <Link to='/home/productList'>Cancel</Link>
           </button>
-          {/* </div> */}
-        </form>
       </div>
     </div>
   );

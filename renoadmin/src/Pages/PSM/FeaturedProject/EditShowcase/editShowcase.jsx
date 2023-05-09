@@ -4,6 +4,7 @@ import TopHeader from "../../../../UI/TopHeader/TopHeader";
 import DisabledByDefaultRoundedIcon from "@mui/icons-material/DisabledByDefaultRounded";
 import { useDispatch } from "react-redux";
 import { updateShowcase } from "../../../User_Management/features/userSlice";
+import { Link } from "react-router-dom";
 
 const EditShowcase = ({ setExpand, setActiveTab }) => {
   const fileInputRef = useRef(null);
@@ -207,6 +208,8 @@ const EditShowcase = ({ setExpand, setActiveTab }) => {
             />
           </label>
           {/* <div> */}
+          {/* </div> */}
+        </form>
           <button
             className="rounded mt-10 bg-lime-600 hover:bg-lime-700"
             style={{
@@ -214,7 +217,8 @@ const EditShowcase = ({ setExpand, setActiveTab }) => {
               height: "55px",
               color: "white",
             }}
-            type="submit">
+            type="submit"
+            onSubmit={handleSubmit}>
             Save
           </button>
           <button
@@ -225,11 +229,9 @@ const EditShowcase = ({ setExpand, setActiveTab }) => {
               color: "white",
               marginLeft: "30px",
             }}
-            type="submit">
-            Cancel
+            >
+            <Link to='/home/projectList'>Cancel</Link>
           </button>
-          {/* </div> */}
-        </form>
       </div>
     </div>
   );

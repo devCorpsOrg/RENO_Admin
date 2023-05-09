@@ -198,6 +198,7 @@ const EditUser = ({ setActiveTab, setExpand }) => {
               )}
             </label>
           </div>
+        </form>
           <div className="flex mt-10 gap-5 items-center">
             <button
               className="rounded bg-lime-600 hover:bg-lime-700"
@@ -221,7 +222,6 @@ const EditUser = ({ setActiveTab, setExpand }) => {
               <Link to="/home/allUsers">Back</Link>
             </button>
           </div>
-        </form>
       </div>
     </div>
   );
