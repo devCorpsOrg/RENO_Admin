@@ -146,6 +146,7 @@ const EditPage = ({ setExpand, setActiveTab }) => {
               width: "130px",
               height: "55px",
               color: "white",
+              marginLeft:"50px"
             }}
             >
             <Link to='/home/contentManagement'>Cancel</Link>
