@@ -1373,7 +1373,7 @@ def search_role(request):
 @api_view(['DELETE'])
 def delete_role(request):
     username = request.query_params['username']
-    # user = Users.objects.filter(usname=usname).first()
+    user = Users.objects.filter(usname=usname).first()
     role = Roles.objects.filter(usname=usname).first()
 
     if role:
