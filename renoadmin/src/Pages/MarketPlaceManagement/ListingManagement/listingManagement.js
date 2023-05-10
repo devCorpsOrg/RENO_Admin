@@ -7,17 +7,26 @@ import { useDispatch, useSelector } from "react-redux";
 
 import { useEffect, useState } from "react";
 import { Grid } from "react-loader-spinner";
-import { MPM_listing } from "../../User_Management/features/userSlice";
+import {
+  DeleteListing,
+  MPM_listing,
+} from "../../User_Management/features/userSlice";
 
-const Action = () => {
+const Action = ({ listId, listName }) => {
   const Navigate = useNavigate();
   const handleClick = () => {
     Navigate("/home/editListing");
   };
+  const dispatch = useDispatch();
+  const handleDeleteClick = () => {
+    if (window.confirm(`Are you sure you want to delete ${listName}?`)) {
+      dispatch(DeleteListing(listId)); // Dispatch deleteUser action
+    }
+  };
   return (
     <div className="w-6 h-6 flex gap-3 cursor-pointer">
       <img onClick={handleClick} src={edit} alt="edit" />
-      <img src={deleteIcon} alt="Delete" />
+      <img src={deleteIcon} onClick={handleDeleteClick} alt="Delete" />
     </div>
   );
 };
@@ -73,13 +82,13 @@ const ListingData = () => {
       accessor: "action",
     },
   ];
-
+  console.log(listingData);
   const data = listingData.map((user) => ({
     photo: <Photo pic_url={user.pic_url} />,
     service: user.service,
     discription: user.desc,
     price: `$${user.rate}`,
-    action: <Action />,
+    action: <Action listId={user.id} listName={user.service} />,
   }));
 
   const greenButtonText = "Add New Listing";

@@ -7,14 +7,23 @@ import { useDispatch, useSelector } from "react-redux";
 
 import { useEffect, useState } from "react";
 import { Grid } from "react-loader-spinner";
-import { RoleManagement } from "../User_Management/features/userSlice";
+import {
+  DeleteRole,
+  RoleManagement,
+} from "../User_Management/features/userSlice";
 // Component inside action column
-const Action = () => {
+const Action = ({ roleName }) => {
+  const dispatch = useDispatch();
+  const handleDeleteClick = () => {
+    if (window.confirm(`Are you sure you want to delete ${roleName}?`)) {
+      dispatch(DeleteRole(roleName)); // Dispatch deleteUser action
+    }
+  };
   return (
     <div className="w-6 h-6 flex gap-3 cursor-pointer">
       <img src={edit} alt="edit" />
       <img src={view} alt="view" />
-      <img src={deleteIcon} alt="Delete" />
+      <img src={deleteIcon} onClick={handleDeleteClick} alt="Delete" />
     </div>
   );
 };
@@ -66,14 +75,15 @@ const PMS = () => {
     },
   ];
 
+  console.log(roleData);
   let count = 1; // initialize counter variable
   const data = roleData.map((user) => ({
     serial: count++,
-    name: user.name,
-    emailaddress: user.email,
-    role: user.role,
-    status: user.status,
-    action: <Action />,
+    name: user.fields.usname,
+    emailaddress: user.fields.email,
+    role: user.fields.role,
+    status: user.fields.status,
+    action: <Action roleName={user.fields.usname} />,
   }));
 
   const pageSize = 7;

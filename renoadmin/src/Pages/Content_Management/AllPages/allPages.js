@@ -6,16 +6,23 @@ import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { allPages } from "../../User_Management/features/userSlice";
 import { Grid } from "react-loader-spinner";
+import { DeletePage } from "../../User_Management/features/userSlice";
 
-const Action = () => {
+const Action = ({ pageid, pagename }) => {
   const Navigate = useNavigate();
   const handleEdit = () => {
     Navigate("/home/editPage");
   };
+  const dispatch = useDispatch();
+  const handleDeleteClick = () => {
+    if (window.confirm(`Are you sure you want to delete ${pagename}?`)) {
+      dispatch(DeletePage(pageid)); // Dispatch deleteUser action
+    }
+  };
   return (
     <div className="w-6 h-6 flex gap-3 cursor-pointer">
       <img src={editIcon} onClick={handleEdit} alt="Edit" />
-      <img src={deleteIcon} alt="Delete" />
+      <img src={deleteIcon} onClick={handleDeleteClick} alt="Delete" />
     </div>
   );
 };
@@ -51,7 +58,7 @@ const AllPages = () => {
 
   const Data = pageData.map((user) => ({
     pagename: user.pagename,
-    action: <Action />,
+    action: <Action pageid={user.pageid} pagename={user.pagename} />,
   }));
 
   const pageSize = 7;

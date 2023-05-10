@@ -7,17 +7,26 @@ import { useDispatch, useSelector } from "react-redux";
 
 import { useEffect, useState } from "react";
 import { Grid } from "react-loader-spinner";
-import { featuredProjects } from "../../User_Management/features/userSlice";
+import {
+  featuredProjects,
+  DeleteProject,
+} from "../../User_Management/features/userSlice";
 
-const Action = () => {
+const Action = ({ projId, projName }) => {
   const Navigate = useNavigate();
   const handleClick = () => {
     Navigate("/home/editShowcase");
   };
+  const dispatch = useDispatch();
+  const handleDeleteClick = () => {
+    if (window.confirm(`Are you sure you want to delete ${projName}?`)) {
+      dispatch(DeleteProject(projId)); // Dispatch deleteUser action
+    }
+  };
   return (
     <div className="w-6 h-6 flex gap-3 cursor-pointer">
       <img src={edit} onClick={handleClick} alt="edit" />
-      <img src={deleteIcon} alt="Delete" />
+      <img src={deleteIcon} onClick={handleDeleteClick} alt="Delete" />
     </div>
   );
 };
@@ -81,7 +90,7 @@ const FeaturedProject = () => {
     category: user.proj_category,
     rate: `$ ${user.rate}`,
     reviews: `${user.review}k reviews`,
-    action: <Action />,
+    action: <Action projId={user.proj_id} projName={user.proj_name} />,
   }));
 
   const blackButtonText = "Export All";
@@ -114,7 +123,11 @@ const FeaturedProject = () => {
             columns={columns}
             data={data}
             pageSize={pageSize}
-            blackButtonText={<a href="http://139.59.236.50:8000/exportfeaturedprod?file_format=csv">{blackButtonText}</a> }
+            blackButtonText={
+              <a href="http://139.59.236.50:8000/exportfeaturedprod?file_format=csv">
+                {blackButtonText}
+              </a>
+            }
           />
         ) : (
           <>
@@ -122,7 +135,11 @@ const FeaturedProject = () => {
               columns={columns}
               data={data}
               pageSize={pageSize}
-              blackButtonText={<a href="http://139.59.236.50:8000/exportfeaturedprod?file_format=csv">{blackButtonText}</a> }
+              blackButtonText={
+                <a href="http://139.59.236.50:8000/exportfeaturedprod?file_format=csv">
+                  {blackButtonText}
+                </a>
+              }
             />
             <div className="flex ml-5 justify-center w-full mt-40">
               <h2 className="text-4xl font-bold text-gray-500">No Data!</h2>

@@ -63,11 +63,21 @@ const ReviewsHSM = () => {
 
   const data = reviewData.map((user) => ({
     photo: <Photo />,
-    productname: user.prod_name,
-    username: user.reviwer_name,
-    reviews: user.review,
-    amount: `$${user.rate}`,
-    action: <Action reviews={user.review} />,
+    productname: user.fields.prod_name,
+    username: user.fields.reviewer_name,
+    reviews: user.fields.review,
+    amount: `$${user.fields.amt}`,
+    action: (
+      <Action
+        reviews={user.fields.review}
+        prodId={user.pk}
+        prodName={user.fields.prod_name}
+        prodPicUrl={user.fields.pic_url}
+        // prodReview={user.fields.review}
+        prodUserName={user.fields.reviewer_name}
+        prodRate={user.fields.amt}
+      />
+    ),
   }));
 
   // Number of Pages to be display on a single page.

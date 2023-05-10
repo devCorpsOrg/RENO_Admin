@@ -6,20 +6,26 @@ import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect, useState } from "react";
 import { Grid } from "react-loader-spinner";
-import { suspendUsers } from "../features/userSlice";
+import { DeleteSuspendUser, suspendUsers } from "../features/userSlice";
 
 // Component inside action column
 // The details of user shall be different for every users. It will be integrated at authentication of the users.
-const Action = () => {
+const Action = ({ username }) => {
   const Navigate = useNavigate();
   const handleClick = () => {
     Navigate("/home/userDetails");
+  };
+  const dispatch = useDispatch();
+  const handleDeleteClick = () => {
+    if (window.confirm(`Are you sure you want to delete ${username}?`)) {
+      dispatch(DeleteSuspendUser(username)); // Dispatch deleteUser action
+    }
   };
   const head = "Suspended Users";
   return (
     <div className="w-6 h-6 flex gap-3 cursor-pointer">
       <img src={View} onClick={handleClick} alt="Edit" />
-      <img src={deleteIcon} alt="Delete" />
+      <img src={deleteIcon} onClick={handleDeleteClick} alt="Delete" />
     </div>
   );
 };
@@ -77,14 +83,15 @@ const SuspendUsers = () => {
       accessor: "action",
     },
   ];
+  console.log("This is the data ", suspendedData);
 
   const data = suspendedData.map((user) => ({
     photo: <ProfilePhoto />,
-    username: user.usmame,
+    username: user.username,
     emailaddress: user.email,
     suspendedreason: user.suspend_reason,
     role: user.role,
-    action: <Action />,
+    action: <Action username={user.username} />,
   }));
 
   const pageSize = 10;

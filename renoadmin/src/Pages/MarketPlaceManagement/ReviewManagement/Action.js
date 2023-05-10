@@ -1,21 +1,37 @@
 import React, { useState } from "react";
 import { deleteIcon, view, images } from "../Assets/index";
+import { DeleteReview } from "../../User_Management/features/userSlice";
+import { useDispatch } from "react-redux";
 
 // For the API integration all the data could be get from the API throught props
 // When a user click on the view button this popup will should with detailed reviews.
 // This is work seperately for every field of the table by using Props.
 
-const Action = ({ reviews }) => {
+const Action = ({
+  reviews,
+  prodId,
+  prodName,
+  prodPicUrl,
+  prodReview,
+  prodUserName,
+  prodRate,
+}) => {
   const [showPopup, setShowPopup] = useState(false);
   const handleViewClick = () => {
     setShowPopup(true);
+  };
+  const dispatch = useDispatch();
+  const handleDeleteClick = () => {
+    if (window.confirm(`Are you sure you want to delete ${prodName}?`)) {
+      dispatch(DeleteReview(prodId)); // Dispatch deleteUser action
+    }
   };
 
   return (
     <>
       <div className="w-6 h-6 flex gap-3 cursor-pointer">
         <img src={view} onClick={handleViewClick} alt="View" />
-        <img src={deleteIcon} alt="Delete" />
+        <img src={deleteIcon} onClick={handleDeleteClick} alt="Delete" />
       </div>
       {showPopup && (
         <div className="fixed top-0 left-0 w-screen h-screen bg-gray-800 bg-opacity-50 flex justify-center items-center z-50">
@@ -40,33 +56,22 @@ const Action = ({ reviews }) => {
               <div className="flex flex-row w-full justify-start items-center mb-5">
                 <img
                   className="w-36 h-36 rounded mr-4"
-                  src={images}
+                  src={prodPicUrl}
                   alt="Product"
                 />
                 <div>
-                  <h2 className="font-medium text-xl mb-2">
-                    Parallel Kitechen
-                  </h2>
-                  <p className="text-gray-700 font-semibold mb-2">$130</p>
+                  <h2 className="font-medium text-xl mb-2">{prodName}</h2>
+                  <p className="text-gray-700 font-semibold mb-2">{`$${prodRate}`}</p>
                 </div>
               </div>
               <div className="mb-6">
                 <span className="text-gray-500">Reviewed By </span>
-                <p className="font-bold text-md mt-3 mb-5">John Doe</p>
+                <p className="font-bold text-md mt-3 mb-5">{prodUserName}</p>
               </div>
               <div>
                 <span className="text-gray-500">Review</span>
                 <p className="mt-3">
-                  Lorem Ipsum is simply dummy text of the printing and
-                  typesetting industry. Lorem Ipsum has been the industry's
-                  standard dummy text ever since the 1500s, when an unknown
-                  printer took a galley of type and scrambled it to make a type
-                  specimen book. It has survived not only five centuries, but
-                  also the leap into electronic typesetting, remaining
-                  essentially unchanged. It was popularised in the 1960s with
-                  the release of Letraset sheets containing Lorem Ipsum
-                  passages, and more recently with desktop publishing software
-                  like Aldus PageMaker including versions of Lorem Ipsum.
+                  {reviews}
                   <span>{reviews}</span>
                 </p>
               </div>

@@ -6,20 +6,29 @@ import { deleteIcon, images } from "../Assets/index";
 import TopHeader from "../../../UI/TopHeader/TopHeader";
 import Status from "./Status";
 import { useDispatch, useSelector } from "react-redux";
-import { MPM_allchats } from "../../User_Management/features/userSlice";
+import {
+  DeleteDeal,
+  MPM_allchats,
+} from "../../User_Management/features/userSlice";
 
-const Action = () => {
+const Action = ({ dealId, dealName }) => {
+  const dispatch = useDispatch();
+  const handleDeleteClick = () => {
+    if (window.confirm(`Are you sure you want to delete ${dealName}?`)) {
+      dispatch(DeleteDeal(dealId)); // Dispatch deleteUser action
+    }
+  };
   return (
     <div className="w-6 h-6 flex gap-3 cursor-pointer">
-      <img src={deleteIcon} alt="Delete" />
+      <img src={deleteIcon} onClick={handleDeleteClick} alt="Delete" />
     </div>
   );
 };
 
-const Photo = () => {
+const Photo = ({ picUrl }) => {
   return (
     <div>
-      <img className="w-14 h-14 rounded" src={images} alt="Photo" />
+      <img className="w-14 h-14 rounded" src={picUrl} alt="Photo" />
     </div>
   );
 };
@@ -68,13 +77,14 @@ const AllChats = () => {
     },
   ];
 
+  console.log(chatData);
   const data = chatData.map((user) => ({
-    photo: <Photo />,
-    requester: user.requester,
-    subject: user.subject,
-    message: user.msg,
-    status: <Status value={user.status} />,
-    action: <Action />,
+    photo: <Photo picUrl={user.fields.pic_url} />,
+    requester: user.fields.requester,
+    subject: user.fields.subject,
+    message: user.fields.msg,
+    status: <Status value={user.fields.status} />,
+    action: <Action dealName={user.fields.requester} dealId={user.pk} />,
   }));
 
   // Number of Pages to be display on a single page.

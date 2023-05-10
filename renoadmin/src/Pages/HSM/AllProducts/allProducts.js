@@ -7,24 +7,31 @@ import { useDispatch, useSelector } from "react-redux";
 import { useEffect, useState } from "react";
 import { HSM_allProduct } from "../../User_Management/features/userSlice";
 import { Grid } from "react-loader-spinner";
+import { DeleteProduct } from "../../User_Management/features/userSlice";
 
-const Action = () => {
+const Action = ({ prodId, prodName }) => {
   const Navigate = useNavigate();
   const handleClick = () => {
     Navigate("/home/editProduct");
   };
+  const dispatch = useDispatch();
+  const handleDeleteClick = () => {
+    if (window.confirm(`Are you sure you want to delete ${prodName}?`)) {
+      dispatch(DeleteProduct(prodId)); // Dispatch deleteUser action
+    }
+  };
   return (
     <div className="w-6 h-6 flex gap-3 cursor-pointer">
       <img src={edit} onClick={handleClick} alt="edit" />
-      <img src={deleteIcon} alt="Delete" />
+      <img src={deleteIcon} onClick={handleDeleteClick} alt="Delete" />
     </div>
   );
 };
 
-const Photo = () => {
+const Photo = ({ picUrl }) => {
   return (
     <div>
-      <img className="w-14 h-14 rounded" src={images} alt="Photo" />
+      <img className="w-14 h-14 rounded" src={picUrl} alt="Photo" />
     </div>
   );
 };
@@ -86,16 +93,16 @@ const AllProduct = () => {
       accessor: "action",
     },
   ];
-
+  console.log(productData);
   const data = productData.map((user) => ({
-    photo: <Photo />,
+    photo: <Photo picUrl={user.fields.pic_url} />,
     productname: user.fields.name,
     category: user.fields.category,
     productcategory: user.fields.proj_category,
     inventory: `${user.fields.rate} items`,
     package: `$${user.fields.inv_count}`,
     purchaseditem: `${user.fields.net_purchase_item_count} items`,
-    action: <Action />,
+    action: <Action prodId={user.pk} prodName={user.fields.name} />,
   }));
 
   const blackButtonText = "Export All";
@@ -129,7 +136,11 @@ const AllProduct = () => {
             columns={columns}
             data={data}
             pageSize={pageSize}
-            blackButtonText={<a href="http://139.59.236.50:8000/exportproducts?file_format=csv">{blackButtonText}</a> }
+            blackButtonText={
+              <a href="http://139.59.236.50:8000/exportproducts?file_format=csv">
+                {blackButtonText}
+              </a>
+            }
             greenButtonText={greenButtonText}
             greenClicked={greenClicked}
           />
@@ -139,7 +150,11 @@ const AllProduct = () => {
               columns={columns}
               data={data}
               pageSize={pageSize}
-              blackButtonText={<a href="http://139.59.236.50:8000/exportproducts?file_format=csv">{blackButtonText}</a> }
+              blackButtonText={
+                <a href="http://139.59.236.50:8000/exportproducts?file_format=csv">
+                  {blackButtonText}
+                </a>
+              }
               greenButtonText={greenButtonText}
               greenClicked={greenClicked}
             />

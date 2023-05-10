@@ -4,20 +4,27 @@ import { deleteIcon, Photo, View } from "./Assets/index";
 import TopHeader from "../../../UI/TopHeader/TopHeader";
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { CRM } from "../../User_Management/features/userSlice";
+import { CRM, DeleteRelation } from "../../User_Management/features/userSlice";
 import { Grid } from "react-loader-spinner";
 import axios from "axios";
 
 // Component inside action column
-const Action = () => {
+const Action = ({ relationName }) => {
   const Navigate = useNavigate();
   const handleClick = () => {
     Navigate("/home/memberDetails");
   };
+  const dispatch = useDispatch();
+  const handleDeleteClick = () => {
+    if (window.confirm(`Are you sure you want to delete ${relationName}?`)) {
+      dispatch(DeleteRelation(relationName)); // Dispatch deleteUser action
+    }
+  };
+
   return (
     <div className="w-6 h-6 flex gap-3 cursor-pointer">
       <img src={View} onClick={handleClick} alt="Edit" />
-      <img src={deleteIcon} alt="Delete" />
+      <img src={deleteIcon} onClick={handleDeleteClick} alt="Delete" />
     </div>
   );
 };
@@ -76,15 +83,16 @@ const Allmembers = () => {
       accessor: "action",
     },
   ];
+  console.log(memberData);
 
   const data = memberData.map((user) => ({
     photo: <ProfilePhoto />,
-    username: user.usname,
-    rewardpoints: user.pts,
-    paymenthistory: `$ ${user.net_purchase_amt}`,
-    purchasehistory: `${user.net_purchase_count} items`,
-    contact: `+65 ${user.phone}`,
-    action: <Action />,
+    username: user.fields.usname,
+    rewardpoints: user.fields.pts,
+    paymenthistory: `$ ${user.fields.net_purchase_amount}`,
+    purchasehistory: `${user.fields.net_purchase_count} items`,
+    contact: `+65 ${user.fields.phone}`,
+    action: <Action relationName={user.fields.usname} />,
   }));
 
   const pageSize = 10;
@@ -126,9 +134,9 @@ const Allmembers = () => {
             pageSize={pageSize}
             greenButtonText={
               <a href="http://139.59.236.50:8000/exportcustomers">
-              {greenButtonText}
-            </a>
-          }
+                {greenButtonText}
+              </a>
+            }
           />
         ) : (
           <>
@@ -138,9 +146,9 @@ const Allmembers = () => {
               pageSize={pageSize}
               greenButtonText={
                 <a href="http://139.59.236.50:8000/exportcustomers">
-                {greenButtonText}
-              </a>
-            }
+                  {greenButtonText}
+                </a>
+              }
             />
             <div className="flex ml-5 justify-center w-full mt-40">
               <h2 className="text-4xl font-bold text-gray-500">No Data!</h2>

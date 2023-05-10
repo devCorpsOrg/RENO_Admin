@@ -6,17 +6,26 @@ import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect, useState } from "react";
 import { Grid } from "react-loader-spinner";
-import { HSM_featuredProduct } from "../../User_Management/features/userSlice";
+import {
+  HSM_featuredProduct,
+  DeleteProduct,
+} from "../../User_Management/features/userSlice";
 
-const Action = () => {
+const Action = ({ prodId, prodName }) => {
   const Navigate = useNavigate();
   const handleClick = () => {
     Navigate("/home/editServices");
   };
+  const dispatch = useDispatch();
+  const handleDeleteClick = () => {
+    if (window.confirm(`Are you sure you want to delete ${prodName}?`)) {
+      dispatch(DeleteProduct(prodId)); // Dispatch deleteUser action
+    }
+  };
   return (
     <div className="w-6 h-6 flex gap-3 cursor-pointer">
       <img src={edit} onClick={handleClick} alt="edit" />
-      <img src={deleteIcon} alt="Delete" />
+      <img src={deleteIcon} onClick={handleDeleteClick} alt="Delete" />
     </div>
   );
 };
@@ -90,7 +99,7 @@ const AllProjects = () => {
     inventory: `${user.fields.rate} items`,
     package: `$${user.fields.inv_count}`,
     servicecategory: `${user.fields.net_purchase_item_count} items`,
-    action: <Action />,
+    action: <Action prodId={user.pk} prodName={user.fields.name} />,
   }));
 
   const greenButtonText = "ADD NEW PRODUCT";
