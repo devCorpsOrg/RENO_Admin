@@ -27,6 +27,7 @@ urlpatterns = [
     path('searchusers/',views.search_user,name="searchuser"),
     path('edituser/',views.edit_user,name="edituser"),
     path('deleteuser/',views.delete_user,name="deleteuser"),
+    path('deletesuspenduser',views.delete_suspenduser,name="deletesuspendeuser"),
     path('suspenduser/',views.suspend_user,name="suspenduser"),
     path('suspendedusers/',views.suspended_users,name="suspendedusers"),
     path('userHistory/',views.user_History,name="Userdetails"),

@@ -95,7 +95,7 @@ class ProjectManagementModel(models.Model):
     rate=models.IntegerField()    
     review=models.IntegerField(default=0,blank=True)
     details=models.TextField()       
-    project_type=models.CharField(max_length=100,default='Featured',blank=True,null=True)       
+    project_type=models.IntegerField(choices=((0,0),(1,1)),default=0)       
     proj_id=models.CharField(primary_key=True, default=uuid.uuid4,max_length=200)
 
 class Projectbooking(models.Model):
@@ -106,7 +106,7 @@ class Projectbooking(models.Model):
     user=models.CharField(max_length=100)    
     prod_name=models.CharField(max_length=100)
     rate=models.IntegerField()       
-    proj_category=models.CharField(max_length=100)       
+    proj_category=models.CharField(max_length=100,default="")       
     desc=models.TextField()
     
 class pmsModel(models.Model): 

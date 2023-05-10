@@ -340,6 +340,31 @@ def delete_user(request):
           json_data=JSONRenderer().render(res)
           return HttpResponse(json_data,content_type='application/json')
 
+@api_view(['DELETE'])
+@csrf_exempt        
+def delete_suspenduser(request):
+          name=request.query_params['name']
+        # json_data=request.body
+        # stream=io.BytesIO(json_data)
+        # python_data=JSONParser().parse(stream)
+        # id=python_data.get('id',None)
+        # if id is not None:
+          try:
+             info=Userdetails.objects.get(username=name)
+          except Userdetails.DoesNotExist:
+             res={'msg':'User is not present'}
+             json_data=JSONRenderer().render(res)
+             return HttpResponse(json_data,content_type='application/json')
+          if info.is_suspend==1: 
+             info.delete()
+             res={'msg':'User deleted Successfully'}
+             json_data=JSONRenderer().render(res)
+             return HttpResponse(json_data,content_type='application/json')
+          else:
+             res={'this is not a suspended user'}
+             json_data=JSONRenderer().render(res)
+             return HttpResponse(json_data,content_type='application/json')
+                
          
 @api_view(['GET','POST'])
 def suspend_user(request):
@@ -544,7 +569,7 @@ def projects(request):
 
 def featuredprojects(request):
    if request.method=='GET':
-     info=ProjectManagementModel.objects.filter(project_type='Featured')
+     info=ProjectManagementModel.objects.filter(project_type=1)
      serailizer1=ProjectManagementSerializer1(info,many=True);    
      json_data=JSONRenderer().render(serailizer1.data)
      return HttpResponse(json_data,content_type='application/json') 
@@ -596,7 +621,7 @@ def searchfeaturedprojects(request):
      if request.method=='GET':
           name=request.query_params['name']
           try: 
-            info=ProjectManagementModel.objects.get(proj_name=name,project_type='Featured')
+            info=ProjectManagementModel.objects.get(proj_name=name,project_type=1)
           except ProjectManagementModel.DoesNotExist:
             res={'msg':'Data Not Found'}
             json_data=JSONRenderer().render(res)
@@ -1372,8 +1397,8 @@ def search_role(request):
 
 @api_view(['DELETE'])
 def delete_role(request):
-    username = request.query_params['username']
-    user = Users.objects.filter(usname=usname).first()
+    usname = request.query_params['username']
+    # user = Users.objects.filter(usname=usname).first()
     role = Roles.objects.filter(usname=usname).first()
 
     if role:
