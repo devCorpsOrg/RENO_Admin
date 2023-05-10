@@ -25,7 +25,7 @@ export const createUser = createAsyncThunk(
       alert("User created successfully");
       return response.data;
     } catch (error) {
-      alert('Operation failed')
+      alert("Operation failed");
       // console.log(csrfToken)
       console.log("Not submitting data");
       return rejectWithValue(error.response.data);
@@ -208,20 +208,20 @@ export const getUser = createAsyncThunk(
   }
 );
 
-export const deleteUser = createAsyncThunk(
-  "deleteUser",
-  async (value, { rejectWithValue }) => {
-    try {
-      const response = await axios.delete(`API_CALL${value}`).json();
-      //   console.log(formData)
-      return response.data;
-    } catch (error) {
-      alert("Operation failed");
-      console.log("Not submitting data");
-      return rejectWithValue(error.response.data);
-    }
-  }
-);
+// export const deleteUser = createAsyncThunk(
+//   "deleteUser",
+//   async (value, { rejectWithValue }) => {
+//     try {
+//       const response = await axios.delete(`API_CALL${value}`).json();
+//       //   console.log(formData)
+//       return response.data;
+//     } catch (error) {
+//       alert("Operation failed");
+//       console.log("Not submitting data");
+//       return rejectWithValue(error.response.data);
+//     }
+//   }
+// );
 
 export const updateUser = createAsyncThunk(
   "updateUser",
@@ -369,7 +369,9 @@ export const suspendUsers = createAsyncThunk(
   async (_, { rejectWithValue }) => {
     console.log("hello");
     try {
-      const response = await axios.get("http://139.59.236.50:8000/suspendedusers");
+      const response = await axios.get(
+        "http://139.59.236.50:8000/suspendedusers/"
+      );
       console.log(response);
       return response.data;
     } catch (error) {
@@ -434,7 +436,9 @@ export const featuredProjects = createAsyncThunk(
   async (_, { rejectWithValue }) => {
     console.log("hello");
     try {
-      const response = await axios.get("http://139.59.236.50:8000/featuredprojects/");
+      const response = await axios.get(
+        "http://139.59.236.50:8000/featuredprojects/"
+      );
       console.log(response);
       return response.data;
     } catch (error) {
@@ -468,7 +472,9 @@ export const HSM_featuredProduct = createAsyncThunk(
   async (_, { rejectWithValue }) => {
     console.log("hello");
     try {
-      const response = await axios.get("http://139.59.236.50:8000/featuredproducts");
+      const response = await axios.get(
+        "http://139.59.236.50:8000/featuredproducts"
+      );
       console.log(response);
       return response.data;
     } catch (error) {
@@ -570,7 +576,9 @@ export const MPM_suspended = createAsyncThunk(
   async (_, { rejectWithValue }) => {
     console.log("hello");
     try {
-      const response = await axios.get("http://139.59.236.50:8000/suspendedcustomers");
+      const response = await axios.get(
+        "http://139.59.236.50:8000/suspendedcustomers"
+      );
       console.log(response);
       return response.data;
     } catch (error) {
@@ -666,6 +674,153 @@ export const RoleManagement = createAsyncThunk(
   }
 );
 
+// Delete a user
+export const DeleteUser = createAsyncThunk("DeleteUser", async (name) => {
+  const response = await axios.delete(
+    `http://139.59.236.50:8000/deleteuser/?name=${name}`
+  );
+  return response.data;
+});
+
+// Delete Suspended User
+export const DeleteSuspendUser = createAsyncThunk(
+  "DeleteSuspendUser",
+  async (name) => {
+    const response = await axios.delete(
+      `http://139.59.236.50:8000/deleteuser/?name=${name}`
+    );
+    return response.data;
+  }
+);
+
+// Delete a Relationship (NO API)
+// export const DeleteRelationship = createAsyncThunk(
+//   "DeleteRelationship",
+//   async (pageid) => {
+//     const response = await axios.delete(
+//       `http://139.59.236.50:8000/deletepage/?id=${pageid}`
+//     );
+//     return response.data;
+//   }
+// );
+
+// Delete A page
+export const DeletePage = createAsyncThunk("DeletePage", async (pageid) => {
+  const response = await axios.delete(
+    `http://139.59.236.50:8000/deletepage/?id=${pageid}`
+  );
+  return response.data;
+});
+
+// Delete a Project and featured Project
+export const DeleteProject = createAsyncThunk(
+  "DeleteProject",
+  async (pageid) => {
+    const response = await axios.delete(
+      `http://139.59.236.50:8000/deleteproject/?id=${pageid}`
+    );
+    return response.data;
+  }
+);
+
+//HSM Delete a product
+export const DeleteProduct = createAsyncThunk(
+  "DeleteProduct",
+  async (pageId) => {
+    const response = await axios.delete(
+      `http://139.59.236.50:8000/deleteproducts?id=${pageId}`
+    );
+    return response.data;
+  }
+);
+
+//HSM Delete a Promotion (No API yet)
+export const DeletePromotion = createAsyncThunk(
+  "DeletePromotion",
+  async (promotionId) => {
+    const response = await axios.delete(
+      `http://139.59.236.50:8000/deletepromoted?id=${promotionId}`
+    );
+    return response.data;
+  }
+);
+
+//HSM Delete a Transaction (NO API yet)
+export const DeleteTransaction = createAsyncThunk(
+  "DeleteTransaction",
+  async (pageId) => {
+    const response = await axios.delete(
+      `http://139.59.236.50:8000/deleteproducts?id=${pageId}`
+    );
+    return response.data;
+  }
+);
+
+// HSM Delete review
+export const DeleteReview = createAsyncThunk("DeleteReview", async (pageId) => {
+  const response = await axios.delete(
+    `http://139.59.236.50:8000/deletereview?id=${pageId}`
+  );
+  return response.data;
+});
+
+// MPM Delete a members
+export const DeleteMember = createAsyncThunk("DeleteMember", async (id) => {
+  const response = await axios.delete(
+    `http://139.59.236.50:8000/deletecustomer?id=${id}`
+  );
+  return response.data;
+});
+
+// MPM Delete a category
+export const DeleteCategory = createAsyncThunk(
+  "DeleteCategory",
+  async (catgid) => {
+    const response = await axios.delete(
+      `http://139.59.236.50:8000/deletecategory?catgid=${catgid}`
+    );
+    return response.data;
+  }
+);
+
+// MPM Delete a listing
+export const DeleteListing = createAsyncThunk(
+  "DeleteListing",
+  async (listId) => {
+    const response = await axios.delete(
+      `http://139.59.236.50:8000/deletelisting/?id=${listId}`
+    );
+    return response.data;
+  }
+);
+
+// Delete Deal
+export const DeleteDeal = createAsyncThunk("DeleteDeal", async (dealId) => {
+  const response = await axios.delete(
+    `http://139.59.236.50:8000/deletedeal?d_id=${dealId}`
+  );
+  return response.data;
+});
+
+// Delete a role
+export const DeleteRole = createAsyncThunk("DeleteRole", async (username) => {
+  const response = await axios.delete(
+    `http://139.59.236.50:8000/deleterole?usrname=${username}`
+  );
+  return response.data;
+});
+
+// Delete Relationship
+export const DeleteRelation = createAsyncThunk(
+  "DeleteRelation",
+  async (username) => {
+    const response = await axios.delete(
+      `http://139.59.236.50:8000/deletemember?usname=${username}`
+    );
+    return response.data;
+  }
+);
+
 export const userDetails = createSlice({
   name: "userDetail",
   initialState: {
@@ -690,6 +845,7 @@ export const userDetails = createSlice({
     role: [],
     loading: false,
     error: null,
+    data: [],
   },
   reducers: {
     dummy: (state) => state,
@@ -697,6 +853,193 @@ export const userDetails = createSlice({
   extraReducers: (builder) => {
     builder
 
+      // Delete a user
+      .addCase(DeleteUser.pending, (state) => {
+        state.status = "loading";
+      })
+      .addCase(DeleteUser.fulfilled, (state, action) => {
+        state.status = "succeeded";
+        // remove the deleted user from the state
+        state.data = state.data.filter(
+          (user) => user.username !== action.payload.username
+        );
+      })
+      .addCase(DeleteUser.rejected, (state, action) => {
+        state.status = "failed";
+        state.error = action.error.message ?? "Something went wrong";
+      })
+
+      // Delete Suspended User
+      .addCase(DeleteSuspendUser.pending, (state) => {
+        state.status = "loading";
+      })
+      .addCase(DeleteSuspendUser.fulfilled, (state, action) => {
+        state.status = "succeeded";
+        state.data = state.data.filter(
+          (user) => user.username !== action.payload.username
+        );
+      })
+      .addCase(DeleteSuspendUser.rejected, (state, action) => {
+        state.status = "failed";
+        state.error = action.error.message ?? "Something went wrong";
+      })
+
+      // Delete a page
+      .addCase(DeletePage.pending, (state) => {
+        state.status = "loading";
+      })
+      .addCase(DeletePage.fulfilled, (state, action) => {
+        state.status = "succeeded";
+        // remove the deleted user from the state
+        state.data = state.data.filter(
+          (user) => user.pageid !== action.payload.pageid
+        );
+      })
+      .addCase(DeletePage.rejected, (state, action) => {
+        state.status = "failed";
+        state.error = action.error.message ?? "Something went wrong";
+      })
+
+      // Delete Project
+      .addCase(DeleteProject.pending, (state) => {
+        state.status = "loading";
+      })
+      .addCase(DeleteProject.fulfilled, (state, action) => {
+        state.status = "succeeded";
+        // remove the deleted user from the state
+        state.data = state.data.filter(
+          (user) => user.pageid !== action.payload.pageid
+        );
+      })
+      .addCase(DeleteProject.rejected, (state, action) => {
+        state.status = "failed";
+        state.error = action.error.message ?? "Something went wrong";
+      })
+
+      // Delete a product
+      .addCase(DeleteProduct.pending, (state) => {
+        state.status = "loading";
+      })
+      .addCase(DeleteProduct.fulfilled, (state, action) => {
+        state.status = "succeeded";
+        // remove the deleted user from the state
+        state.data = state.data.filter(
+          (user) => user.pageId !== action.payload.pageId
+        );
+      })
+      .addCase(DeleteProduct.rejected, (state, action) => {
+        state.status = "failed";
+        state.error = action.error.message ?? "Something went wrong";
+      })
+
+      // Delete Promotion
+      .addCase(DeletePromotion.pending, (state) => {
+        state.status = "loading";
+      })
+      .addCase(DeletePromotion.fulfilled, (state, action) => {
+        state.status = "succeeded";
+        // remove the deleted user from the state
+        state.data = state.data.filter(
+          (user) => user.pageId !== action.payload.pageId
+        );
+      })
+      .addCase(DeletePromotion.rejected, (state, action) => {
+        state.status = "failed";
+        state.error = action.error.message ?? "Something went wrong";
+      })
+      // Delete Relation
+      .addCase(DeleteRelation.pending, (state) => {
+        state.status = "loading";
+      })
+      .addCase(DeleteRelation.fulfilled, (state, action) => {
+        state.status = "succeeded";
+        // remove the deleted user from the state
+        state.data = state.data.filter(
+          (user) => user.pageId !== action.payload.pageId
+        );
+      })
+      .addCase(DeleteRelation.rejected, (state, action) => {
+        state.status = "failed";
+        state.error = action.error.message ?? "Something went wrong";
+      })
+
+      // Delete a Member
+      .addCase(DeleteMember.pending, (state) => {
+        state.status = "loading";
+      })
+      .addCase(DeleteMember.fulfilled, (state, action) => {
+        state.status = "succeeded";
+        state.data = state.data.filter(
+          (user) => user.pageId !== action.payload.pageId
+        );
+      })
+      .addCase(DeleteMember.rejected, (state, action) => {
+        state.status = "failed";
+        state.error = action.error.message ?? "Something went wrong";
+      })
+
+      // Delete Category
+      .addCase(DeleteCategory.pending, (state) => {
+        state.status = "loading";
+      })
+      .addCase(DeleteCategory.fulfilled, (state, action) => {
+        state.status = "succeeded";
+        state.data = state.data.filter(
+          (user) => user.pageId !== action.payload.pageId
+        );
+      })
+      .addCase(DeleteCategory.rejected, (state, action) => {
+        state.status = "failed";
+        state.error = action.error.message ?? "Something went wrong";
+      })
+
+      // Delete Listing
+      .addCase(DeleteListing.pending, (state) => {
+        state.status = "loading";
+      })
+      .addCase(DeleteListing.fulfilled, (state, action) => {
+        state.status = "succeeded";
+        state.data = state.data.filter(
+          (user) => user.pageId !== action.payload.pageId
+        );
+      })
+      .addCase(DeleteListing.rejected, (state, action) => {
+        state.status = "failed";
+        state.error = action.error.message ?? "Something went wrong";
+      })
+
+      // Delete Deal
+
+      .addCase(DeleteDeal.pending, (state) => {
+        state.status = "loading";
+      })
+      .addCase(DeleteDeal.fulfilled, (state, action) => {
+        state.status = "succeeded";
+        state.data = state.data.filter(
+          (user) => user.pageId !== action.payload.pageId
+        );
+      })
+      .addCase(DeleteDeal.rejected, (state, action) => {
+        state.status = "failed";
+        state.error = action.error.message ?? "Something went wrong";
+      })
+
+      // Delete a Role
+      .addCase(DeleteRole.pending, (state) => {
+        state.status = "loading";
+      })
+      .addCase(DeleteRole.fulfilled, (state, action) => {
+        state.status = "succeeded";
+        state.data = state.data.filter(
+          (user) => user.pageId !== action.payload.pageId
+        );
+      })
+      .addCase(DeleteRole.rejected, (state, action) => {
+        state.status = "failed";
+        state.error = action.error.message ?? "Something went wrong";
+      })
+
+      // Get All users Data
       .addCase(getUser.pending, (state) => {
         state.loading = true;
       })

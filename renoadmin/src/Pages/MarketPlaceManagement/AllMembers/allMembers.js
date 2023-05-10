@@ -6,25 +6,34 @@ import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect, useState } from "react";
 import { Grid } from "react-loader-spinner";
-import { MPM_allmembers } from "../../User_Management/features/userSlice";
+import {
+  DeleteMember,
+  MPM_allmembers,
+} from "../../User_Management/features/userSlice";
 
-const Action = () => {
+const Action = ({ memberName, memberId }) => {
   const Navigate = useNavigate();
   const handleClick = () => {
     Navigate("/home/editMember");
   };
+  const dispatch = useDispatch();
+  const handleDeleteClick = () => {
+    if (window.confirm(`Are you sure you want to delete ${memberName}?`)) {
+      dispatch(DeleteMember(memberId)); // Dispatch deleteUser action
+    }
+  };
   return (
     <div className="w-6 h-6 flex gap-3 cursor-pointer">
       <img onClick={handleClick} src={edit} alt="edit" />
-      <img src={deleteIcon} alt="Delete" />
+      <img src={deleteIcon} onClick={handleDeleteClick} alt="Delete" />
     </div>
   );
 };
 
-const Photo = () => {
+const Photo = ({ picUrl }) => {
   return (
     <div>
-      <img className="w-14 h-14 rounded" src={images} alt="Photo" />
+      <img className="w-14 h-14 rounded" src={picUrl} alt="Photo" />
     </div>
   );
 };
@@ -78,14 +87,15 @@ const AllMember = () => {
       accessor: "action",
     },
   ];
+  console.log(memberData);
 
   const data = memberData.map((user) => ({
-    photo: <Photo />,
-    membername: user.member_name,
-    contact: `+65 ${user.phone}`,
-    internalnote: user.note,
-    inventory: `${user.inv_count} items`,
-    action: <Action />,
+    photo: <Photo picUrl={user.fields.pic_url} />,
+    membername: user.fields.member_name,
+    contact: `+65 ${user.fields.phone}`,
+    internalnote: user.fields.note,
+    inventory: `${user.fields.inv_count} items`,
+    action: <Action memberId={user.pk} memberName={user.fields.member_name} />,
   }));
 
   const blackButtonText = "Export All";
@@ -118,7 +128,11 @@ const AllMember = () => {
             columns={columns}
             data={data}
             pageSize={pageSize}
-            blackButtonText={<a href="http://139.59.236.50:8000/exportproducts?file_format=csv">{blackButtonText}</a>}
+            blackButtonText={
+              <a href="http://139.59.236.50:8000/exportproducts?file_format=csv">
+                {blackButtonText}
+              </a>
+            }
             greenClicked={greenClicked}
           />
         ) : (
@@ -127,7 +141,11 @@ const AllMember = () => {
               columns={columns}
               data={data}
               pageSize={pageSize}
-              blackButtonText={<a href="http://139.59.236.50:8000/exportproducts?file_format=csv">{blackButtonText}</a>}
+              blackButtonText={
+                <a href="http://139.59.236.50:8000/exportproducts?file_format=csv">
+                  {blackButtonText}
+                </a>
+              }
               greenClicked={greenClicked}
             />
             <div className="flex ml-5 justify-center w-full mt-40">

@@ -7,25 +7,34 @@ import { useDispatch, useSelector } from "react-redux";
 
 import { useEffect, useState } from "react";
 import { Grid } from "react-loader-spinner";
-import { allProjects } from "../../User_Management/features/userSlice";
+import {
+  allProjects,
+  DeleteProject,
+} from "../../User_Management/features/userSlice";
 
-const Action = () => {
+const Action = ({ projId, projName }) => {
   const Navigate = useNavigate();
   const handleClick = () => {
     Navigate("/home/editShowcase");
   };
+  const dispatch = useDispatch();
+  const handleDeleteClick = () => {
+    if (window.confirm(`Are you sure you want to delete ${projName}?`)) {
+      dispatch(DeleteProject(projId)); // Dispatch deleteUser action
+    }
+  };
   return (
     <div className="w-6 h-6 flex gap-3 cursor-pointer">
       <img onClick={handleClick} src={edit} alt="edit" />
-      <img src={deleteIcon} alt="Delete" />
+      <img src={deleteIcon} onClick={handleDeleteClick} alt="Delete" />
     </div>
   );
 };
 
-const Photo = () => {
+const Photo = ({ picUrl }) => {
   return (
     <div>
-      <img className="w-14 h-14 rounded" src={images} alt="Photo" />
+      <img className="w-14 h-14 rounded" src={picUrl} alt="Photo" />
     </div>
   );
 };
@@ -82,14 +91,16 @@ const AllProjects = () => {
     },
   ];
 
+  console.log(projectData);
+
   const data = projectData.map((user) => ({
-    photo: <Photo />,
+    photo: <Photo picUrl={user.pic_url} />,
     projectname: user.proj_name,
     category: user.proj_category,
     rate: `$ ${user.rate}`,
-    // projecttype: user.,
+    // projecttype: user., proj_id
     reviews: `${user.review}k reviews`,
-    action: <Action />,
+    action: <Action projId={user.proj_id} projName={user.proj_name} />,
   }));
 
   const greenButtonText = "Add New Project";
@@ -124,7 +135,11 @@ const AllProjects = () => {
             data={data}
             pageSize={pageSize}
             greenButtonText={greenButtonText}
-            blackButtonText={<a href="http://139.59.236.50:8000/exportproducts?file_format=csv">{blackButtonText}</a>}
+            blackButtonText={
+              <a href="http://139.59.236.50:8000/exportproducts?file_format=csv">
+                {blackButtonText}
+              </a>
+            }
             greenClicked={greenClicked}
           />
         ) : (
@@ -134,7 +149,11 @@ const AllProjects = () => {
               data={data}
               pageSize={pageSize}
               greenButtonText={greenButtonText}
-              blackButtonText={<a href="http://139.59.236.50:8000/exportproducts?file_format=csv">{blackButtonText}</a>}
+              blackButtonText={
+                <a href="http://139.59.236.50:8000/exportproducts?file_format=csv">
+                  {blackButtonText}
+                </a>
+              }
               greenClicked={greenClicked}
             />
             <div className="flex ml-5 justify-center w-full mt-40">

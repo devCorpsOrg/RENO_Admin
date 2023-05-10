@@ -7,13 +7,22 @@ import { useDispatch, useSelector } from "react-redux";
 
 import { useEffect, useState } from "react";
 import { Grid } from "react-loader-spinner";
-import { MPM_suspended } from "../../User_Management/features/userSlice";
+import {
+  DeleteMember,
+  MPM_suspended,
+} from "../../User_Management/features/userSlice";
 
-const Action = () => {
+const Action = ({ memberName, memberId }) => {
+  const dispatch = useDispatch();
+  const handleDeleteClick = () => {
+    if (window.confirm(`Are you sure you want to delete ${memberName}?`)) {
+      dispatch(DeleteMember(memberId)); // Dispatch deleteUser action
+    }
+  };
   return (
     <div className="w-6 h-6 flex gap-3 cursor-pointer">
       <img src={edit} alt="edit" />
-      <img src={deleteIcon} alt="Delete" />
+      <img src={deleteIcon} onClick={handleDeleteClick} alt="Delete" />{" "}
     </div>
   );
 };
@@ -74,11 +83,11 @@ const SuspendUser = () => {
 
   const data = suspendData.map((user) => ({
     photo: <Photo />,
-    membername: user.member_name,
-    contact: `+65 ${user.phone}`,
-    internalnote: user.note,
-    inventory: `${user.inv_count} items`,
-    action: <Action />,
+    membername: user.fields.member_name,
+    contact: `+65 ${user.fields.phone}`,
+    internalnote: user.fields.note,
+    inventory: `${user.fields.inv_count} items`,
+    action: <Action memberId={user.pk} memberName={user.fields.member_name} />,
   }));
 
   const blackButtonText = "Export All";

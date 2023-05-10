@@ -35,10 +35,10 @@ const Action = () => {
   );
 };
 
-const Photo = () => {
+const Photo = ({ picUrl }) => {
   return (
     <div>
-      <img className="w-14 h-14 rounded" src={images} alt="Photo" />
+      <img className="w-14 h-14 rounded" src={picUrl} alt="Photo" />
     </div>
   );
 };
@@ -86,11 +86,12 @@ const AllProjects = () => {
     },
   ];
 
+  console.log(chatData);
   const data = chatData.map((user) => ({
-    photo: <Photo />,
-    requester: user.requester,
+    photo: <Photo picUrl={user.pic} />,
+    requester: user.registerar,
     subject: user.subject,
-    message: user.msg,
+    message: user.message,
     status: <Status value={user.status} />,
     action: <Action />,
   }));

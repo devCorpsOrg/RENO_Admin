@@ -6,17 +6,26 @@ import { deleteIcon, edit, plumbing } from "../Assets/index";
 import TopHeader from "../../../UI/TopHeader/TopHeader";
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { MPM_category } from "../../User_Management/features/userSlice";
+import {
+  DeleteCategory,
+  MPM_category,
+} from "../../User_Management/features/userSlice";
 
-const Action = () => {
+const Action = ({ catId, catName }) => {
   const Navigate = useNavigate();
   const handleClick = () => {
     Navigate("/home/editCategory");
   };
+  const dispatch = useDispatch();
+  const handleDeleteClick = () => {
+    if (window.confirm(`Are you sure you want to delete ${catName}?`)) {
+      dispatch(DeleteCategory(catId)); // Dispatch deleteUser action
+    }
+  };
   return (
     <div className="w-6 h-6 flex gap-3 cursor-pointer">
       <img onClick={handleClick} src={edit} alt="edit" />
-      <img src={deleteIcon} alt="Delete" />
+      <img src={deleteIcon} onClick={handleDeleteClick} alt="Delete" />
     </div>
   );
 };
@@ -72,11 +81,12 @@ const AllProducts = () => {
       accessor: "action",
     },
   ];
+  console.log(productData);
 
   const data = productData.map((user) => ({
     photo: <Photo prop={user.fields.pic_url} />,
     category: user.fields.prod_category,
-    action: <Action />,
+    action: <Action catId={user.pk} catName={user.fields.prod_category} />,
   }));
 
   const blackButtonText = "Export All";
@@ -110,7 +120,11 @@ const AllProducts = () => {
             columns={columns}
             data={data}
             pageSize={pageSize}
-            blackButtonText={<a href="http://139.59.236.50:8000/exportcategories">{blackButtonText}</a>}
+            blackButtonText={
+              <a href="http://139.59.236.50:8000/exportcategories">
+                {blackButtonText}
+              </a>
+            }
             greenButtonText={greenButtonText}
             greenClicked={greenClicked}
           />
@@ -120,7 +134,11 @@ const AllProducts = () => {
               columns={columns}
               data={data}
               pageSize={pageSize}
-              blackButtonText={<a href="http://139.59.236.50:8000/exportcategories">{blackButtonText}</a>}
+              blackButtonText={
+                <a href="http://139.59.236.50:8000/exportcategories">
+                  {blackButtonText}
+                </a>
+              }
               greenButtonText={greenButtonText}
               greenClicked={greenClicked}
             />

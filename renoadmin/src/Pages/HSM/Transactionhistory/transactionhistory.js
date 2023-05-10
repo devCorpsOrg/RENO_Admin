@@ -16,10 +16,10 @@ const Action = () => {
   );
 };
 
-const Photo = () => {
+const Photo = ({ picUrl }) => {
   return (
     <div>
-      <img className="w-14 h-14 rounded" src={images} alt="Photo" />
+      <img className="w-14 h-14 rounded" src={picUrl} alt="Photo" />
     </div>
   );
 };
@@ -74,12 +74,12 @@ const Purchases = () => {
   ];
 
   const data = transactionData.map((user) => ({
-    photo: <Photo />,
-    productname: user.prod_name,
-    datetime: user.datetime,
-    supplier: user.user,
-    discription: user.desc,
-    amount: `$${user.amt}`,
+    photo: <Photo picUrl={user.fields.pic_url} />,
+    productname: user.fields.prod_name,
+    datetime: user.fields.datetime,
+    supplier: user.fields.user,
+    discription: user.fields.desc,
+    amount: `$${user.fields.amt}`,
     action: <Action />,
   }));
 

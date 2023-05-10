@@ -5,38 +5,44 @@ import TopHeader from "../../../UI/TopHeader/TopHeader";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { useDispatch, useSelector } from "react-redux";
-import { getUser } from "../features/userSlice";
+import { getUser, DeleteUser } from "../features/userSlice"; // Import deleteUser action
 import { Grid } from "react-loader-spinner";
 
 // Component inside action column
-const Action = () => {
+const Action = ({ username }) => {
   const Navigate = useNavigate();
   const handleEditClick = () => {
     Navigate("/home/editDetails");
   };
-
+  const dispatch = useDispatch();
+  const handleDeleteClick = () => {
+    if (window.confirm(`Are you sure you want to delete ${username}?`)) {
+      dispatch(DeleteUser(username)); // Dispatch deleteUser action
+    }
+  };
   return (
     <div className="flex gap-3 items-center pr-20">
       <div className="flex w-5 h-5 flex gap-2 cursor-pointer">
         <img src={Edit} onClick={handleEditClick} alt="Edit" />
         <img src={View} alt="View" />
-        <img src={deleteIcon} alt="Delete" />
+        <img src={deleteIcon} onClick={handleDeleteClick} alt="Delete" />
         <img src={Suspend} alt="suspendUser" />
       </div>
     </div>
   );
 };
 
-const ProfilePhoto = () => {
+const ProfilePhoto = ({ picUrl }) => {
   return (
     <div>
-      <img className="w-12 h-12 rounded-full" src={Photo} alt="photo" />
+      <img className="w-12 h-12 rounded-full" src={picUrl} alt="photo" />
     </div>
   );
 };
 
-const Allmembers = () => {
+const Allmembers = ({ setActiveTab, setExpand }) => {
   const head = "All Users";
+  setActiveTab("allUsers");
   const Navigate = useNavigate();
   const greenClicked = () => {
     Navigate("/home/createUser");
@@ -90,13 +96,13 @@ const Allmembers = () => {
   const greenButtonText = "Add User";
 
   const data = userData.map((user) => ({
-    photo: <ProfilePhoto />,
+    photo: <ProfilePhoto picUrl={user.pic_url} />,
     username: user.username,
     emailaddress: user.email,
     contact: user.phone,
     usertype: user.role,
     userid: user.uid,
-    action: <Action />,
+    action: <Action username={user.username} />,
   }));
 
   return (
