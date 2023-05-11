@@ -257,9 +257,9 @@ def create_user(request):
 @csrf_exempt
 def search_user(request):
      if request.method=='GET':
-            name=request.query_params['name']
+            uid=request.query_params['uid']
             try:
-              info=Userdetails.objects.get(username=name)
+              info=Userdetails.objects.get(uid=uid)
             except Userdetails.DoesNotExist:
               res={'msg':'Data Not Found'}
               json_data=JSONRenderer().render(res)
@@ -271,10 +271,10 @@ def search_user(request):
 @api_view(['PUT'])   
 @csrf_exempt    
 def edit_user(request):
-     id=request.query_params['id']
+     uid=request.query_params['uid']
      if request.method=='PUT':
         try:
-         user_objects=Userdetails.objects.get(uid=id)
+         user_objects=Userdetails.objects.get(uid=uid)
         except Userdetails.DoesNotExist:
          res={'msg':'username Not Found'}
          json_data=JSONRenderer().render(res)
@@ -450,10 +450,10 @@ def search_page(request):
         #   params = request.query_params
         #   name = request.data.get('name')
         #   print(name)
-          name=request.query_params['name']
-          print(name)
+          pageid=request.query_params['pageid']
+          
           try:
-            info=cmsModel.objects.get(pagename=name)
+            info=cmsModel.objects.get( pageid=pageid)
           except cmsModel.DoesNotExist:
             res={'msg':'page Not Found'}
             json_data=JSONRenderer().render(res)
@@ -598,9 +598,9 @@ def addproject(request):
 @csrf_exempt
 def searchproject(request):
      if request.method=='GET':
-          name=request.query_params['name']
+          proj_id=request.query_params['proj_id']
           try:
-            info=ProjectManagementModel.objects.get(proj_name=name)
+            info=ProjectManagementModel.objects.get(proj_id= proj_id)
           except ProjectManagementModel.DoesNotExist:
              res={'msg':'Data Not Found'}
              json_data=JSONRenderer().render(res)
@@ -619,9 +619,9 @@ def searchproject(request):
 @csrf_exempt
 def searchfeaturedprojects(request):
      if request.method=='GET':
-          name=request.query_params['name']
+          proj_id=request.query_params['proj_id']
           try: 
-            info=ProjectManagementModel.objects.get(proj_name=name,project_type=1)
+            info=ProjectManagementModel.objects.get(proj_id=proj_id,project_type=1)
           except ProjectManagementModel.DoesNotExist:
             res={'msg':'Data Not Found'}
             json_data=JSONRenderer().render(res)
@@ -747,8 +747,13 @@ def addpromoted(request):
 @csrf_exempt
 def searchpromoted(request):
     
-            name=request.query_params['name']
-            info=pmsModel.objects.get(prod_name=name)
+            prod_id=request.query_params['prod_id']
+            try:
+              info=pmsModel.objects.get(prod_id=prod_id)
+            except pmsModel.DoesNotExist:
+              res={'msg':'Data not present'}
+              json_data=JSONRenderer().render(res)
+              return HttpResponse(json_data,content_type='application/json')
             serailizer=pmsSerializer(info);
            
             json_data=JSONRenderer().render(serailizer.data) 
@@ -1107,8 +1112,8 @@ def purchases(request):
 
 @api_view(['GET'])
 def search_transactions(request):
-    prod_name = request.query_params['prod_name']
-    transactions = Transactions.objects.filter(prod_name=prod_name).all()
+    id = request.query_params['id']
+    transactions = Transactions.objects.filter(id=id).all()
 
     if transactions:
         data = serializers.serialize('json', transactions)
@@ -1130,8 +1135,8 @@ def products(request):
 
 @api_view(['GET'])
 def search_products(request):
-    name = request.query_params['name']
-    product = Products.objects.filter(name=name).first()
+    id = request.query_params['id']
+    product = Products.objects.filter(id=id).first()
 
     if product:
         data = serializers.serialize('json', [product])
@@ -1277,8 +1282,8 @@ def members(request):
 
 @api_view(['GET'])
 def search_member(request):
-    usname = request.query_params['usname']
-    member = CRM.objects.filter(usname=usname).first()
+    id = request.query_params['id']
+    member = CRM.objects.filter(id=id).first()
 
     if member:
         data = serializers.serialize('json', [member])
@@ -1382,16 +1387,16 @@ def create_role(request):
 
 @api_view(['GET'])
 def search_role(request):
-    usname = request.query_params['username']
+    id = request.query_params['id']
     # users = Users.objects.filter(name=name).only('usname', 'name', 'role', 'status').all()
-    roles = Roles.objects.filter(usname=usname).only('usname', 'name', 'role', 'status').all()
+    roles = Roles.objects.filter(id=id).only('usname', 'name', 'role', 'status').all()
 
     if roles:
         data = serializers.serialize('json', roles)
         formatted_data = json.dumps(json.loads(data), indent=4)
         return HttpResponse(formatted_data, content_type='application/json')
     else:
-        return HttpResponseNotFound(f'Role/s with usname: {usname} not found.')
+        return HttpResponseNotFound(f'Role/s with usname: {id} not found.')
         # return HttpResponseNotFound(f'User(s) with name: {name} not found.')
 
 
@@ -1418,8 +1423,8 @@ def categories(request):
 
 @api_view(['GET'])
 def search_category(request):
-    prod_category = request.query_params['prod_category']
-    category = Categories.objects.filter(prod_category=prod_category)
+    id = request.query_params['id']
+    category = Categories.objects.filter(id=id)
     data = serializers.serialize('json', category)
     formatted_data = json.dumps(json.loads(data), indent=4)
     return HttpResponse(formatted_data, content_type='application/json')
@@ -1489,8 +1494,8 @@ def deals(request):
 
 @api_view(['GET'])
 def search_deals(request):
-    requester = request.query_params['requester']
-    deals = Deals.objects.filter(requester=requester).all()
+    id = request.query_params['id']
+    deals = Deals.objects.filter(id=id).all()
     data = serializers.serialize('json', deals)
     formatted_data = json.dumps(json.loads(data), indent=4)
     return HttpResponse(formatted_data, content_type='application/json')
