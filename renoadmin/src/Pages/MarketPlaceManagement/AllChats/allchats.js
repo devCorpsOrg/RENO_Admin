@@ -33,9 +33,10 @@ const Photo = ({ picUrl }) => {
   );
 };
 
-const AllChats = () => {
+const AllChats = ({ setActiveTab, setExpand }) => {
   const head = "All Chats and Deals";
-
+  setExpand("marketPlace");
+  setActiveTab("chatsAndDeals");
   const dispatch = useDispatch();
   const [loading, setLoading] = useState(true);
 

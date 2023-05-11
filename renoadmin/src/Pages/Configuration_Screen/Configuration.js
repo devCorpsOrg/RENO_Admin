@@ -2,36 +2,41 @@ import React, { useState } from "react";
 import TopHeader from "../../UI/TopHeader/TopHeader";
 import axios from "axios";
 
-const Configuration = ({setActiveTab}) => {
-  const[sitename, setName] = useState("");
-  const[mail, setEmail] = useState("");
-  const[email, setSiteEmail] = useState("");
-  const[url, setUrl] = useState("");
-  const[smtp_details, setDetails] = useState("");
+const Configuration = ({ setActiveTab }) => {
+  const [sitename, setName] = useState("");
+  const [mail, setEmail] = useState("");
+  const [email, setSiteEmail] = useState("");
+  const [url, setUrl] = useState("");
+  const [smtp_details, setDetails] = useState("");
 
-
+  setActiveTab("settings");
   const handleSubmit = async (e) => {
     e.preventDefault();
     const data = {
-      sitename:sitename,
-      mail:mail,
-      email:email,
-      url:url,
-      smtp_details:smtp_details
-    }
+      sitename: sitename,
+      mail: mail,
+      email: email,
+      url: url,
+      smtp_details: smtp_details,
+    };
     const jsonData = JSON.stringify(data);
-    console.log(jsonData)
-    try{
-      const response = await axios.post('http://139.59.236.50:8000/setting/', {sitename, mail, email, url, smtp_details})
-      .then(response => {
-        console.log(response)
-      })
-    }
-    catch(err){
+    console.log(jsonData);
+    try {
+      const response = await axios
+        .post("http://139.59.236.50:8000/setting/", {
+          sitename,
+          mail,
+          email,
+          url,
+          smtp_details,
+        })
+        .then((response) => {
+          console.log(response);
+        });
+    } catch (err) {
       console.log("Error saving data", err);
     }
   };
-
 
   const head = "Configuration";
 
@@ -42,7 +47,10 @@ const Configuration = ({setActiveTab}) => {
       </div>
       <div className=" ml-72 mt-32 w-[100%] relative">
         <div className="flex flex-row w-full h-full justify-center sm:justify-start items-center m-3">
-          <form action="submit" className="w-full sm:w-2/3 px-5" onSubmit={handleSubmit}>
+          <form
+            action="submit"
+            className="w-full sm:w-2/3 px-5"
+            onSubmit={handleSubmit}>
             <h2 className="font-semibold text-2xl mb-10">
               Configuration and Settings
             </h2>

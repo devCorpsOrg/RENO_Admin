@@ -36,7 +36,10 @@ const Photo = ({ picUrl }) => {
   );
 };
 
-const AllProduct = () => {
+const AllProduct = ({ setActiveTab, setExpand }) => {
+  setExpand("homeService");
+  setActiveTab("productList");
+
   const Navigate = useNavigate();
   const greenClicked = () => {
     Navigate("/home/addProduct");

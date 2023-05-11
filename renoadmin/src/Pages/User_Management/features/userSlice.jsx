@@ -208,21 +208,6 @@ export const getUser = createAsyncThunk(
   }
 );
 
-// export const deleteUser = createAsyncThunk(
-//   "deleteUser",
-//   async (value, { rejectWithValue }) => {
-//     try {
-//       const response = await axios.delete(`API_CALL${value}`).json();
-//       //   console.log(formData)
-//       return response.data;
-//     } catch (error) {
-//       alert("Operation failed");
-//       console.log("Not submitting data");
-//       return rejectWithValue(error.response.data);
-//     }
-//   }
-// );
-
 export const updateUser = createAsyncThunk(
   "updateUser",
   async ({ formData, userId }, { rejectWithValue }) => {

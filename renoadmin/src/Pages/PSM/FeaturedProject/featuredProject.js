@@ -39,9 +39,11 @@ const Photo = () => {
   );
 };
 
-const FeaturedProject = () => {
+const FeaturedProject = ({ setActiveTab, setExpand }) => {
   const head = "Featured Project";
 
+  setExpand("showcaseManagement");
+  setActiveTab("featuredProject");
   const dispatch = useDispatch();
   const [loading, setLoading] = useState(true);
   const featuredData = useSelector(
@@ -117,7 +119,7 @@ const FeaturedProject = () => {
           />
         </div>
       ) : null}
-      <div className=" ml-72 mt-28 h-[85vh] min-w-[140vh] relative">
+      <div className=" ml-72 mt-28 h-[85vh] w-[95%] relative">
         {featuredData.length > 0 ? (
           <Table
             columns={columns}

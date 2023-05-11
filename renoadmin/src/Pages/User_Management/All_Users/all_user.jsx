@@ -12,7 +12,7 @@ import { Grid } from "react-loader-spinner";
 const Action = ({ username }) => {
   const Navigate = useNavigate();
   const handleEditClick = () => {
-    Navigate("/home/editDetails");
+    Navigate(`/home/editDetails/?name=${username}`);
   };
   const dispatch = useDispatch();
   const handleDeleteClick = () => {
@@ -42,6 +42,8 @@ const ProfilePhoto = ({ picUrl }) => {
 
 const Allmembers = ({ setActiveTab, setExpand }) => {
   const head = "All Users";
+  setExpand("userManagement");
+
   setActiveTab("allUsers");
   const Navigate = useNavigate();
   const greenClicked = () => {
