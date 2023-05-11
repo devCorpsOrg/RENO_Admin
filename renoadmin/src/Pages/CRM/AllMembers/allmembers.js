@@ -37,8 +37,9 @@ const ProfilePhoto = () => {
   );
 };
 
-const Allmembers = () => {
+const Allmembers = ({ setActiveTab }) => {
   const head = "All Members";
+  setActiveTab("customerRelationship");
 
   const dispatch = useDispatch();
   const [loading, setLoading] = useState(true);

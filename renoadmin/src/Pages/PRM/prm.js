@@ -28,8 +28,9 @@ const Action = ({ roleName }) => {
   );
 };
 
-const PMS = () => {
+const PMS = ({ setActiveTab }) => {
   const navigate = useNavigate();
+  setActiveTab("permission");
   const greenClicked = () => {
     navigate("/home/addNewRole");
   };

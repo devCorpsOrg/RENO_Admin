@@ -6,7 +6,7 @@ import { useDispatch } from "react-redux";
 import { updateUser } from "../features/userSlice";
 
 const EditUser = ({ setActiveTab, setExpand }) => {
-  // setExpand("userManagement");
+  setExpand("userManagement");
   setActiveTab("allUsers");
 
   const dispatch = useDispatch();
@@ -151,8 +151,7 @@ const EditUser = ({ setActiveTab, setExpand }) => {
                 }}
                 value={label}
                 onChange={handleLabelChange}
-                required
-              >
+                required>
                 <option value="">Select a label</option>
                 <option value="personal">Admin</option>
                 <option value="work">Work</option>
@@ -199,29 +198,28 @@ const EditUser = ({ setActiveTab, setExpand }) => {
             </label>
           </div>
         </form>
-          <div className="flex mt-10 gap-5 items-center">
-            <button
-              className="rounded bg-lime-600 hover:bg-lime-700"
-              style={{
-                width: "130px",
-                height: "55px",
-                color: "white",
-              }}
-              type="submit"
-              onClick={handleSubmit}
-            >
-              SAVE
-            </button>
-            <button
-              className="rounded bg-black hover:bg-gray-800"
-              style={{
-                width: "130px",
-                height: "55px",
-                color: "white",
-              }}>
-              <Link to="/home/allUsers">Back</Link>
-            </button>
-          </div>
+        <div className="flex mt-10 gap-5 items-center">
+          <button
+            className="rounded bg-lime-600 hover:bg-lime-700"
+            style={{
+              width: "130px",
+              height: "55px",
+              color: "white",
+            }}
+            type="submit"
+            onClick={handleSubmit}>
+            SAVE
+          </button>
+          <button
+            className="rounded bg-black hover:bg-gray-800"
+            style={{
+              width: "130px",
+              height: "55px",
+              color: "white",
+            }}>
+            <Link to="/home/allUsers">Back</Link>
+          </button>
+        </div>
       </div>
     </div>
   );

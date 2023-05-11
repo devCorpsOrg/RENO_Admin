@@ -17,9 +17,10 @@ const Photo = () => {
   );
 };
 
-const ReviewsHSM = () => {
+const ReviewsHSM = ({ setActiveTab, setExpand }) => {
   const head = "Reviews";
-
+  setExpand("homeService");
+  setActiveTab("reviewManagement");
   const dispatch = useDispatch();
   const [loading, setLoading] = useState(true);
 

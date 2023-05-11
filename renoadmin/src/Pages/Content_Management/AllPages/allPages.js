@@ -27,7 +27,8 @@ const Action = ({ pageid, pagename }) => {
   );
 };
 
-const AllPages = () => {
+const AllPages = ({ setActiveTab }) => {
+  setActiveTab("contentManagement");
   const Navigate = useNavigate();
   const GreenClicked = () => {
     Navigate("/Home/createNewPage");

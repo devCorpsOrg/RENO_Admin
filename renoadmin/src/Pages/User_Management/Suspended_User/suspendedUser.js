@@ -38,8 +38,10 @@ const ProfilePhoto = () => {
   );
 };
 
-const SuspendUsers = () => {
+const SuspendUsers = ({ setActiveTab, setExpand }) => {
   const head = "Suspend User List";
+  setExpand("userManagement");
+  setActiveTab("suspendUsers");
 
   const dispatch = useDispatch();
   const [loading, setLoading] = useState(true);

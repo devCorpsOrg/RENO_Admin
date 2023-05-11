@@ -43,9 +43,10 @@ const Photo = ({ picUrl }) => {
   );
 };
 
-const AllProjects = () => {
+const AllProjects = ({ setActiveTab, setExpand }) => {
   const head = "All Chats and Deals";
-
+  setExpand("homeService");
+  setActiveTab("helpDesk");
   const dispatch = useDispatch();
   const [loading, setLoading] = useState(true);
   const chatData = useSelector((state) => state.userManagement.hsm_helpdesk);

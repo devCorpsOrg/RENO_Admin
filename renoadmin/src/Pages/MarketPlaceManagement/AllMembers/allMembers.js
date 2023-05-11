@@ -38,8 +38,10 @@ const Photo = ({ picUrl }) => {
   );
 };
 
-const AllMember = () => {
+const AllMember = ({ setActiveTab, setExpand }) => {
   const head = "All Members";
+  setExpand("marketPlace");
+  setActiveTab("allMambers");
   const Navigate = useNavigate();
   const greenClicked = () => {
     Navigate("/home/addShowcase");

@@ -39,7 +39,9 @@ const Photo = ({ picUrl }) => {
   );
 };
 
-const AllProjects = () => {
+const AllProjects = ({ setActiveTab, setExpand }) => {
+  setExpand("showcaseManagement");
+  setActiveTab("projectList");
   const head = "All Project";
   const Navigate = useNavigate();
   const greenClicked = () => {
@@ -98,7 +100,7 @@ const AllProjects = () => {
     projectname: user.proj_name,
     category: user.proj_category,
     rate: `$ ${user.rate}`,
-    // projecttype: user., proj_id
+    projecttype: user.project_type,
     reviews: `${user.review}k reviews`,
     action: <Action projId={user.proj_id} projName={user.proj_name} />,
   }));
@@ -128,7 +130,7 @@ const AllProjects = () => {
           />
         </div>
       ) : null}
-      <div className=" ml-72 mt-28 h-[85vh] min-w-[85%] relative">
+      <div className=" ml-72 mt-28 h-[85vh] w-[95%] relative">
         {projectData.length > 0 ? (
           <Table
             columns={columns}
