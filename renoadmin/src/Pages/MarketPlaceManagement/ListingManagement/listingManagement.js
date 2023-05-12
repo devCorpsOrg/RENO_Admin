@@ -14,8 +14,8 @@ import {
 
 const Action = ({ listId, listName }) => {
   const Navigate = useNavigate();
-  const handleClick = () => {
-    Navigate("/home/editListing");
+  const handleEditClick = () => {
+    Navigate(`/home/editListing/?id={listId}`);
   };
   const dispatch = useDispatch();
   const handleDeleteClick = () => {
@@ -25,7 +25,7 @@ const Action = ({ listId, listName }) => {
   };
   return (
     <div className="w-6 h-6 flex gap-3 cursor-pointer">
-      <img onClick={handleClick} src={edit} alt="edit" />
+      <img onClick={handleEditClick} src={edit} alt="edit" />
       <img src={deleteIcon} onClick={handleDeleteClick} alt="Delete" />
     </div>
   );

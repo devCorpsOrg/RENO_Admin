@@ -152,28 +152,28 @@ const EditListing = ({ setExpand, setActiveTab }) => {
           {/* <div> */}
           {/* </div> */}
         </form>
-          <button
-            className="rounded mt-10 bg-lime-600 hover:bg-lime-700"
-            style={{
-              width: "170px",
-              height: "55px",
-              color: "white",
-            }}
-            type="submit"
-            onSubmit={handleSubmit}>
-            Save
-          </button>
-          <button
-            className="rounded mt-10 bg-black hover:bg-gray-800"
-            style={{
-              width: "170px",
-              height: "55px",
-              color: "white",
-              marginLeft: "30px",
-            }}
-            type="submit">
-            <Link to='/home/listingManagement'>Cancel</Link>
-          </button>
+        <button
+          className="rounded mt-10 bg-lime-600 hover:bg-lime-700"
+          style={{
+            width: "170px",
+            height: "55px",
+            color: "white",
+          }}
+          type="submit"
+          onSubmit={handleSubmit}>
+          Save
+        </button>
+        <button
+          className="rounded mt-10 bg-black hover:bg-gray-800"
+          style={{
+            width: "170px",
+            height: "55px",
+            color: "white",
+            marginLeft: "30px",
+          }}
+          type="submit">
+          <Link to="/home/listingManagement">Cancel</Link>
+        </button>
       </div>
     </div>
   );

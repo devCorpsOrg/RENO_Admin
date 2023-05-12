@@ -11,7 +11,7 @@ import { DeletePage } from "../../User_Management/features/userSlice";
 const Action = ({ pageid, pagename }) => {
   const Navigate = useNavigate();
   const handleEdit = () => {
-    Navigate("/home/editPage");
+    Navigate(`/home/editPage?pageid=${pageid}`);
   };
   const dispatch = useDispatch();
   const handleDeleteClick = () => {

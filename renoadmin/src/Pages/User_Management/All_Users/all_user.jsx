@@ -9,10 +9,10 @@ import { getUser, DeleteUser } from "../features/userSlice"; // Import deleteUse
 import { Grid } from "react-loader-spinner";
 
 // Component inside action column
-const Action = ({ username }) => {
+const Action = ({ username, userId }) => {
   const Navigate = useNavigate();
   const handleEditClick = () => {
-    Navigate(`/home/editDetails/?name=${username}`);
+    Navigate(`/home/editDetails/?uid=${userId}`);
   };
   const dispatch = useDispatch();
   const handleDeleteClick = () => {
@@ -96,7 +96,7 @@ const Allmembers = ({ setActiveTab, setExpand }) => {
 
   const pageSize = 5;
   const greenButtonText = "Add User";
-
+  console.log(userData);
   const data = userData.map((user) => ({
     photo: <ProfilePhoto picUrl={user.pic_url} />,
     username: user.username,
@@ -104,7 +104,7 @@ const Allmembers = ({ setActiveTab, setExpand }) => {
     contact: user.phone,
     usertype: user.role,
     userid: user.uid,
-    action: <Action username={user.username} />,
+    action: <Action userId={user.uid} username={user.username} />,
   }));
 
   return (
