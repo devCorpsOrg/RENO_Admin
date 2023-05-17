@@ -247,6 +247,7 @@ class CRM(m.Model):
 
     id = m.CharField(primary_key=True, default=uuid.uuid4, max_length=200)
     usname = m.CharField(max_length=50, blank=False, null=False, unique=True)
+    email = m.CharField(max_length=64, blank=False, null=False)
     pic_url = models.ImageField(upload_to=name_file, blank=True)
     abt = m.TextField()
     phone = m.CharField(max_length=50)

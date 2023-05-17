@@ -1086,6 +1086,25 @@ def reviews(request):
     return HttpResponse(formatted_data, content_type='application/json')
 
 
+@api_view(['POST'])
+def add_review(request):
+    try:
+        pic_url = None
+        if 'pic_url' in request.FILES:
+            pic_url = request.FILES['pic_url']
+        prod_name = request.POST['prod_name']
+        review = request.POST['review']
+        amt = request.POST['amt']
+        reviewer_name = request.POST['reviewer_name']
+        
+        review_doc = Reviews(pic_url=pic_url, prod_name=prod_name, review=review, amt=amt, reviewer_name=reviewer_name)
+        review_doc.save()
+
+        return HttpResponse('Review added successfully.', status=200)
+    except:
+        return HttpResponseBadRequest('Invalid request type.')
+
+
 @api_view(['DELETE'])
 def delete_review(request):
     id = request.query_params['id']
@@ -1217,10 +1236,14 @@ def add_products(request):
         category = request.POST['prod_category']
         proj_category = request.POST['proj_category']
         rate = request.POST['rate']
+        try:
+            float(rate)
+        except Exception as e:
+            return HttpResponseBadRequest("Non numerical value isn't accepted for rate.")
         inv_count = request.POST['inv_count']
         pic_url = None
         if 'pic_url' in request.FILES:
-            pic_url = request.FILES['pic_url']            
+            pic_url = request.FILES['pic_url'] 
         details = request.POST['details']
         # featured_flag = int(request.POST['featured_flag'])
 
