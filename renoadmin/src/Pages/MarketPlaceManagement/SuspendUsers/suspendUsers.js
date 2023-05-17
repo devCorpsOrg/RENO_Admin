@@ -37,8 +37,8 @@ const Photo = () => {
 
 const SuspendUser = ({ setActiveTab, setExpand }) => {
   const head = "Suspended Users";
-  setExpand("marketPlace");
-  setActiveTab("suspendMarketUser");
+  // setExpand("marketPlace");
+  // setActiveTab("suspendMarketUser");
   const dispatch = useDispatch();
   const [loading, setLoading] = useState(true);
 

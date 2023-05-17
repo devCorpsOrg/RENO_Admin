@@ -55,7 +55,7 @@ const CreateUser = ({ setActiveTab, setExpand }) => {
     formData.append("username", name);
     formData.append("email", email);
     formData.append("phone", phone);
-    formData.append("uid", userId);
+    // formData.append("uid", userId);
     formData.append("role", label);
     formData.append("pic", photo, photo.name);
 
@@ -119,22 +119,6 @@ const CreateUser = ({ setActiveTab, setExpand }) => {
                   paddingLeft: "5px",
                 }}
                 onChange={handlePhoneChange}
-                required
-              />
-            </label>
-            <label className="grid pr-6">
-              User ID
-              <input
-                type="userId"
-                value={userId}
-                class="outline-none rounded"
-                style={{
-                  height: "50px",
-                  width: "380px",
-                  border: "2px solid 	#e6f7fe",
-                  paddingLeft: "5px",
-                }}
-                onChange={handleUserIdChange}
                 required
               />
             </label>

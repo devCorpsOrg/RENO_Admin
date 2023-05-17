@@ -42,9 +42,9 @@ const ProfilePhoto = ({ picUrl }) => {
 
 const Allmembers = ({ setActiveTab, setExpand }) => {
   const head = "All Users";
-  setExpand("userManagement");
+  // setExpand("userManagement");
 
-  setActiveTab("allUsers");
+  // setActiveTab("allUsers");
   const Navigate = useNavigate();
   const greenClicked = () => {
     Navigate("/home/createUser");

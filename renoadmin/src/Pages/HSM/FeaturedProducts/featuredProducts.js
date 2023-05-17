@@ -39,8 +39,8 @@ const Photo = () => {
 };
 
 const AllProjects = ({ setActiveTab, setExpand }) => {
-  setExpand("homeService");
-  setActiveTab("featuredProduct");
+  // setExpand("homeService");
+  // setActiveTab("featuredProduct");
   const Navigate = useNavigate();
   const greenClicked = () => {
     Navigate("/home/addProduct");
