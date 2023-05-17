@@ -1188,16 +1188,19 @@ def export_products(request):
 @csrf_exempt
 def edit_products(request):
     prod_name = request.query_params['prod_name']
-    product = Products.objects.filter(name=prod_name).first()
+    print(prod_name)
+    product = Products.objects.get(name=prod_name)
 
     if product:
-        params = QueryDict(request.body)
-        product.name = params['prod_name']
-        product.category = params['prod_category']
-        product.proj_category = params['proj_category']
-        product.rate = params['rate']
-        product.inv_count = params['inv_count']
-        product.details = params['details']
+        data = request.data
+        print(data['prod_category'])
+        product.name = data['prod_name']
+        product.category = data['prod_category']
+        product.proj_category = data['proj_category']
+        product.rate = data['rate']
+        product.inv_count = data['inv_count']
+        product.details = data['details']
+        product.pic_url=data['pic_url']
 
         product.save()
 
