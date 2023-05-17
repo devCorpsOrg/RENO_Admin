@@ -3,7 +3,7 @@ import React from "react";
 import TopHeader from "../../../UI/TopHeader/TopHeader";
 import { useDispatch } from "react-redux";
 import { updateListing } from "../../User_Management/features/userSlice";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 const EditListing = ({ setExpand, setActiveTab }) => {
   // setExpand("marketPlace");
@@ -15,6 +15,7 @@ const EditListing = ({ setExpand, setActiveTab }) => {
   const [price, setPrice] = useState("");
   const [content, setContent] = useState("");
   const [images, setImages] = useState([]);
+  const navigate = useNavigate();
 
   const handleSubmit = (event) => {
     event.preventDefault();
@@ -28,6 +29,7 @@ const EditListing = ({ setExpand, setActiveTab }) => {
     });
 
     dispatch(updateListing({ formData, title }));
+    navigate('/home/listingManagement');
   };
 
   const handlePhotoUpload = (event) => {

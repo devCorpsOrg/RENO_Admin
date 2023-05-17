@@ -4,12 +4,13 @@ import TopHeader from "../../../UI/TopHeader/TopHeader";
 import DisabledByDefaultRoundedIcon from "@mui/icons-material/DisabledByDefaultRounded";
 import { useDispatch } from "react-redux";
 import { updateCategory } from "../../User_Management/features/userSlice";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 const EditCategory = ({ setExpand, setActiveTab }) => {
   // setExpand("marketPlace");
   setActiveTab("catagoryManagement");
   const head = "Edit Category";
+  const navigate = useNavigate();
 
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
@@ -26,6 +27,7 @@ const EditCategory = ({ setExpand, setActiveTab }) => {
     });
 
     dispatch(updateCategory({ formData, title }));
+    navigate('/home/catagoryManagement');
   };
 
   const handlePhotoUpload = (event) => {

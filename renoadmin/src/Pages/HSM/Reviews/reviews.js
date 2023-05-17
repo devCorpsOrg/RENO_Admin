@@ -19,8 +19,8 @@ const Photo = () => {
 
 const ReviewsHSM = ({ setActiveTab, setExpand }) => {
   const head = "Reviews";
-  setExpand("homeService");
-  setActiveTab("reviewManagement");
+  // setExpand("homeService");
+  // setActiveTab("reviewManagement");
   const dispatch = useDispatch();
   const [loading, setLoading] = useState(true);
 

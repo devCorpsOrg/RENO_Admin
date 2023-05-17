@@ -48,8 +48,8 @@ const Photo = (pic_url) => {
 
 const AllProducts = ({ setActiveTab, setExpand }) => {
   const head = "All Products";
-  setExpand("marketPlace");
-  setActiveTab("catagoryManagement");
+  // setExpand("marketPlace");
+  // setActiveTab("catagoryManagement");
   const Navigate = useNavigate();
   const greenClicked = () => {
     Navigate("/home/addNewCategory");

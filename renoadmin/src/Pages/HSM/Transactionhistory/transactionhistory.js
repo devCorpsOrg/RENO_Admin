@@ -25,8 +25,8 @@ const Photo = ({ picUrl }) => {
 };
 
 const Purchases = ({ setActiveTab, setExpand }) => {
-  setExpand("homeService");
-  setActiveTab("transactionHistory");
+  // setExpand("homeService");
+  // setActiveTab("transactionHistory");
   const head = "Transaction/Purchase History";
   const dispatch = useDispatch();
   const [loading, setLoading] = useState(true);

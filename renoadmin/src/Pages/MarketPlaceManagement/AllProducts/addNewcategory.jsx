@@ -5,13 +5,14 @@ import axios from "axios";
 import { responsiveFontSizes } from "@mui/material";
 import { useDispatch } from "react-redux";
 import { addNewCategory } from "../../User_Management/features/userSlice";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 const AddNewCategory = ({ setExpand, setActiveTab }) => {
   // setExpand("marketPlace");
   setActiveTab("catagoryManagement");
   const head = "Add New Category";
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
@@ -27,6 +28,7 @@ const AddNewCategory = ({ setExpand, setActiveTab }) => {
     });
 
     dispatch(addNewCategory(formData));
+    navigate('/home/catagoryManagement')
   };
 
   const handlePhotoUpload = (event) => {

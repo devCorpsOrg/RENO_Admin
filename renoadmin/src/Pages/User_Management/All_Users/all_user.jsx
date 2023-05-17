@@ -12,7 +12,14 @@ import { Grid } from "react-loader-spinner";
 const Action = ({ username }) => {
   const Navigate = useNavigate();
   const handleEditClick = () => {
-    Navigate(`/home/editDetails/?name=${username}`);
+    const data = {
+      // "photo": photo,
+      "username": username,
+      // "emailaddress": emailaddress,
+      // "contact": contact,
+      // "usertype": usertype,
+    }
+    Navigate(`/home/editDetails/?name=${username}`, { state: data });
   };
   const dispatch = useDispatch();
   const handleDeleteClick = () => {
@@ -42,9 +49,9 @@ const ProfilePhoto = ({ picUrl }) => {
 
 const Allmembers = ({ setActiveTab, setExpand }) => {
   const head = "All Users";
-  setExpand("userManagement");
+  // setExpand("userManagement");
 
-  setActiveTab("allUsers");
+  // setActiveTab("allUsers");
   const Navigate = useNavigate();
   const greenClicked = () => {
     Navigate("/home/createUser");

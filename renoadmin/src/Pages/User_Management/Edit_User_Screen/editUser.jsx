@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import TopHeader from "../../../UI/TopHeader/TopHeader";
-import { Form, Link } from "react-router-dom";
+import { Form, Link, useLocation } from "react-router-dom";
 import axios from "axios";
 import { useDispatch } from "react-redux";
 import { updateUser } from "../features/userSlice";
@@ -10,8 +10,10 @@ const EditUser = ({ setActiveTab, setExpand }) => {
   setActiveTab("allUsers");
 
   const dispatch = useDispatch();
+  const location = useLocation();
+  const editData = location.state;
 
-  const [name, setName] = useState("");
+  const [name, setName] = useState(editData.username);
   const [email, setEmail] = useState("");
   const [phone, setPhone] = useState("");
   const [userId, setUserId] = useState("");

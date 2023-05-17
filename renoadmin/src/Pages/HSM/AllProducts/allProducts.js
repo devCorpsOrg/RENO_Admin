@@ -37,8 +37,8 @@ const Photo = ({ picUrl }) => {
 };
 
 const AllProduct = ({ setActiveTab, setExpand }) => {
-  setExpand("homeService");
-  setActiveTab("productList");
+  // setExpand("homeService");
+  // setActiveTab("productList");
 
   const Navigate = useNavigate();
   const greenClicked = () => {

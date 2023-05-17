@@ -4,13 +4,14 @@ import TopHeader from "../../../UI/TopHeader/TopHeader";
 import axios from "axios";
 import { addNewPromotion } from "../../User_Management/features/userSlice";
 import { useDispatch } from "react-redux";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 const AddPromotion = ({ setExpand, setActiveTab }) => {
   // setExpand("homeService");
   setActiveTab("promotionManagement");
   const head = "Add New Promotion";
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
@@ -33,6 +34,7 @@ const AddPromotion = ({ setExpand, setActiveTab }) => {
     });
 
     dispatch(addNewPromotion(formData));
+    navigate('/home/promotionManagement')
   };
 
   const handlePhotoUpload = (event) => {

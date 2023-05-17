@@ -41,8 +41,8 @@ const Photo = ({ pic_url }) => {
 
 const ListingData = ({ setActiveTab, setExpand }) => {
   const head = "All Members";
-  setExpand("marketPlace");
-  setActiveTab("listingManagement");
+  // setExpand("marketPlace");
+  // setActiveTab("listingManagement");
   const Navigate = useNavigate();
   const greenClicked = () => {
     Navigate("/home/addListing");
