@@ -4,13 +4,14 @@ import TopHeader from "../../../UI/TopHeader/TopHeader";
 import axios from "axios";
 import { useDispatch } from "react-redux";
 import { addNewListing } from "../../User_Management/features/userSlice";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 const AddListing = ({ setExpand, setActiveTab }) => {
   // setExpand("marketPlace");
   setActiveTab("listingManagement");
   const head = "Add Listing";
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const [title, setTitle] = useState("");
   const [price, setPrice] = useState("");
@@ -29,6 +30,7 @@ const AddListing = ({ setExpand, setActiveTab }) => {
     });
 
     dispatch(addNewListing(formData));
+    navigate('/home/listingManagement')
   };
 
   const handlePhotoUpload = (event) => {

@@ -3,12 +3,13 @@ import React from "react";
 import TopHeader from "../../../UI/TopHeader/TopHeader";
 import { useDispatch } from "react-redux";
 import { updatePage } from "../../User_Management/features/userSlice";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 const EditPage = ({ setExpand, setActiveTab }) => {
   setActiveTab("contentManagement");
   const head = "Edit Page";
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
@@ -25,6 +26,8 @@ const EditPage = ({ setExpand, setActiveTab }) => {
     });
 
     dispatch(updatePage({ formData, title }));
+    navigate('/home/contentManagement')
+
   };
 
   const handleImageUpload = (event) => {

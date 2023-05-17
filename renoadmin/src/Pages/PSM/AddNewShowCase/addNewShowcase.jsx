@@ -4,13 +4,14 @@ import TopHeader from "../../../UI/TopHeader/TopHeader";
 import axios from "axios";
 import { useDispatch } from "react-redux";
 import { addNewShowcase } from "../../User_Management/features/userSlice";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 const AddNewShowcase = ({ setExpand, setActiveTab }) => {
   // setExpand("showcaseManagement");
   setActiveTab("projectList");
   const head = "Add New Showcase";
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
@@ -31,6 +32,7 @@ const AddNewShowcase = ({ setExpand, setActiveTab }) => {
     });
 
     dispatch(addNewShowcase(formData));
+    navigate('/home/projectList');
   };
 
   const handleImageUpload = (event) => {

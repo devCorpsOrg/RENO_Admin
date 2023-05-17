@@ -4,12 +4,13 @@ import TopHeader from "../../../UI/TopHeader/TopHeader";
 import axios from "axios";
 import { useDispatch } from "react-redux";
 import { createNewPage } from "../../User_Management/features/userSlice";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 const CreateNewPage = ({ setExpand, setActiveTab }) => {
   setActiveTab("contentManagement");
   const head = "Create New Page";
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
@@ -26,6 +27,7 @@ const CreateNewPage = ({ setExpand, setActiveTab }) => {
     });
 
     dispatch(createNewPage(formData));
+    navigate("/home/contentManagement")
   };
 
   const handleImageUpload = (event) => {
