@@ -151,7 +151,12 @@ class LoginView(APIView):
              res={'msg':'User is not present in userdetails'}
              json_data=JSONRenderer().render(res)
              return HttpResponse(json_data,content_type='application/json')
-       
+        
+        if info.role!='admin':
+            res={'msg':'User is not admin'}
+            json_data=JSONRenderer().render(res)
+            return HttpResponse(json_data,content_type='application/json')
+
         
         user = User.objects.filter(username=username).first()
         
