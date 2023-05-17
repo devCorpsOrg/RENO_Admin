@@ -4,13 +4,14 @@ import TopHeader from "../../../UI/TopHeader/TopHeader";
 import axios from "axios";
 import { useDispatch } from "react-redux";
 import { addNewProduct } from "../../User_Management/features/userSlice";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 const AddProduct = ({ setExpand, setActiveTab }) => {
   // setExpand("homeService");
   setActiveTab("productList");
   const head = "Add Product";
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
@@ -46,6 +47,7 @@ const AddProduct = ({ setExpand, setActiveTab }) => {
     });
 
     dispatch(addNewProduct(formData));
+    navigate('/home/productList');
   };
 
   const handlePhotoUpload = (event) => {
