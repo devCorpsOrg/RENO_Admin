@@ -145,7 +145,12 @@ class LoginView(APIView):
         password = request.data['password']
         ans=[]  
        
-        info=Userdetails.objects.get(username=username)
+        try:
+             info=Userdetails.objects.get(username=username)
+        except Userdetails.DoesNotExist:
+             res={'msg':'User is not present in userdetails'}
+             json_data=JSONRenderer().render(res)
+             return HttpResponse(json_data,content_type='application/json')
        
         
         user = User.objects.filter(username=username).first()
