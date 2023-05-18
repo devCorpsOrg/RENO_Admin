@@ -19,7 +19,13 @@ const Action = ({ catId, catName }) => {
   const dispatch = useDispatch();
   const handleDeleteClick = () => {
     if (window.confirm(`Are you sure you want to delete ${catName}?`)) {
-      dispatch(DeleteCategory(catId)); // Dispatch deleteUser action
+      dispatch(DeleteCategory(catId))
+        .then(() => {
+          window.location.reload();
+        })
+        .catch((err) => {
+          console.log(err);
+        }); // Dispatch deleteUser action
     }
   };
   return (
@@ -48,8 +54,8 @@ const Photo = (pic_url) => {
 
 const AllProducts = ({ setActiveTab, setExpand }) => {
   const head = "All Products";
-  // setExpand("marketPlace");
-  // setActiveTab("catagoryManagement");
+  setExpand("marketPlace");
+  setActiveTab("catagoryManagement");
   const Navigate = useNavigate();
   const greenClicked = () => {
     Navigate("/home/addNewCategory");

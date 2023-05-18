@@ -10,15 +10,14 @@ const CreateNewPage = ({ setExpand, setActiveTab }) => {
   setActiveTab("contentManagement");
   const head = "Create New Page";
   const dispatch = useDispatch();
-  const navigate = useNavigate();
 
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
   const [images, setImages] = useState([]);
 
-  const handleSubmit = async (event) => {
+  const HandleSubmit = async (event) => {
     event.preventDefault();
-
+    const navigate = useNavigate();
     const formData = new FormData();
     formData.append("pagename", title);
     formData.append("content", content);
@@ -26,8 +25,14 @@ const CreateNewPage = ({ setExpand, setActiveTab }) => {
       formData.append(`media`, image);
     });
 
-    dispatch(createNewPage(formData));
-    navigate("/home/contentManagement")
+    dispatch(createNewPage(formData))
+      .then(() => {
+        navigate("/home/contentManagement");
+        window.location.reload();
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   };
 
   const handleImageUpload = (event) => {
@@ -46,7 +51,7 @@ const CreateNewPage = ({ setExpand, setActiveTab }) => {
       </div>
 
       <div className=" ml-80 mt-20 relative" style={{ marginTop: "140px" }}>
-        <form onSubmit={handleSubmit}>
+        <form onSubmit={HandleSubmit}>
           <label className="grid">
             Page Title
             <input
@@ -135,32 +140,30 @@ const CreateNewPage = ({ setExpand, setActiveTab }) => {
             </ul>
           </div>
         </form>
-          <div style={{paddingLeft:"5px"}}>
-            <button
-              className="rounded bg-lime-600 hover:bg-lime-700 mt-10"
-              style={{
-                // backgroundColor: "rgba(153, 190, 17, 0.831)",
-                width: "130px",
-                height: "55px",
-                color: "white",
-              }}
-              type="submit"
-              onClick={handleSubmit}
-            >
-              Submit
-            </button>
-            <button
-              className="rounded bg-amber-600 hover:bg-amber-700"
-              style={{
-                width: "130px",
-                height: "55px",
-                color: "white",
-                marginLeft: "50px"
-              }}
-            >
-              <Link to="/home/contentManagement">Back</Link>
-            </button>
-          </div>
+        <div style={{ paddingLeft: "5px" }}>
+          <button
+            className="rounded bg-lime-600 hover:bg-lime-700 mt-10"
+            style={{
+              // backgroundColor: "rgba(153, 190, 17, 0.831)",
+              width: "130px",
+              height: "55px",
+              color: "white",
+            }}
+            type="submit"
+            onClick={HandleSubmit}>
+            Submit
+          </button>
+          <button
+            className="rounded bg-amber-600 hover:bg-amber-700"
+            style={{
+              width: "130px",
+              height: "55px",
+              color: "white",
+              marginLeft: "50px",
+            }}>
+            <Link to="/home/contentManagement">Back</Link>
+          </button>
+        </div>
       </div>
     </div>
   );

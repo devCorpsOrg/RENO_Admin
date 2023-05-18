@@ -29,7 +29,7 @@ const Action = () => {
   return (
     <div className="w-6 h-6 flex gap-3 cursor-pointer">
       <img onClick={handleClick} src={view} alt="View" />
-      <img src={deleteIcon} alt="Delete" />
+      {/* <img src={deleteIcon} alt="Delete" /> */}
       {isPopupVisible && <PopupComponent />}
     </div>
   );

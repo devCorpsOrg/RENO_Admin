@@ -20,7 +20,13 @@ const Action = ({ projId, projName }) => {
   const dispatch = useDispatch();
   const handleDeleteClick = () => {
     if (window.confirm(`Are you sure you want to delete ${projName}?`)) {
-      dispatch(DeleteProject(projId)); // Dispatch deleteUser action
+      dispatch(DeleteProject(projId))
+        .then(() => {
+          window.location.reload();
+        })
+        .catch((err) => {
+          console.log(err);
+        }); // Dispatch deleteUser action
     }
   };
   return (
@@ -42,8 +48,8 @@ const Photo = () => {
 const FeaturedProject = ({ setActiveTab, setExpand }) => {
   const head = "Featured Project";
 
-  // setExpand("showcaseManagement");
-  // setActiveTab("featuredProject");
+  setExpand("showcaseManagement");
+  setActiveTab("featuredProject");
   const dispatch = useDispatch();
   const [loading, setLoading] = useState(true);
   const featuredData = useSelector(

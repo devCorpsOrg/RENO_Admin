@@ -12,7 +12,6 @@ const EditProduct = ({ setExpand, setActiveTab }) => {
   setActiveTab("productList");
   const head = "Edit Product";
   const dispatch = useDispatch();
-  const navigate = useNavigate();
 
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
@@ -21,9 +20,16 @@ const EditProduct = ({ setExpand, setActiveTab }) => {
   const [pack, setPack] = useState("");
   const [productCategory, setProductCategory] = useState("");
   const [inventory, setInventory] = useState("");
+  // const [pack, setPack] = useState("");
+  const [currency, setCurrency] = useState("$"); // Default currency is $
 
-  const handleSubmit = (event) => {
+  const handleCurrencyChange = (event) => {
+    setCurrency(event.target.value);
+  };
+
+  const HandleSubmit = (event) => {
     event.preventDefault();
+    const navigate = useNavigate();
     const formData = new FormData();
     formData.append("prod_name", title);
     formData.append("details", content);
@@ -35,8 +41,14 @@ const EditProduct = ({ setExpand, setActiveTab }) => {
       formData.append("pic_url", image);
     });
 
-    dispatch(updateProject({ formData, title }));
-    navigate('/home/productList')
+    dispatch(updateProject({ formData, title }))
+      .then(() => {
+        navigate("/home/productList");
+        window.location.reload();
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   };
 
   const handlePhotoUpload = (event) => {
@@ -73,7 +85,7 @@ const EditProduct = ({ setExpand, setActiveTab }) => {
       </div>
 
       <div className=" ml-80 mb-10 relative" style={{ marginTop: "120px" }}>
-        <form onSubmit={handleSubmit}>
+        <form onSubmit={HandleSubmit}>
           <label className="grid mt-5">
             Product Title
             <input
@@ -117,20 +129,34 @@ const EditProduct = ({ setExpand, setActiveTab }) => {
             </label>
             <label className="grid">
               Package
-              <input
-                type="text"
-                value={pack}
-                class="outline-none w-[49vh] rounded"
-                placeholder="$000.00"
-                style={{
-                  height: "50px",
-                  paddingLeft: "10px",
-                  backgroundColor: "#e5ecff",
-                  marginTop: "5px",
-                  fontSize: "14px",
-                }}
-                onChange={(event) => setPack(event.target.value)}
-              />
+              <div className="flex items-center mt-2">
+                <select
+                  value={currency}
+                  className="mr-2 outline-none rounded"
+                  onChange={handleCurrencyChange}>
+                  <option value="$">USD</option>
+                  <option value="€">EUR</option>
+                  <option value="¥">JPY</option>
+                  <option value="£">GBP</option>
+                  <option value="₹">INR</option>
+                  {/* Add more currency options as needed */}
+                </select>
+                <input
+                  type="text"
+                  value={pack}
+                  className="outline-none w-[42vh] rounded"
+                  placeholder={`${currency}000.00`}
+                  style={{
+                    height: "50px",
+                    paddingLeft: "10px",
+                    border: "2px solid #e6f7fe",
+                    marginTop: "5px",
+                    fontSize: "14px",
+                  }}
+                  onChange={(event) => setPack(event.target.value)}
+                  required
+                />
+              </div>
             </label>
           </div>
           <div className="grid grid-cols-2 gap-2 mt-5">
@@ -258,28 +284,28 @@ const EditProduct = ({ setExpand, setActiveTab }) => {
           {/* <div> */}
           {/* </div> */}
         </form>
-          <button
-            className="rounded bg-lime-600 hover:bg-lime-700 mt-10"
-            style={{
-              width: "170px",
-              height: "55px",
-              color: "white",
-            }}
-            type="submit"
-            onClick={handleSubmit}>
-            Save
-          </button>
-          <button
-            className="rounded bg-black hover:bg-gray-800 mt-10"
-            style={{
-              width: "170px",
-              height: "55px",
-              color: "white",
-              marginLeft: "30px",
-            }}
-            type="submit">
-            <Link to='/home/productList'>Cancel</Link>
-          </button>
+        <button
+          className="rounded bg-lime-600 hover:bg-lime-700 mt-10"
+          style={{
+            width: "170px",
+            height: "55px",
+            color: "white",
+          }}
+          type="submit"
+          onSubmit={HandleSubmit}>
+          Save
+        </button>
+        <button
+          className="rounded bg-black hover:bg-gray-800 mt-10"
+          style={{
+            width: "170px",
+            height: "55px",
+            color: "white",
+            marginLeft: "30px",
+          }}
+          type="submit">
+          <Link to="/home/productList">Cancel</Link>
+        </button>
       </div>
     </div>
   );

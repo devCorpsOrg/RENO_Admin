@@ -18,7 +18,13 @@ const Action = ({ username }) => {
   const dispatch = useDispatch();
   const handleDeleteClick = () => {
     if (window.confirm(`Are you sure you want to delete ${username}?`)) {
-      dispatch(DeleteSuspendUser(username)); // Dispatch deleteUser action
+      dispatch(DeleteSuspendUser(username))
+        .then(() => {
+          window.location.reload();
+        })
+        .catch((err) => {
+          console.log(err);
+        }); // Dispatch deleteUser action
     }
   };
   const head = "Suspended Users";
@@ -40,8 +46,8 @@ const ProfilePhoto = () => {
 
 const SuspendUsers = ({ setActiveTab, setExpand }) => {
   const head = "Suspend User List";
-  // setExpand("userManagement");
-  // setActiveTab("suspendUsers");
+  setExpand("userManagement");
+  setActiveTab("suspendUsers");
 
   const dispatch = useDispatch();
   const [loading, setLoading] = useState(true);

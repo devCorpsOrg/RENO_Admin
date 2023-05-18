@@ -19,7 +19,13 @@ const Action = ({ prodId, prodName }) => {
   const dispatch = useDispatch();
   const handleDeleteClick = () => {
     if (window.confirm(`Are you sure you want to delete ${prodName}?`)) {
-      dispatch(DeleteProduct(prodId)); // Dispatch deleteUser action
+      dispatch(DeleteProduct(prodId))
+        .then(() => {
+          window.location.reload();
+        })
+        .catch((err) => {
+          console.log(err);
+        }); // Dispatch deleteUser action
     }
   };
   return (
@@ -39,8 +45,8 @@ const Photo = () => {
 };
 
 const AllProjects = ({ setActiveTab, setExpand }) => {
-  // setExpand("homeService");
-  // setActiveTab("featuredProduct");
+  setExpand("homeService");
+  setActiveTab("featuredProduct");
   const Navigate = useNavigate();
   const greenClicked = () => {
     Navigate("/home/addProduct");

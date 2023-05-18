@@ -23,7 +23,13 @@ const Action = ({
   const dispatch = useDispatch();
   const handleDeleteClick = () => {
     if (window.confirm(`Are you sure you want to delete ${prodName}?`)) {
-      dispatch(DeleteReview(prodId)); // Dispatch deleteUser action
+      dispatch(DeleteReview(prodId))
+        .then(() => {
+          window.location.reload();
+        })
+        .catch((err) => {
+          console.log(err);
+        }); // Dispatch deleteUser action
     }
   };
 

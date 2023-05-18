@@ -15,7 +15,13 @@ const Action = ({ dealId, dealName }) => {
   const dispatch = useDispatch();
   const handleDeleteClick = () => {
     if (window.confirm(`Are you sure you want to delete ${dealName}?`)) {
-      dispatch(DeleteDeal(dealId)); // Dispatch deleteUser action
+      dispatch(DeleteDeal(dealId))
+        .then(() => {
+          window.location.reload();
+        })
+        .catch((err) => {
+          console.log(err);
+        }); // Dispatch deleteUser action
     }
   };
   return (

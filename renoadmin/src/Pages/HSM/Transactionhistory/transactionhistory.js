@@ -11,7 +11,7 @@ import { HSM_transaction } from "../../User_Management/features/userSlice";
 const Action = () => {
   return (
     <div className="w-6 h-6 flex gap-3 cursor-pointer">
-      <img src={deleteIcon} alt="Delete" />
+      {/* <img src={deleteIcon} alt="Delete" /> */}
     </div>
   );
 };
@@ -25,8 +25,8 @@ const Photo = ({ picUrl }) => {
 };
 
 const Purchases = ({ setActiveTab, setExpand }) => {
-  // setExpand("homeService");
-  // setActiveTab("transactionHistory");
+  setExpand("homeService");
+  setActiveTab("transactionHistory");
   const head = "Transaction/Purchase History";
   const dispatch = useDispatch();
   const [loading, setLoading] = useState(true);

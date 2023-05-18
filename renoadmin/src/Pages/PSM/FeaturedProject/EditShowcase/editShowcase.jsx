@@ -12,7 +12,6 @@ const EditShowcase = ({ setExpand, setActiveTab }) => {
   setActiveTab("projectList");
   const head = "Edit Showcase";
   const dispatch = useDispatch();
-  const navigate = useNavigate();
 
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
@@ -20,9 +19,9 @@ const EditShowcase = ({ setExpand, setActiveTab }) => {
   const [label, setLabel] = useState("");
   const [rate, setRate] = useState("");
 
-  const handleSubmit = (event) => {
-    // event.preventDefault();
-    console.log('Save')
+  const HandleSubmit = (event) => {
+    event.preventDefault();
+    const navigate = useNavigate();
     const formData = new FormData();
     formData.append("proj_name", title);
     formData.append("proj_category", label);
@@ -32,9 +31,14 @@ const EditShowcase = ({ setExpand, setActiveTab }) => {
       formData.append("pic", image);
     });
 
-    dispatch(updateShowcase({ formData, title }));
-    navigate('/home/projectList')
-    
+    dispatch(updateShowcase({ formData, title }))
+      .then(() => {
+        navigate("/home/projectList");
+        window.location.reload();
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   };
 
   const handlePhotoUpload = (event) => {
@@ -65,7 +69,7 @@ const EditShowcase = ({ setExpand, setActiveTab }) => {
       </div>
 
       <div className=" ml-80 mb-10 relative" style={{ marginTop: "120px" }}>
-        <form onSubmit={handleSubmit}>
+        <form onSubmit={HandleSubmit}>
           <label className="grid mt-5">
             Project Title
             <input
@@ -212,29 +216,28 @@ const EditShowcase = ({ setExpand, setActiveTab }) => {
           </label>
           {/* <div> */}
           {/* </div> */}
-          <button
-            className="rounded mt-10 bg-lime-600 hover:bg-lime-700"
-            style={{
-              width: "170px",
-              height: "55px",
-              color: "white",
-            }}
-            type="submit"
-            onClick={handleSubmit}>
-            Save
-          </button>
-          <button
-            className="rounded mt-10 bg-black hover:bg-gray-800"
-            style={{
-              width: "170px",
-              height: "55px",
-              color: "white",
-              marginLeft: "30px",
-            }}
-            >
-            <Link to='/home/projectList'>Cancel</Link>
-          </button>
         </form>
+        <button
+          className="rounded mt-10 bg-lime-600 hover:bg-lime-700"
+          style={{
+            width: "170px",
+            height: "55px",
+            color: "white",
+          }}
+          type="submit"
+          onSubmit={HandleSubmit}>
+          Save
+        </button>
+        <button
+          className="rounded mt-10 bg-black hover:bg-gray-800"
+          style={{
+            width: "170px",
+            height: "55px",
+            color: "white",
+            marginLeft: "30px",
+          }}>
+          <Link to="/home/projectList">Cancel</Link>
+        </button>
       </div>
     </div>
   );

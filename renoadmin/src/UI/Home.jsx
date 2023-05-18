@@ -1,6 +1,11 @@
 import React, { useState } from "react";
 import SideNavBar from "./SideNavigationBar/SideNavBar";
-import { BrowserRouter as Router, Routes, Route, useNavigate } from "react-router-dom";
+import {
+  BrowserRouter as Router,
+  Routes,
+  Route,
+  useNavigate,
+} from "react-router-dom";
 import Dashboard from "../Pages/DashBoard_Screen/Dashboard";
 import UserDetails from "../Pages/User_Management/All_Users/all_user";
 import Configuration from "../Pages/Configuration_Screen/Configuration";
@@ -43,8 +48,8 @@ import AllChats from "../Pages/MarketPlaceManagement/AllChats/allchats";
 import ProjectBooking from "../Pages/PSM/ProjectBookings/projectBookings";
 import CreateUser from "../Pages/User_Management/Create_User/createUser";
 import EditPage from "../Pages/Content_Management/EditPage/editPage";
-import cookie from 'js-cookie';
-import EditPromotion from "../Pages/HSM/EditPromotion/editPromotion";
+import cookie from "js-cookie";
+// import EditPromotion from "../Pages/HSM/EditPromotion/editPromotion";
 // import { useLocation } from 'react-router-dom';
 
 function Home() {
@@ -69,83 +74,87 @@ function Home() {
 
   return (
     <div className="flex">
-
-      {cookie.get('jwt') && (
+      {cookie.get("jwt") && (
         <>
-      
-      <SideNavBar
-        expand={expand}
-        setExpand={togleExpand}
-        activeTab={activeTab}
-        setActiveTab={handleActiveTab}
-      />
-      <Routes>
-        <Route exact path="/" element={<Dashboard />} />
-        <Route
-          exact
-          path="/allUsers"
-          element={
-            <UserDetails
-              setExpand={togleExpand}
-              setActiveTab={handleActiveTab}
+          <SideNavBar
+            expand={expand}
+            setExpand={togleExpand}
+            activeTab={activeTab}
+            setActiveTab={handleActiveTab}
+          />
+          <Routes>
+            <Route exact path="/" element={<Dashboard />} />
+            <Route
+              exact
+              path="/allUsers"
+              element={
+                <UserDetails
+                  setExpand={togleExpand}
+                  setActiveTab={handleActiveTab}
+                />
+              }
             />
-          }
-        />
-        <Route
-          exact
-          path="/bookings"
-          element={
-            <ProjectBooking
-              setExpand={togleExpand}
-              setActiveTab={handleActiveTab}
+            <Route
+              exact
+              path="/bookings"
+              element={
+                <ProjectBooking
+                  setExpand={togleExpand}
+                  setActiveTab={handleActiveTab}
+                />
+              }
             />
-          }
-        />
-        <Route
-          exact
-          path="/helpDesk"
-          element={
-            <HelpDesk setExpand={togleExpand} setActiveTab={handleActiveTab} />
-          }
-        />
-        <Route
-          exact
-          path="/addListing"
-          element={
-            <AddListing
-              setExpand={togleExpand}
-              setActiveTab={handleActiveTab}
+            <Route
+              exact
+              path="/helpDesk"
+              element={
+                <HelpDesk
+                  setExpand={togleExpand}
+                  setActiveTab={handleActiveTab}
+                />
+              }
             />
-          }
-        />
-        <Route
-          exact
-          path="/reviewForManagement"
-          element={
-            <ReviewMPM setExpand={togleExpand} setActiveTab={handleActiveTab} />
-          }
-        />
-        <Route
-          exact
-          path="/catagoryManagement"
-          element={
-            <AllMarketProducts
-              setExpand={togleExpand}
-              setActiveTab={handleActiveTab}
+            <Route
+              exact
+              path="/addListing"
+              element={
+                <AddListing
+                  setExpand={togleExpand}
+                  setActiveTab={handleActiveTab}
+                />
+              }
             />
-          }
-        />
-        <Route
-          exact
-          path="/editListing"
-          element={
-            <EditListing
-              setExpand={togleExpand}
-              setActiveTab={handleActiveTab}
+            <Route
+              exact
+              path="/reviewForManagement"
+              element={
+                <ReviewMPM
+                  setExpand={togleExpand}
+                  setActiveTab={handleActiveTab}
+                />
+              }
             />
-          }
-        />
-        <Route
+            <Route
+              exact
+              path="/catagoryManagement"
+              element={
+                <AllMarketProducts
+                  setExpand={togleExpand}
+                  setActiveTab={handleActiveTab}
+                />
+              }
+            />
+            <Route
+              exact
+              path="/editListing"
+              element={
+                <EditListing
+                  setExpand={togleExpand}
+                  setActiveTab={handleActiveTab}
+                />
+              }
+            />
+            {/* <Route
           exact
           path="/editPromotion"
           element={
@@ -154,326 +163,344 @@ function Home() {
               setActiveTab={handleActiveTab}
             />
           }
-        />
-        <Route
-          exact
-          path="/editPage"
-          element={
-            <EditPage setExpand={togleExpand} setActiveTab={handleActiveTab} />
-          }
-        />
-        <Route
-          exact
-          path="/editMember"
-          element={
-            <EditMember
-              setExpand={togleExpand}
-              setActiveTab={handleActiveTab}
+        /> */}
+            <Route
+              exact
+              path="/editPage"
+              element={
+                <EditPage
+                  setExpand={togleExpand}
+                  setActiveTab={handleActiveTab}
+                />
+              }
             />
-          }
-        />
-        <Route
-          exact
-          path="/listingManagement"
-          element={
-            <ListingManagement
-              setExpand={togleExpand}
-              setActiveTab={handleActiveTab}
+            <Route
+              exact
+              path="/editMember"
+              element={
+                <EditMember
+                  setExpand={togleExpand}
+                  setActiveTab={handleActiveTab}
+                />
+              }
             />
-          }
-        />
-        <Route
-          exact
-          path="/suspendMarketUser"
-          element={
-            <SuspendedMarketUser
-              setExpand={togleExpand}
-              setActiveTab={handleActiveTab}
+            <Route
+              exact
+              path="/listingManagement"
+              element={
+                <ListingManagement
+                  setExpand={togleExpand}
+                  setActiveTab={handleActiveTab}
+                />
+              }
             />
-          }
-        />
-        <Route
-          exact
-          path="/contentManagement"
-          element={
-            <AllPages setExpand={togleExpand} setActiveTab={handleActiveTab} />
-          }
-        />
-        <Route
-          exact
-          path="/editDetails"
-          element={
-            <EditUser setExpand={togleExpand} setActiveTab={handleActiveTab} />
-          }
-        />
-        <Route
-          exact
-          path="/UserDetails"
-          element={
-            <ViewUser setExpand={togleExpand} setActiveTab={handleActiveTab} />
-          }
-        />
-        <Route
-          exact
-          path="/createUser"
-          element={
-            <CreateUser
-              setExpand={togleExpand}
-              setActiveTab={handleActiveTab}
+            <Route
+              exact
+              path="/suspendMarketUser"
+              element={
+                <SuspendedMarketUser
+                  setExpand={togleExpand}
+                  setActiveTab={handleActiveTab}
+                />
+              }
             />
-          }
-        />
-        <Route
-          exact
-          path="/MemberDetails"
-          element={
-            <MemberDetails
-              setExpand={togleExpand}
-              setActiveTab={handleActiveTab}
+            <Route
+              exact
+              path="/contentManagement"
+              element={
+                <AllPages
+                  setExpand={togleExpand}
+                  setActiveTab={handleActiveTab}
+                />
+              }
             />
-          }
-        />
-        <Route
-          exact
-          path="/createNewPage"
-          element={
-            <CreateNewPage
-              setExpand={togleExpand}
-              setActiveTab={handleActiveTab}
+            <Route
+              exact
+              path="/editDetails"
+              element={
+                <EditUser
+                  setExpand={togleExpand}
+                  setActiveTab={handleActiveTab}
+                />
+              }
             />
-          }
-        />
-        <Route
-          exact
-          path="/addShowcase"
-          element={
-            <AddShowcase
-              setExpand={togleExpand}
-              setActiveTab={handleActiveTab}
+            <Route
+              exact
+              path="/UserDetails"
+              element={
+                <ViewUser
+                  setExpand={togleExpand}
+                  setActiveTab={handleActiveTab}
+                />
+              }
             />
-          }
-        />
-        <Route
-          exact
-          path="/addProduct"
-          element={
-            <AddProduct
-              setExpand={togleExpand}
-              setActiveTab={handleActiveTab}
+            <Route
+              exact
+              path="/createUser"
+              element={
+                <CreateUser
+                  setExpand={togleExpand}
+                  setActiveTab={handleActiveTab}
+                />
+              }
             />
-          }
-        />
-        <Route
-          exact
-          path="/chatsAndDeals"
-          element={
-            <AllChats setExpand={togleExpand} setActiveTab={handleActiveTab} />
-          }
-        />
-        <Route
-          exact
-          path="/addNewRole"
-          element={
-            <AddNewRole
-              setExpand={togleExpand}
-              setActiveTab={handleActiveTab}
+            <Route
+              exact
+              path="/MemberDetails"
+              element={
+                <MemberDetails
+                  setExpand={togleExpand}
+                  setActiveTab={handleActiveTab}
+                />
+              }
             />
-          }
-        />
-        <Route
-          exact
-          path="/addPromotion"
-          element={
-            <AddPromotion
-              setExpand={togleExpand}
-              setActiveTab={handleActiveTab}
+            <Route
+              exact
+              path="/createNewPage"
+              element={
+                <CreateNewPage
+                  setExpand={togleExpand}
+                  setActiveTab={handleActiveTab}
+                />
+              }
             />
-          }
-        />
-        <Route
-          exact
-          path="/addNewCategory"
-          element={
-            <AddNewCategory
-              setExpand={togleExpand}
-              setActiveTab={handleActiveTab}
+            <Route
+              exact
+              path="/addShowcase"
+              element={
+                <AddShowcase
+                  setExpand={togleExpand}
+                  setActiveTab={handleActiveTab}
+                />
+              }
             />
-          }
-        />
+            <Route
+              exact
+              path="/addProduct"
+              element={
+                <AddProduct
+                  setExpand={togleExpand}
+                  setActiveTab={handleActiveTab}
+                />
+              }
+            />
+            <Route
+              exact
+              path="/chatsAndDeals"
+              element={
+                <AllChats
+                  setExpand={togleExpand}
+                  setActiveTab={handleActiveTab}
+                />
+              }
+            />
+            <Route
+              exact
+              path="/addNewRole"
+              element={
+                <AddNewRole
+                  setExpand={togleExpand}
+                  setActiveTab={handleActiveTab}
+                />
+              }
+            />
+            <Route
+              exact
+              path="/addPromotion"
+              element={
+                <AddPromotion
+                  setExpand={togleExpand}
+                  setActiveTab={handleActiveTab}
+                />
+              }
+            />
+            <Route
+              exact
+              path="/addNewCategory"
+              element={
+                <AddNewCategory
+                  setExpand={togleExpand}
+                  setActiveTab={handleActiveTab}
+                />
+              }
+            />
 
-        <Route
-          exact
-          path="/editServices"
-          element={
-            <EditService
-              setExpand={togleExpand}
-              setActiveTab={handleActiveTab}
+            <Route
+              exact
+              path="/editServices"
+              element={
+                <EditService
+                  setExpand={togleExpand}
+                  setActiveTab={handleActiveTab}
+                />
+              }
             />
-          }
-        />
-        <Route
-          exact
-          path="/editProduct"
-          element={
-            <EditProduct
-              setExpand={togleExpand}
-              setActiveTab={handleActiveTab}
+            <Route
+              exact
+              path="/editProduct"
+              element={
+                <EditProduct
+                  setExpand={togleExpand}
+                  setActiveTab={handleActiveTab}
+                />
+              }
             />
-          }
-        />
-        <Route
-          exact
-          path="/editShowcase"
-          element={
-            <EditShowcase
-              setExpand={togleExpand}
-              setActiveTab={handleActiveTab}
+            <Route
+              exact
+              path="/editShowcase"
+              element={
+                <EditShowcase
+                  setExpand={togleExpand}
+                  setActiveTab={handleActiveTab}
+                />
+              }
             />
-          }
-        />
-        <Route
-          exact
-          path="/editCategory"
-          element={
-            <EditCategory
-              setExpand={togleExpand}
-              setActiveTab={handleActiveTab}
+            <Route
+              exact
+              path="/editCategory"
+              element={
+                <EditCategory
+                  setExpand={togleExpand}
+                  setActiveTab={handleActiveTab}
+                />
+              }
             />
-          }
-        />
-        <Route
-          exact
-          path="/chatHelp"
-          element={
-            <Chatdetails
-              setExpand={togleExpand}
-              setActiveTab={handleActiveTab}
+            <Route
+              exact
+              path="/chatHelp"
+              element={
+                <Chatdetails
+                  setExpand={togleExpand}
+                  setActiveTab={handleActiveTab}
+                />
+              }
             />
-          }
-        />
-        <Route
-          exact
-          path="/permission"
-          element={
-            <Prm setExpand={togleExpand} setActiveTab={handleActiveTab} />
-          }
-        />
-        <Route
-          exact
-          path="/settings"
-          element={
-            <Configuration
-              setExpand={togleExpand}
-              setActiveTab={handleActiveTab}
+            <Route
+              exact
+              path="/permission"
+              element={
+                <Prm setExpand={togleExpand} setActiveTab={handleActiveTab} />
+              }
             />
-          }
-        />
-        <Route
-          exact
-          path="/projectList"
-          element={
-            <ProjectList
-              setExpand={togleExpand}
-              setActiveTab={handleActiveTab}
+            <Route
+              exact
+              path="/settings"
+              element={
+                <Configuration
+                  setExpand={togleExpand}
+                  setActiveTab={handleActiveTab}
+                />
+              }
             />
-          }
-        />
-        <Route
-          exact
-          path="/featuredProject"
-          element={
-            <FeaturedProject
-              setExpand={togleExpand}
-              setActiveTab={handleActiveTab}
+            <Route
+              exact
+              path="/projectList"
+              element={
+                <ProjectList
+                  setExpand={togleExpand}
+                  setActiveTab={handleActiveTab}
+                />
+              }
             />
-          }
-        />
-        <Route
-          exact
-          path="/productList"
-          element={
-            <AllProducts
-              setExpand={togleExpand}
-              setActiveTab={handleActiveTab}
+            <Route
+              exact
+              path="/featuredProject"
+              element={
+                <FeaturedProject
+                  setExpand={togleExpand}
+                  setActiveTab={handleActiveTab}
+                />
+              }
             />
-          }
-        />
-        <Route
-          exact
-          path="/featuredProduct"
-          element={
-            <FeaturedProducts
-              setExpand={togleExpand}
-              setActiveTab={handleActiveTab}
+            <Route
+              exact
+              path="/productList"
+              element={
+                <AllProducts
+                  setExpand={togleExpand}
+                  setActiveTab={handleActiveTab}
+                />
+              }
             />
-          }
-        />
-        <Route
-          exact
-          path="/promotionManagement"
-          element={
-            <AllPromotion
-              setExpand={togleExpand}
-              setActiveTab={handleActiveTab}
+            <Route
+              exact
+              path="/featuredProduct"
+              element={
+                <FeaturedProducts
+                  setExpand={togleExpand}
+                  setActiveTab={handleActiveTab}
+                />
+              }
             />
-          }
-        />
-        <Route
-          exact
-          path="/transactionHistory"
-          element={
-            <TransactionHistory
-              setExpand={togleExpand}
-              setActiveTab={handleActiveTab}
+            <Route
+              exact
+              path="/promotionManagement"
+              element={
+                <AllPromotion
+                  setExpand={togleExpand}
+                  setActiveTab={handleActiveTab}
+                />
+              }
             />
-          }
-        />
-        <Route
-          exact
-          path="/reviewManagement"
-          element={
-            <Reviews setExpand={togleExpand} setActiveTab={handleActiveTab} />
-          }
-        />
-        <Route
-          exact
-          path="/permission"
-          element={
-            <PRM setExpand={togleExpand} setActiveTab={handleActiveTab} />
-          }
-        />
-        <Route
-          exact
-          path="/SuspendUsers"
-          element={
-            <SuspendedUser
-              setExpand={togleExpand}
-              setActiveTab={handleActiveTab}
+            <Route
+              exact
+              path="/transactionHistory"
+              element={
+                <TransactionHistory
+                  setExpand={togleExpand}
+                  setActiveTab={handleActiveTab}
+                />
+              }
             />
-          }
-        />
-        <Route
-          exact
-          path="/customerRelationship"
-          element={
-            <AllMembers
-              setExpand={togleExpand}
-              setActiveTab={handleActiveTab}
+            <Route
+              exact
+              path="/reviewManagement"
+              element={
+                <Reviews
+                  setExpand={togleExpand}
+                  setActiveTab={handleActiveTab}
+                />
+              }
             />
-          }
-        />
-        <Route
-          exact
-          path="/allMembers"
-          element={
-            <AllMarketMember
-              setExpand={togleExpand}
-              setActiveTab={handleActiveTab}
+            <Route
+              exact
+              path="/permission"
+              element={
+                <PRM setExpand={togleExpand} setActiveTab={handleActiveTab} />
+              }
             />
-          }
-        />
-      </Routes>
-      </>
+            <Route
+              exact
+              path="/SuspendUsers"
+              element={
+                <SuspendedUser
+                  setExpand={togleExpand}
+                  setActiveTab={handleActiveTab}
+                />
+              }
+            />
+            <Route
+              exact
+              path="/customerRelationship"
+              element={
+                <AllMembers
+                  setExpand={togleExpand}
+                  setActiveTab={handleActiveTab}
+                />
+              }
+            />
+            <Route
+              exact
+              path="/allMembers"
+              element={
+                <AllMarketMember
+                  setExpand={togleExpand}
+                  setActiveTab={handleActiveTab}
+                />
+              }
+            />
+          </Routes>
+        </>
       )}
     </div>
   );

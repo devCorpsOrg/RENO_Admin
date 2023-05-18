@@ -16,13 +16,19 @@ const Action = ({ roleName }) => {
   const dispatch = useDispatch();
   const handleDeleteClick = () => {
     if (window.confirm(`Are you sure you want to delete ${roleName}?`)) {
-      dispatch(DeleteRole(roleName)); // Dispatch deleteUser action
+      dispatch(DeleteRole(roleName))
+        .then(() => {
+          window.location.reload();
+        })
+        .catch((err) => {
+          console.log(err);
+        }); // Dispatch deleteUser action
     }
   };
   return (
     <div className="w-6 h-6 flex gap-3 cursor-pointer">
-      <img src={edit} alt="edit" />
-      <img src={view} alt="view" />
+      {/* <img src={edit} alt="edit" /> */}
+      {/* <img src={view} alt="view" /> */}
       <img src={deleteIcon} onClick={handleDeleteClick} alt="Delete" />
     </div>
   );
