@@ -151,7 +151,12 @@ class LoginView(APIView):
              res={'msg':'User is not present in userdetails'}
              json_data=JSONRenderer().render(res)
              return HttpResponse(json_data,content_type='application/json')
-       
+        
+        if info.role!='admin':
+            res={'msg':'User is not admin'}
+            json_data=JSONRenderer().render(res)
+            return HttpResponse(json_data,content_type='application/json')
+
         
         user = User.objects.filter(username=username).first()
         
@@ -1081,6 +1086,25 @@ def reviews(request):
     return HttpResponse(formatted_data, content_type='application/json')
 
 
+@api_view(['POST'])
+def add_review(request):
+    try:
+        pic_url = None
+        if 'pic_url' in request.FILES:
+            pic_url = request.FILES['pic_url']
+        prod_name = request.POST['prod_name']
+        review = request.POST['review']
+        amt = request.POST['amt']
+        reviewer_name = request.POST['reviewer_name']
+        
+        review_doc = Reviews(pic_url=pic_url, prod_name=prod_name, review=review, amt=amt, reviewer_name=reviewer_name)
+        review_doc.save()
+
+        return HttpResponse('Review added successfully.', status=200)
+    except:
+        return HttpResponseBadRequest('Invalid request type.')
+
+
 @api_view(['DELETE'])
 def delete_review(request):
     id = request.query_params['id']
@@ -1183,16 +1207,19 @@ def export_products(request):
 @csrf_exempt
 def edit_products(request):
     prod_name = request.query_params['prod_name']
-    product = Products.objects.filter(name=prod_name).first()
+    print(prod_name)
+    product = Products.objects.get(name=prod_name)
 
     if product:
-        params = QueryDict(request.body)
-        product.name = params['prod_name']
-        product.category = params['prod_category']
-        product.proj_category = params['proj_category']
-        product.rate = params['rate']
-        product.inv_count = params['inv_count']
-        product.details = params['details']
+        data = request.data
+        print(data['prod_category'])
+        product.name = data['prod_name']
+        product.category = data['prod_category']
+        product.proj_category = data['proj_category']
+        product.rate = data['rate']
+        product.inv_count = data['inv_count']
+        product.details = data['details']
+        product.pic_url=data['pic_url']
 
         product.save()
 
@@ -1209,10 +1236,14 @@ def add_products(request):
         category = request.POST['prod_category']
         proj_category = request.POST['proj_category']
         rate = request.POST['rate']
+        try:
+            float(rate)
+        except Exception as e:
+            return HttpResponseBadRequest("Non numerical value isn't accepted for rate.")
         inv_count = request.POST['inv_count']
         pic_url = None
         if 'pic_url' in request.FILES:
-            pic_url = request.FILES['pic_url']            
+            pic_url = request.FILES['pic_url'] 
         details = request.POST['details']
         # featured_flag = int(request.POST['featured_flag'])
 

@@ -78,6 +78,7 @@ urlpatterns = [
     path('suspendedcustomers', views.suspended_customers, name='Suspended Customers'),
     
     path('reviews', views.reviews, name='Reviews'),
+    path('addreview', views.add_review, name='Reviews'),
     path('deletereview', views.delete_review, name='Reviews'),
     path('reviews', views.review, name='Reviews'),
     
