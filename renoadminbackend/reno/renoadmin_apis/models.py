@@ -203,6 +203,7 @@ class Reviews(m.Model):
     prod_name = m.CharField(max_length=100, blank=False, null=False)
     review = m.TextField(blank=False, null=False)
     amt = m.CharField(max_length=50)
+    rate = m.FloatField()
     reviewer_name = m.CharField(max_length=100)
 
 
@@ -232,7 +233,7 @@ class Products(m.Model):
     name = m.CharField(max_length=200, blank=False, null=False)
     category = m.CharField(max_length=200)
     proj_category = m.CharField(max_length=200)
-    rate = m.CharField(max_length=50)
+    rate = m.FloatField()
     inv_count = m.CharField(max_length=50)
     details = m.TextField()
     net_purchase_item_count = m.IntegerField()

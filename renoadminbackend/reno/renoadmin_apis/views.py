@@ -1079,7 +1079,7 @@ def suspended_customers(request):
 # reviews
 @api_view(['GET'])
 def reviews(request):
-    reviews = Reviews.objects.only('prod_name', 'pic_url', 'review', 'amt', 'id').all()
+    reviews = Reviews.objects.only('prod_name', 'pic_url', 'review', 'amt', 'rate', 'id').all()
 
     data = serializers.serialize('json', reviews)
     formatted_data = json.dumps(json.loads(data), indent=4)  # Indent the JSON data
@@ -1095,14 +1095,15 @@ def add_review(request):
         prod_name = request.POST['prod_name']
         review = request.POST['review']
         amt = request.POST['amt']
+        rate = request.POST['rate']
         reviewer_name = request.POST['reviewer_name']
         
-        review_doc = Reviews(pic_url=pic_url, prod_name=prod_name, review=review, amt=amt, reviewer_name=reviewer_name)
+        review_doc = Reviews(pic_url=pic_url, prod_name=prod_name, review=review, amt=amt, rate=rate, reviewer_name=reviewer_name)
         review_doc.save()
 
         return HttpResponse('Review added successfully.', status=200)
-    except:
-        return HttpResponseBadRequest('Invalid request type.')
+    except Exception as e:
+        return HttpResponseBadRequest(f'Error: {str(e)}')
 
 
 @api_view(['DELETE'])
@@ -1207,23 +1208,24 @@ def export_products(request):
 @csrf_exempt
 def edit_products(request):
     prod_name = request.query_params['prod_name']
-    print(prod_name)
-    product = Products.objects.get(name=prod_name)
-
+    product = Products.objects.filter(name=prod_name).first()
+    
     if product:
-        data = request.data
-        print(data['prod_category'])
-        product.name = data['prod_name']
-        product.category = data['prod_category']
-        product.proj_category = data['proj_category']
-        product.rate = data['rate']
-        product.inv_count = data['inv_count']
-        product.details = data['details']
-        product.pic_url=data['pic_url']
+        try:
+            data = request.data
+            product.name = data['prod_name']
+            product.category = data['prod_category']
+            product.proj_category = data['proj_category']
+            product.rate = data['rate']
+            product.inv_count = data['inv_count']
+            product.details = data['details']
+            product.pic_url=data['pic_url']
 
-        product.save()
+            product.save()
 
-        return HttpResponse(f'Product with ID: {prod_name} edited successfully.', status=200)
+            return HttpResponse(f'Product with ID: {prod_name} edited successfully.', status=200)
+        except Exception as e:
+            return HttpResponseBadRequest(f'Error: {str(e)}')
     else:
         return HttpResponseNotFound('Product not found.')
 
@@ -1232,25 +1234,24 @@ def edit_products(request):
 @csrf_exempt
 def add_products(request):
     if request.method == 'POST':
-        name = request.POST['prod_name']
-        category = request.POST['prod_category']
-        proj_category = request.POST['proj_category']
-        rate = request.POST['rate']
         try:
-            float(rate)
+            name = request.POST['prod_name']
+            category = request.POST['prod_category']
+            proj_category = request.POST['proj_category']
+            rate = request.POST['rate']
+            inv_count = request.POST['inv_count']
+            pic_url = None
+            if 'pic_url' in request.FILES:
+                pic_url = request.FILES['pic_url'] 
+            details = request.POST['details']
+            # featured_flag = int(request.POST['featured_flag'])
+
+            product = Products(name=name, category=category, proj_category=proj_category, rate=rate, inv_count=inv_count, pic_url=pic_url, details=details)
+            product.save()
+
+            return HttpResponse(f'Product with name: {name} added successfully.', status=200)
         except Exception as e:
-            return HttpResponseBadRequest("Non numerical value isn't accepted for rate.")
-        inv_count = request.POST['inv_count']
-        pic_url = None
-        if 'pic_url' in request.FILES:
-            pic_url = request.FILES['pic_url'] 
-        details = request.POST['details']
-        # featured_flag = int(request.POST['featured_flag'])
-
-        product = Products(name=name, category=category, proj_category=proj_category, rate=rate, inv_count=inv_count, pic_url=pic_url, details=details)
-        product.save()
-
-        return HttpResponse(f'Product with name: {name} added successfully.', status=200)
+            return HttpResponseBadRequest(f'Error: {str(e)}')
     else:
         return HttpResponseBadRequest('Invalid request type.')
 

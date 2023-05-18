@@ -99,7 +99,7 @@ class cmsSerializer1(serializers.ModelSerializer):
     
     class Meta:
         model=cmsModel
-        fields=('pageid','pagename')
+        fields=('pageid','pagename', 'content')
 
 class cmsSerializer(serializers.ModelSerializer):
     
