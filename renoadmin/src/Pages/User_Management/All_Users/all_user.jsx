@@ -11,34 +11,75 @@ import { Grid } from "react-loader-spinner";
 // Component inside action column
 const Action = ({ username, email, phone, uid, picUrl, role }) => {
   const Navigate = useNavigate();
+  const [showPopup, setShowPopup] = useState(false);
+  const [suspendReason, setSuspendReason] = useState("");
 
   const handleViewClick = () => {
     const data = {
-      "photo": picUrl,
-      "username": username,
-      "email": email,
-      "phone": phone,
-      "role": role,
-      "uid":uid,
+      photo: picUrl,
+      username: username,
+      email: email,
+      phone: phone,
+      role: role,
+      uid: uid,
       // "about":about
+    };
+    Navigate(`/home/UserDetails?name=${username}`, { state: data });
+  };
+  const handleSuspendClick = () => {
+    setShowPopup(true);
+  };
+  const handleSuspendConfirm = async () => {
+    try {
+      const response = await fetch(
+        `http://139.59.236.50:8000/suspenduser/?name=${username}`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ suspend_reason: suspendReason }),
+        }
+      );
+
+      if (response.ok) {
+        alert("Successfully suspended the user.");
+        window.location.reload(); // Reload the window after successful suspension
+      } else {
+        throw new Error("Failed to suspend the user.");
+      }
+    } catch (error) {
+      console.log("Suspend error:", error);
+      alert("Failed to suspend the user.");
     }
-    Navigate(`/home/UserDetails?name=${username}`, {state:data})
-  }
+  };
+
+  const handleSuspendCancel = () => {
+    setShowPopup(false);
+    setSuspendReason("");
+  };
+
   const handleEditClick = () => {
     const data = {
-      "photo": picUrl,
-      "username": username,
-      "email": email,
-      "phone": phone,
-      "role": role,
-      "uid":uid,
-    }
+      photo: picUrl,
+      username: username,
+      email: email,
+      phone: phone,
+      role: role,
+      uid: uid,
+    };
     Navigate(`/home/editDetails/?name=${username}`, { state: data });
   };
   const dispatch = useDispatch();
   const handleDeleteClick = () => {
     if (window.confirm(`Are you sure you want to delete ${username}?`)) {
-      dispatch(DeleteUser(username)); // Dispatch deleteUser action
+      dispatch(DeleteUser(username))
+        .then(() => {
+          window.location.reload();
+        })
+        .catch((err) => {
+          console.log(err);
+        }); // Dispatch deleteUser action
     }
   };
   return (
@@ -47,8 +88,37 @@ const Action = ({ username, email, phone, uid, picUrl, role }) => {
         <img src={Edit} onClick={handleEditClick} alt="Edit" />
         <img src={View} onClick={handleViewClick} alt="View" />
         <img src={deleteIcon} onClick={handleDeleteClick} alt="Delete" />
-        <img src={Suspend} alt="suspendUser" />
+        <img src={Suspend} onClick={handleSuspendClick} alt="Suspend" />
       </div>
+      {showPopup && (
+        <div className="fixed top-0 left-0 w-screen h-screen bg-gray-800 bg-opacity-50 flex justify-center items-center z-50">
+          <div className="bg-white p-10 rounded shadow">
+            <div className="w-full">
+              <h3 className="mb-2">Suspend User</h3>
+              <textarea
+                type="text"
+                value={suspendReason}
+                onChange={(e) => setSuspendReason(e.target.value)}
+                className="border border-gray-300 p-4 rounded mb-2 w-64"
+                placeholder="Suspend Reason"
+                required
+              />
+            </div>
+            <div className="flex p-5 justify-center">
+              <button
+                className="bg-lime-500 text-white px-4 py-2 rounded mr-2"
+                onClick={handleSuspendConfirm}>
+                Suspend
+              </button>
+              <button
+                className="bg-gray-300 text-gray-700 px-4 py-2 rounded"
+                onClick={handleSuspendCancel}>
+                Cancel
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 };
@@ -116,15 +186,25 @@ const Allmembers = ({ setActiveTab, setExpand }) => {
 
   const pageSize = 5;
   const greenButtonText = "Add User";
+  const filteredData = userData.filter((user) => user.is_suspend === 0);
 
-  const data = userData.map((user) => ({
+  const data = filteredData.map((user) => ({
     photo: <ProfilePhoto picUrl={user.pic_url} />,
     username: user.username,
     emailaddress: user.email,
     contact: user.phone,
     usertype: user.role,
     userid: user.uid,
-    action: <Action username={user.username} email={user.email} phone={user.phone} uid={user.uid} role={user.role} picUrl = {user.pic_url} />,
+    action: (
+      <Action
+        username={user.username}
+        email={user.email}
+        phone={user.phone}
+        uid={user.uid}
+        role={user.role}
+        picUrl={user.pic_url}
+      />
+    ),
   }));
 
   return (

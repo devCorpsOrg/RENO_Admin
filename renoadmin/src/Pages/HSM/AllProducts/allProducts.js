@@ -17,7 +17,13 @@ const Action = ({ prodId, prodName }) => {
   const dispatch = useDispatch();
   const handleDeleteClick = () => {
     if (window.confirm(`Are you sure you want to delete ${prodName}?`)) {
-      dispatch(DeleteProduct(prodId)); // Dispatch deleteUser action
+      dispatch(DeleteProduct(prodId))
+        .then(() => {
+          window.location.reload();
+        })
+        .catch((err) => {
+          console.log(err);
+        }); // Dispatch deleteUser action
     }
   };
   return (
@@ -37,8 +43,8 @@ const Photo = ({ picUrl }) => {
 };
 
 const AllProduct = ({ setActiveTab, setExpand }) => {
-  // setExpand("homeService");
-  // setActiveTab("productList");
+  setExpand("homeService");
+  setActiveTab("productList");
 
   const Navigate = useNavigate();
   const greenClicked = () => {

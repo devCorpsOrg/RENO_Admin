@@ -10,24 +10,29 @@ const EditCategory = ({ setExpand, setActiveTab }) => {
   // setExpand("marketPlace");
   setActiveTab("catagoryManagement");
   const head = "Edit Category";
-  const navigate = useNavigate();
 
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
   const [images, setImages] = useState([]);
   const dispatch = useDispatch();
 
-  const handleSubmit = (event) => {
+  const HandleSubmit = (event) => {
     event.preventDefault();
-
+    const navigate = useNavigate();
     const formData = new FormData();
     formData.append("prod_category", title);
     images.map((image, index) => {
       formData.append("media", image);
     });
 
-    dispatch(updateCategory({ formData, title }));
-    navigate('/home/catagoryManagement');
+    dispatch(updateCategory({ formData, title }))
+      .then(() => {
+        navigate("/home/catagoryManagement");
+        window.location.reload();
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   };
 
   const handlePhotoUpload = (event) => {
@@ -54,7 +59,7 @@ const EditCategory = ({ setExpand, setActiveTab }) => {
       </div>
 
       <div className=" ml-72 mb-10 relative" style={{ marginTop: "120px" }}>
-        <form onSubmit={handleSubmit}>
+        <form onSubmit={HandleSubmit}>
           <label className="grid mt-5">
             Category Name
             <input
@@ -125,28 +130,27 @@ const EditCategory = ({ setExpand, setActiveTab }) => {
 
           {/* <div> */}
         </form>
-          <button
-            className="rounded mt-10 bg-lime-600 hover:bg-lime-700"
-            style={{
-              width: "170px",
-              height: "55px",
-              color: "white",
-            }}
-            type="submit"
-            onClick={handleSubmit}>
-            Save
-          </button>
-          <button
-            className="rounded mt-10 bg-black hover:bg-gray-800"
-            style={{
-              width: "170px",
-              height: "55px",
-              color: "white",
-              marginLeft: "30px",
-            }}
-            >
-            <Link to='/home/catagoryManagement'>Cancel</Link>
-          </button>
+        <button
+          className="rounded mt-10 bg-lime-600 hover:bg-lime-700"
+          style={{
+            width: "170px",
+            height: "55px",
+            color: "white",
+          }}
+          type="submit"
+          onSubmit={HandleSubmit}>
+          Save
+        </button>
+        <button
+          className="rounded mt-10 bg-black hover:bg-gray-800"
+          style={{
+            width: "170px",
+            height: "55px",
+            color: "white",
+            marginLeft: "30px",
+          }}>
+          <Link to="/home/catagoryManagement">Cancel</Link>
+        </button>
       </div>
     </div>
   );

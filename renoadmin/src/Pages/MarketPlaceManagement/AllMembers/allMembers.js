@@ -19,7 +19,13 @@ const Action = ({ memberName, memberId }) => {
   const dispatch = useDispatch();
   const handleDeleteClick = () => {
     if (window.confirm(`Are you sure you want to delete ${memberName}?`)) {
-      dispatch(DeleteMember(memberId)); // Dispatch deleteUser action
+      dispatch(DeleteMember(memberId))
+        .then(() => {
+          window.location.reload();
+        })
+        .catch((err) => {
+          console.log(err);
+        }); // Dispatch deleteUser action
     }
   };
   return (
@@ -40,8 +46,8 @@ const Photo = ({ picUrl }) => {
 
 const AllMember = ({ setActiveTab, setExpand }) => {
   const head = "All Members";
-  // setExpand("marketPlace");
-  // setActiveTab("allMambers");
+  setExpand("marketPlace");
+  setActiveTab("allMambers");
   const Navigate = useNavigate();
   const greenClicked = () => {
     Navigate("/home/addShowcase");

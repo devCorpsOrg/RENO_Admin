@@ -14,18 +14,24 @@ import {
 
 const Action = ({ listId, listName }) => {
   const Navigate = useNavigate();
-  const handleClick = () => {
-    Navigate("/home/editListing");
+  const handleEditClick = () => {
+    Navigate(`/home/editListing/?id={listId}`);
   };
   const dispatch = useDispatch();
   const handleDeleteClick = () => {
     if (window.confirm(`Are you sure you want to delete ${listName}?`)) {
-      dispatch(DeleteListing(listId)); // Dispatch deleteUser action
+      dispatch(DeleteListing(listId))
+        .then(() => {
+          window.location.reload();
+        })
+        .catch((err) => {
+          console.log(err);
+        }); // Dispatch deleteUser action
     }
   };
   return (
     <div className="w-6 h-6 flex gap-3 cursor-pointer">
-      <img onClick={handleClick} src={edit} alt="edit" />
+      <img onClick={handleEditClick} src={edit} alt="edit" />
       <img src={deleteIcon} onClick={handleDeleteClick} alt="Delete" />
     </div>
   );
@@ -41,8 +47,8 @@ const Photo = ({ pic_url }) => {
 
 const ListingData = ({ setActiveTab, setExpand }) => {
   const head = "All Members";
-  // setExpand("marketPlace");
-  // setActiveTab("listingManagement");
+  setExpand("marketPlace");
+  setActiveTab("listingManagement");
   const Navigate = useNavigate();
   const greenClicked = () => {
     Navigate("/home/addListing");

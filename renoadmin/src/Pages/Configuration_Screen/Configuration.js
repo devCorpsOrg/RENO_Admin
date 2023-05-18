@@ -32,6 +32,12 @@ const Configuration = ({ setActiveTab }) => {
         })
         .then((response) => {
           console.log(response);
+        })
+        .then(() => {
+          window.location.reload();
+        })
+        .catch((err) => {
+          console.log(err);
         });
     } catch (err) {
       console.log("Error saving data", err);

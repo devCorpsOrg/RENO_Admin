@@ -9,24 +9,21 @@ import { Grid } from "react-loader-spinner";
 import axios from "axios";
 
 // Component inside action column
-const Action = ({ relationName, rewardpts, paymentHistory, purchaseHistory, contact, email, photo }) => {
+const Action = ({ relationName }) => {
   const Navigate = useNavigate();
   const handleClick = () => {
-    const data = {
-      "name":relationName,
-      "rewardpts":rewardpts,
-      "payment":paymentHistory,
-      "purchaseHistory":purchaseHistory,
-      "phone":contact,
-      "email":email,
-      "photo":photo
-    }
-    Navigate("/home/memberDetails", {state: data});
+    Navigate("/home/memberDetails");
   };
   const dispatch = useDispatch();
   const handleDeleteClick = () => {
     if (window.confirm(`Are you sure you want to delete ${relationName}?`)) {
-      dispatch(DeleteRelation(relationName)); // Dispatch deleteUser action
+      dispatch(DeleteRelation(relationName))
+        .then(() => {
+          window.location.reload();
+        })
+        .catch((err) => {
+          console.log(err);
+        }); // Dispatch deleteUser action
     }
   };
 
@@ -102,17 +99,7 @@ const Allmembers = ({ setActiveTab }) => {
     paymenthistory: `$ ${user.fields.net_purchase_amount}`,
     purchasehistory: `${user.fields.net_purchase_count} items`,
     contact: `+65 ${user.fields.phone}`,
-    action: (
-      <Action
-        relationName={user.fields.usname}
-        rewardpts={user.fields.pts}
-        paymentHistory={user.fields.net_purchase_amount}
-        purchaseHistory={user.fields.net_purchase_count}
-        contact={user.fields.phone}
-        email={user.fields.email}
-        photo={user.fields.pic_url}
-      />
-    ),
+    action: <Action relationName={user.fields.usname} />,
   }));
 
   const pageSize = 10;

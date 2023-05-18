@@ -1,9 +1,9 @@
 import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { Navigate, useNavigate } from "react-router-dom";
 import TopHeader from "../../UI/TopHeader/TopHeader";
 import axios from "axios";
 
-const AddNewRole = ({setActiveTab}) => {
+const AddNewRole = ({ setActiveTab }) => {
   setActiveTab("permission");
   const [userName, setUserName] = useState("");
   const [emailAddress, setEmailAddress] = useState("");
@@ -26,28 +26,33 @@ const AddNewRole = ({setActiveTab}) => {
     setRoleStatus(event.target.value);
   };
 
-  const handleSubmit = async (event) => {
+  const HandleSubmit = async (event) => {
     event.preventDefault();
     // You can add code here to submit the form data to the server
-    const updatedData={
+    const updatedData = {
       userName,
       emailAddress,
       userRole,
       roleStatus,
-    }
+    };
+    const navigate = useNavigate();
 
-    const jsonData=JSON.stringify(updatedData);
+    const jsonData = JSON.stringify(updatedData);
     console.log(jsonData);
-    try{
-      const response = await axios.post('http://139.59.236.50:8000/createrole', jsonData)
-      .then(response => {
-        setUserName("");
-        setEmailAddress("");
-        setUserRole();
-        setRoleStatus();
-      })
-    }
-    catch(err){
+    try {
+      const response = await axios
+        .post("http://139.59.236.50:8000/createrole/", jsonData)
+        .then((response) => {
+          setUserName("");
+          setEmailAddress("");
+          setUserRole();
+          setRoleStatus();
+        })
+        .then(() => {
+          navigate("/home/permission");
+          window.location.reload();
+        });
+    } catch (err) {
       console.log("Error saving data", err);
     }
   };
@@ -60,7 +65,7 @@ const AddNewRole = ({setActiveTab}) => {
       </div>
       <div className=" ml-72 mt-28 h-[85vh] w-[140vh] relative">
         <form
-          onSubmit={handleSubmit}
+          onSubmit={HandleSubmit}
           className="flex flex-col w-full h-full p-5 pt-10">
           <div className="mb-5">
             <label
