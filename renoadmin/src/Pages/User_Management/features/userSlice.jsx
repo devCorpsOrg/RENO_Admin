@@ -790,7 +790,7 @@ export const DeleteDeal = createAsyncThunk("DeleteDeal", async (dealId) => {
 // Delete a role
 export const DeleteRole = createAsyncThunk("DeleteRole", async (username) => {
   const response = await axios.delete(
-    `http://139.59.236.50:8000/deleterole?usrname=${username}`
+    `http://139.59.236.50:8000/deleterole?username=${username}`
   );
   return response.data;
 });
