@@ -144,7 +144,7 @@ class LoginView(APIView):
         username = request.data['username']
         password = request.data['password']
         ans=[]  
-       
+        print(username)
         try:
              info=Userdetails.objects.get(username=username)
         except Userdetails.DoesNotExist:
@@ -256,6 +256,7 @@ def create_user(request):
        
         
         serializer= UserSerializer5(data=request.data)
+        
         if serializer.is_valid():
             serializer.save()
             res={'msg':'Data Created Successfully'}
@@ -398,6 +399,33 @@ def suspend_user(request):
      info.is_suspend=1
      info.save()
      res={'msg':'Suspended Successfully'}
+     json_data=JSONRenderer().render(res)
+     return HttpResponse(json_data,content_type='application/json')
+    
+                
+         
+@api_view(['GET','POST'])
+def remove_suspend_user(request):
+    uid=request.query_params['uid']
+    # data=request.data
+    
+    try:
+             info=Userdetails.objects.get(uid=uid)
+    except Userdetails.DoesNotExist:
+             res={'msg':'User is not present'}
+             json_data=JSONRenderer().render(res)
+             return HttpResponse(json_data,content_type='application/json')
+
+    if info.is_suspend==0:
+        res={'user not Suspended yet'}
+        json_data=JSONRenderer().render(res)
+        return HttpResponse(json_data,content_type='application/json')
+
+    else:
+     info.suspend_reason=""
+     info.is_suspend=0
+     info.save()
+     res={'msg':' removed Successfully'}
      json_data=JSONRenderer().render(res)
      return HttpResponse(json_data,content_type='application/json')
     
