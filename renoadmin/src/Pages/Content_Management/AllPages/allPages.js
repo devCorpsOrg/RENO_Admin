@@ -11,15 +11,18 @@ import { DeletePage } from "../../User_Management/features/userSlice";
 const Action = ({ pageid, pagename }) => {
   const Navigate = useNavigate();
   const handleEdit = () => {
-    const data = {
-      "pagename": pagename,
-    }
-    Navigate("/home/editPage", {state:data});
+    Navigate(`/home/editPage?pageid=${pageid}`);
   };
   const dispatch = useDispatch();
   const handleDeleteClick = () => {
     if (window.confirm(`Are you sure you want to delete ${pagename}?`)) {
-      dispatch(DeletePage(pageid)); // Dispatch deleteUser action
+      dispatch(DeletePage(pageid))
+        .then(() => {
+          window.location.reload();
+        })
+        .catch((err) => {
+          console.log(err);
+        }); // Dispatch deleteUser action
     }
   };
   return (
@@ -34,7 +37,6 @@ const AllPages = ({ setActiveTab }) => {
   setActiveTab("contentManagement");
   const Navigate = useNavigate();
   const GreenClicked = () => {
-
     Navigate("/Home/createNewPage");
   };
   const [loading, setLoading] = useState(true);

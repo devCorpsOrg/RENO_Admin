@@ -5,6 +5,7 @@ import DisabledByDefaultRoundedIcon from "@mui/icons-material/DisabledByDefaultR
 import axios from "axios";
 import { useDispatch } from "react-redux";
 import { updateProject } from "../../User_Management/features/userSlice";
+import { useNavigate } from "react-router-dom";
 
 const EditService = ({ setExpand, setActiveTab }) => {
   // setExpand("homeService");
@@ -20,8 +21,9 @@ const EditService = ({ setExpand, setActiveTab }) => {
   const [productCategory, setProductCategory] = useState("");
   const [inventory, setInventory] = useState("");
 
-  const handleSubmit = (event) => {
+  const HandleSubmit = (event) => {
     event.preventDefault();
+    const navigate = useNavigate();
     const formData = new FormData();
     formData.append("prod_name", title);
     formData.append("details", content);
@@ -33,7 +35,14 @@ const EditService = ({ setExpand, setActiveTab }) => {
       formData.append("pic_url", image);
     });
 
-    dispatch(updateProject({ formData, title }));
+    dispatch(updateProject({ formData, title }))
+      .then(() => {
+        navigate("/home/featuredProduct");
+        window.location.reload();
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   };
 
   useEffect(() => {
@@ -87,7 +96,7 @@ const EditService = ({ setExpand, setActiveTab }) => {
       </div>
 
       <div className=" ml-80 mb-10 relative" style={{ marginTop: "120px" }}>
-        <form onSubmit={handleSubmit}>
+        <form onSubmit={HandleSubmit}>
           <label className="grid mt-5">
             Product Title
             <input

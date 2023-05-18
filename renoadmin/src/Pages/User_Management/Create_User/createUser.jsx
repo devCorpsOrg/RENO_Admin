@@ -49,20 +49,24 @@ const CreateUser = ({ setActiveTab, setExpand }) => {
   const Navigate = useNavigate();
 
   const handleSubmit = async (event) => {
-    // event.preventDefault();
+    event.preventDefault();
 
     const formData = new FormData();
     formData.append("username", name);
     formData.append("email", email);
     formData.append("phone", phone);
-    // formData.append("uid", userId);
+    formData.append("uid", userId);
     formData.append("role", label);
     formData.append("pic", photo, photo.name);
 
-    dispatch(createUser(formData));
-    if (formData) {
-      await Navigate("/home/allUsers");
-    }
+    dispatch(createUser(formData))
+      .then(() => {
+        Navigate("/home/allUsers");
+        window.location.reload();
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   };
 
   return (
@@ -119,6 +123,22 @@ const CreateUser = ({ setActiveTab, setExpand }) => {
                   paddingLeft: "5px",
                 }}
                 onChange={handlePhoneChange}
+                required
+              />
+            </label>
+            <label className="grid pr-6">
+              User ID
+              <input
+                type="userId"
+                value={userId}
+                class="outline-none rounded"
+                style={{
+                  height: "50px",
+                  width: "380px",
+                  border: "2px solid 	#e6f7fe",
+                  paddingLeft: "5px",
+                }}
+                onChange={handleUserIdChange}
                 required
               />
             </label>

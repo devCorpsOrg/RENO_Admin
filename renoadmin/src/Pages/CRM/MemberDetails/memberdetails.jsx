@@ -2,14 +2,10 @@ import React from "react";
 import FavoriteRoundedIcon from "@mui/icons-material/FavoriteRounded";
 import StarBorderRoundedIcon from "@mui/icons-material/StarBorderRounded";
 import TopHeader from "../../../UI/TopHeader/TopHeader";
-import { useDispatch, useSelector } from "react-redux";
-import { useLoaderData, useLocation } from "react-router-dom";
 
 const MemberDetails = ({ setActiveTab, setExpand }) => {
   setActiveTab("customerRelationship");
   const head = "Member Details";
-  const location = useLocation();
-  const memData = location.state
   return (
     <div>
       <div className="flex" style={{ zIndex: "100" }}>
@@ -37,16 +33,13 @@ const MemberDetails = ({ setActiveTab, setExpand }) => {
               alt=""
             />
             <div
-                style={{
-                  marginLeft: "auto",
-                  marginRight: "auto",
-                  marginTop: "2px",
-                  fontWeight: "bold",
-                  display: "flex",
-                  justifyContent: "center"
-                }}
+              style={{
+                marginLeft: "34px",
+                marginTop: "2px",
+                fontWeight: "bold",
+              }}
             >
-              {memData.name}
+              Adrian Smith
             </div>
             <div
               className="text-xs text-gray-500"
@@ -75,7 +68,7 @@ const MemberDetails = ({ setActiveTab, setExpand }) => {
                 fontSize: "15px",
               }}
             >
-              {memData.name}
+              Adrian Smith
             </div>
           </div>
           <div>
@@ -93,7 +86,7 @@ const MemberDetails = ({ setActiveTab, setExpand }) => {
                 fontSize: "15px",
               }}
             >
-              {memData.phone}
+              +65 12345678
             </div>
           </div>
           <div>
@@ -111,7 +104,7 @@ const MemberDetails = ({ setActiveTab, setExpand }) => {
                 fontSize: "15px",
               }}
             >
-              {memData.email}
+              adrian.smith@sample.com
             </div>
           </div>
           <div>
@@ -129,7 +122,7 @@ const MemberDetails = ({ setActiveTab, setExpand }) => {
                 fontSize: "15px",
               }}
             >
-              {memData.purchaseHistory}
+              5 items
             </div>
           </div>
           <div>
@@ -147,7 +140,7 @@ const MemberDetails = ({ setActiveTab, setExpand }) => {
                 fontSize: "15px",
               }}
             >
-              $ {memData.payment}
+              $600
             </div>
           </div>
           <div>
@@ -166,7 +159,7 @@ const MemberDetails = ({ setActiveTab, setExpand }) => {
                 color:"darkblue"
               }}
             >
-              {memData.rewardpts}
+              650
             </div>
           </div>
         </div>

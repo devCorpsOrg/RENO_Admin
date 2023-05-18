@@ -20,7 +20,13 @@ const Action = ({ projId, projName }) => {
   const dispatch = useDispatch();
   const handleDeleteClick = () => {
     if (window.confirm(`Are you sure you want to delete ${projName}?`)) {
-      dispatch(DeleteProject(projId)); // Dispatch deleteUser action
+      dispatch(DeleteProject(projId))
+        .then(() => {
+          window.location.reload();
+        })
+        .catch((err) => {
+          console.log(err);
+        }); // Dispatch deleteUser action
     }
   };
   return (

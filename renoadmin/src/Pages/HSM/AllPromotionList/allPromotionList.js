@@ -15,7 +15,13 @@ const Action = ({ promId, promName }) => {
   const dispatch = useDispatch();
   const handleDeleteClick = () => {
     if (window.confirm(`Are you sure you want to delete ${promName}?`)) {
-      dispatch(DeletePromotion(promId)); // Dispatch deleteUser action
+      dispatch(DeletePromotion(promId))
+        .then(() => {
+          window.location.reload();
+        })
+        .catch((err) => {
+          console.log(err);
+        }); // Dispatch deleteUser action
     }
   };
   return (
@@ -36,8 +42,8 @@ const Photo = ({ picUrl }) => {
 
 const AllProjects = ({ setActiveTab, setExpand }) => {
   const navigate = useNavigate();
-  // setExpand("homeService");
-  // setActiveTab("promotionManagement");
+  setExpand("homeService");
+  setActiveTab("promotionManagement");
   const greenClicked = () => {
     navigate("/home/addPromotion");
   };

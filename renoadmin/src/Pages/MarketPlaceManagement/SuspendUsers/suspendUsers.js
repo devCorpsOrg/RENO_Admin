@@ -16,7 +16,13 @@ const Action = ({ memberName, memberId }) => {
   const dispatch = useDispatch();
   const handleDeleteClick = () => {
     if (window.confirm(`Are you sure you want to delete ${memberName}?`)) {
-      dispatch(DeleteMember(memberId)); // Dispatch deleteUser action
+      dispatch(DeleteMember(memberId))
+        .then(() => {
+          window.location.reload();
+        })
+        .catch((err) => {
+          console.log(err);
+        }); // Dispatch deleteUser action
     }
   };
   return (
@@ -37,8 +43,8 @@ const Photo = () => {
 
 const SuspendUser = ({ setActiveTab, setExpand }) => {
   const head = "Suspended Users";
-  // setExpand("marketPlace");
-  // setActiveTab("suspendMarketUser");
+  setExpand("marketPlace");
+  setActiveTab("suspendMarketUser");
   const dispatch = useDispatch();
   const [loading, setLoading] = useState(true);
 

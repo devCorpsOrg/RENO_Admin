@@ -11,7 +11,6 @@ const AddNewShowcase = ({ setExpand, setActiveTab }) => {
   setActiveTab("projectList");
   const head = "Add New Showcase";
   const dispatch = useDispatch();
-  const navigate = useNavigate();
 
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
@@ -19,8 +18,8 @@ const AddNewShowcase = ({ setExpand, setActiveTab }) => {
   const [userType, setUserType] = useState("");
   const [rate, setRate] = useState("");
 
-  const handleSubmit = (event) => {
-    // event.preventDefault();
+  const HandleSubmit = (event) => {
+    event.preventDefault();
 
     const formData = new FormData();
     formData.append("proj_name", title);
@@ -30,9 +29,15 @@ const AddNewShowcase = ({ setExpand, setActiveTab }) => {
     images.forEach((image, index) => {
       formData.append(`pic`, image);
     });
-
-    dispatch(addNewShowcase(formData));
-    navigate('/home/projectList');
+    const navigate = useNavigate();
+    dispatch(addNewShowcase(formData))
+      .then(() => {
+        navigate("/home/projectList");
+        window.location.reload();
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   };
 
   const handleImageUpload = (event) => {
@@ -57,7 +62,7 @@ const AddNewShowcase = ({ setExpand, setActiveTab }) => {
       <div
         className=" ml-80 mb-10 w-[100vh] relative"
         style={{ marginTop: "120px" }}>
-        <form onSubmit={handleSubmit}>
+        <form onSubmit={HandleSubmit}>
           <label className="grid mt-5">
             Project Title
             <input
@@ -117,7 +122,7 @@ const AddNewShowcase = ({ setExpand, setActiveTab }) => {
                   marginTop: "5px",
                   fontSize: "14px",
                 }}
-                onChange={(event)=>setRate(event.target.value)}
+                onChange={(event) => setRate(event.target.value)}
                 required
               />
             </label>
@@ -193,40 +198,39 @@ const AddNewShowcase = ({ setExpand, setActiveTab }) => {
           {/* <div> */}
           {/* </div> */}
         </form>
-          <button
-            className="rounded mt-10 bg-lime-600 hover:bg-lime-700 "
-            style={{
-              width: "170px",
-              height: "55px",
-              color: "white",
-            }}
-            onClick={handleSubmit}
-            type="submit">
-            Publish
-          </button>
-          {/* <button
-            className="rounded mt-10 bg-black hover:bg-gray-800"
-            style={{
-              // backgroundColor: "black",
-              width: "170px",
-              height: "55px",
-              color: "white",
-              marginLeft: "30px",
-            }}>
-            Draft
-          </button> */}
-          <button
-            className="rounded mt-10 bg-amber-600 hover:bg-amber-700"
-            style={{
-              // backgroundColor: "black",
-              width: "170px",
-              height: "55px",
-              color: "white",
-              marginLeft: "30px",
-            }}
-            >
-            <Link to='/home/projectList'>Back</Link>
-          </button>
+        <button
+          className="rounded mt-10 bg-lime-600 hover:bg-lime-700 "
+          style={{
+            width: "170px",
+            height: "55px",
+            color: "white",
+          }}
+          onClick={HandleSubmit}
+          type="submit">
+          Publish
+        </button>
+        <button
+          className="rounded mt-10 bg-black hover:bg-gray-800"
+          style={{
+            // backgroundColor: "black",
+            width: "170px",
+            height: "55px",
+            color: "white",
+            marginLeft: "30px",
+          }}>
+          Draft
+        </button>
+        <button
+          className="rounded mt-10 bg-amber-600 hover:bg-amber-700"
+          style={{
+            // backgroundColor: "black",
+            width: "170px",
+            height: "55px",
+            color: "white",
+            marginLeft: "30px",
+          }}>
+          <Link to="/home/projectList">Back</Link>
+        </button>
       </div>
     </div>
   );
