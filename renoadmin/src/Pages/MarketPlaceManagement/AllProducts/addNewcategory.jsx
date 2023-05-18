@@ -19,8 +19,7 @@ const AddNewCategory = ({ setExpand, setActiveTab }) => {
   const [images, setImages] = useState([]);
 
   const handleSubmit = (event) => {
-    event.preventDefault();
-
+console.log("clicked")
     const formData = new FormData();
     formData.append("prod_category", title);
     images.forEach((image, index) => {
@@ -111,7 +110,8 @@ const AddNewCategory = ({ setExpand, setActiveTab }) => {
               height: "55px",
               color: "white",
             }}
-            type="submit">
+            type="submit"
+            onClick={handleSubmit}>
             Save
           </button>
           <button

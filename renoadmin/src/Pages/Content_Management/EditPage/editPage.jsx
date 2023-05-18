@@ -3,20 +3,22 @@ import React from "react";
 import TopHeader from "../../../UI/TopHeader/TopHeader";
 import { useDispatch } from "react-redux";
 import { updatePage } from "../../User_Management/features/userSlice";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 
 const EditPage = ({ setExpand, setActiveTab }) => {
   setActiveTab("contentManagement");
   const head = "Edit Page";
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const location = useLocation();
+  const editData = location.state;
 
-  const [title, setTitle] = useState("");
+  const [title, setTitle] = useState(editData.pagename);
   const [content, setContent] = useState("");
   const [images, setImages] = useState([]);
 
   const handleSubmit = async (event) => {
-    event.preventDefault();
+    // event.preventDefault();
 
     const formData = new FormData();
     formData.append("pagename", title);
@@ -131,7 +133,6 @@ const EditPage = ({ setExpand, setActiveTab }) => {
               </li>
             </ul>
           </div>
-        </form>
           <button
             className="rounded bg-lime-600 hover:bg-lime-700 mt-10"
             style={{
@@ -154,6 +155,7 @@ const EditPage = ({ setExpand, setActiveTab }) => {
             >
             <Link to='/home/contentManagement'>Cancel</Link>
           </button>
+        </form>
       </div>
     </div>
   );

@@ -9,10 +9,19 @@ import { Grid } from "react-loader-spinner";
 import axios from "axios";
 
 // Component inside action column
-const Action = ({ relationName }) => {
+const Action = ({ relationName, rewardpts, paymentHistory, purchaseHistory, contact, email, photo }) => {
   const Navigate = useNavigate();
   const handleClick = () => {
-    Navigate("/home/memberDetails");
+    const data = {
+      "name":relationName,
+      "rewardpts":rewardpts,
+      "payment":paymentHistory,
+      "purchaseHistory":purchaseHistory,
+      "phone":contact,
+      "email":email,
+      "photo":photo
+    }
+    Navigate("/home/memberDetails", {state: data});
   };
   const dispatch = useDispatch();
   const handleDeleteClick = () => {
@@ -93,7 +102,17 @@ const Allmembers = ({ setActiveTab }) => {
     paymenthistory: `$ ${user.fields.net_purchase_amount}`,
     purchasehistory: `${user.fields.net_purchase_count} items`,
     contact: `+65 ${user.fields.phone}`,
-    action: <Action relationName={user.fields.usname} />,
+    action: (
+      <Action
+        relationName={user.fields.usname}
+        rewardpts={user.fields.pts}
+        paymentHistory={user.fields.net_purchase_amount}
+        purchaseHistory={user.fields.net_purchase_count}
+        contact={user.fields.phone}
+        email={user.fields.email}
+        photo={user.fields.pic_url}
+      />
+    ),
   }));
 
   const pageSize = 10;

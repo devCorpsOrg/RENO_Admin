@@ -44,6 +44,7 @@ import ProjectBooking from "../Pages/PSM/ProjectBookings/projectBookings";
 import CreateUser from "../Pages/User_Management/Create_User/createUser";
 import EditPage from "../Pages/Content_Management/EditPage/editPage";
 import cookie from 'js-cookie';
+import EditPromotion from "../Pages/HSM/EditPromotion/editPromotion";
 // import { useLocation } from 'react-router-dom';
 
 function Home() {
@@ -139,6 +140,16 @@ function Home() {
           path="/editListing"
           element={
             <EditListing
+              setExpand={togleExpand}
+              setActiveTab={handleActiveTab}
+            />
+          }
+        />
+        <Route
+          exact
+          path="/editPromotion"
+          element={
+            <EditPromotion
               setExpand={togleExpand}
               setActiveTab={handleActiveTab}
             />

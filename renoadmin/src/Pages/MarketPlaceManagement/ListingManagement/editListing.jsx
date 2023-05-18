@@ -111,7 +111,7 @@ const EditListing = ({ setExpand, setActiveTab }) => {
                 required
               />
             </label>
-            <div style={{ marginLeft: "625px", width: "600px" }}>
+            <div style={{ marginLeft: "385px", width: "600px" }}>
               {images && images.length > 0 && (
                 <div className="grid grid-cols-4 gap-3">
                   {images.map((image, index) => (
@@ -162,7 +162,7 @@ const EditListing = ({ setExpand, setActiveTab }) => {
               color: "white",
             }}
             type="submit"
-            onSubmit={handleSubmit}>
+            onClick={handleSubmit}>
             Save
           </button>
           <button

@@ -20,7 +20,7 @@ const AddNewShowcase = ({ setExpand, setActiveTab }) => {
   const [rate, setRate] = useState("");
 
   const handleSubmit = (event) => {
-    event.preventDefault();
+    // event.preventDefault();
 
     const formData = new FormData();
     formData.append("proj_name", title);
@@ -204,7 +204,7 @@ const AddNewShowcase = ({ setExpand, setActiveTab }) => {
             type="submit">
             Publish
           </button>
-          <button
+          {/* <button
             className="rounded mt-10 bg-black hover:bg-gray-800"
             style={{
               // backgroundColor: "black",
@@ -214,7 +214,7 @@ const AddNewShowcase = ({ setExpand, setActiveTab }) => {
               marginLeft: "30px",
             }}>
             Draft
-          </button>
+          </button> */}
           <button
             className="rounded mt-10 bg-amber-600 hover:bg-amber-700"
             style={{

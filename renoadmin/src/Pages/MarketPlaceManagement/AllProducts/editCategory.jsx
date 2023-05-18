@@ -133,7 +133,7 @@ const EditCategory = ({ setExpand, setActiveTab }) => {
               color: "white",
             }}
             type="submit"
-            onSubmit={handleSubmit}>
+            onClick={handleSubmit}>
             Save
           </button>
           <button
