@@ -743,8 +743,9 @@ def export(request):
     response['Content-Disposition'] = 'attachment; filename="file.csv"'  
     employees = ProjectManagementModel.objects.all()  
     writer = csv.writer(response)  
+    writer.writerow(['pic_url', 'proj_name', 'proj_category', 'rate', 'review', 'details'])
     for employee in employees:  
-        writer.writerow([employee.pic,employee.proj_name,employee.proj_category,employee.rate,employee.review,employee.project_type])  
+        writer.writerow([employee.pic,employee.proj_name,employee.proj_category,employee.rate,employee.review,employee.details])  
     return response  
 
 
