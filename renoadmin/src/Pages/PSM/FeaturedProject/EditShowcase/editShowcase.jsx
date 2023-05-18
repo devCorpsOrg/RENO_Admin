@@ -4,7 +4,7 @@ import TopHeader from "../../../../UI/TopHeader/TopHeader";
 import DisabledByDefaultRoundedIcon from "@mui/icons-material/DisabledByDefaultRounded";
 import { useDispatch } from "react-redux";
 import { updateShowcase } from "../../../User_Management/features/userSlice";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 const EditShowcase = ({ setExpand, setActiveTab }) => {
   const fileInputRef = useRef(null);
@@ -12,6 +12,7 @@ const EditShowcase = ({ setExpand, setActiveTab }) => {
   setActiveTab("projectList");
   const head = "Edit Showcase";
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
@@ -20,8 +21,8 @@ const EditShowcase = ({ setExpand, setActiveTab }) => {
   const [rate, setRate] = useState("");
 
   const handleSubmit = (event) => {
-    event.preventDefault();
-
+    // event.preventDefault();
+    console.log('Save')
     const formData = new FormData();
     formData.append("proj_name", title);
     formData.append("proj_category", label);
@@ -32,6 +33,8 @@ const EditShowcase = ({ setExpand, setActiveTab }) => {
     });
 
     dispatch(updateShowcase({ formData, title }));
+    navigate('/home/projectList')
+    
   };
 
   const handlePhotoUpload = (event) => {
@@ -209,7 +212,6 @@ const EditShowcase = ({ setExpand, setActiveTab }) => {
           </label>
           {/* <div> */}
           {/* </div> */}
-        </form>
           <button
             className="rounded mt-10 bg-lime-600 hover:bg-lime-700"
             style={{
@@ -218,7 +220,7 @@ const EditShowcase = ({ setExpand, setActiveTab }) => {
               color: "white",
             }}
             type="submit"
-            onSubmit={handleSubmit}>
+            onClick={handleSubmit}>
             Save
           </button>
           <button
@@ -232,6 +234,7 @@ const EditShowcase = ({ setExpand, setActiveTab }) => {
             >
             <Link to='/home/projectList'>Cancel</Link>
           </button>
+        </form>
       </div>
     </div>
   );

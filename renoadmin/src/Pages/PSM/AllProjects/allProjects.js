@@ -40,8 +40,8 @@ const Photo = ({ picUrl }) => {
 };
 
 const AllProjects = ({ setActiveTab, setExpand }) => {
-  // setExpand("showcaseManagement");
-  // setActiveTab("projectList");
+  setExpand("showcaseManagement");
+  setActiveTab("projectList");
   const head = "All Project";
   const Navigate = useNavigate();
   const greenClicked = () => {

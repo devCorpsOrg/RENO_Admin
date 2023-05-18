@@ -7,7 +7,7 @@ import { addNewListing } from "../../User_Management/features/userSlice";
 import { Link, useNavigate } from "react-router-dom";
 
 const AddListing = ({ setExpand, setActiveTab }) => {
-  // setExpand("marketPlace");
+  setExpand("marketPlace");
   setActiveTab("listingManagement");
   const head = "Add Listing";
   const dispatch = useDispatch();
@@ -19,7 +19,6 @@ const AddListing = ({ setExpand, setActiveTab }) => {
   const [images, setImages] = useState([]);
 
   const handleSubmit = (event) => {
-    event.preventDefault();
 
     const formData = new FormData();
     formData.append("service", title);
@@ -112,7 +111,7 @@ const AddListing = ({ setExpand, setActiveTab }) => {
                 required
               />
             </label>
-            <div style={{ marginLeft: "600px", width: "600px" }}>
+            <div style={{ marginLeft: "380px", width: "600px" }}>
               {images && images.length > 0 && (
                 <div className="grid grid-cols-4 gap-3">
                   {images.map((image, index) => (
@@ -154,7 +153,6 @@ const AddListing = ({ setExpand, setActiveTab }) => {
           </label>
           {/* <div> */}
           {/* </div> */}
-        </form>
           <button
             className="rounded bg-lime-600 hover:bg-lime-700 mt-10"
             style={{
@@ -176,6 +174,7 @@ const AddListing = ({ setExpand, setActiveTab }) => {
             type="submit">
             <Link to='/home/listingManagement'>Cancel</Link>
           </button>
+        </form>
       </div>
     </div>
   );

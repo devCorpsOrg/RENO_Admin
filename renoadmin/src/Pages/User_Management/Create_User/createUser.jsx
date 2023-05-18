@@ -49,7 +49,7 @@ const CreateUser = ({ setActiveTab, setExpand }) => {
   const Navigate = useNavigate();
 
   const handleSubmit = async (event) => {
-    event.preventDefault();
+    // event.preventDefault();
 
     const formData = new FormData();
     formData.append("username", name);

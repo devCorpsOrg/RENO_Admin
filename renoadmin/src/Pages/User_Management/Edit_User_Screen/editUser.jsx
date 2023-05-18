@@ -1,6 +1,6 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import TopHeader from "../../../UI/TopHeader/TopHeader";
-import { Form, Link, useLocation } from "react-router-dom";
+import { Form, Link, useLocation, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { useDispatch } from "react-redux";
 import { updateUser } from "../features/userSlice";
@@ -12,13 +12,23 @@ const EditUser = ({ setActiveTab, setExpand }) => {
   const dispatch = useDispatch();
   const location = useLocation();
   const editData = location.state;
+  const navigate = useNavigate();
 
-  const [name, setName] = useState(editData.username);
+  const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [phone, setPhone] = useState("");
   const [userId, setUserId] = useState("");
-  const [photo, setPhoto] = useState(null);
+  const [photo, setPhoto] = useState("");
   const [label, setLabel] = useState("");
+
+  // useEffect(()=>{
+  //   setName(editData.username);
+  //   setEmail(editData.email);
+  //   setPhone(editData.phone);
+  //   setUserId(editData.uid);
+  //   setLabel(editData.role);
+  //   setPhoto(editData.picUrl)
+  // }, [])
 
   const handleNameChange = (event) => {
     setName(event.target.value);
@@ -59,11 +69,10 @@ const EditUser = ({ setActiveTab, setExpand }) => {
     formData.append("phone", phone);
     formData.append("role", label);
     formData.append("uid", userId);
-    // if (photo) {
     formData.append("pic", photo);
-    // }
 
     dispatch(updateUser({ formData, userId }));
+    // navigate("/home/allUsers")
   };
 
   return (
@@ -199,7 +208,6 @@ const EditUser = ({ setActiveTab, setExpand }) => {
               )}
             </label>
           </div>
-        </form>
         <div className="flex mt-10 gap-5 items-center">
           <button
             className="rounded bg-lime-600 hover:bg-lime-700"
@@ -209,7 +217,7 @@ const EditUser = ({ setActiveTab, setExpand }) => {
               color: "white",
             }}
             type="submit"
-            onClick={handleSubmit}>
+            onSubmit={handleSubmit}>
             SAVE
           </button>
           <button
@@ -222,6 +230,7 @@ const EditUser = ({ setActiveTab, setExpand }) => {
             <Link to="/home/allUsers">Back</Link>
           </button>
         </div>
+        </form>
       </div>
     </div>
   );

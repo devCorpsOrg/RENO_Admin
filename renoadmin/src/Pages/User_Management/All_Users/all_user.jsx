@@ -9,15 +9,29 @@ import { getUser, DeleteUser } from "../features/userSlice"; // Import deleteUse
 import { Grid } from "react-loader-spinner";
 
 // Component inside action column
-const Action = ({ username }) => {
+const Action = ({ username, email, phone, uid, picUrl, role }) => {
   const Navigate = useNavigate();
+
+  const handleViewClick = () => {
+    const data = {
+      "photo": picUrl,
+      "username": username,
+      "email": email,
+      "phone": phone,
+      "role": role,
+      "uid":uid,
+      // "about":about
+    }
+    Navigate(`/home/UserDetails?name=${username}`, {state:data})
+  }
   const handleEditClick = () => {
     const data = {
-      // "photo": photo,
+      "photo": picUrl,
       "username": username,
-      // "emailaddress": emailaddress,
-      // "contact": contact,
-      // "usertype": usertype,
+      "email": email,
+      "phone": phone,
+      "role": role,
+      "uid":uid,
     }
     Navigate(`/home/editDetails/?name=${username}`, { state: data });
   };
@@ -31,7 +45,7 @@ const Action = ({ username }) => {
     <div className="flex gap-3 items-center pr-20">
       <div className="flex w-5 h-5 flex gap-2 cursor-pointer">
         <img src={Edit} onClick={handleEditClick} alt="Edit" />
-        <img src={View} alt="View" />
+        <img src={View} onClick={handleViewClick} alt="View" />
         <img src={deleteIcon} onClick={handleDeleteClick} alt="Delete" />
         <img src={Suspend} alt="suspendUser" />
       </div>
@@ -50,7 +64,6 @@ const ProfilePhoto = ({ picUrl }) => {
 const Allmembers = ({ setActiveTab, setExpand }) => {
   const head = "All Users";
   // setExpand("userManagement");
-
   // setActiveTab("allUsers");
   const Navigate = useNavigate();
   const greenClicked = () => {
@@ -111,7 +124,7 @@ const Allmembers = ({ setActiveTab, setExpand }) => {
     contact: user.phone,
     usertype: user.role,
     userid: user.uid,
-    action: <Action username={user.username} />,
+    action: <Action username={user.username} email={user.email} phone={user.phone} uid={user.uid} role={user.role} picUrl = {user.pic_url} />,
   }));
 
   return (

@@ -11,7 +11,10 @@ import { DeletePage } from "../../User_Management/features/userSlice";
 const Action = ({ pageid, pagename }) => {
   const Navigate = useNavigate();
   const handleEdit = () => {
-    Navigate("/home/editPage");
+    const data = {
+      "pagename": pagename,
+    }
+    Navigate("/home/editPage", {state:data});
   };
   const dispatch = useDispatch();
   const handleDeleteClick = () => {
@@ -31,6 +34,7 @@ const AllPages = ({ setActiveTab }) => {
   setActiveTab("contentManagement");
   const Navigate = useNavigate();
   const GreenClicked = () => {
+
     Navigate("/Home/createNewPage");
   };
   const [loading, setLoading] = useState(true);

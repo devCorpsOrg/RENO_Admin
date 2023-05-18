@@ -2,10 +2,13 @@ import React from "react";
 import TopHeader from "../../../UI/TopHeader/TopHeader";
 import FavoriteRoundedIcon from "@mui/icons-material/FavoriteRounded";
 import StarBorderRoundedIcon from "@mui/icons-material/StarBorderRounded";
+import { useLocation } from "react-router-dom";
 
 const ViewUser = ({ setActiveTab, setExpand }) => {
   setExpand("userManagement");
   setActiveTab("allUsers");
+  const location = useLocation();
+  const user = location.state;
   const head = "User Details";
   return (
     <div>
@@ -40,7 +43,7 @@ const ViewUser = ({ setActiveTab, setExpand }) => {
                 fontWeight: "bold",
               }}
             >
-              Adrian Smith
+              {user.username}
             </div>
             <div
               className="text-xs text-gray-500"
@@ -69,7 +72,7 @@ const ViewUser = ({ setActiveTab, setExpand }) => {
                 fontSize: "15px",
               }}
             >
-              Adrian Smith
+              {user.username}
             </div>
           </div>
           <div>
@@ -87,7 +90,7 @@ const ViewUser = ({ setActiveTab, setExpand }) => {
                 fontSize: "15px",
               }}
             >
-              +65 12345678
+              +65 {user.phone}
             </div>
           </div>
           <div>
@@ -105,7 +108,7 @@ const ViewUser = ({ setActiveTab, setExpand }) => {
                 fontSize: "15px",
               }}
             >
-              adrian.smith@sample.com
+              {user.email}
             </div>
           </div>
         </div>
@@ -144,7 +147,7 @@ const ViewUser = ({ setActiveTab, setExpand }) => {
               fontSize: "15px",
             }}
           >
-            Enter some details of the user
+            {user.about}
           </div>
         </div>
       </div>

@@ -178,7 +178,7 @@ export const addNewListing = createAsyncThunk(
       return response.data;
     } catch (error) {
       alert("Operation failed");
-      console.log("Not submitting data");
+      console.log("Not submitting data", error);
       return rejectWithValue(error.response.data);
     }
   }
@@ -227,6 +227,30 @@ export const updateUser = createAsyncThunk(
     } catch (error) {
       alert("Operation failed");
       console.log(userId);
+      console.log("Not submitting data");
+      return rejectWithValue(error.response.data);
+    }
+  }
+);
+
+export const editNewPromotion = createAsyncThunk(
+  "editNewPromotion",
+  async ({formData, title}, { rejectWithValue }) => {
+    try {
+      const response = await axios({
+        method: "put",
+        url: `http://139.59.236.50:8000/editpromoted/prod_name=${title}`,
+        data: formData,
+        headers: {
+          "Content-Type": "application/x-www-form-urlencoded;charset=UTF-8",
+        },
+      });
+      console.log(...formData);
+      console.log(response);
+      alert("Data Updated successfully");
+      return response.data;
+    } catch (error) {
+      alert("Operation failed");
       console.log("Not submitting data");
       return rejectWithValue(error.response.data);
     }
@@ -285,7 +309,7 @@ export const updateProject = createAsyncThunk(
     try {
       const response = await axios({
         method: "put",
-        url: `http://139.59.236.50:8000/editproducts/?prod_name=${title}`, // Change the End points
+        url: `http://139.59.236.50:8000/editproducts?prod_name=${title}`, // Change the End points
         data: formData,
         headers: {
           "Content-Type": "application/x-www-form-urlencoded;charset=UTF-8",
@@ -296,7 +320,7 @@ export const updateProject = createAsyncThunk(
       alert("Data updated successfully");
     } catch (error) {
       alert("Operation failed");
-      console.log("Not submitting data");
+      console.log("Not submitting data", error);
       return rejectWithValue(error.response.data);
     }
   }
@@ -308,7 +332,7 @@ export const updateCategory = createAsyncThunk(
     try {
       const response = await axios({
         method: "put",
-        url: `http://139.59.236.50:8000/editcategory/?prod_category=${title}`, // Change the End points
+        url: `http://139.59.236.50:8000/editcategory?prod_category=${title}`, // Change the End points
         data: formData,
         headers: {
           "Content-Type": "application/x-www-form-urlencoded;charset=UTF-8",
@@ -319,7 +343,7 @@ export const updateCategory = createAsyncThunk(
       alert("Data updated successfully");
     } catch (error) {
       alert("Operation failed");
-      console.log("Not submitting data");
+      console.log("Not submitting data", error);
       return rejectWithValue(error.response.data);
     }
   }
@@ -342,7 +366,7 @@ export const updateListing = createAsyncThunk(
       alert("Data updated successfully");
     } catch (error) {
       alert("Operation failed");
-      console.log("Not submitting data");
+      console.log("Not submitting data", error);
       return rejectWithValue(error.response.data);
     }
   }
@@ -372,6 +396,18 @@ export const CRM = createAsyncThunk("CRM", async (_, { rejectWithValue }) => {
   console.log("hello");
   try {
     const response = await axios.get("http://139.59.236.50:8000/members");
+    console.log(response);
+    return response.data;
+  } catch (error) {
+    console.log("Not submitting data");
+    console.log(error);
+    return rejectWithValue(error.response.data);
+  }
+});
+export const member_details = createAsyncThunk("member_details", async ({title}, { rejectWithValue }) => {
+  console.log("hello");
+  try {
+    const response = await axios.get(`http://139.59.236.50:8000/memberdetails?usname=${title}`);
     console.log(response);
     return response.data;
   } catch (error) {

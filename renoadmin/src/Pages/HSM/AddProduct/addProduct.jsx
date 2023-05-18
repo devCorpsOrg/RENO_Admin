@@ -270,7 +270,7 @@ const AddProduct = ({ setExpand, setActiveTab }) => {
             type="submit">
             Publish
           </button>
-          <button
+          {/* <button
             className="rounded mt-10 bg-black hover:bg-gray-800"
             style={{
               width: "170px",
@@ -280,7 +280,7 @@ const AddProduct = ({ setExpand, setActiveTab }) => {
             }}
             >
             Draft
-          </button>
+          </button> */}
           <button
             className="rounded mt-10 bg-amber-600 hover:bg-amber-700"
             style={{

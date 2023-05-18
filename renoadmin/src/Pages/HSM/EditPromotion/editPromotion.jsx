@@ -2,14 +2,14 @@ import { useDebugValue, useState } from "react";
 import React from "react";
 import TopHeader from "../../../UI/TopHeader/TopHeader";
 import axios from "axios";
-import { addNewPromotion } from "../../User_Management/features/userSlice";
+import { editNewPromotion } from "../../User_Management/features/userSlice";
 import { useDispatch } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 
-const AddPromotion = ({ setExpand, setActiveTab }) => {
-  // setExpand("homeService");
+const EditPromotion = ({ setExpand, setActiveTab }) => {
+  setExpand("homeService");
   setActiveTab("promotionManagement");
-  const head = "Add New Promotion";
+  const head = "Edit Promotion";
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
@@ -33,7 +33,7 @@ const AddPromotion = ({ setExpand, setActiveTab }) => {
       formData.append(`pic`, image);
     });
 
-    dispatch(addNewPromotion(formData));
+    dispatch(editNewPromotion({formData, title}));
     console.log("Back")
     navigate('/home/promotionManagement')
   };
@@ -72,7 +72,7 @@ const AddPromotion = ({ setExpand, setActiveTab }) => {
               style={{
                 height: "50px",
                 paddingLeft: "10px",
-                border: "2px solid 	#e6f7fe",
+                backgroundColor: "#e5ecff",
                 marginTop: "5px",
                 fontSize: "15px",
               }}
@@ -93,7 +93,7 @@ const AddPromotion = ({ setExpand, setActiveTab }) => {
                   height: "50px",
                   // width: "590px",
                   paddingLeft: "5px",
-                  border: "2px solid 	#e6f7fe",
+                  backgroundColor: "#e5ecff",
                   marginTop: "5px",
                   fontSize: "14px",
                 }}
@@ -116,7 +116,7 @@ const AddPromotion = ({ setExpand, setActiveTab }) => {
                   height: "50px",
                   // width: "586px",
                   paddingLeft: "10px",
-                  border: "2px solid 	#e6f7fe",
+                  backgroundColor: "#e5ecff",
                   marginTop: "5px",
                   fontSize: "14px",
                 }}
@@ -133,7 +133,7 @@ const AddPromotion = ({ setExpand, setActiveTab }) => {
                 style={{
                   height: "50px",
                   paddingLeft: "5px",
-                  border: "2px solid 	#e6f7fe",
+                  backgroundColor: "#e5ecff",
                   marginTop: "5px",
                   fontSize: "14px",
                 }}
@@ -153,7 +153,7 @@ const AddPromotion = ({ setExpand, setActiveTab }) => {
                   height: "50px",
                   // width: "590px",
                   paddingLeft: "0px",
-                  border: "2px solid 	#e6f7fe",
+                  backgroundColor: "#e5ecff",
                   marginTop: "5px",
                   fontSize: "14px",
                 }}
@@ -197,7 +197,7 @@ const AddPromotion = ({ setExpand, setActiveTab }) => {
               style={{
                 height: "170px",
                 // width: "1210px",
-                border: "2px solid #e6f7fe",
+                backgroundColor: "#e5ecff",
                 paddingLeft: "10px",
                 paddingTop: "20px",
                 fontSize: "15px",
@@ -249,4 +249,4 @@ const AddPromotion = ({ setExpand, setActiveTab }) => {
   );
 };
 
-export default AddPromotion;
+export default EditPromotion;
