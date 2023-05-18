@@ -15,7 +15,7 @@ const Action = ({ pageid, pagename }) => {
   };
   const dispatch = useDispatch();
   const handleDeleteClick = () => {
-    if (window.confirm(`Are you sure you want to delete ${pagename}?`)) {
+    if (window.confirm(`Are you sure you want to Delete ${pagename}?`)) {
       dispatch(DeletePage(pageid))
         .then(() => {
           window.location.reload();

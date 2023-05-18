@@ -12,7 +12,7 @@ const CreateUser = ({ setActiveTab, setExpand }) => {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [phone, setPhone] = useState("");
-  const [userId, setUserId] = useState("");
+  // const [userId, setUserId] = useState("");
   const [photo, setPhoto] = useState(null);
   const [label, setLabel] = useState("");
   const dispatch = useDispatch();
@@ -29,9 +29,9 @@ const CreateUser = ({ setActiveTab, setExpand }) => {
     setPhone(event.target.value);
   };
 
-  const handleUserIdChange = (event) => {
-    setUserId(event.target.value);
-  };
+  // const handleUserIdChange = (event) => {
+  //   setUserId(event.target.value);
+  // };
 
   const handlePhotoChange = (event) => {
     setPhoto(event.target.files[0]);
@@ -55,7 +55,7 @@ const CreateUser = ({ setActiveTab, setExpand }) => {
     formData.append("username", name);
     formData.append("email", email);
     formData.append("phone", phone);
-    formData.append("uid", userId);
+    // formData.append("uid", userId);
     formData.append("role", label);
     formData.append("pic", photo, photo.name);
 
@@ -126,7 +126,7 @@ const CreateUser = ({ setActiveTab, setExpand }) => {
                 required
               />
             </label>
-            <label className="grid pr-6">
+            {/* <label className="grid pr-6">
               User ID
               <input
                 type="userId"
@@ -141,7 +141,7 @@ const CreateUser = ({ setActiveTab, setExpand }) => {
                 onChange={handleUserIdChange}
                 required
               />
-            </label>
+            </label> */}
             <label className="grid pr-6">
               User Type
               <select
