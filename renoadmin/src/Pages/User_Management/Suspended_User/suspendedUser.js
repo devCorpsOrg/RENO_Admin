@@ -7,31 +7,59 @@ import { useDispatch, useSelector } from "react-redux";
 import { useEffect, useState } from "react";
 import { Grid } from "react-loader-spinner";
 import { DeleteSuspendUser, suspendUsers } from "../features/userSlice";
+import { Alert, AlertTitle, Button } from "@mui/material";
 
 // Component inside action column
 // The details of user shall be different for every users. It will be integrated at authentication of the users.
 const Action = ({ username }) => {
   const Navigate = useNavigate();
+  const [showDeleteConfirmation, setShowDeleteConfirmation] = useState(false);
   const handleClick = () => {
     Navigate("/home/userDetails");
   };
   const dispatch = useDispatch();
   const handleDeleteClick = () => {
-    if (window.confirm(`Are you sure you want to delete ${username}?`)) {
-      dispatch(DeleteSuspendUser(username))
-        .then(() => {
-          window.location.reload();
-        })
-        .catch((err) => {
-          console.log(err);
-        }); // Dispatch deleteUser action
-    }
+    setShowDeleteConfirmation(true);
+  };
+
+  const handleConfirmDelete = () => {
+    dispatch(DeleteSuspendUser(username))
+      .then(() => {
+        window.location.reload();
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
+  const handleCancelDelete = () => {
+    setShowDeleteConfirmation(false);
   };
   const head = "Suspended Users";
   return (
     <div className="w-6 h-6 flex gap-3 cursor-pointer">
       <img src={View} onClick={handleClick} alt="Edit" />
       <img src={deleteIcon} onClick={handleDeleteClick} alt="Delete" />
+      {showDeleteConfirmation && (
+        <div className="fixed top-0 left-0 w-screen h-screen bg-gray-800 bg-opacity-50 flex justify-center items-center z-50">
+          <div className="bg-white p-5 rounded shadow">
+            <Alert severity="warning">
+              <AlertTitle>Confirmation</AlertTitle>
+              <p className="pt-5">
+                Are you sure you want to delete {username}?
+              </p>
+              <div className="p-5">
+                <Button onClick={handleConfirmDelete} color="error" autoFocus>
+                  Delete
+                </Button>
+                <Button onClick={handleCancelDelete} color="inherit">
+                  Cancel
+                </Button>
+              </div>
+            </Alert>
+          </div>
+        </div>
+      )}
     </div>
   );
 };

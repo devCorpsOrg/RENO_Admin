@@ -7,12 +7,14 @@ import axios from "axios";
 import { useDispatch, useSelector } from "react-redux";
 import { getUser, DeleteUser } from "../features/userSlice"; // Import deleteUser action
 import { Grid } from "react-loader-spinner";
+import { Alert, AlertTitle, Button } from "@mui/material";
 
 // Component inside action column
 const Action = ({ username, email, phone, uid, picUrl, role }) => {
   const Navigate = useNavigate();
   const [showPopup, setShowPopup] = useState(false);
   const [suspendReason, setSuspendReason] = useState("");
+  const [showDeleteConfirmation, setShowDeleteConfirmation] = useState(false);
 
   const handleViewClick = () => {
     const data = {
@@ -72,16 +74,23 @@ const Action = ({ username, email, phone, uid, picUrl, role }) => {
   };
   const dispatch = useDispatch();
   const handleDeleteClick = () => {
-    if (window.confirm(`Are you sure you want to delete ${username}?`)) {
-      dispatch(DeleteUser(username))
-        .then(() => {
-          window.location.reload();
-        })
-        .catch((err) => {
-          console.log(err);
-        }); // Dispatch deleteUser action
-    }
+    setShowDeleteConfirmation(true);
   };
+
+  const handleConfirmDelete = () => {
+    dispatch(DeleteUser(username))
+      .then(() => {
+        window.location.reload();
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
+  const handleCancelDelete = () => {
+    setShowDeleteConfirmation(false);
+  };
+
   return (
     <div className="flex gap-3 items-center pr-20">
       <div className="flex w-5 h-5 flex gap-2 cursor-pointer">
@@ -101,7 +110,6 @@ const Action = ({ username, email, phone, uid, picUrl, role }) => {
                 onChange={(e) => setSuspendReason(e.target.value)}
                 className="border border-gray-300 p-4 rounded mb-2 w-64"
                 placeholder="Suspend Reason"
-                required
               />
             </div>
             <div className="flex p-5 justify-center">
@@ -116,6 +124,26 @@ const Action = ({ username, email, phone, uid, picUrl, role }) => {
                 Cancel
               </button>
             </div>
+          </div>
+        </div>
+      )}
+      {showDeleteConfirmation && (
+        <div className="fixed top-0 left-0 w-screen h-screen bg-gray-800 bg-opacity-50 flex justify-center items-center z-50">
+          <div className="bg-white p-5 rounded shadow">
+            <Alert severity="warning">
+              <AlertTitle>Confirmation</AlertTitle>
+              <p className="pt-5">
+                Are you sure you want to delete {username}?
+              </p>
+              <div className="p-5">
+                <Button onClick={handleConfirmDelete} color="error" autoFocus>
+                  Delete
+                </Button>
+                <Button onClick={handleCancelDelete} color="inherit">
+                  Cancel
+                </Button>
+              </div>
+            </Alert>
           </div>
         </div>
       )}
