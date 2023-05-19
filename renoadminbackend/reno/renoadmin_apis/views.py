@@ -289,7 +289,7 @@ def edit_user(request):
         except Userdetails.DoesNotExist:
          res={'msg':'user Not Found'}
          json_data=JSONRenderer().render(res)
-         return HttpResponse(json_data,content_type='application/json')
+         return HttpResponse(json_data,content_type='application/json',status=status.HTTP_404_NOT_FOUND)
 
      
         data=request.data
@@ -954,7 +954,7 @@ def edit_listing(request):
         try:
          user_objects=listings.objects.get(service=service)
         except listings.DoesNotExist:
-         res={'msg':'username Not Found'}
+         res={'msg':'list Not Found'}
          json_data=JSONRenderer().render(res)
          return HttpResponse(json_data,content_type='application/json',status=status.HTTP_404_NOT_FOUND)
 
