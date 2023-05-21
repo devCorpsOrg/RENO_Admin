@@ -69,10 +69,10 @@ const Purchases = ({ setActiveTab, setExpand }) => {
       header: "Amount",
       accessor: "amount",
     },
-    {
-      header: "Action",
-      accessor: "action",
-    },
+    // {
+    //   header: "Action",
+    //   accessor: "action",
+    // },
   ];
 
   const data = transactionData.map((user) => ({
@@ -82,7 +82,7 @@ const Purchases = ({ setActiveTab, setExpand }) => {
     supplier: user.fields.user,
     discription: user.fields.desc,
     amount: `$${user.fields.amt}`,
-    action: <Action />,
+    // action: <Action />,
   }));
 
   // Number of Pages to be display on a single page.

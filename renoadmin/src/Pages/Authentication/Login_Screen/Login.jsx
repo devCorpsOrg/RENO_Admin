@@ -11,24 +11,28 @@ function Login() {
   const [result, setResult] = useState("");
   //   const [result, setResult] = useState("");
 
-
-
   const handleSubmit = async (event) => {
     event.preventDefault();
 
-    axios.post('http://139.59.236.50:8000/login', {username, password})
-    .then((response) => {
-      setUsername("");
-      setPassword("");
-      console.log(response)
-      const token = response.data.jwt;
-      Cookies.set('jwt', token); 
-      setResult("Logged in Successfully")
-      navigate('/home');
-    }).catch((err) => {
-      console.log("Problem", err);
-      setResult("Authentication Failed !")
-    })
+    axios
+      .post("http://139.59.236.50:8000/login", { username, password })
+      .then((response) => {
+        setUsername("");
+        setPassword("");
+        console.log(response);
+        const token = response.data.jwt;
+        Cookies.set("jwt", token);
+        Cookies.set("role", response.data.role);
+        Cookies.set("username", response.data.username);
+        Cookies.set("pic", response.data.pic);
+        // Cookies.set('jwt', token);
+        setResult("Logged in Successfully");
+        navigate("/home");
+      })
+      .catch((err) => {
+        console.log("Problem", err);
+        setResult("Authentication Failed !");
+      });
   };
 
   return (
@@ -52,7 +56,6 @@ function Login() {
                 type="text"
                 value={username}
                 onChange={(e) => setUsername(e.target.value)}
-                
               />
             </label>
             <br />
