@@ -13,11 +13,16 @@ import {
 } from "../../User_Management/features/userSlice";
 import { Alert, AlertTitle, Button } from "@mui/material";
 
-const Action = ({ listId, listName }) => {
+const Action = ({ listId, listName, desc, price }) => {
   const Navigate = useNavigate();
   const [showDeleteConfirmation, setShowDeleteConfirmation] = useState(false);
   const handleEditClick = () => {
-    Navigate(`/home/editListing/?id={listId}`);
+    const data={
+      "name":listName,
+      "desc":desc,
+      "price":price
+    }
+    Navigate("/home/editListing", {state: data});
   };
   const dispatch = useDispatch();
   const handleDeleteClick = () => {
@@ -124,7 +129,7 @@ const ListingData = ({ setActiveTab, setExpand }) => {
     service: user.service,
     discription: user.desc,
     price: `$${user.rate}`,
-    action: <Action listId={user.id} listName={user.service} />,
+    action: <Action listId={user.id} listName={user.service} desc={user.desc}  price={user.rate} />,
   }));
 
   const greenButtonText = "Add New Listing";

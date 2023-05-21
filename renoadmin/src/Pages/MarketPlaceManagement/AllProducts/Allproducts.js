@@ -16,7 +16,11 @@ const Action = ({ catId, catName }) => {
   const Navigate = useNavigate();
   const [showDeleteConfirmation, setShowDeleteConfirmation] = useState(false);
   const handleClick = () => {
-    Navigate("/home/editCategory");
+    console.log(catName)
+    const data={
+      "catname": catName,
+    }
+    Navigate("/home/editCategory", {state:data});
   };
   const dispatch = useDispatch();
   const handleDeleteClick = () => {

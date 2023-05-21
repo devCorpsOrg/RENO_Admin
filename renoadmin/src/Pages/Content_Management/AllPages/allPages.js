@@ -9,12 +9,13 @@ import { Grid } from "react-loader-spinner";
 import { DeletePage } from "../../User_Management/features/userSlice";
 import { Alert, AlertTitle, Button } from "@mui/material";
 
-const Action = ({ pageid, pagename }) => {
+const Action = ({ pageid, pagename, content }) => {
   const Navigate = useNavigate();
   const [showDeleteConfirmation, setShowDeleteConfirmation] = useState(false);
   const handleEdit = () => {
     const data = {
       pagename: pagename,
+      "content": content,
     };
     Navigate("/home/editPage", { state: data });
   };
@@ -96,7 +97,7 @@ const AllPages = ({ setActiveTab }) => {
 
   const Data = pageData.map((user) => ({
     pagename: user.pagename,
-    action: <Action pageid={user.pageid} pagename={user.pagename} />,
+    action: <Action pageid={user.pageid} pagename={user.pagename} content={user.content} />,
   }));
 
   const pageSize = 7;

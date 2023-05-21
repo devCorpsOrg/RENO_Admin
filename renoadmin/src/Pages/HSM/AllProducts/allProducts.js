@@ -10,12 +10,21 @@ import { Grid } from "react-loader-spinner";
 import { DeleteProduct } from "../../User_Management/features/userSlice";
 import { Alert, AlertTitle, Button } from "@mui/material";
 
-const Action = ({ prodId, prodName }) => {
+const Action = ({ prodId, prodName, category, productcategory, inv, pack, purchaseditem, details }) => {
   const Navigate = useNavigate();
   const [showDeleteConfirmation, setShowDeleteConfirmation] = useState(false);
 
   const handleClick = () => {
-    Navigate("/home/editProduct");
+    const data={
+      name: prodName,
+      category: category,
+      productcategory: productcategory,
+      inv: inv,
+      pack: pack,
+      purchaseditem:purchaseditem,
+      details: details
+    }
+    Navigate("/home/editProduct", {state:data});
   };
   const dispatch = useDispatch();
   const handleDeleteClick = () => {
@@ -140,7 +149,16 @@ const AllProduct = ({ setActiveTab, setExpand }) => {
     inventory: `${user.fields.rate} items`,
     package: `$${user.fields.inv_count}`,
     purchaseditem: `${user.fields.net_purchase_item_count} items`,
-    action: <Action prodId={user.pk} prodName={user.fields.name} />,
+    action:       <Action
+    prodId={user.pk}
+    prodName={user.fields.name}
+    category={user.fields.category}
+    productcategory={user.fields.proj_category}
+    inv={user.fields.inv_count}
+    pack={user.fields.rate}
+    purchaseditem={user.fields.net_purchase_item_count}
+    details={user.fields.details}
+  />,
   }));
 
   const blackButtonText = "Export All";

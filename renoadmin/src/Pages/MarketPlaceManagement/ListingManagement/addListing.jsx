@@ -7,19 +7,19 @@ import { addNewListing } from "../../User_Management/features/userSlice";
 import { Link, useNavigate } from "react-router-dom";
 
 const AddListing = ({ setExpand, setActiveTab }) => {
-  // setExpand("marketPlace");
+  setExpand("marketPlace");
   setActiveTab("listingManagement");
   const head = "Add Listing";
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const [title, setTitle] = useState("");
   const [price, setPrice] = useState("");
   const [content, setContent] = useState("");
   const [images, setImages] = useState([]);
 
-  const HandleSubmit = (event) => {
-    event.preventDefault();
-    const navigate = useNavigate();
+  const handleSubmit = (event) => {
+
     const formData = new FormData();
     formData.append("service", title);
     formData.append("rate", price);
@@ -28,14 +28,8 @@ const AddListing = ({ setExpand, setActiveTab }) => {
       formData.append(`pic_url`, image);
     });
 
-    dispatch(addNewListing(formData))
-      .then(() => {
-        navigate("/home/listingManagement");
-        window.location.reload();
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+    dispatch(addNewListing(formData));
+    navigate('/home/listingManagement')
   };
 
   const handlePhotoUpload = (event) => {
@@ -58,7 +52,7 @@ const AddListing = ({ setExpand, setActiveTab }) => {
       </div>
 
       <div className=" ml-80 mb-10 relative" style={{ marginTop: "120px" }}>
-        <form onSubmit={HandleSubmit}>
+        <form onSubmit={handleSubmit}>
           <label className="grid mt-5">
             Service Name
             <input
@@ -117,7 +111,7 @@ const AddListing = ({ setExpand, setActiveTab }) => {
                 required
               />
             </label>
-            <div style={{ marginLeft: "600px", width: "600px" }}>
+            <div style={{ marginLeft: "380px", width: "600px" }}>
               {images && images.length > 0 && (
                 <div className="grid grid-cols-4 gap-3">
                   {images.map((image, index) => (
@@ -159,28 +153,29 @@ const AddListing = ({ setExpand, setActiveTab }) => {
           </label>
           {/* <div> */}
           {/* </div> */}
+          <button
+            className="rounded bg-lime-600 hover:bg-lime-700 mt-10"
+            style={{
+              width: "170px",
+              height: "55px",
+              color: "white",
+            }}
+            type="submit"
+            onSubmit={handleSubmit}>
+            Save
+          </button>
+          <button
+            className="rounded bg-black hover:bg-gray-800 mt-10"
+            style={{
+              width: "170px",
+              height: "55px",
+              color: "white",
+              marginLeft: "30px",
+            }}
+            type="submit">
+            <Link to='/home/listingManagement'>Cancel</Link>
+          </button>
         </form>
-        <button
-          className="rounded bg-lime-600 hover:bg-lime-700 mt-10"
-          style={{
-            width: "170px",
-            height: "55px",
-            color: "white",
-          }}
-          type="submit">
-          Save
-        </button>
-        <button
-          className="rounded bg-black hover:bg-gray-800 mt-10"
-          style={{
-            width: "170px",
-            height: "55px",
-            color: "white",
-            marginLeft: "30px",
-          }}
-          type="submit">
-          <Link to="/home/listingManagement">Cancel</Link>
-        </button>
       </div>
     </div>
   );

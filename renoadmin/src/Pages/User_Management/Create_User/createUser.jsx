@@ -12,10 +12,11 @@ const CreateUser = ({ setActiveTab, setExpand }) => {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [phone, setPhone] = useState("");
-  // const [userId, setUserId] = useState("");
+  const [userId, setUserId] = useState("");
   const [photo, setPhoto] = useState(null);
   const [label, setLabel] = useState("");
   const dispatch = useDispatch();
+  // const
 
   const handleNameChange = (event) => {
     setName(event.target.value);
@@ -29,9 +30,9 @@ const CreateUser = ({ setActiveTab, setExpand }) => {
     setPhone(event.target.value);
   };
 
-  // const handleUserIdChange = (event) => {
-  //   setUserId(event.target.value);
-  // };
+  const handleUserIdChange = (event) => {
+    setUserId(event.target.value);
+  };
 
   const handlePhotoChange = (event) => {
     setPhoto(event.target.files[0]);
@@ -46,10 +47,11 @@ const CreateUser = ({ setActiveTab, setExpand }) => {
   };
 
   const head = "Create User";
-  const Navigate = useNavigate();
+  const navigate = useNavigate();
 
   const handleSubmit = async (event) => {
-    event.preventDefault();
+    // event.preventDefault();
+    console.log("clicked")
 
     const formData = new FormData();
     formData.append("username", name);
@@ -59,14 +61,8 @@ const CreateUser = ({ setActiveTab, setExpand }) => {
     formData.append("role", label);
     formData.append("pic", photo, photo.name);
 
-    dispatch(createUser(formData))
-      .then(() => {
-        Navigate("/home/allUsers");
-        window.location.reload();
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+    dispatch(createUser(formData));
+    navigate("/home/allUsers");
   };
 
   return (
@@ -126,22 +122,6 @@ const CreateUser = ({ setActiveTab, setExpand }) => {
                 required
               />
             </label>
-            {/* <label className="grid pr-6">
-              User ID
-              <input
-                type="userId"
-                value={userId}
-                class="outline-none rounded"
-                style={{
-                  height: "50px",
-                  width: "380px",
-                  border: "2px solid 	#e6f7fe",
-                  paddingLeft: "5px",
-                }}
-                onChange={handleUserIdChange}
-                required
-              />
-            </label> */}
             <label className="grid pr-6">
               User Type
               <select
@@ -156,7 +136,8 @@ const CreateUser = ({ setActiveTab, setExpand }) => {
                 }}
                 value={label}
                 onChange={handleLabelChange}
-                required>
+                required
+              >
                 <option value="">Select a label</option>
                 <option value="personal">Admin</option>
                 <option value="work">Work</option>
@@ -183,7 +164,8 @@ const CreateUser = ({ setActiveTab, setExpand }) => {
                         backgroundColor: "white",
                         marginLeft: "20px",
                       }}
-                      onClick={handlePhotoRemove}>
+                      onClick={handlePhotoRemove}
+                    >
                       Remove
                     </button>
                   </div>
@@ -211,7 +193,8 @@ const CreateUser = ({ setActiveTab, setExpand }) => {
                 color: "white",
               }}
               type="submit"
-              onSubmit={handleSubmit}>
+              onSubmit={handleSubmit}
+            >
               SAVE
             </button>
             <button
@@ -220,7 +203,8 @@ const CreateUser = ({ setActiveTab, setExpand }) => {
                 width: "130px",
                 height: "55px",
                 color: "white",
-              }}>
+              }}
+            >
               <Link to="/home/allUsers">Back</Link>
             </button>
           </div>

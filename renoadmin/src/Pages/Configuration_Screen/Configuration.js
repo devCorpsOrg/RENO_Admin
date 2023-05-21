@@ -32,9 +32,7 @@ const Configuration = ({ setActiveTab }) => {
         })
         .then((response) => {
           console.log(response);
-        })
-        .then(() => {
-          window.location.reload();
+          alert('Created Successfully')
         })
         .catch((err) => {
           console.log(err);

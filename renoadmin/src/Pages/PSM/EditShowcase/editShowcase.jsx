@@ -1,10 +1,10 @@
 import { useState, useRef } from "react";
 import React from "react";
-import TopHeader from "../../../../UI/TopHeader/TopHeader";
+import TopHeader from "../../../UI/TopHeader/TopHeader";
 import DisabledByDefaultRoundedIcon from "@mui/icons-material/DisabledByDefaultRounded";
 import { useDispatch } from "react-redux";
-import { updateShowcase } from "../../../User_Management/features/userSlice";
-import { Link, useNavigate } from "react-router-dom";
+import { updateShowcase } from "../../User_Management/features/userSlice";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 
 const EditShowcase = ({ setExpand, setActiveTab }) => {
   const fileInputRef = useRef(null);
@@ -12,16 +12,18 @@ const EditShowcase = ({ setExpand, setActiveTab }) => {
   setActiveTab("projectList");
   const head = "Edit Showcase";
   const dispatch = useDispatch();
+  const location = useLocation();
+  const data=location.state;
 
-  const [title, setTitle] = useState("");
+  const [title, setTitle] = useState(data.name);
   const [content, setContent] = useState("");
   const [images, setImages] = useState([]);
-  const [label, setLabel] = useState("");
-  const [rate, setRate] = useState("");
+  const [label, setLabel] = useState(data.category);
+  const [rate, setRate] = useState(data.rate);
+  const navigate = useNavigate();
 
   const HandleSubmit = (event) => {
-    event.preventDefault();
-    const navigate = useNavigate();
+    // event.preventDefault();
     const formData = new FormData();
     formData.append("proj_name", title);
     formData.append("proj_category", label);
@@ -109,9 +111,9 @@ const EditShowcase = ({ setExpand, setActiveTab }) => {
                 value={label}
                 onChange={handleLabelChange}>
                 <option value="">Select Catagory</option>
-                <option value="personal">Admin</option>
-                <option value="work">Work</option>
-                <option value="other">Other</option>
+                <option value="Admin">Admin</option>
+                <option value="Work">Work</option>
+                <option value="Other">Other</option>
               </select>
             </label>
             <label className="grid">
@@ -216,7 +218,6 @@ const EditShowcase = ({ setExpand, setActiveTab }) => {
           </label>
           {/* <div> */}
           {/* </div> */}
-        </form>
         <button
           className="rounded mt-10 bg-lime-600 hover:bg-lime-700"
           style={{
@@ -225,7 +226,7 @@ const EditShowcase = ({ setExpand, setActiveTab }) => {
             color: "white",
           }}
           type="submit"
-          onSubmit={HandleSubmit}>
+          >
           Save
         </button>
         <button
@@ -238,6 +239,7 @@ const EditShowcase = ({ setExpand, setActiveTab }) => {
           }}>
           <Link to="/home/projectList">Cancel</Link>
         </button>
+        </form>
       </div>
     </div>
   );

@@ -7,10 +7,11 @@ import { addNewShowcase } from "../../User_Management/features/userSlice";
 import { Link, useNavigate } from "react-router-dom";
 
 const AddNewShowcase = ({ setExpand, setActiveTab }) => {
-  // setExpand("showcaseManagement");
+  setExpand("showcaseManagement");
   setActiveTab("projectList");
   const head = "Add New Showcase";
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
@@ -18,9 +19,9 @@ const AddNewShowcase = ({ setExpand, setActiveTab }) => {
   const [userType, setUserType] = useState("");
   const [rate, setRate] = useState("");
 
-  const HandleSubmit = (event) => {
-    event.preventDefault();
-
+  const handleSubmit = (event) => {
+    // event.preventDefault();
+console.log("Hello")
     const formData = new FormData();
     formData.append("proj_name", title);
     formData.append("proj_category", userType);
@@ -29,15 +30,9 @@ const AddNewShowcase = ({ setExpand, setActiveTab }) => {
     images.forEach((image, index) => {
       formData.append(`pic`, image);
     });
-    const navigate = useNavigate();
-    dispatch(addNewShowcase(formData))
-      .then(() => {
-        navigate("/home/projectList");
-        window.location.reload();
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+
+    dispatch(addNewShowcase(formData));
+    navigate("/home/projectList");
   };
 
   const handleImageUpload = (event) => {
@@ -61,8 +56,9 @@ const AddNewShowcase = ({ setExpand, setActiveTab }) => {
 
       <div
         className=" ml-80 mb-10 w-[100vh] relative"
-        style={{ marginTop: "120px" }}>
-        <form onSubmit={HandleSubmit}>
+        style={{ marginTop: "120px" }}
+      >
+        <form onSubmit={handleSubmit}>
           <label className="grid mt-5">
             Project Title
             <input
@@ -86,7 +82,7 @@ const AddNewShowcase = ({ setExpand, setActiveTab }) => {
 
           <div className="grid grid-cols-2 gap-4 mt-5">
             <label className="grid pr-6">
-              User Type
+              Project Category
               <select
                 id="label"
                 name="label"
@@ -100,11 +96,12 @@ const AddNewShowcase = ({ setExpand, setActiveTab }) => {
                   fontSize: "14px",
                 }}
                 value={userType}
-                onChange={handleUserTypeChange}>
+                onChange={handleUserTypeChange}
+              >
                 <option value="">Select Catagory</option>
-                <option value="personal">Admin</option>
-                <option value="work">Work</option>
-                <option value="other">Other</option>
+                <option value="Admin">Admin</option>
+                <option value="Work">Work</option>
+                <option value="Other">Other</option>
               </select>
             </label>
             <label className="grid pr-6">
@@ -196,8 +193,6 @@ const AddNewShowcase = ({ setExpand, setActiveTab }) => {
             />
           </label>
           {/* <div> */}
-          {/* </div> */}
-        </form>
         <button
           className="rounded mt-10 bg-lime-600 hover:bg-lime-700 "
           style={{
@@ -205,21 +200,22 @@ const AddNewShowcase = ({ setExpand, setActiveTab }) => {
             height: "55px",
             color: "white",
           }}
-          onClick={HandleSubmit}
-          type="submit">
+          type="submit"
+          onSubmit={handleSubmit}
+        >
           Publish
         </button>
-        <button
-          className="rounded mt-10 bg-black hover:bg-gray-800"
-          style={{
-            // backgroundColor: "black",
-            width: "170px",
-            height: "55px",
-            color: "white",
-            marginLeft: "30px",
-          }}>
-          Draft
-        </button>
+        {/* <button
+            className="rounded mt-10 bg-black hover:bg-gray-800"
+            style={{
+              // backgroundColor: "black",
+              width: "170px",
+              height: "55px",
+              color: "white",
+              marginLeft: "30px",
+            }}>
+            Draft
+          </button> */}
         <button
           className="rounded mt-10 bg-amber-600 hover:bg-amber-700"
           style={{
@@ -228,9 +224,12 @@ const AddNewShowcase = ({ setExpand, setActiveTab }) => {
             height: "55px",
             color: "white",
             marginLeft: "30px",
-          }}>
+          }}
+        >
           <Link to="/home/projectList">Back</Link>
         </button>
+        </form>
+        {/* </div> */}
       </div>
     </div>
   );
