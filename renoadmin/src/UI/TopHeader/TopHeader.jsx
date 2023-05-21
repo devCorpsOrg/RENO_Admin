@@ -1,6 +1,12 @@
 import React from "react";
+import Cookies from "js-cookie";
 
 const TopHeader = (props) => {
+  const name = Cookies.get("username");
+  const role = Cookies.get("role");
+  const pic = Cookies.get("pic");
+  console.log(name, role, pic);
+
   return (
     <div
       className="ml-72 w-full h-20 fixed bg-white"
@@ -11,7 +17,7 @@ const TopHeader = (props) => {
           className="flex h-20 items-center cursor-pointer"
           style={{ marginRight: "20rem" }}>
           <img
-            src="/images/profile.jpg"
+            src={pic}
             alt=""
             style={{
               height: "60px",
@@ -20,8 +26,8 @@ const TopHeader = (props) => {
             }}
           />
           <div>
-            <div className="text-xl font-bold">Andre</div>
-            <div className="text-sm font-semibold">Super Admin</div>
+            <div className="text-xl font-bold">{name}</div>
+            <div className="text-sm font-semibold">{role}</div>
           </div>
         </div>
       </div>

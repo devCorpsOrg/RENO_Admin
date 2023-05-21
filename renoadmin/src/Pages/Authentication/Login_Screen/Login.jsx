@@ -6,8 +6,8 @@ import Cookies from "js-cookie";
 
 function Login() {
   const navigate = useNavigate();
-  const [username, setUsername] = useState("");
-  const [password, setPassword] = useState("");
+  const [username, setUsername] = useState();
+  const [password, setPassword] = useState();
   const [result, setResult] = useState("");
   //   const [result, setResult] = useState("");
 
@@ -22,6 +22,10 @@ function Login() {
         console.log(response);
         const token = response.data.jwt;
         Cookies.set("jwt", token);
+        Cookies.set("role", response.data.role);
+        Cookies.set("username", response.data.username);
+        Cookies.set("pic", response.data.pic);
+        // Cookies.set('jwt', token);
         setResult("Logged in Successfully");
         navigate("/home");
       })

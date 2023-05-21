@@ -76,7 +76,7 @@ const CreateUser = ({ setActiveTab, setExpand }) => {
       </div>
 
       <div className="ml-80 mt-20 relative" style={{ marginTop: "140px" }}>
-        <form>
+        <form onSubmit={handleSubmit}>
           <div class="grid grid-cols-2 gap-4">
             <label className="grid pr-6">
               User Name
@@ -202,29 +202,29 @@ const CreateUser = ({ setActiveTab, setExpand }) => {
               )}
             </label>
           </div>
+          <div className="flex mt-10 gap-10 items-center">
+            <button
+              className="rounded bg-lime-600 hover:bg-lime-700"
+              style={{
+                width: "130px",
+                height: "55px",
+                color: "white",
+              }}
+              type="submit"
+              onSubmit={handleSubmit}>
+              SAVE
+            </button>
+            <button
+              className="rounded bg-amber-600 hover:bg-amber-700"
+              style={{
+                width: "130px",
+                height: "55px",
+                color: "white",
+              }}>
+              <Link to="/home/allUsers">Back</Link>
+            </button>
+          </div>
         </form>
-        <div className="flex mt-10 gap-10 items-center">
-          <button
-            className="rounded bg-lime-600 hover:bg-lime-700"
-            style={{
-              width: "130px",
-              height: "55px",
-              color: "white",
-            }}
-            type="submit"
-            onClick={handleSubmit}>
-            SAVE
-          </button>
-          <button
-            className="rounded bg-amber-600 hover:bg-amber-700"
-            style={{
-              width: "130px",
-              height: "55px",
-              color: "white",
-            }}>
-            <Link to="/home/allUsers">Back</Link>
-          </button>
-        </div>
       </div>
     </div>
   );

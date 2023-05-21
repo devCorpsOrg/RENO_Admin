@@ -110,6 +110,7 @@ const Action = ({ username, email, phone, uid, picUrl, role }) => {
                 onChange={(e) => setSuspendReason(e.target.value)}
                 className="border border-gray-300 p-4 rounded mb-2 w-64"
                 placeholder="Suspend Reason"
+                required="true"
               />
             </div>
             <div className="flex p-5 justify-center">
