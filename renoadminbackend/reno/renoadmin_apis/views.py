@@ -51,6 +51,8 @@ from rest_framework import status
 from rest_framework.response import Response
 import jwt, datetime
 from rest_framework.exceptions import AuthenticationFailed
+from rest_framework import status    
+from rest_framework.response import Response
 # from django.contrib.auth import logout as auth_logout
 # from django.contrib.auth import get_user_model, logout
 # from rest_framework import viewsets, status
@@ -144,18 +146,16 @@ class LoginView(APIView):
         username = request.data['username']
         password = request.data['password']
         ans=[]  
-       
+        
         try:
              info=Userdetails.objects.get(username=username)
         except Userdetails.DoesNotExist:
-             res={'msg':'User is not present in userdetails'}
-             json_data=JSONRenderer().render(res)
-             return HttpResponse(json_data,content_type='application/json')
+            return Response({'status': 'User does not exist'}, status=status.HTTP_404_NOT_FOUND)
         
         if info.role!='admin':
             res={'msg':'User is not admin'}
             json_data=JSONRenderer().render(res)
-            return HttpResponse(json_data,content_type='application/json')
+            return HttpResponse(json_data,content_type='application/json',status=status.HTTP_404_NOT_FOUND)
 
         
         user = User.objects.filter(username=username).first()
@@ -256,6 +256,7 @@ def create_user(request):
        
         
         serializer= UserSerializer5(data=request.data)
+        
         if serializer.is_valid():
             serializer.save()
             res={'msg':'Data Created Successfully'}
@@ -286,9 +287,9 @@ def edit_user(request):
         try:
          user_objects=Userdetails.objects.get(uid=uid)
         except Userdetails.DoesNotExist:
-         res={'msg':'username Not Found'}
+         res={'msg':'user Not Found'}
          json_data=JSONRenderer().render(res)
-         return HttpResponse(json_data,content_type='application/json')
+         return HttpResponse(json_data,content_type='application/json',status=status.HTTP_404_NOT_FOUND)
 
      
         data=request.data
@@ -343,7 +344,7 @@ def delete_user(request):
           except Userdetails.DoesNotExist:
              res={'msg':'User is not present'}
              json_data=JSONRenderer().render(res)
-             return HttpResponse(json_data,content_type='application/json')
+             return HttpResponse(json_data,content_type='application/json',status=status.HTTP_404_NOT_FOUND)
              
           info.delete()
           res={'msg':'User deleted Successfully'}
@@ -364,7 +365,7 @@ def delete_suspenduser(request):
           except Userdetails.DoesNotExist:
              res={'msg':'User is not present'}
              json_data=JSONRenderer().render(res)
-             return HttpResponse(json_data,content_type='application/json')
+             return HttpResponse(json_data,content_type='application/json',status=status.HTTP_404_NOT_FOUND)
           if info.is_suspend==1: 
              info.delete()
              res={'msg':'User deleted Successfully'}
@@ -373,7 +374,7 @@ def delete_suspenduser(request):
           else:
              res={'this is not a suspended user'}
              json_data=JSONRenderer().render(res)
-             return HttpResponse(json_data,content_type='application/json')
+             return HttpResponse(json_data,content_type='application/json',status=status.HTTP_404_NOT_FOUND)
                 
          
 @api_view(['GET','POST'])
@@ -386,18 +387,45 @@ def suspend_user(request):
     except Userdetails.DoesNotExist:
              res={'msg':'User is not present'}
              json_data=JSONRenderer().render(res)
-             return HttpResponse(json_data,content_type='application/json')
+             return HttpResponse(json_data,content_type='application/json',status=status.HTTP_404_NOT_FOUND)
 
     if info.is_suspend==1:
         res={'msg':'Already Suspended'}
         json_data=JSONRenderer().render(res)
-        return HttpResponse(json_data,content_type='application/json')
+        return HttpResponse(json_data,content_type='application/json',status=status.HTTP_404_NOT_FOUND)
 
     else:
      info.suspend_reason=suspend_reason
      info.is_suspend=1
      info.save()
      res={'msg':'Suspended Successfully'}
+     json_data=JSONRenderer().render(res)
+     return HttpResponse(json_data,content_type='application/json')
+    
+                
+         
+@api_view(['GET','POST'])
+def remove_suspend_user(request):
+    uid=request.query_params['uid']
+    # data=request.data
+    
+    try:
+             info=Userdetails.objects.get(uid=uid)
+    except Userdetails.DoesNotExist:
+             res={'msg':'User is not present'}
+             json_data=JSONRenderer().render(res)
+             return HttpResponse(json_data,content_type='application/json',status=status.HTTP_404_NOT_FOUND)
+
+    if info.is_suspend==0:
+        res={'user not Suspended yet'}
+        json_data=JSONRenderer().render(res)
+        return HttpResponse(json_data,content_type='application/json',status=status.HTTP_404_NOT_FOUND)
+
+    else:
+     info.suspend_reason=""
+     info.is_suspend=0
+     info.save()
+     res={'msg':' removed Successfully'}
      json_data=JSONRenderer().render(res)
      return HttpResponse(json_data,content_type='application/json')
     
@@ -428,7 +456,7 @@ def page(request):
      if info is None:
       res={'msg':'Create a Page'}
       json_data=JSONRenderer().render(res)
-      return HttpResponse(json_data,content_type='application/json')
+      return HttpResponse(json_data,content_type='application/json',status=status.HTTP_404_NOT_FOUND)
       
      serailizer1=cmsSerializer1(info,many=True)
      
@@ -467,7 +495,7 @@ def search_page(request):
           except cmsModel.DoesNotExist:
             res={'msg':'page Not Found'}
             json_data=JSONRenderer().render(res)
-            return HttpResponse(json_data,content_type='application/json')
+            return HttpResponse(json_data,content_type='application/json',status=status.HTTP_404_NOT_FOUND)
 
           serailizer=cmsSerializer1(info);
            
@@ -486,7 +514,7 @@ def edit_page(request):
         except cmsModel.DoesNotExist:
          res={'msg':'page Not Found'}
          json_data=JSONRenderer().render(res)
-         return HttpResponse(json_data,content_type='application/json')
+         return HttpResponse(json_data,content_type='application/json',status=status.HTTP_404_NOT_FOUND)
         
        
         data=request.data
@@ -527,7 +555,7 @@ def delete_page(request):
           except cmsModel.DoesNotExist:
              res={'msg':'page is not present'}
              json_data=JSONRenderer().render(res)
-             return HttpResponse(json_data,content_type='application/json')
+             return HttpResponse(json_data,content_type='application/json',status=status.HTTP_404_NOT_FOUND)
              
              
           info.delete()
@@ -614,7 +642,7 @@ def searchproject(request):
           except ProjectManagementModel.DoesNotExist:
              res={'msg':'Data Not Found'}
              json_data=JSONRenderer().render(res)
-             return HttpResponse(json_data,content_type='application/json')
+             return HttpResponse(json_data,content_type='application/json',status=status.HTTP_404_NOT_FOUND)
             
                 
           serailizer=ProjectManagementSerializer1(info);
@@ -635,7 +663,7 @@ def searchfeaturedprojects(request):
           except ProjectManagementModel.DoesNotExist:
             res={'msg':'Data Not Found'}
             json_data=JSONRenderer().render(res)
-            return HttpResponse(json_data,content_type='application/json')
+            return HttpResponse(json_data,content_type='application/json',status=status.HTTP_404_NOT_FOUND)
             
           serailizer=ProjectManagementSerializer1(info);
            
@@ -654,7 +682,7 @@ def editproject(request):
         except ProjectManagementModel.DoesNotExist:
          res={'msg':'data Not Found'}
          json_data=JSONRenderer().render(res)
-         return HttpResponse(json_data,content_type='application/json')
+         return HttpResponse(json_data,content_type='application/json',status=status.HTTP_404_NOT_FOUND)
 
         data=request.data
         # stream=io.BytesIO(json_data)
@@ -702,7 +730,7 @@ def deleteproject(request):
           except ProjectManagementModel.DoesNotExist:
               res={'msg':'Data not present'}
               json_data=JSONRenderer().render(res)
-              return HttpResponse(json_data,content_type='application/json')
+              return HttpResponse(json_data,content_type='application/json',status=status.HTTP_404_NOT_FOUND)
              
              
           info.delete()
@@ -715,8 +743,9 @@ def export(request):
     response['Content-Disposition'] = 'attachment; filename="file.csv"'  
     employees = ProjectManagementModel.objects.all()  
     writer = csv.writer(response)  
+    writer.writerow(['pic_url', 'proj_name', 'proj_category', 'rate', 'review', 'details'])
     for employee in employees:  
-        writer.writerow([employee.pic,employee.proj_name,employee.proj_category,employee.rate,employee.review,employee.project_type])  
+        writer.writerow([employee.pic,employee.proj_name,employee.proj_category,employee.rate,employee.review,employee.details])  
     return response  
 
 
@@ -763,7 +792,7 @@ def searchpromoted(request):
             except pmsModel.DoesNotExist:
               res={'msg':'Data not present'}
               json_data=JSONRenderer().render(res)
-              return HttpResponse(json_data,content_type='application/json')
+              return HttpResponse(json_data,content_type='application/json',status=status.HTTP_404_NOT_FOUND)
             serailizer=pmsSerializer(info);
            
             json_data=JSONRenderer().render(serailizer.data) 
@@ -781,7 +810,7 @@ def editpromoted(request):
         except pmsModel.DoesNotExist:
          res={'msg':'data Not Found'}
          json_data=JSONRenderer().render(res)
-         return HttpResponse(json_data,content_type='application/json')
+         return HttpResponse(json_data,content_type='application/json',status=status.HTTP_404_NOT_FOUND)
         
         data=request.data
         # stream=io.BytesIO(json_data)
@@ -820,13 +849,13 @@ def deletepromoted(request):
         # python_data=JSONParser().parse(stream)
         # id=python_data.get('pageid',None)
         id=id
-        print(id)
+    
         if id is not None:
              info=pmsModel.objects.get(prod_id=id)
              info.delete()
              res={'msg':'Data deleted Successfully'}
              json_data=JSONRenderer().render(res)
-             return HttpResponse(json_data,content_type='application/json')
+             return HttpResponse(json_data,content_type='application/json',status=status.HTTP_404_NOT_FOUND)
 
 #-----------------------------------------------------------------------------------------------------
 def usersupport(request):
@@ -850,7 +879,7 @@ def delete_records(request):
              info.delete()
              res={'msg':'Data updated Successfully'}
              json_data=JSONRenderer().render(res)
-             return HttpResponse(json_data,content_type='application/json')
+             return HttpResponse(json_data,content_type='application/json',status=status.HTTP_404_NOT_FOUND)
 #-----------------------------------------------------------------------------------------------------------
 @api_view(['POST'])
 @csrf_exempt
@@ -912,7 +941,7 @@ def search_listing(request):
             except listings.DoesNotExist:
               res={'msg':'Data Not Found'}
               json_data=JSONRenderer().render(res)
-              return HttpResponse(json_data,content_type='application/json')
+              return HttpResponse(json_data,content_type='application/json',status=status.HTTP_404_NOT_FOUND)
             serailizer=listingsSerializer(info);
             json_data=JSONRenderer().render(serailizer.data) 
             return HttpResponse(json_data,content_type='application/json')
@@ -925,9 +954,9 @@ def edit_listing(request):
         try:
          user_objects=listings.objects.get(service=service)
         except listings.DoesNotExist:
-         res={'msg':'username Not Found'}
+         res={'msg':'list Not Found'}
          json_data=JSONRenderer().render(res)
-         return HttpResponse(json_data,content_type='application/json')
+         return HttpResponse(json_data,content_type='application/json',status=status.HTTP_404_NOT_FOUND)
 
      
         data=request.data
@@ -964,7 +993,7 @@ def delete_listing(request):
           except listings.DoesNotExist:
              res={'msg':'not present'}
              json_data=JSONRenderer().render(res)
-             return HttpResponse(json_data,content_type='application/json')
+             return HttpResponse(json_data,content_type='application/json',status=status.HTTP_404_NOT_FOUND)
              
           info.delete()
           res={'msg':'deleted Successfully'}

@@ -31,6 +31,7 @@ urlpatterns = [
     path('suspenduser/',views.suspend_user,name="suspenduser"),
     path('suspendedusers/',views.suspended_users,name="suspendedusers"),
     path('userHistory/',views.user_History,name="Userdetails"),
+    path('removesuspenduser/',views.remove_suspend_user,name="removesuspenduser"),
 # ---------------------------------------------------------------------------------------------------------------
     path('pages/',views.page,name="page"),
     path('createpage/',views.create_page,name="createpage"),
