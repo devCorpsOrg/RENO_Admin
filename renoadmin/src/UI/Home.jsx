@@ -74,7 +74,7 @@ function Home() {
 
   return (
     <div className="flex">
-      {cookie.get() && (
+      {cookie.get('jwt') && (
         <>
           <SideNavBar
             expand={expand}
