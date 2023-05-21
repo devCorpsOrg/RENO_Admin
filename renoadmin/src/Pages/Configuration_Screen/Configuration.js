@@ -35,14 +35,7 @@ const Configuration = ({ setActiveTab }) => {
         .then((response) => {
           setShowAlert(true);
           console.log(response);
-<<<<<<< HEAD
           alert('Created Successfully')
-=======
-          // alert("Seetings created sucessfully");
-          setTimeout(() => {
-            window.location.reload();
-          }, 2000);
->>>>>>> de3ca04ba9dc8e462a5af5fbf9f5f273ca13ebc3
         })
         .catch((err) => {
           console.log(err);
