@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import TopHeader from "../../UI/TopHeader/TopHeader";
 import axios from "axios";
+import { Snackbar, Alert } from "@mui/material";
 
 const Configuration = ({ setActiveTab }) => {
   const [sitename, setName] = useState("");
@@ -8,15 +9,16 @@ const Configuration = ({ setActiveTab }) => {
   const [email, setSiteEmail] = useState("");
   const [url, setUrl] = useState("");
   const [smtp_details, setDetails] = useState("");
+  const [showAlert, setShowAlert] = useState(false); // State for controlling the alert
 
   setActiveTab("settings");
   const handleSubmit = async (e) => {
     e.preventDefault();
     const data = {
       sitename: sitename,
+      url: url,
       mail: mail,
       email: email,
-      url: url,
       smtp_details: smtp_details,
     };
     const jsonData = JSON.stringify(data);
@@ -25,16 +27,18 @@ const Configuration = ({ setActiveTab }) => {
       const response = await axios
         .post("http://139.59.236.50:8000/setting/", {
           sitename,
+          url,
           mail,
           email,
-          url,
           smtp_details,
         })
         .then((response) => {
+          setShowAlert(true);
           console.log(response);
-        })
-        .then(() => {
-          window.location.reload();
+          // alert("Seetings created sucessfully");
+          setTimeout(() => {
+            window.location.reload();
+          }, 2000);
         })
         .catch((err) => {
           console.log(err);
@@ -51,6 +55,18 @@ const Configuration = ({ setActiveTab }) => {
       <div className="flex fixed z-10">
         <TopHeader className="fixed" head={head} />
       </div>
+      <Snackbar
+        open={showAlert}
+        autoHideDuration={3000}
+        onClose={() => setShowAlert(false)}
+        anchorOrigin={{ vertical: "bottom", horizontal: "left" }}>
+        <Alert
+          onClose={() => setShowAlert(false)}
+          severity="success"
+          sx={{ width: "100%" }}>
+          Settings created successfully
+        </Alert>
+      </Snackbar>
       <div className=" ml-72 mt-32 w-[100%] relative">
         <div className="flex flex-row w-full h-full justify-center sm:justify-start items-center m-3">
           <form

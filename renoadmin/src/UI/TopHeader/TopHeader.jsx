@@ -5,7 +5,7 @@ const TopHeader = (props) => {
   const name = Cookies.get("username");
   const role = Cookies.get("role");
   const pic = Cookies.get("pic");
-  console.log(name, role, pic);
+  // console.log(name, role, pic);
 
   return (
     <div
