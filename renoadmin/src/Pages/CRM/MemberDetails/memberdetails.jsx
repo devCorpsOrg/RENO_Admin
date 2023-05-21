@@ -2,10 +2,14 @@ import React from "react";
 import FavoriteRoundedIcon from "@mui/icons-material/FavoriteRounded";
 import StarBorderRoundedIcon from "@mui/icons-material/StarBorderRounded";
 import TopHeader from "../../../UI/TopHeader/TopHeader";
+import { useDispatch, useSelector } from "react-redux";
+import { useLoaderData, useLocation } from "react-router-dom";
 
 const MemberDetails = ({ setActiveTab, setExpand }) => {
   setActiveTab("customerRelationship");
   const head = "Member Details";
+  const location = useLocation();
+  const memData = location.state;
   return (
     <div>
       <div className="flex" style={{ zIndex: "100" }}>
@@ -32,11 +36,14 @@ const MemberDetails = ({ setActiveTab, setExpand }) => {
             />
             <div
               style={{
-                marginLeft: "34px",
+                marginLeft: "auto",
+                marginRight: "auto",
                 marginTop: "2px",
                 fontWeight: "bold",
+                display: "flex",
+                justifyContent: "center",
               }}>
-              Adrian Smith
+              {memData.name}
             </div>
             <div
               className="text-xs text-gray-500"
@@ -61,7 +68,7 @@ const MemberDetails = ({ setActiveTab, setExpand }) => {
                 fontWeight: "bold",
                 fontSize: "15px",
               }}>
-              Adrian Smith
+              {memData.name}
             </div>
           </div>
           <div>
@@ -77,7 +84,7 @@ const MemberDetails = ({ setActiveTab, setExpand }) => {
                 fontWeight: "bold",
                 fontSize: "15px",
               }}>
-              +65 12345678
+              {memData.phone}
             </div>
           </div>
           <div>
@@ -93,7 +100,7 @@ const MemberDetails = ({ setActiveTab, setExpand }) => {
                 fontWeight: "bold",
                 fontSize: "15px",
               }}>
-              adrian.smith@sample.com
+              {memData.email}
             </div>
           </div>
           <div>
@@ -113,7 +120,7 @@ const MemberDetails = ({ setActiveTab, setExpand }) => {
                 fontWeight: "bold",
                 fontSize: "15px",
               }}>
-              5 items
+              {memData.purchaseHistory}
             </div>
           </div>
           <div>
@@ -133,7 +140,7 @@ const MemberDetails = ({ setActiveTab, setExpand }) => {
                 fontWeight: "bold",
                 fontSize: "15px",
               }}>
-              $600
+              $ {memData.payment}
             </div>
           </div>
           <div>
@@ -154,7 +161,7 @@ const MemberDetails = ({ setActiveTab, setExpand }) => {
                 fontSize: "15px",
                 color: "darkblue",
               }}>
-              650
+              {memData.rewardpts}
             </div>
           </div>
         </div>
