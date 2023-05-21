@@ -15,7 +15,7 @@ import CreateNewPage from "../Pages/Content_Management/CreateNewPage/createNewPa
 import ViewUser from "../Pages/User_Management/View_Details/viewuser";
 import MemberDetails from "../Pages/CRM/MemberDetails/memberdetails";
 import AddShowcase from "../Pages/PSM/AddNewShowCase/addNewShowcase";
-import EditShowcase from "../Pages/PSM/FeaturedProject/EditShowcase/editShowcase";
+import EditShowcase from "../Pages/PSM/EditShowcase/editShowcase";
 import AddProduct from "../Pages/HSM/AddProduct/addProduct";
 import AddPromotion from "../Pages/HSM/AddNewPromotion/addNewPromotion";
 import AllPromotion from "../Pages/HSM/AllPromotionList/allPromotionList";
@@ -49,7 +49,7 @@ import ProjectBooking from "../Pages/PSM/ProjectBookings/projectBookings";
 import CreateUser from "../Pages/User_Management/Create_User/createUser";
 import EditPage from "../Pages/Content_Management/EditPage/editPage";
 import cookie from "js-cookie";
-// import EditPromotion from "../Pages/HSM/EditPromotion/editPromotion";
+import EditPromotion from "../Pages/HSM/EditPromotion/editPromotion";
 // import { useLocation } from 'react-router-dom';
 
 function Home() {
@@ -74,7 +74,7 @@ function Home() {
 
   return (
     <div className="flex">
-      {cookie.get("jwt") && (
+      {cookie.get('jwt') && (
         <>
           <SideNavBar
             expand={expand}
@@ -154,7 +154,7 @@ function Home() {
                 />
               }
             />
-            {/* <Route
+            <Route
           exact
           path="/editPromotion"
           element={
@@ -163,7 +163,7 @@ function Home() {
               setActiveTab={handleActiveTab}
             />
           }
-        /> */}
+        />
             <Route
               exact
               path="/editPage"

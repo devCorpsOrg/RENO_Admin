@@ -11,6 +11,7 @@ const AddPromotion = ({ setExpand, setActiveTab }) => {
   setActiveTab("promotionManagement");
   const head = "Add New Promotion";
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
@@ -19,9 +20,9 @@ const AddPromotion = ({ setExpand, setActiveTab }) => {
   const [category, setCategory] = useState("");
   const [promotion, setPromotion] = useState("");
 
-  const HandleSubmit = async (event) => {
-    event.preventDefault();
-    const navigate = useNavigate();
+  const handleSubmit = async (event) => {
+    // event.preventDefault();
+
     const formData = new FormData();
     formData.append("prod_name", title);
     formData.append("project_details", content);
@@ -32,14 +33,9 @@ const AddPromotion = ({ setExpand, setActiveTab }) => {
       formData.append(`pic`, image);
     });
 
-    dispatch(addNewPromotion(formData))
-      .then(() => {
-        navigate("/home/promotionManagement");
-        window.location.reload();
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+    dispatch(addNewPromotion(formData));
+    console.log("Back")
+    navigate('/home/promotionManagement')
   };
 
   const handlePhotoUpload = (event) => {
@@ -65,7 +61,7 @@ const AddPromotion = ({ setExpand, setActiveTab }) => {
       </div>
 
       <div className=" ml-80 mb-10 relative" style={{ marginTop: "120px" }}>
-        <form onSubmit={HandleSubmit}>
+        <form onSubmit={handleSubmit}>
           <label className="grid mt-5">
             Promotion Title
             <input
@@ -104,9 +100,9 @@ const AddPromotion = ({ setExpand, setActiveTab }) => {
                 value={category}
                 onChange={handleCategoryChange}>
                 <option value="">Select Catagory</option>
-                <option value="personal">Admin</option>
-                <option value="work">Work</option>
-                <option value="other">Other</option>
+                <option value="Admin">Admin</option>
+                <option value="Work">Work</option>
+                <option value="Other">Other</option>
               </select>
             </label>
             <label className="grid">
@@ -144,9 +140,9 @@ const AddPromotion = ({ setExpand, setActiveTab }) => {
                 value={promotion}
                 onChange={handlePromotionChange}>
                 <option value="">No of Promotion</option>
-                <option value="personal">Admin</option>
-                <option value="work">Work</option>
-                <option value="other">Other</option>
+                <option value="1">1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
               </select>
             </label>
             <label className="grid">
@@ -172,7 +168,7 @@ const AddPromotion = ({ setExpand, setActiveTab }) => {
             </label>
           </div>
 
-          <div style={{ marginLeft: "625px", width: "600px" }}>
+          <div style={{ marginLeft: "385px", width: "600px", marginTop:"10px" }}>
             {images && images.length > 0 && (
               <div className="grid grid-cols-4 gap-3">
                 {images.map((image, index) => (
@@ -214,39 +210,40 @@ const AddPromotion = ({ setExpand, setActiveTab }) => {
           </label>
           {/* <div> */}
           {/* </div> */}
+          <button
+            className="rounded mt-10 bg-lime-600 hover:bg-lime-700"
+            style={{
+              width: "170px",
+              height: "55px",
+              color: "white",
+            }}
+            type="submit"
+            >
+            Publish
+          </button>
+          {/* <button
+            className="rounded mt-10 bg-black hover:bg-gray-800"
+            style={{
+              width: "170px",
+              height: "55px",
+              color: "white",
+              marginLeft: "30px",
+            }}
+            >
+            Draft
+          </button> */}
+          <button
+            className="rounded mt-10 bg-amber-600 hover:bg-amber-700"
+            style={{
+              width: "170px",
+              height: "55px",
+              color: "white",
+              marginLeft: "30px",
+            }}
+            type="submit">
+            <Link to='/home/promotionManagement'>Back</Link>
+          </button>
         </form>
-        <button
-          className="rounded mt-10 bg-lime-600 hover:bg-lime-700"
-          style={{
-            width: "170px",
-            height: "55px",
-            color: "white",
-          }}
-          type="submit"
-          onSubmit={HandleSubmit}>
-          Publish
-        </button>
-        <button
-          className="rounded mt-10 bg-black hover:bg-gray-800"
-          style={{
-            width: "170px",
-            height: "55px",
-            color: "white",
-            marginLeft: "30px",
-          }}>
-          Draft
-        </button>
-        <button
-          className="rounded mt-10 bg-amber-600 hover:bg-amber-700"
-          style={{
-            width: "170px",
-            height: "55px",
-            color: "white",
-            marginLeft: "30px",
-          }}
-          type="submit">
-          <Link to="/home/promotionManagement">Back</Link>
-        </button>
       </div>
     </div>
   );

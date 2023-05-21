@@ -5,31 +5,27 @@ import DisabledByDefaultRoundedIcon from "@mui/icons-material/DisabledByDefaultR
 import axios from "axios";
 import { useDispatch } from "react-redux";
 import { updateProject } from "../../User_Management/features/userSlice";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 
 const EditProduct = ({ setExpand, setActiveTab }) => {
   // setExpand("homeService");
   setActiveTab("productList");
   const head = "Edit Product";
   const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const location = useLocation();
+  const data=location.state;
 
-  const [title, setTitle] = useState("");
-  const [content, setContent] = useState("");
+  const [title, setTitle] = useState(data.name);
+  const [content, setContent] = useState(data.details);
   const [images, setImages] = useState([]);
-  const [category, setCategory] = useState("");
-  const [pack, setPack] = useState("");
-  const [productCategory, setProductCategory] = useState("");
-  const [inventory, setInventory] = useState("");
-  // const [pack, setPack] = useState("");
-  const [currency, setCurrency] = useState("$"); // Default currency is $
+  const [category, setCategory] = useState(data.category);
+  const [pack, setPack] = useState(data.pack);
+  const [productCategory, setProductCategory] = useState(data.productcategory);
+  const [inventory, setInventory] = useState(data.inv);
 
-  const handleCurrencyChange = (event) => {
-    setCurrency(event.target.value);
-  };
-
-  const HandleSubmit = (event) => {
+  const handleSubmit = (event) => {
     event.preventDefault();
-    const navigate = useNavigate();
     const formData = new FormData();
     formData.append("prod_name", title);
     formData.append("details", content);
@@ -41,14 +37,8 @@ const EditProduct = ({ setExpand, setActiveTab }) => {
       formData.append("pic_url", image);
     });
 
-    dispatch(updateProject({ formData, title }))
-      .then(() => {
-        navigate("/home/productList");
-        window.location.reload();
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+    dispatch(updateProject({ formData, title }));
+    navigate('/home/productList')
   };
 
   const handlePhotoUpload = (event) => {
@@ -85,7 +75,7 @@ const EditProduct = ({ setExpand, setActiveTab }) => {
       </div>
 
       <div className=" ml-80 mb-10 relative" style={{ marginTop: "120px" }}>
-        <form onSubmit={HandleSubmit}>
+        <form onSubmit={handleSubmit}>
           <label className="grid mt-5">
             Product Title
             <input
@@ -122,41 +112,27 @@ const EditProduct = ({ setExpand, setActiveTab }) => {
                 value={category}
                 onChange={handleCategoryChange}>
                 <option value="">Select Catagory</option>
-                <option value="personal">Admin</option>
-                <option value="work">Work</option>
-                <option value="other">Other</option>
+                <option value="Admin">Admin</option>
+                <option value="Work">Work</option>
+                <option value="Other">Other</option>
               </select>
             </label>
             <label className="grid">
               Package
-              <div className="flex items-center mt-2">
-                <select
-                  value={currency}
-                  className="mr-2 outline-none rounded"
-                  onChange={handleCurrencyChange}>
-                  <option value="$">USD</option>
-                  <option value="€">EUR</option>
-                  <option value="¥">JPY</option>
-                  <option value="£">GBP</option>
-                  <option value="₹">INR</option>
-                  {/* Add more currency options as needed */}
-                </select>
-                <input
-                  type="text"
-                  value={pack}
-                  className="outline-none w-[42vh] rounded"
-                  placeholder={`${currency}000.00`}
-                  style={{
-                    height: "50px",
-                    paddingLeft: "10px",
-                    border: "2px solid #e6f7fe",
-                    marginTop: "5px",
-                    fontSize: "14px",
-                  }}
-                  onChange={(event) => setPack(event.target.value)}
-                  required
-                />
-              </div>
+              <input
+                type="text"
+                value={pack}
+                class="outline-none w-[49vh] rounded"
+                placeholder="$000.00"
+                style={{
+                  height: "50px",
+                  paddingLeft: "10px",
+                  backgroundColor: "#e5ecff",
+                  marginTop: "5px",
+                  fontSize: "14px",
+                }}
+                onChange={(event) => setPack(event.target.value)}
+              />
             </label>
           </div>
           <div className="grid grid-cols-2 gap-2 mt-5">
@@ -176,8 +152,8 @@ const EditProduct = ({ setExpand, setActiveTab }) => {
                 value={productCategory}
                 onChange={handleProductCategoryChange}>
                 <option value="">Select Product Catagory</option>
-                <option value="personal">Admin</option>
-                <option value="work">Work</option>
+                <option value="Admin">Admin</option>
+                <option value="Work">Work</option>
                 <option value="other">Other</option>
               </select>
             </label>
@@ -197,9 +173,9 @@ const EditProduct = ({ setExpand, setActiveTab }) => {
                 value={inventory}
                 onChange={handleInventoryChange}>
                 <option value="">Select Number Of Inventory</option>
-                <option value="personal">1</option>
-                <option value="work">2</option>
-                <option value="other">3</option>
+                <option value="1">1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
               </select>
             </label>
           </div>
@@ -284,28 +260,28 @@ const EditProduct = ({ setExpand, setActiveTab }) => {
           {/* <div> */}
           {/* </div> */}
         </form>
-        <button
-          className="rounded bg-lime-600 hover:bg-lime-700 mt-10"
-          style={{
-            width: "170px",
-            height: "55px",
-            color: "white",
-          }}
-          type="submit"
-          onSubmit={HandleSubmit}>
-          Save
-        </button>
-        <button
-          className="rounded bg-black hover:bg-gray-800 mt-10"
-          style={{
-            width: "170px",
-            height: "55px",
-            color: "white",
-            marginLeft: "30px",
-          }}
-          type="submit">
-          <Link to="/home/productList">Cancel</Link>
-        </button>
+          <button
+            className="rounded bg-lime-600 hover:bg-lime-700 mt-10"
+            style={{
+              width: "170px",
+              height: "55px",
+              color: "white",
+            }}
+            type="submit"
+            onClick={handleSubmit}>
+            Save
+          </button>
+          <button
+            className="rounded bg-black hover:bg-gray-800 mt-10"
+            style={{
+              width: "170px",
+              height: "55px",
+              color: "white",
+              marginLeft: "30px",
+            }}
+            type="submit">
+            <Link to='/home/productList'>Cancel</Link>
+          </button>
       </div>
     </div>
   );

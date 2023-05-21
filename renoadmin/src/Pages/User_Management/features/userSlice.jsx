@@ -214,7 +214,7 @@ export const updateUser = createAsyncThunk(
     try {
       const response = await axios({
         method: "put",
-        url: `http://139.59.236.50:8000/edituser/?id=${userId}`,
+        url: `http://139.59.236.50:8000/edituser/?uid=${userId}`,
         data: formData,
         headers: {
           "Content-Type": "application/x-www-form-urlencoded;charset=UTF-8",
@@ -285,7 +285,7 @@ export const updateProject = createAsyncThunk(
     try {
       const response = await axios({
         method: "put",
-        url: `http://139.59.236.50:8000/editproducts/?prod_name=${title}`, // Change the End points
+        url: `http://139.59.236.50:8000/editproducts?prod_name=${title}`, // Change the End points
         data: formData,
         headers: {
           "Content-Type": "application/x-www-form-urlencoded;charset=UTF-8",
@@ -308,7 +308,7 @@ export const updateCategory = createAsyncThunk(
     try {
       const response = await axios({
         method: "put",
-        url: `http://139.59.236.50:8000/editcategory/?prod_category=${title}`, // Change the End points
+        url: `http://139.59.236.50:8000/editcategory?prod_category=${title}`, // Change the End points
         data: formData,
         headers: {
           "Content-Type": "application/x-www-form-urlencoded;charset=UTF-8",
@@ -319,7 +319,7 @@ export const updateCategory = createAsyncThunk(
       alert("Data updated successfully");
     } catch (error) {
       alert("Operation failed");
-      console.log("Not submitting data");
+      console.log("Not submitting data", error);
       return rejectWithValue(error.response.data);
     }
   }
@@ -362,6 +362,30 @@ export const suspendUsers = createAsyncThunk(
     } catch (error) {
       console.log("Not submitting data");
       console.log(error);
+      return rejectWithValue(error.response.data);
+    }
+  }
+);
+
+export const editNewPromotion = createAsyncThunk(
+  "editNewPromotion",
+  async ({formData, title}, { rejectWithValue }) => {
+    try {
+      const response = await axios({
+        method: "put",
+        url: `http://139.59.236.50:8000/editpromoted/?prod_name=${title}`,
+        data: formData,
+        headers: {
+          "Content-Type": "application/x-www-form-urlencoded;charset=UTF-8",
+        },
+      });
+      console.log(...formData);
+      console.log(response);
+      alert("Data Updated successfully");
+      return response.data;
+    } catch (error) {
+      alert("Operation failed");
+      console.log("Not submitting data");
       return rejectWithValue(error.response.data);
     }
   }

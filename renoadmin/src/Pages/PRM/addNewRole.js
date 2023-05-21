@@ -5,10 +5,10 @@ import axios from "axios";
 
 const AddNewRole = ({ setActiveTab }) => {
   setActiveTab("permission");
-  const [userName, setUserName] = useState("");
-  const [emailAddress, setEmailAddress] = useState("");
-  const [userRole, setUserRole] = useState("");
-  const [roleStatus, setRoleStatus] = useState("");
+  const [username, setUserName] = useState("");
+  const [email, setEmailAddress] = useState("");
+  const [role, setUserRole] = useState("");
+  const [status, setRoleStatus] = useState("");
 
   const handleUserNameChange = (event) => {
     setUserName(event.target.value);
@@ -26,22 +26,15 @@ const AddNewRole = ({ setActiveTab }) => {
     setRoleStatus(event.target.value);
   };
 
+  const navigate = useNavigate();
   const HandleSubmit = async (event) => {
     event.preventDefault();
     // You can add code here to submit the form data to the server
-    const updatedData = {
-      userName,
-      emailAddress,
-      userRole,
-      roleStatus,
-    };
-    const navigate = useNavigate();
 
-    const jsonData = JSON.stringify(updatedData);
-    console.log(jsonData);
+
     try {
       const response = await axios
-        .post("http://139.59.236.50:8000/createrole/", jsonData)
+        .post("http://139.59.236.50:8000/createrole/", {username, email, role, status})
         .then((response) => {
           setUserName("");
           setEmailAddress("");
@@ -78,7 +71,7 @@ const AddNewRole = ({ setActiveTab }) => {
               id="userName"
               name="userName"
               placeholder="Enter User Name"
-              value={userName}
+              value={username}
               onChange={handleUserNameChange}
               required
               className="h-[60px] p-3 w-full border rounded-md border-blue-200 focus:border-blue-300"
@@ -94,7 +87,7 @@ const AddNewRole = ({ setActiveTab }) => {
               type="email"
               id="emailAddress"
               name="emailAddress"
-              value={emailAddress}
+              value={email}
               placeholder="Enter Email Address"
               onChange={handleEmailAddressChange}
               required
@@ -110,7 +103,7 @@ const AddNewRole = ({ setActiveTab }) => {
             <select
               id="userRole"
               name="userRole"
-              value={userRole}
+              value={role}
               onChange={handleUserRoleChange}
               required
               className="h-[60px] p-3 w-full border rounded-md border-blue-200 focus:border-blue-300 appearance-none pr-4">
@@ -129,7 +122,7 @@ const AddNewRole = ({ setActiveTab }) => {
             <select
               id="roleStatus"
               name="roleStatus"
-              value={roleStatus}
+              value={status}
               onChange={handleRoleStatusChange}
               required
               className="h-[60px] p-3 w-full border rounded-md border-blue-200 focus:border-blue-300 appearance-none pr-4">

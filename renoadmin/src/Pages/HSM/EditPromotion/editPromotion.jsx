@@ -1,53 +1,43 @@
-import { useState } from "react";
+import { useDebugValue, useState } from "react";
 import React from "react";
 import TopHeader from "../../../UI/TopHeader/TopHeader";
 import axios from "axios";
+import { editNewPromotion } from "../../User_Management/features/userSlice";
 import { useDispatch } from "react-redux";
-import { addNewProduct } from "../../User_Management/features/userSlice";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 
-const AddProduct = ({ setExpand, setActiveTab }) => {
-  // setExpand("homeService");
-  setActiveTab("productList");
-  const head = "Add Product";
+const EditPromotion = ({ setExpand, setActiveTab }) => {
+  setExpand("homeService");
+  setActiveTab("promotionManagement");
+  const head = "Edit Promotion";
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const location = useLocation();
+  const data = location.state;
 
-  const [title, setTitle] = useState("");
-  const [content, setContent] = useState("");
-  const [pack, setPack] = useState("");
+  const [title, setTitle] = useState(data.name);
+  const [content, setContent] = useState(data.details);
+  const [pack, setPack] = useState(data.rate);
   const [images, setImages] = useState([]);
-  const [category, setCategory] = useState("");
-  const [prodCat, setProdCat] = useState("");
-  const [inventory, setInventory] = useState("");
+  const [category, setCategory] = useState(data.category);
+  const [promotion, setPromotion] = useState(data.inventory);
 
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     // event.preventDefault();
-    const data = {
-      title,
-      content,
-      pack,
-      prodCat,
-      inventory,
-      images,
-      category,
-    };
-    const jsonData = JSON.stringify(data);
-    console.log(jsonData);
 
     const formData = new FormData();
     formData.append("prod_name", title);
-    formData.append("proj_category", prodCat);
-    formData.append("inv_count", inventory);
-    formData.append("rate", pack);
+    formData.append("project_details", content);
     formData.append("prod_category", category);
-    formData.append("details", content);
+    formData.append("inv_count", promotion);
+    formData.append("rate", pack);
     images.forEach((image, index) => {
-      formData.append(`pic_url`, image);
+      formData.append(`pic`, image);
     });
 
-    dispatch(addNewProduct(formData));
-    navigate('/home/productList');
+    dispatch(editNewPromotion({formData, title}));
+    console.log("Back")
+    navigate('/home/promotionManagement')
   };
 
   const handlePhotoUpload = (event) => {
@@ -62,13 +52,8 @@ const AddProduct = ({ setExpand, setActiveTab }) => {
   const handleCategoryChange = (event) => {
     setCategory(event.target.value);
   };
-
-  const handleProdCatChange = (event) => {
-    setProdCat(event.target.value);
-  };
-
-  const handleInventoryChange = (event) => {
-    setInventory(event.target.value);
+  const handlePromotionChange = (event) => {
+    setPromotion(event.target.value);
   };
 
   return (
@@ -80,16 +65,16 @@ const AddProduct = ({ setExpand, setActiveTab }) => {
       <div className=" ml-80 mb-10 relative" style={{ marginTop: "120px" }}>
         <form onSubmit={handleSubmit}>
           <label className="grid mt-5">
-            Product Title
+            Promotion Title
             <input
               type="text"
-              placeholder="Enter Title"
+              placeholder="Enter Promotion Title"
               id="title"
               className="rounded w-[100vh] outline-none"
               style={{
                 height: "50px",
                 paddingLeft: "10px",
-                border: "2px solid 	#e6f7fe",
+                backgroundColor: "#e5ecff",
                 marginTop: "5px",
                 fontSize: "15px",
               }}
@@ -99,24 +84,23 @@ const AddProduct = ({ setExpand, setActiveTab }) => {
             />
           </label>
 
-          <div className="grid grid-cols-2 gap-2 mt-5">
+          <div className="grid grid-cols-2 w-[98vh] gap-5 mt-5">
             <label className="grid">
               Catagory
               <select
                 id="label"
                 name="label"
-                className="outline-none w-[49vh] rounded"
+                className="outline-none w-[50vh] rounded"
                 style={{
                   height: "50px",
+                  // width: "590px",
                   paddingLeft: "5px",
-                  border: "2px solid 	#e6f7fe",
+                  backgroundColor: "#e5ecff",
                   marginTop: "5px",
                   fontSize: "14px",
                 }}
                 value={category}
-                onChange={handleCategoryChange}
-                required
-              >
+                onChange={handleCategoryChange}>
                 <option value="">Select Catagory</option>
                 <option value="Admin">Admin</option>
                 <option value="Work">Work</option>
@@ -128,12 +112,13 @@ const AddProduct = ({ setExpand, setActiveTab }) => {
               <input
                 type="text"
                 value={pack}
-                className="outline-none w-[49vh] rounded"
+                className="outline-none w-[50vh] rounded"
                 placeholder="$000.00"
                 style={{
                   height: "50px",
+                  // width: "586px",
                   paddingLeft: "10px",
-                  border: "2px solid 	#e6f7fe",
+                  backgroundColor: "#e5ecff",
                   marginTop: "5px",
                   fontSize: "14px",
                 }}
@@ -141,73 +126,53 @@ const AddProduct = ({ setExpand, setActiveTab }) => {
                 required
               />
             </label>
-          </div>
-          <div className="grid grid-cols-2 gap-2 mt-5">
             <label className="grid">
-              Product Catagory
+              No Of Promotion
               <select
                 id="label"
                 name="label"
-                className="outline-none w-[49vh] rounded"
+                className="outline-none w-[50vh] rounded"
                 style={{
                   height: "50px",
                   paddingLeft: "5px",
-                  border: "2px solid 	#e6f7fe",
+                  backgroundColor: "#e5ecff",
                   marginTop: "5px",
                   fontSize: "14px",
                 }}
-                value={prodCat}
-                onChange={handleProdCatChange}
-                required
-              >
-                <option value="">Select Product Catagory</option>
-                <option value="Admin">Admin</option>
-                <option value="Work">Work</option>
-                <option value="Other">Other</option>
-              </select>
-            </label>
-            <label className="grid">
-              Number Of Inventory
-              <select
-                id="label"
-                name="label"
-                className="outline-none w-[49vh] rounded"
-                style={{
-                  height: "50px",
-                  paddingLeft: "5px",
-                  border: "2px solid 	#e6f7fe",
-                  marginTop: "5px",
-                  fontSize: "14px",
-                }}
-                value={inventory}
-                onChange={handleInventoryChange}
-                required
-              >
-                <option value="">Select Number Of Inventory</option>
+                value={promotion}
+                onChange={handlePromotionChange}>
+                <option value="">No of Promotion</option>
                 <option value="1">1</option>
                 <option value="2">2</option>
                 <option value="3">3</option>
               </select>
             </label>
-          </div>
-
-          <div>
-            <label className="grid mt-5" style={{ fontSize: "15px" }}>
+            <label className="grid">
               Photos
               <input
-                class="file:bg-black file:px-6 file:py-3 file:border-none file:rounded file:text-white file:cursor-pointer placeholder-transparent mt-3 rounded appearance-none placeholder-transparent"
-                style={{ border: "2px solid #e6f7fe", width: "450px" }}
+                className="w-[50vh]"
+                style={{
+                  height: "50px",
+                  // width: "590px",
+                  paddingLeft: "0px",
+                  backgroundColor: "#e5ecff",
+                  marginTop: "5px",
+                  fontSize: "14px",
+                }}
+                class="w-[50vh] file:bg-black file:px-6 file:py-3 file:border-none file:rounded file:text-white file:cursor-pointer mt-3 rounded appearance-none placeholder-transparent"
                 type="file"
                 accept="image/*"
                 multiple
                 onChange={handlePhotoUpload}
                 placeholder=""
+                required
               />
             </label>
           </div>
-          <div style={{ width: "600px", marginTop: "10px" }}>
+
+          <div style={{ marginLeft: "385px", width: "600px", marginTop:"10px" }}>
             {images && images.length > 0 && (
-              <div className="grid grid-cols-6 gap-2">
+              <div className="grid grid-cols-4 gap-3">
                 {images.map((image, index) => (
                   <img
                     key={index}
@@ -224,28 +189,17 @@ const AddProduct = ({ setExpand, setActiveTab }) => {
               </div>
             )}
           </div>
-          <div style={{ fontSize: "10px", marginTop: "8px" }}>
-            <ul className="list-disc ml-3 text-gray-500">
-              <li>Allowed banner image extension .jpg | .jpeg | .png</li>
-              <li>
-                Max banner image file size <a className="text-red-500">5MB</a>
-              </li>
-              <li>
-                Recommended Banner image size{" "}
-                <a className="text-red-500">1900px * 700px</a>
-              </li>
-            </ul>
-          </div>
 
           <label className="grid mt-5">
-            Project Details
+            Details
             <textarea
               id="content"
               placeholder="Enter Details"
               className="rounded outline-none w-[100vh] pt-2"
               style={{
                 height: "170px",
-                border: "2px solid #e6f7fe",
+                // width: "1210px",
+                backgroundColor: "#e5ecff",
                 paddingLeft: "10px",
                 paddingTop: "20px",
                 fontSize: "15px",
@@ -265,8 +219,8 @@ const AddProduct = ({ setExpand, setActiveTab }) => {
               height: "55px",
               color: "white",
             }}
-            onSubmit={handleSubmit}
-            type="submit">
+            type="submit"
+            >
             Publish
           </button>
           {/* <button
@@ -288,9 +242,8 @@ const AddProduct = ({ setExpand, setActiveTab }) => {
               color: "white",
               marginLeft: "30px",
             }}
-            
-          >
-            <Link to='/home/productList'>Back</Link>
+            type="submit">
+            <Link to='/home/promotionManagement'>Back</Link>
           </button>
         </form>
       </div>
@@ -298,4 +251,4 @@ const AddProduct = ({ setExpand, setActiveTab }) => {
   );
 };
 
-export default AddProduct;
+export default EditPromotion;

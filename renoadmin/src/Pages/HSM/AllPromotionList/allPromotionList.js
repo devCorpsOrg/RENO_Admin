@@ -12,12 +12,23 @@ import {
 } from "../../User_Management/features/userSlice";
 import { Alert, AlertTitle, Button } from "@mui/material";
 
-const Action = ({ promId, promName }) => {
+const Action = ({ promId, promName, category, inventory, rate, details }) => {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const [showDeleteConfirmation, setShowDeleteConfirmation] = useState(false);
   const handleDeleteClick = () => {
     setShowDeleteConfirmation(true);
   };
+  const handleEditClick = () =>{
+    const data = {
+      name:promName,
+      category:category,
+      inventory:inventory,
+      rate:rate,
+      details:details
+    }
+    navigate('/home/editPromotion', {state:data})
+  }
   const handleConfirmDelete = () => {
     dispatch(DeletePromotion(promId))
       .then(() => {
@@ -33,7 +44,7 @@ const Action = ({ promId, promName }) => {
   };
   return (
     <div className="w-6 h-6 flex gap-3 cursor-pointer">
-      <img src={edit} alt="edit" />
+      <img src={edit} onClick={handleEditClick} alt="edit" />
       <img src={deleteIcon} onClick={handleDeleteClick} alt="Delete" />
       {showDeleteConfirmation && (
         <div className="fixed top-0 left-0 w-screen h-screen bg-gray-800 bg-opacity-50 flex justify-center items-center z-50">
@@ -125,7 +136,7 @@ const AllProjects = ({ setActiveTab, setExpand }) => {
     category: user.prod_category,
     inventory: `${user.inv_count} items`,
     pricing: `$${user.rate}`,
-    action: <Action promId={user.prod_id} promName={user.prod_name} />,
+    action: <Action promId={user.prod_id} promName={user.prod_name} category={user.prod_category} inventory={user.inv_count} rate={user.rate} details={user.project_details}  />,
   }));
 
   const greenButtonText = "ADD NEW PROMOTIONS";
