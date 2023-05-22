@@ -61,6 +61,7 @@ urlpatterns = [
     path('deleterecord/',views.delete_records,name="deleterecord"),
 #============================================================================================================
     path('setting/',views.settings,name="settings"),
+    path('settings/',views.get_settings,name="settings"),
 #==============================================================================================================
     path('listings/',views.listing,name="listing"),
     path('addlisting/',views.add_listing,name="add_listing"),

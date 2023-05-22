@@ -892,6 +892,16 @@ def settings(request):
             json_data=JSONRenderer().render(res)
             return HttpResponse(json_data,content_type='application/json')
        return HttpResponse(JSONRenderer().render(serializer.errors),content_type='application/json')
+
+
+@api_view(["GET"])
+def get_settings(request):
+    settings = config_setting.objects.all()
+    data = serializers.serialize('json', settings)
+    formatted_data = json.dumps(json.loads(data), indent=4)
+    return HttpResponse(formatted_data, content_type='application/json')
+
+
 #---------------------------------------------------------------------------------------------------------------
 @csrf_exempt
 def listing(request):
