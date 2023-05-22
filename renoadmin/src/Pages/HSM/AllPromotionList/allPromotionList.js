@@ -80,7 +80,7 @@ const Photo = ({ picUrl }) => {
 
 const AllProjects = ({ setActiveTab, setExpand }) => {
   const navigate = useNavigate();
-  setExpand("homeService");
+  // setExpand("homeService");
   setActiveTab("promotionManagement");
   const greenClicked = () => {
     navigate("/home/addPromotion");

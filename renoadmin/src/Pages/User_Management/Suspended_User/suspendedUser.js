@@ -11,11 +11,20 @@ import { Alert, AlertTitle, Button } from "@mui/material";
 
 // Component inside action column
 // The details of user shall be different for every users. It will be integrated at authentication of the users.
-const Action = ({ username }) => {
+const Action = ({ username, email, phone, uid, picUrl, role }) => {
   const Navigate = useNavigate();
   const [showDeleteConfirmation, setShowDeleteConfirmation] = useState(false);
   const handleClick = () => {
-    Navigate("/home/userDetails");
+    const data = {
+      photo: picUrl,
+      username: username,
+      email: email,
+      phone: phone,
+      role: role,
+      uid: uid,
+      // "about":about
+    };
+    Navigate(`/home/UserDetails?name=${username}`, { state: data });
   };
   const dispatch = useDispatch();
   const handleDeleteClick = () => {
@@ -74,7 +83,7 @@ const ProfilePhoto = () => {
 
 const SuspendUsers = ({ setActiveTab, setExpand }) => {
   const head = "Suspend User List";
-  setExpand("userManagement");
+  // setExpand("userManagement");
   setActiveTab("suspendUsers");
 
   const dispatch = useDispatch();
@@ -127,7 +136,16 @@ const SuspendUsers = ({ setActiveTab, setExpand }) => {
     emailaddress: user.email,
     suspendedreason: user.suspend_reason,
     role: user.role,
-    action: <Action username={user.username} />,
+    action: (
+      <Action
+        username={user.username}
+        email={user.email}
+        phone={user.phone}
+        uid={user.uid}
+        role={user.role}
+        picUrl={user.pic_url}
+      />
+    ),
   }));
 
   const pageSize = 10;

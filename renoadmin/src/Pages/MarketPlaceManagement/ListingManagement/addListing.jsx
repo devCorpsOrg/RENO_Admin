@@ -7,7 +7,7 @@ import { addNewListing } from "../../User_Management/features/userSlice";
 import { Link, useNavigate } from "react-router-dom";
 
 const AddListing = ({ setExpand, setActiveTab }) => {
-  setExpand("marketPlace");
+  // setExpand("marketPlace");
   setActiveTab("listingManagement");
   const head = "Add Listing";
   const dispatch = useDispatch();

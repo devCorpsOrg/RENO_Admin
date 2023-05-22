@@ -1,6 +1,10 @@
 import React from "react";
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
-const Chatdetails = () => {
+const Chatdetails = ({ onClose }) => {
+  console.log("Called")
+  const [isOpen, setIsOpen] = useState(true);
   function formatTime(date) {
     const hours = date.getHours();
     const minutes = date.getMinutes();
@@ -9,21 +13,37 @@ const Chatdetails = () => {
     const formattedMinutes = minutes < 10 ? `0${minutes}` : minutes;
     return `${formattedHours}:${formattedMinutes}${ampm}`;
   }
+  const navigate = useNavigate();
+  // var flag=true;
+
+  const handleClose = () =>{
+    console.log("close");
+    setIsOpen(false)
+    onClose();
+    // flag=false;
+  }
+  console.log("Open")
+
+  if (!isOpen) {
+    // setIsOpen(true)
+    return null; // Return null if isOpen state is false to hide the component
+  }
 
   return (
     <div
       style={{
-        position: "absolute",
+        zIndex:1000,
+        position: "fixed",
         width: "391.5px",
-        height: "753px",
+        height: "758px",
         left: "1143px",
-        top: "0px",
+        top: "-8px",
         background: "#FFFFFF",
         boxShadow: "0px 4px 50px rgba(0, 0, 0, 0.2)",
       }}>
       <div className="flex justify-between ml-3 mr-3 mt-5">
         <div className="font-bold">Chat Details</div>
-        <button className="font-bold">X</button>
+        <button onClick={handleClose} className="font-bold">X</button>
       </div>
 
       <div className="ml-3 mr-3">
@@ -136,9 +156,12 @@ const Chatdetails = () => {
             border: "1px solid",
             height: "30px",
             width: "30px",
-          }}></button>
+          }}>
+            
+          </button>
       </div>
     </div>
+    
   );
 };
 

@@ -7,7 +7,7 @@ import { useDispatch } from "react-redux";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 
 const EditPromotion = ({ setExpand, setActiveTab }) => {
-  setExpand("homeService");
+  // setExpand("homeService");
   setActiveTab("promotionManagement");
   const head = "Edit Promotion";
   const dispatch = useDispatch();
