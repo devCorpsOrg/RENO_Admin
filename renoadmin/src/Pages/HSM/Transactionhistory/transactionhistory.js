@@ -25,7 +25,7 @@ const Photo = ({ picUrl }) => {
 };
 
 const Purchases = ({ setActiveTab, setExpand }) => {
-  setExpand("homeService");
+  // setExpand("homeService");
   setActiveTab("transactionHistory");
   const head = "Transaction/Purchase History";
   const dispatch = useDispatch();

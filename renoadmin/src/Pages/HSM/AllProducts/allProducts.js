@@ -81,7 +81,7 @@ const Photo = ({ picUrl }) => {
 };
 
 const AllProduct = ({ setActiveTab, setExpand }) => {
-  setExpand("homeService");
+  // setExpand("homeService");
   setActiveTab("productList");
 
   const Navigate = useNavigate();

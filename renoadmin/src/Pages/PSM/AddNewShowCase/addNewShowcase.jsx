@@ -7,7 +7,7 @@ import { addNewShowcase } from "../../User_Management/features/userSlice";
 import { Link, useNavigate } from "react-router-dom";
 
 const AddNewShowcase = ({ setExpand, setActiveTab }) => {
-  setExpand("showcaseManagement");
+  // setExpand("showcaseManagement");
   setActiveTab("projectList");
   const head = "Add New Showcase";
   const dispatch = useDispatch();

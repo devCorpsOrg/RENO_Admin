@@ -27,8 +27,9 @@ const AddNewRole = ({ setActiveTab }) => {
   };
 
   const navigate = useNavigate();
+
   const HandleSubmit = async (event) => {
-    event.preventDefault();
+    // event.preventDefault();
     // You can add code here to submit the form data to the server
 
 
@@ -40,12 +41,14 @@ const AddNewRole = ({ setActiveTab }) => {
           setEmailAddress("");
           setUserRole();
           setRoleStatus();
+          alert('OPERATION SUCCESSFULL')
         })
         .then(() => {
           navigate("/home/permission");
-          window.location.reload();
+          // window.location.reload();
         });
     } catch (err) {
+      alert("Failed!")
       console.log("Error saving data", err);
     }
   };

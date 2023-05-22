@@ -89,7 +89,7 @@ function SideNavBar({ expand, setExpand, activeTab, setActiveTab }) {
                   fontWeight: expand === "userManagement" ? "bold" : "inherit",
                 }}
                 onClick={() => {
-                  if (expand === "userManagement") {
+                  if (expand == "userManagement") {
                     setExpand(null); // close if already open
                   } else {
                     setExpand("userManagement"); // open if closed
@@ -120,9 +120,9 @@ function SideNavBar({ expand, setExpand, activeTab, setActiveTab }) {
                   <div className="ml-7 mt-2">
                     <NavLink
                       style={{
-                        color: activeTab === "allUsers" ? "black" : "#545e6f",
+                        color: activeTab == "allUsers" ? "black" : "#545e6f",
                         fontWeight:
-                          activeTab === "allUsers" ? "bold" : "inherit",
+                          activeTab == "allUsers" ? "bold" : "inherit",
                       }}
                       to="/home/allUsers"
                       onClick={() => {
@@ -136,9 +136,9 @@ function SideNavBar({ expand, setExpand, activeTab, setActiveTab }) {
                     <NavLink
                       style={{
                         color:
-                          activeTab === "suspendUsers" ? "black" : "#545e6f",
+                          activeTab == "suspendUsers" ? "black" : "#545e6f",
                         fontWeight:
-                          activeTab === "suspendUsers" ? "bold" : "inherit",
+                          activeTab == "suspendUsers" ? "bold" : "inherit",
                       }}
                       to="/home/suspendUsers"
                       onClick={() => {
@@ -156,9 +156,9 @@ function SideNavBar({ expand, setExpand, activeTab, setActiveTab }) {
               <NavLink
                 style={{
                   color:
-                    activeTab === "customerRelationship" ? "green" : "#545e6f",
+                    activeTab == "customerRelationship" ? "green" : "#545e6f",
                   fontWeight:
-                    activeTab === "customerRelationship" ? "bold" : "inherit",
+                    activeTab == "customerRelationship" ? "bold" : "inherit",
                 }}
                 activeclassname="active"
                 to="/home/customerRelationship"
@@ -197,13 +197,13 @@ function SideNavBar({ expand, setExpand, activeTab, setActiveTab }) {
             <div className="mt-4 text-gray-500 text-xs">
               <NavLink
                 style={{
-                  color: expand === "showcaseManagement" ? "green" : "#545e6f",
+                  color: expand == "showcaseManagement" ? "green" : "#545e6f",
                   fontWeight:
-                    expand === "showcaseManagement" ? "bold" : "inherit",
+                    expand == "showcaseManagement" ? "bold" : "inherit",
                 }}
                 onClick={() => {
                   // setExpand("showcaseManagement");
-                  if (expand === "showcaseManagement") {
+                  if (expand == "showcaseManagement") {
                     setExpand(null); // close if already open
                   } else {
                     setExpand("showcaseManagement"); // open if closed
@@ -221,7 +221,7 @@ function SideNavBar({ expand, setExpand, activeTab, setActiveTab }) {
                     position: "relative",
                     left: "57px",
                   }}>
-                  {expand === "showcaseManagement" ? (
+                  {expand == "showcaseManagement" ? (
                     <RemoveIcon />
                   ) : (
                     <AddOutlinedIcon />
@@ -229,15 +229,15 @@ function SideNavBar({ expand, setExpand, activeTab, setActiveTab }) {
                 </div>
               </NavLink>
 
-              {expand === "showcaseManagement" && (
+              {expand == "showcaseManagement" && (
                 <>
                   <div className="ml-7 mt-2">
                     <NavLink
                       style={{
                         color:
-                          activeTab === "projectList" ? "black" : "#545e6f",
+                          activeTab == "projectList" ? "black" : "#545e6f",
                         fontWeight:
-                          activeTab === "projectList" ? "bold" : "inherit",
+                          activeTab == "projectList" ? "bold" : "inherit",
                       }}
                       to="/home/projectList"
                       onClick={() => {
@@ -251,9 +251,9 @@ function SideNavBar({ expand, setExpand, activeTab, setActiveTab }) {
                     <NavLink
                       style={{
                         color:
-                          activeTab === "featuredProject" ? "black" : "#545e6f",
+                          activeTab == "featuredProject" ? "black" : "#545e6f",
                         fontWeight:
-                          activeTab === "featuredProject" ? "bold" : "inherit",
+                          activeTab == "featuredProject" ? "bold" : "inherit",
                       }}
                       to="/home/featuredProject"
                       onClick={() => {
@@ -266,9 +266,9 @@ function SideNavBar({ expand, setExpand, activeTab, setActiveTab }) {
                   <div className="ml-7 mt-2">
                     <NavLink
                       style={{
-                        color: activeTab === "bookings" ? "black" : "#545e6f",
+                        color: activeTab == "bookings" ? "black" : "#545e6f",
                         fontWeight:
-                          activeTab === "bookings" ? "bold" : "inherit",
+                          activeTab == "bookings" ? "bold" : "inherit",
                       }}
                       to="/home/bookings"
                       onClick={() => {

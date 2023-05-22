@@ -8,12 +8,13 @@ import { useDispatch, useSelector } from "react-redux";
 import { useEffect, useState } from "react";
 import { Grid } from "react-loader-spinner";
 import { HSM_helpdesk } from "../../User_Management/features/userSlice";
+import { useLocation } from "react-router-dom";
 
 const PopupComponent = ({ onClose }) => {
   return (
     <div className="absolute top-0 right-0 h-full w-1/3">
       <div className="p-4">
-        <Chatdetails />
+        <Chatdetails onClose={onClose} />
       </div>
     </div>
   );
@@ -23,14 +24,22 @@ const Action = () => {
   const [isPopupVisible, setIsPopupVisible] = useState(false);
 
   const handleClick = () => {
-    setIsPopupVisible((prev) => !prev);
+    // console.log("view")
+    setIsPopupVisible(true);
   };
+
+  const handleClosePopup = () => {
+    setIsPopupVisible(false);
+  };
+
 
   return (
     <div className="w-6 h-6 flex gap-3 cursor-pointer">
       <img onClick={handleClick} src={view} alt="View" />
       {/* <img src={deleteIcon} alt="Delete" /> */}
-      {isPopupVisible && <PopupComponent />}
+      {console.log("view")}
+      {console.log(isPopupVisible)}
+      {isPopupVisible && <PopupComponent onClose={handleClosePopup} /> }
     </div>
   );
 };
@@ -45,8 +54,8 @@ const Photo = ({ picUrl }) => {
 
 const AllProjects = ({ setActiveTab, setExpand }) => {
   const head = "All Chats and Deals";
-  setExpand("homeService");
-  setActiveTab("helpDesk");
+  // setExpand("homeService");
+  // setActiveTab("helpDesk");
   const dispatch = useDispatch();
   const [loading, setLoading] = useState(true);
   const chatData = useSelector((state) => state.userManagement.hsm_helpdesk);
@@ -86,6 +95,8 @@ const AllProjects = ({ setActiveTab, setExpand }) => {
       accessor: "action",
     },
   ];
+  const check = useLocation();
+  const cht=check.state;
 
   console.log(chatData);
   const data = chatData.map((user) => ({
@@ -94,7 +105,7 @@ const AllProjects = ({ setActiveTab, setExpand }) => {
     subject: user.subject,
     message: user.message,
     status: <Status value={user.status} />,
-    action: <Action />,
+    action: <Action  />,
   }));
 
   // Number of Pages to be display on a single page.

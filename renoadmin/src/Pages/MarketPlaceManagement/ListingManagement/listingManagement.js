@@ -80,7 +80,7 @@ const Photo = ({ pic_url }) => {
 
 const ListingData = ({ setActiveTab, setExpand }) => {
   const head = "Listing Management";
-  setExpand("marketPlace");
+  // setExpand("marketPlace");
   setActiveTab("listingManagement");
   const Navigate = useNavigate();
   const greenClicked = () => {
