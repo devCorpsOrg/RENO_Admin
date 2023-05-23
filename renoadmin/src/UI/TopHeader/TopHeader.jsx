@@ -16,15 +16,7 @@ const TopHeader = (props) => {
         <div
           className="flex h-20 items-center cursor-pointer"
           style={{ marginRight: "20rem" }}>
-          <img
-            src={pic}
-            alt=""
-            style={{
-              height: "60px",
-              marginRight: "15px",
-              borderRadius: "50px",
-            }}
-          />
+          <img src={pic} alt="" className="w-14 h-14 mr-5 rounded-full" />
           <div>
             <div className="text-xl font-bold">{name}</div>
             <div className="text-sm font-semibold">{role}</div>
