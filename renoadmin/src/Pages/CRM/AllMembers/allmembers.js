@@ -10,11 +10,30 @@ import axios from "axios";
 import { Alert, AlertTitle, Button } from "@mui/material";
 
 // Component inside action column
-const Action = ({ relationName }) => {
+const Action = ({
+  username,
+  purchase,
+  payment,
+  contact,
+  points,
+  email,
+  about,
+  picUrl,
+}) => {
   const Navigate = useNavigate();
   const [showDeleteConfirmation, setShowDeleteConfirmation] = useState(false);
   const handleClick = () => {
-    Navigate("/home/memberDetails");
+    const data = {
+      username: username,
+      purchase: purchase,
+      payment: payment,
+      contact: contact,
+      points: points,
+      about: about,
+      email: email,
+      picUrl: picUrl,
+    };
+    Navigate(`/home/memberDetails?name=${username}`, { state: data });
   };
   const dispatch = useDispatch();
   const handleDeleteClick = () => {
@@ -22,7 +41,7 @@ const Action = ({ relationName }) => {
   };
 
   const handleConfirmDelete = () => {
-    dispatch(DeleteRelation(relationName))
+    dispatch(DeleteRelation(username))
       .then(() => {
         window.location.reload();
       })
@@ -45,7 +64,7 @@ const Action = ({ relationName }) => {
             <Alert severity="warning">
               <AlertTitle>Confirmation</AlertTitle>
               <p className="pt-5">
-                Are you sure you want to delete {relationName}?
+                Are you sure you want to delete {username}?
               </p>
               <div className="p-5">
                 <Button onClick={handleConfirmDelete} color="error" autoFocus>
@@ -63,10 +82,10 @@ const Action = ({ relationName }) => {
   );
 };
 
-const ProfilePhoto = () => {
+const ProfilePhoto = ({ picUrl }) => {
   return (
     <div>
-      <img className="w-12 h-12 rounded-full" src={Photo} alt="photo" />
+      <img className="w-12 h-12 rounded-full" src={picUrl} alt="photo" />
     </div>
   );
 };
@@ -118,16 +137,27 @@ const Allmembers = ({ setActiveTab }) => {
       accessor: "action",
     },
   ];
-  console.log(memberData);
+  console.log("This is memeber Data :", memberData);
 
   const data = memberData.map((user) => ({
-    photo: <ProfilePhoto />,
+    photo: <ProfilePhoto picUrl={user.fields.pic} />,
     username: user.fields.usname,
     rewardpoints: user.fields.pts,
     paymenthistory: `$ ${user.fields.net_purchase_amount}`,
     purchasehistory: `${user.fields.net_purchase_count} items`,
     contact: `+65 ${user.fields.phone}`,
-    action: <Action relationName={user.fields.usname} />,
+    action: (
+      <Action
+        points={user.fields.pts}
+        payment={user.fields.net_purchase_amount}
+        purchase={user.fields.net_purchase_count}
+        contact={user.fields.phone}
+        username={user.fields.usname}
+        email={user.fields.email}
+        about={user.fields.abt}
+        picUrl={user.fields.pic_url}
+      />
+    ),
   }));
 
   const pageSize = 10;

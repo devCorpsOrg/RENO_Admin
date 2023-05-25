@@ -31,7 +31,7 @@ const MemberDetails = ({ setActiveTab, setExpand }) => {
             }}>
             <img
               style={{ width: "150px", marginLeft: "10px", marginTop: "10px" }}
-              src="https://seedpsychology.com.au/wp-content/uploads/2018/09/Damian-profile-pic-square.jpg"
+              src={`${memData.picUrl}`}
               alt=""
             />
             <div
@@ -43,7 +43,7 @@ const MemberDetails = ({ setActiveTab, setExpand }) => {
                 display: "flex",
                 justifyContent: "center",
               }}>
-              {memData.name}
+              {memData.username}
             </div>
             <div
               className="text-xs text-gray-500"
@@ -68,7 +68,7 @@ const MemberDetails = ({ setActiveTab, setExpand }) => {
                 fontWeight: "bold",
                 fontSize: "15px",
               }}>
-              {memData.name}
+              {memData.username}
             </div>
           </div>
           <div>
@@ -84,7 +84,7 @@ const MemberDetails = ({ setActiveTab, setExpand }) => {
                 fontWeight: "bold",
                 fontSize: "15px",
               }}>
-              {memData.phone}
+              {memData.contact}
             </div>
           </div>
           <div>
@@ -120,7 +120,7 @@ const MemberDetails = ({ setActiveTab, setExpand }) => {
                 fontWeight: "bold",
                 fontSize: "15px",
               }}>
-              {memData.purchaseHistory}
+              {memData.purchase}
             </div>
           </div>
           <div>
@@ -161,7 +161,7 @@ const MemberDetails = ({ setActiveTab, setExpand }) => {
                 fontSize: "15px",
                 color: "darkblue",
               }}>
-              {memData.rewardpts}
+              {memData.points}
             </div>
           </div>
         </div>
@@ -180,10 +180,7 @@ const MemberDetails = ({ setActiveTab, setExpand }) => {
               fontWeight: "bold",
               fontSize: "15px",
             }}>
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Molestiae
-            ea aliquid dignissimos, non autem repudiandae pariatur enim porro
-            possimus consectetur dolore, molestias vel dolorem incidunt
-            deserunt? Accusamus explicabo labore nihil.
+            {memData.about}
           </div>
           <div style={{ marginTop: "20px" }}>pdf section</div>
         </div>
