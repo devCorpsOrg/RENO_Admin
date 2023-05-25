@@ -884,23 +884,39 @@ def delete_records(request):
 @api_view(['POST'])
 @csrf_exempt
 def settings(request):
-  
-       serializer=SettingSerializer(data=request.data)
-       if serializer.is_valid():
-            serializer.save()
-            res={'msg':'Data Created Successfully'}
-            json_data=JSONRenderer().render(res)
-            return HttpResponse(json_data,content_type='application/json')
-       return HttpResponse(JSONRenderer().render(serializer.errors),content_type='application/json')
+       try:
+        data = request.data
+        usname = data["usname"]
+        if not Userdetails.objects.filter(username=usname).first():
+            return HttpResponseNotFound('{"error": "User doesn\'t exist."}')
+        
+        if config_setting.objects.filter(usname=usname).first():
+            return HttpResponseBadRequest('{"error": "Setting already exists."}')            
+    
+        serializer=SettingSerializer(data=request.data)
+        if serializer.is_valid():
+                serializer.save()
+                res={'msg':'Data Created Successfully'}
+                json_data=JSONRenderer().render(res)
+                return HttpResponse(json_data,content_type='application/json')
+        return HttpResponse(JSONRenderer().render(serializer.errors),content_type='application/json')
+       except KeyError as e:
+           return HttpResponseBadRequest(f"error: KeyError | {str(e)}")
 
 
 @api_view(["GET"])
 def get_settings(request):
-    settings = config_setting.objects.all()
-    data = serializers.serialize('json', settings)
-    formatted_data = json.dumps(json.loads(data), indent=4)
-    return HttpResponse(formatted_data, content_type='application/json')
+    try:
+        usname = request.query_params["usname"]
+        setting = config_setting.objects.filter(usname=usname).first()
+        if not setting:
+            return HttpResponseNotFound('{"error": Setting doesn\'t exist.}')
 
+        data = serializers.serialize('json', [setting])
+        formatted_data = json.dumps(json.loads(data), indent=4)
+        return HttpResponse(formatted_data, content_type='application/json')
+    except KeyError as e:
+           return HttpResponseBadRequest(f"{{error: KeyError | {str(e)}}}")
 
 #---------------------------------------------------------------------------------------------------------------
 @csrf_exempt

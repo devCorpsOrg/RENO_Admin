@@ -137,12 +137,14 @@ class SupportDetails(models.Model):
     support_id=models.CharField(primary_key=True, default=uuid.uuid4,max_length=200)
 
 class config_setting(models.Model):
-     id=models.CharField(primary_key=True, default=uuid.uuid4,max_length=200)
-     mail=models.CharField(max_length=100,default="")
-     sitename=models.CharField(max_length=100)
-     url=models.CharField(max_length=100)
-     email=models.CharField(max_length=100)
-     smtp_details =models.CharField(max_length=100)
+    id = models.CharField(primary_key=True, default=uuid.uuid4, max_length=200)
+    usname = models.CharField(max_length=100, unique=True)
+    admin_mail = models.CharField(max_length=64, default="")
+    sitename = models.CharField(max_length=100)
+    url = models.CharField(max_length=100)
+    support_email = models.CharField(max_length=64, default="")
+    smtp_details = models.CharField(max_length=100)
+
 
 class listings(models.Model):
       def nameFile(instance, filename):
