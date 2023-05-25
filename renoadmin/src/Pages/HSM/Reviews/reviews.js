@@ -9,10 +9,10 @@ import { useEffect, useState } from "react";
 import { Grid } from "react-loader-spinner";
 import { HSM_review } from "../../User_Management/features/userSlice";
 
-const Photo = () => {
+const Photo = ({ picUrl }) => {
   return (
     <div>
-      <img className="w-14 h-14 rounded" src={images} alt="Photo" />
+      <img className="w-14 h-14 rounded" src={picUrl} alt="Photo" />
     </div>
   );
 };
@@ -63,7 +63,7 @@ const ReviewsHSM = ({ setActiveTab, setExpand }) => {
   ];
 
   const data = reviewData.map((user) => ({
-    photo: <Photo />,
+    photo: <Photo picUrl={user.fields.pic_url} />,
     productname: user.fields.prod_name,
     username: user.fields.reviewer_name,
     reviews: user.fields.review,
