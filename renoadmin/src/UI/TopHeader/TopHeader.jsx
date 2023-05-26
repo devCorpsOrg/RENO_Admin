@@ -22,7 +22,8 @@ const TopHeader = (props) => {
             style={{
               height: "60px",
               marginRight: "15px",
-              borderRadius: "50px",
+              borderRadius: "50%",
+              width: "60px"
             }}
           />
           <div>

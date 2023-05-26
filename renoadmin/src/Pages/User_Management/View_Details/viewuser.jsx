@@ -30,8 +30,8 @@ const ViewUser = ({ setActiveTab, setExpand }) => {
               filter: "drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25))",
             }}>
             <img
-              style={{ width: "150px", marginLeft: "10px", marginTop: "10px" }}
-              src="https://seedpsychology.com.au/wp-content/uploads/2018/09/Damian-profile-pic-square.jpg"
+              style={{ width: "150px", marginLeft: "10px", marginTop: "10px", height: "160px" }}
+              src={user.photo}
               alt=""
             />
             <div

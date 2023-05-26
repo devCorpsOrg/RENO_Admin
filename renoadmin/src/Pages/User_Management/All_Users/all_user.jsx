@@ -218,7 +218,7 @@ const Allmembers = ({ setActiveTab, setExpand }) => {
   const filteredData = userData.filter((user) => user.is_suspend === 0);
 
   const data = filteredData.map((user) => ({
-    photo: <ProfilePhoto picUrl={user.pic_url} />,
+    photo: <ProfilePhoto picUrl={user.pic} />,
     username: user.username,
     emailaddress: user.email,
     contact: user.phone,
@@ -231,7 +231,7 @@ const Allmembers = ({ setActiveTab, setExpand }) => {
         phone={user.phone}
         uid={user.uid}
         role={user.role}
-        picUrl={user.pic_url}
+        picUrl={user.pic}
       />
     ),
   }));

@@ -143,7 +143,7 @@ const SuspendUsers = ({ setActiveTab, setExpand }) => {
         phone={user.phone}
         uid={user.uid}
         role={user.role}
-        picUrl={user.pic_url}
+        picUrl={user.pic}
       />
     ),
   }));

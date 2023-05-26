@@ -137,7 +137,7 @@ const AllProjects = ({ setActiveTab, setExpand }) => {
   console.log(projectData);
 
   const data = projectData.map((user) => ({
-    photo: <Photo picUrl={user.pic_url} />,
+    photo: <Photo picUrl={user.pic} />,
     projectname: user.proj_name,
     category: user.proj_category,
     rate: `$ ${user.rate}`,
