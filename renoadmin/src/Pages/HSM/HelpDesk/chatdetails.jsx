@@ -34,9 +34,10 @@ const Chatdetails = ({ onClose }) => {
       style={{
         zIndex: 1000,
         position: "fixed",
-        width: "391.5px",
-        height: "758px",
-        top: "-8px",
+        width: "25rem",
+        height: "70vh",
+        right:"0px",
+        bottom:"0px",
         background: "#FFFFFF",
         boxShadow: "0px 4px 50px rgba(0, 0, 0, 0.2)",
       }}

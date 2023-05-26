@@ -29,24 +29,23 @@ const AddNewRole = ({ setActiveTab }) => {
   const navigate = useNavigate();
 
   const HandleSubmit = async (event) => {
-    // event.preventDefault();
+    event.preventDefault();
+    console.log(status)
     // You can add code here to submit the form data to the server
 
 
     try {
       const response = await axios
-        .post("http://139.59.236.50:8000/createrole/", {username, email, role, status})
+        .post("http://139.59.236.50:8000/createrole", {username, email, role, status})
         .then((response) => {
           setUserName("");
           setEmailAddress("");
-          setUserRole();
-          setRoleStatus();
+          setUserRole("");
+          setRoleStatus("");
+          console.log(response)
+          navigate("/home/permission");
           alert('OPERATION SUCCESSFULL')
         })
-        .then(() => {
-          navigate("/home/permission");
-          // window.location.reload();
-        });
     } catch (err) {
       alert("Failed!")
       console.log("Error saving data", err);

@@ -76,7 +76,7 @@ const Photo = ({ picUrl }) => {
 const AllMember = ({ setActiveTab, setExpand }) => {
   const head = "All Members";
   // setExpand("marketPlace");
-  setActiveTab("allMambers");
+  setActiveTab("allMembers");
   const Navigate = useNavigate();
   const greenClicked = () => {
     Navigate("/home/addShowcase");

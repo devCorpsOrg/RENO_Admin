@@ -19,7 +19,7 @@ const Photo = ({ pic_url }) => {
 const ReviewManagement = ({ setActiveTab, setExpand }) => {
   const head = "Review Management";
   // setExpand("marketPlace");
-  setActiveTab("reviewForManagement");
+  setActiveTab("reviewManagement");
   const dispatch = useDispatch();
   const [loading, setLoading] = useState(true);
 
