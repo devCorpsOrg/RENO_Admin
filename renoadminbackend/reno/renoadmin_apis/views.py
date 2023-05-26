@@ -20,7 +20,7 @@ from .serializers import UserSerializer,UserSerializer2,listingsSerializer
 from .serializers import UserSerializer1, PurchasedSerializer, ProductSerializer ,ProjectbookingSerializer,UserSerializer5, SettingSerializer
 # from .serializers import SuspendUserSerializer
 from rest_framework.renderers import JSONRenderer
-from django.http import HttpResponse 
+from django.http import HttpResponse, HttpResponseServerError
 import io
 from rest_framework.parsers import JSONParser
 from django.views.decorators.csrf import csrf_exempt
@@ -1408,7 +1408,37 @@ def member_details(request):
         return HttpResponse(formatted_data, content_type='application/json')
     else:
         return JsonResponse([], safe=False)
-    
+
+
+@api_view(["GET"])
+def export_member(request):
+    try:
+        usname = request.query_params["usname"]
+        file_format = request.query_params["file_format"]
+        member = CRM.objects.filter(usname=usname).first()
+
+        if file_format == 'json':
+            data = serializers.serialize('json', [member])
+            response = HttpResponse(data, content_type='application/json')
+            response['Content-Disposition'] = 'attachment; filename="renovation_member_details.json"'
+            return response
+        elif file_format == 'csv':
+            response = HttpResponse(content_type='text/csv')
+            response['Content-Disposition'] = 'attachment; filename="renovation_member_details.csv"'
+
+            writer = csv.writer(response)
+            writer.writerow(['id', 'usname', 'pic_url', 'abt', 'phone', 'net_purchase_amount', 'net_purchase_count', 'pts'])
+
+            writer.writerow([member.id, member.usname, member.pic_url, member.abt, member.phone, member.net_purchase_amount, member.net_purchase_count, member.pts])
+        else:
+            return HttpResponseBadRequest('{"error": "Invalid file_format. Accepted: \'json\' or \'csv\'."}')
+
+        return response
+    except KeyError as e:
+        return HttpResponseBadRequest(f'{{"error": "KeyError | {str(e)}"}}')
+    except Exception as e:
+        return HttpResponseServerError(f'{{"error": "Server Error | {str(e)}"}}')
+
 
 @api_view(['GET'])
 def export_members(request):

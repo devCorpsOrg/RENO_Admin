@@ -100,6 +100,7 @@ urlpatterns = [
     path('searchmember', views.search_member, name='Search Member'),
     path('deletemember', views.delete_member, name='Delete Member'),
     path('memberdetails', views.member_details, name='Member Details'),
+    path('exportmember', views.export_member, name='Export Member'),
     path('exportmembers', views.export_members, name='Export Members'),
     
     path('roles', views.roles, name='Roles'),
