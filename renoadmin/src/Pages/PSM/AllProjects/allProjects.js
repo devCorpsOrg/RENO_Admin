@@ -17,13 +17,13 @@ const Action = ({ projId, projName, category, rate, type }) => {
   const Navigate = useNavigate();
   const [showDeleteConfirmation, setShowDeleteConfirmation] = useState(false);
   const handleClick = () => {
-    const data ={
-      name:projName,
-      category:category,
-      rate:rate,
-      type:type
-    }
-    Navigate("/home/editShowcase", {state:data});
+    const data = {
+      name: projName,
+      category: category,
+      rate: rate,
+      type: type,
+    };
+    Navigate("/home/editShowcase", { state: data });
   };
   const dispatch = useDispatch();
   const handleDeleteClick = () => {
@@ -81,8 +81,8 @@ const Photo = ({ picUrl }) => {
 };
 
 const AllProjects = ({ setActiveTab, setExpand }) => {
-  // setExpand("showcaseManagement");
-  // setActiveTab("projectList");
+  setExpand("showcaseManagement");
+  setActiveTab("projectList");
   const head = "All Project";
   const Navigate = useNavigate();
   const greenClicked = () => {
@@ -134,7 +134,7 @@ const AllProjects = ({ setActiveTab, setExpand }) => {
     },
   ];
 
-  console.log(projectData);
+  console.log("This is the project data :", projectData);
 
   const data = projectData.map((user) => ({
     photo: <Photo picUrl={user.pic} />,
@@ -143,7 +143,15 @@ const AllProjects = ({ setActiveTab, setExpand }) => {
     rate: `$ ${user.rate}`,
     projecttype: user.project_type,
     reviews: `${user.review}k reviews`,
-    action: <Action projId={user.proj_id} projName={user.proj_name} category={user.proj_category} rate={user.rate} type={user.project_type} />,
+    action: (
+      <Action
+        projId={user.proj_id}
+        projName={user.proj_name}
+        category={user.proj_category}
+        rate={user.rate}
+        type={user.project_type}
+      />
+    ),
   }));
 
   const greenButtonText = "Add New Project";

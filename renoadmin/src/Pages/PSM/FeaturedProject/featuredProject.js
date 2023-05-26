@@ -13,11 +13,17 @@ import {
 } from "../../User_Management/features/userSlice";
 import { Alert, AlertTitle, Button } from "@mui/material";
 
-const Action = ({ projId, projName }) => {
+const Action = ({ projId, projName, category, rate, type }) => {
   const Navigate = useNavigate();
   const [showDeleteConfirmation, setShowDeleteConfirmation] = useState(false);
   const handleClick = () => {
-    Navigate("/home/editShowcase");
+    const data = {
+      name: projName,
+      category: category,
+      rate: rate,
+      type: type,
+    };
+    Navigate("/home/editShowcase", { state: data });
   };
   const dispatch = useDispatch();
   const handleDeleteClick = () => {
@@ -65,10 +71,10 @@ const Action = ({ projId, projName }) => {
   );
 };
 
-const Photo = () => {
+const Photo = ({ picUrl }) => {
   return (
     <div>
-      <img className="w-14 h-14 rounded" src={images} alt="Photo" />
+      <img className="w-14 h-14 rounded" src={picUrl} alt="Photo" />
     </div>
   );
 };
@@ -76,8 +82,8 @@ const Photo = () => {
 const FeaturedProject = ({ setActiveTab, setExpand }) => {
   const head = "Featured Project";
 
-  // setExpand("showcaseManagement");
-  // setActiveTab("featuredProject");
+  setExpand("showcaseManagement");
+  setActiveTab("featuredProject");
   const dispatch = useDispatch();
   const [loading, setLoading] = useState(true);
   const featuredData = useSelector(
@@ -121,12 +127,20 @@ const FeaturedProject = ({ setActiveTab, setExpand }) => {
   ];
 
   const data = featuredData.map((user) => ({
-    photo: <Photo />,
+    photo: <Photo picUrl={user.pic} />,
     projectname: user.proj_name,
     category: user.proj_category,
     rate: `$ ${user.rate}`,
     reviews: `${user.review}k reviews`,
-    action: <Action projId={user.proj_id} projName={user.proj_name} />,
+    action: (
+      <Action
+        projId={user.proj_id}
+        projName={user.proj_name}
+        category={user.proj_category}
+        rate={user.rate}
+        type={user.project_type}
+      />
+    ),
   }));
 
   const blackButtonText = "Export All";

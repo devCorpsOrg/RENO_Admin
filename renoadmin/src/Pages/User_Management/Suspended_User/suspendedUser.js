@@ -73,10 +73,10 @@ const Action = ({ username, email, phone, uid, picUrl, role }) => {
   );
 };
 
-const ProfilePhoto = () => {
+const ProfilePhoto = ({ picUrl }) => {
   return (
     <div>
-      <img className="w-12 h-12 rounded-full" src={Photo} alt="photo" />
+      <img className="w-12 h-12 rounded-full" src={picUrl} alt="photo" />
     </div>
   );
 };
@@ -131,7 +131,7 @@ const SuspendUsers = ({ setActiveTab, setExpand }) => {
   console.log("This is the data ", suspendedData);
 
   const data = suspendedData.map((user) => ({
-    photo: <ProfilePhoto />,
+    photo: <ProfilePhoto picUrl={user.pic} />,
     username: user.username,
     emailaddress: user.email,
     suspendedreason: user.suspend_reason,

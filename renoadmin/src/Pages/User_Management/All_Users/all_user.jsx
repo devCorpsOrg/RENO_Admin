@@ -45,7 +45,7 @@ const Action = ({ username, email, phone, uid, picUrl, role }) => {
       );
 
       if (response.ok) {
-        alert("Successfully suspended the user.");
+        // alert("Successfully suspended the user.");
         window.location.reload(); // Reload the window after successful suspension
       } else {
         throw new Error("Failed to suspend the user.");
@@ -217,6 +217,7 @@ const Allmembers = ({ setActiveTab, setExpand }) => {
   const greenButtonText = "Add User";
   const filteredData = userData.filter((user) => user.is_suspend === 0);
 
+  console.log(filteredData);
   const data = filteredData.map((user) => ({
     photo: <ProfilePhoto picUrl={user.pic} />,
     username: user.username,
