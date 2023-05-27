@@ -53,6 +53,8 @@ import jwt, datetime
 from rest_framework.exceptions import AuthenticationFailed
 from rest_framework import status    
 from rest_framework.response import Response
+from django.db.models import Q
+from datetime import datetime
 # from django.contrib.auth import logout as auth_logout
 # from django.contrib.auth import get_user_model, logout
 # from rest_framework import viewsets, status
@@ -1633,3 +1635,160 @@ def delete_deal(request):
         return HttpResponse(f'Deal with ID: {id} deleted successfully.', status=200)
     else:
         return HttpResponseNotFound('Deal not found.')
+
+
+@api_view(["POST"])
+def create_ticket(request):
+    try:
+        data = json.loads(request.body)
+        
+        usname = data["usname"]
+        msg = data["msg"]
+
+        error = ""
+
+        if msg.strip() == "":
+            error = "Message can't be blank."
+        
+        user = Userdetails.objects.filter(username=usname).first()
+        
+        if not user:
+            error = "User doesn't exist"
+
+        role = user.role
+        if role != "marketplace":
+            error = "Only account with 'marketplace' role is allowed to create ticket."
+        
+        
+        active_ticket = HelpdeskTickets.objects.filter(Q(status="read") | Q(status="unread"), usname=usname).first()
+        if active_ticket:
+            error = "Existing ticket is not yet closed."
+        
+        if error:
+            return HttpResponseBadRequest(f'{{"error": {error}}}')
+        
+        date_time = datetime.now().strftime("%d-%m-%Y T %I:%M %p")
+        conversations = [{"date_time": date_time, "msg": msg, "role": role}]
+
+        ticket = HelpdeskTickets(usname=usname, email=user.email, status="unread", conversations=conversations)
+        ticket.save()
+
+        return HttpResponse('{"success": "Ticket created successfully."}')
+    except json.JSONDecodeError as e:
+        return HttpResponseBadRequest(f'{{"error": "JSON Error | {str(e)}"}}')
+    except KeyError as e:
+        return HttpResponseBadRequest(f'{{"error": "Key Error | {str(e)}"}}')
+    except Exception as e:
+        return HttpResponseServerError(f'{{"error": "Server Error | {str(e)}"}}')
+
+
+@api_view(["GET"])
+def get_ticket(request):
+    try:
+        params = request.query_params
+        usname = params["usname"]
+        account = Userdetails.objects.filter(username=usname).first()
+        if not account:
+            return HttpResponseNotFound(f'{{"error": "Account doesn\'t exist."}}')
+        
+        role = account.role
+        
+        tickets = None
+        if role == "marketplace":
+            ticket = HelpdeskTickets.objects.filter(Q(status="read") | Q(status="unread"), usname=usname).first()
+            if ticket and ticket.status == "unread":
+                ticket.status = "read"
+                ticket.save()
+                tickets = [ticket]
+        elif role == "admin":
+            tickets = HelpdeskTickets.objects.all().order_by("-id")
+        else:
+            return HttpResponseBadRequest(f'{{"error": "Invalid role. Accepted: \'marketplace\' or \'admin\'."}}')
+        
+        if tickets:
+            data = serializers.serialize('json', tickets)
+            formatted_data = json.dumps(json.loads(data), indent=4)
+            return HttpResponse(formatted_data, content_type='application/json')
+        else:
+            return HttpResponseNotFound(f'{{"info": "No ticket(s) found."}}')
+    except KeyError as e:
+        return HttpResponseBadRequest(f'{{"error": "KeyError | {str(e)}"}}')
+    except Exception as e:
+        return HttpResponseServerError(f'{{"error": "Server Error | {str(e)}"}}')
+
+
+@api_view(["PUT"])
+def reply_ticket(request):
+    try:
+        data = request.data
+        id = data["id"]
+        usname = data["usname"]
+        msg = data["msg"]
+        
+        account = Userdetails.objects.filter(username=usname).first()
+        if not account:
+            return HttpResponseNotFound(f'{{"error": "Account doesn\'t exist."}}')
+        
+        role = account.role
+        
+        if role != "admin":
+            return HttpResponseBadRequest(f'{{"error": "Only account with \'admin\' role is allowed to reply."}}')
+        
+        if msg.strip() == "":
+            return HttpResponseBadRequest(f'{{"error": "Message can\'t be blank."}}')
+        
+        ticket = HelpdeskTickets.objects.filter(id=id).first()
+        
+        if not ticket:
+            return HttpResponseNotFound(f'{{"error": "Ticket doesn\'t exist."}}')
+
+        if ticket.status == "closed":
+            return HttpResponseBadRequest(f'{{"error": "Ticket has already been closed."}}')
+        
+        date_time = datetime.now().strftime("%d-%m-%Y T %I:%M %p")
+        ticket.conversations.append({"date_time": date_time, "msg": msg, "role": role})
+        ticket.save()
+
+        return HttpResponse('{"success": "Ticket updated successfully."}')
+    except KeyError as e:
+        return HttpResponseBadRequest(f'{{"error": "KeyError | {str(e)}"}}')
+    except Exception as e:
+        return HttpResponseServerError(f'{{"error": "Server Error | {str(e)}"}}')
+
+
+@api_view(["PUT"])
+def close_ticket(request):
+    try:
+        data = request.data
+        id = data["id"]
+        usname = data["usname"]
+        
+        account = Userdetails.objects.filter(username=usname).first()
+        if not account:
+            return HttpResponseNotFound(f'{{"error": "Account doesn\'t exist."}}')
+        
+        role = account.role
+        
+        if role != "admin":
+            return HttpResponseBadRequest(f'{{"error": "Only account with \'admin\' role is allowed to close ticket."}}')
+        
+        ticket = HelpdeskTickets.objects.filter(id=id).first()
+
+        if not ticket:
+            return HttpResponseNotFound(f'{{"error": "Ticket doesn\'t exist."}}')
+        
+        if ticket.status == "closed":
+            return HttpResponseBadRequest(f'{{"error": "Ticket has already been closed."}}')
+        
+        if len(ticket.conversations) == 1:
+            return HttpResponseBadRequest(f'{{"error": "Ticket can\'t be closed when it\'s not yet replied."}}')
+        
+        ticket.status = "closed"
+        ticket.save()
+
+        return HttpResponse('{"success": "Ticket closed successfully."}')
+    except KeyError as e:
+        return HttpResponseBadRequest(f'{{"error": "KeyError | {str(e)}"}}')
+    except Exception as e:
+        return HttpResponseServerError(f'{{"error": "Server Error | {str(e)}"}}')
+

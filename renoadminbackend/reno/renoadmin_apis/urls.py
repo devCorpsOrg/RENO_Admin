@@ -117,5 +117,10 @@ urlpatterns = [
 
     path('deals', views.deals, name='Deals'),
     path('searchdeals', views.search_deals, name='Search Deals'),
-    path('deletedeal', views.delete_deal, name='Delete Deal')
+    path('deletedeal', views.delete_deal, name='Delete Deal'),
+
+    path('createticket', views.create_ticket, name='Create Ticket'),
+    path('getticket', views.get_ticket, name='Get Ticket(s)'),
+    path('replyticket', views.reply_ticket, name='Reply Ticket'),
+    path('closeticket', views.close_ticket, name='Close Ticket')
 ]+static(settings.MEDIA_URL,document_root=settings.MEDIA_ROOT)

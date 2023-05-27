@@ -291,3 +291,15 @@ class Roles(m.Model):
     email = models.EmailField(max_length=256)
     role = models.CharField(max_length=32)
     status = models.CharField(max_length=200)
+
+
+class HelpdeskTickets(m.Model):
+    id = m.CharField(primary_key=True, default=uuid.uuid4, max_length=200)
+    usname = m.CharField(max_length=100, unique=True, null=False)
+    email = m.EmailField(max_length=256)
+    status = m.CharField(max_length=20, null=False)
+    conversations = m.JSONField(null=False)
+    
+    '''
+    conversations = [{date_time, chat, role(marketplace)}, {date_time, chat, role(admin)}]
+    '''
