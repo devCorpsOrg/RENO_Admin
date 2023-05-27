@@ -1645,27 +1645,21 @@ def create_ticket(request):
         usname = data["usname"]
         msg = data["msg"]
 
-        error = ""
-
         if msg.strip() == "":
-            error = "Message can't be blank."
+            return HttpResponseBadRequest(f'{{"error": "Message can\'t be blank."}}')
         
         user = Userdetails.objects.filter(username=usname).first()
         
         if not user:
-            error = "User doesn't exist"
-
+            return HttpResponseBadRequest(f'{{"error": "User doesn\'t exist"}}')
+            
         role = user.role
         if role != "marketplace":
-            error = "Only account with 'marketplace' role is allowed to create ticket."
-        
+            return HttpResponseBadRequest(f'{{"error": "Only account with \'marketplace\' role is allowed to create ticket."}}')
         
         active_ticket = HelpdeskTickets.objects.filter(Q(status="read") | Q(status="unread"), usname=usname).first()
         if active_ticket:
-            error = "Existing ticket is not yet closed."
-        
-        if error:
-            return HttpResponseBadRequest(f'{{"error": {error}}}')
+            return HttpResponseBadRequest(f'{{"error": "Existing ticket is not yet closed."}}')
         
         date_time = datetime.now().strftime("%d-%m-%Y T %I:%M %p")
         conversations = [{"date_time": date_time, "msg": msg, "role": role}]
@@ -1696,9 +1690,10 @@ def get_ticket(request):
         tickets = None
         if role == "marketplace":
             ticket = HelpdeskTickets.objects.filter(Q(status="read") | Q(status="unread"), usname=usname).first()
-            if ticket and ticket.status == "unread":
-                ticket.status = "read"
-                ticket.save()
+            if ticket:
+                if ticket.status == "unread":
+                    ticket.status = "read"
+                    ticket.save()
                 tickets = [ticket]
         elif role == "admin":
             tickets = HelpdeskTickets.objects.all().order_by("-id")
@@ -1710,7 +1705,7 @@ def get_ticket(request):
             formatted_data = json.dumps(json.loads(data), indent=4)
             return HttpResponse(formatted_data, content_type='application/json')
         else:
-            return HttpResponseNotFound(f'{{"info": "No ticket(s) found."}}')
+            return HttpResponseNotFound(f'{{"info": "No active ticket(s) found."}}')
     except KeyError as e:
         return HttpResponseBadRequest(f'{{"error": "KeyError | {str(e)}"}}')
     except Exception as e:
@@ -1744,6 +1739,9 @@ def reply_ticket(request):
 
         if ticket.status == "closed":
             return HttpResponseBadRequest(f'{{"error": "Ticket has already been closed."}}')
+        
+        if len(ticket.conversations) == 2:
+            return HttpResponseBadRequest(f'{{"error": "Ticket has already been replied."}}')
         
         date_time = datetime.now().strftime("%d-%m-%Y T %I:%M %p")
         ticket.conversations.append({"date_time": date_time, "msg": msg, "role": role})
