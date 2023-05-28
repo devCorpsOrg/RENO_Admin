@@ -185,7 +185,8 @@ class LoginView(APIView):
             'jwt': token,
             "username":info.username,
             "pic":"http://139.59.236.50/Renoadmin/"+str(info.pic),
-            "role":info.role
+            "role":info.role,
+            "uid":info.uid
         }
         return response
 
