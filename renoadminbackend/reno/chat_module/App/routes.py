@@ -98,6 +98,7 @@ def getticketlist():
             find_data = tickets_db.find({})
             for dt in find_data:
                 data1 = {
+                    "tid": dt["tid"],
                     "metadata": dt["metadata"],
                     "msgs": dt["msgs"]
                 }
