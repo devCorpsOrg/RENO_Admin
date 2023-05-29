@@ -551,9 +551,9 @@ export const HSM_helpdesk = createAsyncThunk(
   async (_, { rejectWithValue }) => {
     console.log("hello");
     try {
-      const response = await axios.get("http://139.59.236.50:8000/support/");
+      const response = await axios.get("http://139.59.236.50:5002/getticketlist");
       console.log(response);
-      return response.data;
+      return response.data.data;
     } catch (error) {
       console.log("Not submitting data");
       console.log(error);
