@@ -25,6 +25,7 @@ function Login() {
         Cookies.set("role", response.data.role);
         Cookies.set("username", response.data.username);
         Cookies.set("pic", response.data.pic);
+        Cookies.set("uid", response.data.uid);
         // Cookies.set('jwt', token);
         setResult("Logged in Successfully");
         navigate("/home");

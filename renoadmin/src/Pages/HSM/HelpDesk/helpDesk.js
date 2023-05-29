@@ -10,17 +10,17 @@ import { Grid } from "react-loader-spinner";
 import { HSM_helpdesk } from "../../User_Management/features/userSlice";
 import { useLocation } from "react-router-dom";
 
-const PopupComponent = ({ onClose }) => {
+const PopupComponent = ({ onClose, name, status, tid }) => {
   return (
     <div className="absolute top-0 right-0 h-full w-1/3">
       <div className="p-4">
-        <Chatdetails onClose={onClose} />
+        <Chatdetails onClose={onClose} name={name} status={status} tid={tid} />
       </div>
     </div>
   );
 };
 
-const Action = () => {
+const Action = ({name, status, tid}) => {
   const [isPopupVisible, setIsPopupVisible] = useState(false);
 
   const handleClick = () => {
@@ -39,7 +39,7 @@ const Action = () => {
       {/* <img src={deleteIcon} alt="Delete" /> */}
       {console.log("view")}
       {console.log(isPopupVisible)}
-      {isPopupVisible && <PopupComponent onClose={handleClosePopup} /> }
+      {isPopupVisible && <PopupComponent onClose={handleClosePopup} name={name} status={status} tid={tid} /> }
     </div>
   );
 };
@@ -100,12 +100,12 @@ const AllProjects = ({ setActiveTab, setExpand }) => {
 
   console.log(chatData);
   const data = chatData.map((user) => ({
-    photo: <Photo picUrl={user.pic} />,
-    requester: user.registerar,
-    subject: user.subject,
-    message: user.message,
-    status: <Status value={user.status} />,
-    action: <Action  />,
+    photo: <Photo picUrl={user.metadata.pic} />,
+    requester: user.metadata.usname,
+    subject: user.metadata.subj,
+    message: user.msgs[0].msg,
+    status: <Status value={user.metadata.status} />,
+    action: <Action name={user.metadata.usname} status={user.metadata.status} tid={user.tid} />,
   }));
 
   // Number of Pages to be display on a single page.
