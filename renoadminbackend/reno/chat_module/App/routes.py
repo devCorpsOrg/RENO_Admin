@@ -97,12 +97,24 @@ def getticketlist():
         if tickets_db.find_one({}):
             find_data = tickets_db.find({})
             for dt in find_data:
-                data1 = {
-                    "tid": dt["tid"],
-                    "metadata": dt["metadata"],
-                    "msgs": dt["msgs"]
-                }
-                all_data.append(data1)
+                uid = dt["metadata"]["uid"]
+                uid = str(uid)
+                try:
+                    user_info = user_db.find_one({"uid":uid})
+                    if user_info:
+                        pic_url = user_info["pic"]
+                        pic_url = str("http://139.59.236.50/Renoadmin/"+pic_url)
+                        dt["metadata"]["pic"] = pic_url
+                        data1 = {
+                            "tid": dt["tid"],
+                            "metadata": dt["metadata"],
+                            "msgs": dt["msgs"]
+                        }
+                        all_data.append(data1)
+                    else:
+                        pass
+                except:
+                    pass
             return json.dumps({'success': True, "data": all_data}), 200, {'ContentType': 'application/json'}
         else:
             return json.dumps({'success': False, "error": "Ticket not found"}), 200, {'ContentType': 'application/json'}
