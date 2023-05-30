@@ -85,7 +85,7 @@ class UserSerializer1(serializers.ModelSerializer):
     
     class Meta:
         model=Userdetails
-        fields=('pic','username','email','suspend_reason','role')
+        fields=('pic','username','email','suspend_reason','role', "uid")
 
 class ProductSerializer(serializers.ModelSerializer):
         
