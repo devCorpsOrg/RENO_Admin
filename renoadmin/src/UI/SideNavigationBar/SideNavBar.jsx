@@ -36,6 +36,10 @@ function SideNavBar({ expand, setExpand, activeTab, setActiveTab }) {
       console.log(response);
       // cookie.remove('csrftoken');
       cookie.remove("jwt");
+      cookie.remove("role");
+      cookie.remove("username");
+      cookie.remove("pic");
+      cookie.remove("uid");
       navigate("/");
       console.log("Logged Out sucessfully");
     } catch (error) {
