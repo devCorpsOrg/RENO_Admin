@@ -1,6 +1,6 @@
 import React from "react";
 import Table from "../../../UI/CommonTable/Table";
-import { deleteIcon, Photo, View } from "./Assets/index";
+import { deleteIcon, Photo, View, Unsuspend } from "./Assets/index";
 import TopHeader from "../../../UI/TopHeader/TopHeader";
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
@@ -8,6 +8,7 @@ import { useEffect, useState } from "react";
 import { Grid } from "react-loader-spinner";
 import { DeleteSuspendUser, suspendUsers } from "../features/userSlice";
 import { Alert, AlertTitle, Button } from "@mui/material";
+import axios from "axios";
 
 // Component inside action column
 // The details of user shall be different for every users. It will be integrated at authentication of the users.
@@ -29,6 +30,7 @@ const Action = ({ username, email, phone, uid, picUrl, role }) => {
   const dispatch = useDispatch();
   const handleDeleteClick = () => {
     setShowDeleteConfirmation(true);
+    console.log("This is uid", uid);
   };
 
   const handleConfirmDelete = () => {
@@ -44,11 +46,27 @@ const Action = ({ username, email, phone, uid, picUrl, role }) => {
   const handleCancelDelete = () => {
     setShowDeleteConfirmation(false);
   };
+  console.log("This is uid", uid);
+  const handleUnsuspendClick = async () => {
+    try {
+      const response = await axios
+        .post(`http://139.59.236.50:8000/removesuspenduser/?uid=${uid}`)
+        .then((response) => {
+          console.log(response.data); // Handle the response data
+          window.location.reload();
+        });
+    } catch (error) {
+      console.error("Error occurred:", error);
+      // Handle the error
+    }
+  };
+
   const head = "Suspended Users";
   return (
     <div className="w-6 h-6 flex gap-3 cursor-pointer">
       <img src={View} onClick={handleClick} alt="Edit" />
       <img src={deleteIcon} onClick={handleDeleteClick} alt="Delete" />
+      <img src={Unsuspend} onClick={handleUnsuspendClick} alt="Unsuspend" />
       {showDeleteConfirmation && (
         <div className="fixed top-0 left-0 w-screen h-screen bg-gray-800 bg-opacity-50 flex justify-center items-center z-50">
           <div className="bg-white p-5 rounded shadow">
