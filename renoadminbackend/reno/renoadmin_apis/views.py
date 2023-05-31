@@ -891,10 +891,7 @@ def settings(request):
         data = request.data
         usname = data["usname"]
         if not Userdetails.objects.filter(username=usname).first():
-            return HttpResponseNotFound('{"error": "User doesn\'t exist."}')
-        
-        if config_setting.objects.filter(usname=usname).first():
-            return HttpResponseBadRequest('{"error": "Setting already exists."}')            
+            return HttpResponseNotFound('{"error": "User doesn\'t exist."}')         
     
         serializer=SettingSerializer(data=request.data)
         if serializer.is_valid():
