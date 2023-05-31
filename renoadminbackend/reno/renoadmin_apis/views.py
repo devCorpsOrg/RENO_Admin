@@ -891,8 +891,20 @@ def settings(request):
         data = request.data
         usname = data["usname"]
         if not Userdetails.objects.filter(username=usname).first():
-            return HttpResponseNotFound('{"error": "User doesn\'t exist."}')         
-    
+            return HttpResponseNotFound('{"error": "User doesn\'t exist."}')
+        
+        setting = config_setting.objects.filter(usname=usname).first()
+        if setting:
+            setting.sitename = data.get("sitename", setting.sitename)
+            setting.url = data.get("url", setting.url)
+            setting.smtp_details = data.get("smtp_details", setting.smtp_details)
+            setting.admin_mail = data.get("admin_mail", setting.admin_mail)
+            setting.support_email = data.get("support_email", setting.support_email)
+            setting.save()
+            res={"success":"Setting updated successfully."}
+            json_data = JSONRenderer().render(res)
+            return HttpResponse(json_data, content_type="application/json")
+            
         serializer=SettingSerializer(data=request.data)
         if serializer.is_valid():
                 serializer.save()
