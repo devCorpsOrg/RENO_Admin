@@ -47,17 +47,18 @@ const Action = ({ username, email, phone, uid, picUrl, role }) => {
     setShowDeleteConfirmation(false);
   };
   console.log("This is uid", uid);
-  const handleUnsuspendClick = () => {
-    axios
-      .post(`/removesuspenduser/?uid=${uid}`)
-      .then((response) => {
-        console.log("User unsuspended:", uid);
-        // Handle the response or perform any additional actions
-      })
-      .catch((error) => {
-        console.error("Failed to unsuspend user:", uid);
-        // Handle the error
-      });
+  const handleUnsuspendClick = async () => {
+    try {
+      const response = await axios
+        .post(`http://139.59.236.50:8000/removesuspenduser/?uid=${uid}`)
+        .then((response) => {
+          console.log(response.data); // Handle the response data
+          window.location.reload();
+        });
+    } catch (error) {
+      console.error("Error occurred:", error);
+      // Handle the error
+    }
   };
 
   const head = "Suspended Users";
