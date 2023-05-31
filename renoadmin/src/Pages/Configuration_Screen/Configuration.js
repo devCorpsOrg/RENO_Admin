@@ -1,7 +1,8 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import TopHeader from "../../UI/TopHeader/TopHeader";
 import axios from "axios";
 import { Snackbar, Alert } from "@mui/material";
+import Cookies from "js-cookie";
 
 const Configuration = ({ setActiveTab }) => {
   const [sitename, setName] = useState("");
@@ -10,6 +11,27 @@ const Configuration = ({ setActiveTab }) => {
   const [url, setUrl] = useState("");
   const [smtp_details, setDetails] = useState("");
   const [showAlert, setShowAlert] = useState(false); // State for controlling the alert
+
+  useEffect(() => {
+    // Fetch data from the 
+    axios.get(`http://139.59.236.50:8000/settings/?usname=${Cookies.get('username')}`)
+ 
+    .then((res)=>{
+      setName(res.data[0].fields.sitename);
+      setEmail(res.data[0].fields.admin_mail);
+      setSiteEmail(res.data[0].fields.support_email);
+      setUrl(res.data[0].fields.url);
+      setDetails(res.data[0].fields.smtp_details);
+      console.log(res.data[0].fields.support_email)
+      console.log(res);
+    }).catch((err)=>{
+      console.log(err)
+    })
+
+    console.log(Cookies.get('username'))
+
+  
+  }, []);
 
   setActiveTab("settings");
   const handleSubmit = async (e) => {
@@ -31,6 +53,7 @@ const Configuration = ({ setActiveTab }) => {
           mail,
           email,
           smtp_details,
+          usname: Cookies.get('username')
         })
         .then((response) => {
           setShowAlert(true);
@@ -38,6 +61,7 @@ const Configuration = ({ setActiveTab }) => {
           alert('Created Successfully')
         })
         .catch((err) => {
+          alert("Settings already exists")
           console.log(err);
         });
     } catch (err) {
