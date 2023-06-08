@@ -267,21 +267,6 @@ function SideNavBar({ expand, setExpand, activeTab, setActiveTab }) {
                       Featured Project
                     </NavLink>
                   </div>
-                  <div className="ml-7 mt-2">
-                    <NavLink
-                      style={{
-                        color: activeTab === "bookings" ? "black" : "#545e6f",
-                        fontWeight:
-                          activeTab === "bookings" ? "bold" : "inherit",
-                      }}
-                      to="/home/bookings"
-                      onClick={() => {
-                        setActiveTab("bookings");
-                        setExpand("showcaseManagement");
-                      }}>
-                      Bookings
-                    </NavLink>
-                  </div>
                 </>
               )}
             </div>
@@ -423,6 +408,21 @@ function SideNavBar({ expand, setExpand, activeTab, setActiveTab }) {
                         setExpand("homeService");
                       }}>
                       Help Desk Chat
+                    </NavLink>
+                  </div>
+                  <div className="ml-7 mt-2">
+                    <NavLink
+                      style={{
+                        color: activeTab === "bookings" ? "black" : "#545e6f",
+                        fontWeight:
+                          activeTab === "bookings" ? "bold" : "inherit",
+                      }}
+                      to="/home/bookings"
+                      onClick={() => {
+                        setActiveTab("bookings");
+                        setExpand("homeService");
+                      }}>
+                      Bookings
                     </NavLink>
                   </div>
                 </>
