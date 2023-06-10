@@ -55,6 +55,12 @@ urlpatterns = [
     path('searchpromoted/',views.searchpromoted,name="searchpromoted"),
     path('editpromoted/',views.editpromoted,name="eeditpromoted"),
     path('deletepromoted',views.deletepromoted,name="deletepromoted"),
+
+    path('createpromotion', views.create_promotion, name="create_promotion"),
+    path('deletepromotion', views.delete_promotion, name="delete_promotion"),
+    path('editpromotion', views.edit_promotion, name="edit_promotion"),
+    path('getpromotion', views.get_promotion, name="get_promotion"),
+    path('getpromotions', views.get_promotions, name="get_promotions"),
 #==========================================================================================================
 
     path('support/',views.usersupport,name="supportuser"),

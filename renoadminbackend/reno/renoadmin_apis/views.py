@@ -860,6 +860,150 @@ def deletepromoted(request):
              json_data=JSONRenderer().render(res)
              return HttpResponse(json_data,content_type='application/json',status=status.HTTP_404_NOT_FOUND)
 
+
+@api_view(["POST"])
+@csrf_exempt
+def create_promotion(request):
+    try:
+        data = request.data
+        name = data["name"]
+        prod_id = data["id"]
+        if not Products.objects.filter(id=prod_id).first():
+            return HttpResponseBadRequest(f'"error": "Cannot create promotion for non existing product."')
+        
+        catg = data["catg"]
+        if catg != "product" and catg != "service":
+            return HttpResponseBadRequest(f'"error": "Expected values for catg: \'product\' or \'service\'."')
+        
+        offer_by = data["offerby"]
+        if offer_by != "percnt" and offer_by != "price":
+            return HttpResponseBadRequest(f'"error": "Expected values for offerby: \'percnt\' or \'price\'."')
+        
+        offer_val = data["offerval"]
+        if offer_by == "percnt":
+            offer_val = int(offer_val)
+        else:
+            offer_val = float(offer_val)
+        
+        expiry = data["expirationdate"]
+        try:
+            expiry_ = datetime.datetime.strptime(expiry, "%d/%m/%Y")
+            if expiry_ < datetime.datetime.now():
+                return HttpResponseBadRequest(f'"error": "expirationdate cannot be older than current date."')    
+        except:
+            return HttpResponseBadRequest(f'"error": "Expected expirationdate in dd/mm/yyyy format."')
+
+        promotion = Promotions(name=name, catg=catg, prod_id=prod_id, offer_by=offer_by, offer_val=offer_val, expiry=expiry)
+        promotion.save()
+
+        return HttpResponse(promotion.id)
+    except KeyError as e:
+        return HttpResponseBadRequest(f'{{"error": "KeyError | {str(e)}"}}')
+    except Exception as e:
+        return HttpResponseServerError(f'{{"error": "Server Error | {str(e)}"}}')
+
+
+@api_view(["DELETE"])
+@csrf_exempt
+def delete_promotion(request):
+    try:
+        id = request.query_params["id"]
+        promotion = Promotions.objects.filter(id=id).first()
+        if promotion:
+            promotion.delete()
+            return HttpResponse(status=204)
+        else:
+            return HttpResponseNotFound(f'"error": "Promotion not found."')
+    except KeyError as e:
+        return HttpResponseBadRequest(f'{{"error": "KeyError | {str(e)}"}}')
+    except Exception as e:
+        return HttpResponseServerError(f'{{"error": "Server Error | {str(e)}"}}')
+
+
+@api_view(["PUT"])
+@csrf_exempt
+def edit_promotion(request):
+    try:
+        data = request.data
+        
+        id = data["pid"]
+        promotion = Promotions.objects.filter(id=id).first()
+        if not promotion:
+            return HttpResponseNotFound(f'"error": "Promotion not found."')
+        
+        name = data.get("name", promotion.name)
+
+        prod_id = data.get("id", promotion.id)
+        if not Products.objects.filter(id=prod_id).first():
+            return HttpResponseBadRequest(f'"error": "Cannot create promotion for non existing product."')
+
+        catg = data.get("catg", promotion.catg)
+        if catg != "product" and catg != "service":
+            return HttpResponseBadRequest(f'"error": "Expected values for catg: \'product\' or \'service\'."')
+        
+        offer_by = data.get("offerby", promotion.offer_by)
+        if offer_by != "percnt" and offer_by != "price":
+            return HttpResponseBadRequest(f'"error": "Expected values for offerby: \'percnt\' or \'price\'."')
+        
+        offer_val = data.get("offerval", promotion.offer_val)
+        if offer_by == "percnt":
+            offer_val = int(offer_val)
+        else:
+            offer_val = float(offer_val)
+        
+        expiry = data.get("expirationdate", promotion.expiry)
+        try:
+            expiry_ = datetime.datetime.strptime(expiry, "%d/%m/%Y")
+            if expiry_ < datetime.datetime.now():
+                return HttpResponseBadRequest(f'"error": "expirationdate cannot be older than current date."')
+        except:
+            return HttpResponseBadRequest(f'"error": "Expected expirationdate in dd/mm/yyyy format."')
+        
+        promotion.name = name
+        promotion.prod_id = prod_id
+        promotion.catg = catg
+        promotion.offer_by = offer_by
+        promotion.offer_val = offer_val
+        promotion.expiry = expiry
+        promotion.save()
+
+        return HttpResponse(status=200)
+    except KeyError as e:
+        return HttpResponseBadRequest(f'{{"error": "KeyError | {str(e)}"}}')
+    except Exception as e:
+        return HttpResponseServerError(f'{{"error": "Server Error | {str(e)}"}}')
+
+
+@api_view(["GET"])
+@csrf_exempt
+def get_promotion(request):
+    try:
+        id = request.query_params["pid"]
+        promotion = Promotions.objects.filter(id=id).first()
+        if not promotion:
+            return HttpResponseNotFound(f'"error": "Promotion not found."')
+        
+        data = serializers.serialize('json', [promotion])
+        formatted_data = json.dumps(json.loads(data), indent=4)
+        return HttpResponse(formatted_data, content_type='application/json')
+    except KeyError as e:
+        return HttpResponseBadRequest(f'{{"error": "KeyError | {str(e)}"}}')
+    except Exception as e:
+        return HttpResponseServerError(f'{{"error": "Server Error | {str(e)}"}}')
+
+
+@api_view(["GET"])
+@csrf_exempt
+def get_promotions(request):
+    try:
+        promotions = Promotions.objects.all()
+        data = serializers.serialize('json', promotions)
+        formatted_data = json.dumps(json.loads(data), indent=4)
+        return HttpResponse(formatted_data, content_type='application/json')
+    except Exception as e:
+        return HttpResponseServerError(f'{{"error": "Server Error | {str(e)}"}}')
+
+
 #-----------------------------------------------------------------------------------------------------
 def usersupport(request):
    if request.method=='GET':

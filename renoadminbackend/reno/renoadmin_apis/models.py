@@ -123,6 +123,16 @@ class pmsModel(models.Model):
     project_details=models.CharField(max_length=200)
    
 
+class Promotions(m.Model):
+    id = m.CharField(primary_key=True, default=uuid.uuid4, max_length=200)
+    prod_id = m.CharField(max_length=200, null=False)
+    name = m.CharField(max_length=200)
+    catg = m.CharField(max_length=200, null=False)
+    offer_by = m.CharField(max_length=20, null=False)
+    offer_val = m.FloatField(null=False)
+    expiry = m.CharField(max_length=20, null=False)
+
+
 class SupportDetails(models.Model): 
     def nameFile(instance, filename):
           filename_list = filename.split(".")
