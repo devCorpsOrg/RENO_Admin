@@ -1,21 +1,8 @@
 import React, { useState, useEffect, useRef } from "react";
-// import {
-//   Inject,
-//   ScheduleComponent,
-//   Day,
-//   Week,
-//   Month,
-//   Agenda,
-//   ViewsDirective,
-//   ViewDirective,
-// } from "@syncfusion/ej2-react-schedule";
 import TopHeader from "../../../UI/TopHeader/TopHeader";
-// import { DataManager, UrlAdaptor } from "@syncfusion/ej2-data";
 import moment from "moment";
 import { Calendar, momentLocalizer } from "react-big-calendar";
 import "react-big-calendar/lib/css/react-big-calendar.css";
-// import EventCalender from "react-event-calendar"
-// const EventCalendar = require('react-event-calendar');
 
 const localizer = momentLocalizer(moment);
 
@@ -24,20 +11,7 @@ const ProjectBookings = () => {
   const head = "Bookings";
   const apiURL = "http://139.59.236.50:8000/projectbookings/";
   const [events, setEvents] = useState([]);
-
-  const fieldsData = {
-    id: "id",
-    subject: { name: "prod_name" },
-    isAllDay: { name: "isAllDay" },
-    startTime: { name: "date", parse: (value) => new Date(value) },
-    endTime: { name: "date", parse: (value) => new Date(value) },
-    description: { name: "desc" },
-    price: { name: "rate" },
-    person: { name: "user" },
-    status: { name: "status" },
-  };
-
-  const [dataSource, setDataSource] = useState([]);
+  const [selectedEvent, setSelectedEvent] = useState(null);
 
   useEffect(() => {
     fetchData();
@@ -58,36 +32,10 @@ const ProjectBookings = () => {
         rate: event.rate,
       }));
       setEvents(parsedEvents);
-      console.log(parsedEvents);
     } catch (error) {
       console.log(error);
     }
   };
-
-  // const fetchData = async () => {
-  //   try {
-  //     const response = await fetch(apiURL);
-  //     const data = await response.json();
-  //     setDataSource(data);
-  //     console.log(data)
-  //   } catch (error) {
-  //     console.log(error);
-  //   }
-  // };
-
-  // const eventTemplate = (props) => {
-  //   return (
-  //     <div>
-  //       <div>{props.subject}</div>
-  //       <div>Description: {props.description}</div>
-  //       <div>Date: {props.startTime.toDateString()}</div>
-  //       <div>Time: {props.startTime.toLocaleTimeString()}</div>
-  //       <div>Person: {props.person}</div>
-  //       <div>Status: {props.status}</div>
-  //       <div>Price: {props.price}</div>
-  //     </div>
-  //   );
-  // };
 
   const eventComponent = ({ event }) => {
     return (
@@ -157,26 +105,12 @@ const ProjectBookings = () => {
     );
   };
 
-  const onPopupOpen = (args) => {
-    if (args.target.classList.contains("e-work-cells")) {
-      args.cancel = true;
-      return;
-    }
-
-    const deleteButton =
-      args.type === "QuickInfo"
-        ? document.querySelector(".e-event-popup .e-delete")
-        : document.querySelector(".e-schedule-dialog .e-event-delete");
-
-    deleteButton.ej2_instances[0].disabled = true;
-  };
-  const [selectedRange, setSelectedRange] = useState(false);
-  const handleSelect = (slotInfo) => {
-    setSelectedRange(true);
+  const handleSelect = (event) => {
+    setSelectedEvent(event);
   };
 
   const handleClosePopup = () => {
-    setSelectedRange(false);
+    setSelectedEvent(null);
   };
 
   return (
@@ -198,13 +132,35 @@ const ProjectBookings = () => {
             event: eventComponent,
           }}
           views={["day", "week", "month", "agenda"]}
-          onShowMore={(events, date) =>
-            this.setState({ showModal: true, events })
-          }
           style={{ height: 700, width: 1100 }}
         />
-        {handleSelect && editorTemplate}
-        {/* {eventPopup} */}
+        {selectedEvent && (
+          <div className="fixed flex flex-col top-0 left-0 w-screen h-screen bg-gray-800 bg-opacity-50 flex justify-center items-center z-50">
+            <div className="w-50 h-50 bg-white p-10 rounded-3xl">
+              <div className="flex flex-row gap-20 mb-10">
+                <h4 className="text-2xl text-lime-500 font-bold">
+                  Event Details
+                </h4>
+                <button
+                  className="float-right font-bold text-2xl focus:outline-none text-red-500"
+                  onClick={handleClosePopup}>
+                  x
+                </button>
+              </div>
+              <div>
+                <div>Title: {selectedEvent.title}</div>
+                <div>Description: {selectedEvent.description}</div>
+                <div>
+                  Date: {moment(selectedEvent.start).format("YYYY-MM-DD")}
+                </div>
+                <div>Time: {moment(selectedEvent.start).format("HH:mm")}</div>
+                <div>Person: {selectedEvent.user}</div>
+                <div>Status: {selectedEvent.status}</div>
+                <div>Price: {selectedEvent.rate}</div>
+              </div>
+            </div>
+          </div>
+        )}
       </div>
     </div>
   );
