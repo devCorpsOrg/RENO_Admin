@@ -879,11 +879,7 @@ def create_promotion(request):
         if offer_by != "percnt" and offer_by != "price":
             return HttpResponseBadRequest(f'"error": "Expected values for offerby: \'percnt\' or \'price\'."')
         
-        offer_val = data["offerval"]
-        if offer_by == "percnt":
-            offer_val = int(offer_val)
-        else:
-            offer_val = float(offer_val)
+        offer_val = float(data["offerval"])
         
         expiry = data["expirationdate"]
         try:
@@ -1944,3 +1940,15 @@ def close_ticket(request):
     except Exception as e:
         return HttpResponseServerError(f'{{"error": "Server Error | {str(e)}"}}')
 
+
+@api_view(["POST"])
+def signup(request):
+    try:
+        data = request.data
+        usname = data["usname"]
+    except KeyError as e:
+        return HttpResponseBadRequest(f'{{"error": "KeyError | {str(e)}"}}')
+    except Exception as e:
+        return HttpResponseServerError(f'{{"error": "Server Error | {str(e)}"}}')    
+
+    
