@@ -883,7 +883,7 @@ def create_promotion(request):
         
         offer_val = float(request.POST['offerval'])
         
-        expiry = request.POST['exp']
+        expiry = request.POST['expirationdate']
         pkg = request.POST['pkg']
         details = request.POST['details']
         try:
