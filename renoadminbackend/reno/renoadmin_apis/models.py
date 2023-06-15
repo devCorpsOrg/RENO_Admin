@@ -124,6 +124,10 @@ class pmsModel(models.Model):
    
 
 class Promotions(m.Model):
+    def name_file(instance, filename):
+        filename_list = filename.split('.')
+        filename = f'customer_{instance.usname}_{filename_list[0]}.{filename_list[-1]}'
+        return '/'.join(['customer', str(instance.usname), filename])
     id = m.CharField(primary_key=True, default=uuid.uuid4, max_length=200)
     prod_id = m.CharField(max_length=200, null=False)
     name = m.CharField(max_length=200)
@@ -131,6 +135,9 @@ class Promotions(m.Model):
     offer_by = m.CharField(max_length=20, null=False)
     offer_val = m.FloatField(null=False)
     expiry = m.CharField(max_length=20, null=False)
+    pkg = m.FloatField(null=False)
+    details = m.CharField(max_length=200, null=False)
+    pic_url = models.ImageField(upload_to=name_file, blank=True)
 
 
 class SupportDetails(models.Model): 

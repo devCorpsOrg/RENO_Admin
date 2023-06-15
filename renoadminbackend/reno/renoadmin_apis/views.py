@@ -865,23 +865,27 @@ def deletepromoted(request):
 @csrf_exempt
 def create_promotion(request):
     try:
-        data = request.data
-        name = data["name"]
-        prod_id = data["id"]
-        if not Products.objects.filter(id=prod_id).first():
-            return HttpResponseBadRequest(f'"error": "Cannot create promotion for non existing product."')
+        pic_url = None
+        if 'pic_url' in request.FILES:
+            pic_url = request.FILES['pic_url'] 
+        # featured_flag = int(request.POST['featured_flag'])
+
+        name = request.POST['name']
+        prod_id = request.POST['id']
         
-        catg = data["catg"]
+        catg = request.POST['catg']
         if catg != "product" and catg != "service":
             return HttpResponseBadRequest(f'"error": "Expected values for catg: \'product\' or \'service\'."')
         
-        offer_by = data["offerby"]
+        offer_by = request.POST['offerby']
         if offer_by != "percnt" and offer_by != "price":
             return HttpResponseBadRequest(f'"error": "Expected values for offerby: \'percnt\' or \'price\'."')
         
-        offer_val = float(data["offerval"])
+        offer_val = float(request.POST['offerval'])
         
-        expiry = data["expirationdate"]
+        expiry = request.POST['exp']
+        pkg = request.POST['pkg']
+        details = request.POST['details']
         try:
             expiry_ = datetime.datetime.strptime(expiry, "%d/%m/%Y")
             if expiry_ < datetime.datetime.now():
@@ -889,7 +893,7 @@ def create_promotion(request):
         except:
             return HttpResponseBadRequest(f'"error": "Expected expirationdate in dd/mm/yyyy format."')
 
-        promotion = Promotions(name=name, catg=catg, prod_id=prod_id, offer_by=offer_by, offer_val=offer_val, expiry=expiry)
+        promotion = Promotions(name=name, catg=catg, prod_id=prod_id, offer_by=offer_by, offer_val=offer_val, expiry=expiry, pkg=pkg, details=details, pic_url=pic_url)
         promotion.save()
 
         return HttpResponse(promotion.id)
