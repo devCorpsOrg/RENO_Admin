@@ -47,7 +47,7 @@ const AddProduct = ({ setExpand, setActiveTab }) => {
     });
 
     dispatch(addNewProduct(formData));
-    navigate('/home/productList');
+    navigate("/home/productList");
   };
 
   const handlePhotoUpload = (event) => {
@@ -70,6 +70,21 @@ const AddProduct = ({ setExpand, setActiveTab }) => {
   const handleInventoryChange = (event) => {
     setInventory(event.target.value);
   };
+
+  const productCategory = [
+    "Elecrical",
+    "Plumbing",
+    "Air con service",
+    "Handyman Services",
+    "Carpentry Services",
+    "Tiling Works",
+    "Ceiling and Partition work",
+    "Painting Works",
+    "Aluminium and metal work",
+    "Vinyl Flooring",
+    "Glass Works",
+    "Dismantling and Disposal",
+  ];
 
   return (
     <div>
@@ -115,31 +130,37 @@ const AddProduct = ({ setExpand, setActiveTab }) => {
                 }}
                 value={category}
                 onChange={handleCategoryChange}
-                required
-              >
+                required>
                 <option value="">Select Catagory</option>
-                <option value="Admin">Admin</option>
-                <option value="Work">Work</option>
-                <option value="Other">Other</option>
+                {productCategory.map((item) => {
+                  return <option value={`${item}`}>{item}</option>;
+                })}
               </select>
             </label>
             <label className="grid">
               Package
-              <input
-                type="text"
-                value={pack}
-                className="outline-none w-[49vh] rounded"
-                placeholder="$000.00"
-                style={{
-                  height: "50px",
-                  paddingLeft: "10px",
-                  border: "2px solid 	#e6f7fe",
-                  marginTop: "5px",
-                  fontSize: "14px",
-                }}
-                onChange={(event) => setPack(event.target.value)}
-                required
-              />
+              <div className="flex flex-row">
+                <select>
+                  <option value="$">$</option>
+                  <option value="€">€</option>
+                  <option value="£">£</option>
+                </select>
+                <input
+                  type="text"
+                  value={pack}
+                  className="outline-none w-[49vh] rounded"
+                  placeholder="$000.00"
+                  style={{
+                    height: "50px",
+                    paddingLeft: "10px",
+                    border: "2px solid 	#e6f7fe",
+                    marginTop: "5px",
+                    fontSize: "14px",
+                  }}
+                  onChange={(event) => setPack(event.target.value)}
+                  required
+                />
+              </div>
             </label>
           </div>
           <div className="grid grid-cols-2 gap-2 mt-5">
@@ -158,17 +179,16 @@ const AddProduct = ({ setExpand, setActiveTab }) => {
                 }}
                 value={prodCat}
                 onChange={handleProdCatChange}
-                required
-              >
+                required>
                 <option value="">Select Product Catagory</option>
-                <option value="Admin">Admin</option>
-                <option value="Work">Work</option>
-                <option value="Other">Other</option>
+                {productCategory.map((item) => {
+                  return <option value={`${item}`}>{item}</option>;
+                })}
               </select>
             </label>
             <label className="grid">
               Number Of Inventory
-              <select
+              <input
                 id="label"
                 name="label"
                 className="outline-none w-[49vh] rounded"
@@ -179,15 +199,10 @@ const AddProduct = ({ setExpand, setActiveTab }) => {
                   marginTop: "5px",
                   fontSize: "14px",
                 }}
+                placeholder="Number of Inventory"
                 value={inventory}
                 onChange={handleInventoryChange}
-                required
-              >
-                <option value="">Select Number Of Inventory</option>
-                <option value="1">1</option>
-                <option value="2">2</option>
-                <option value="3">3</option>
-              </select>
+                required></input>
             </label>
           </div>
 
@@ -287,10 +302,8 @@ const AddProduct = ({ setExpand, setActiveTab }) => {
               height: "55px",
               color: "white",
               marginLeft: "30px",
-            }}
-            
-          >
-            <Link to='/home/productList'>Back</Link>
+            }}>
+            <Link to="/home/productList">Back</Link>
           </button>
         </form>
       </div>

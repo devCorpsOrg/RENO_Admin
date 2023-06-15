@@ -369,7 +369,7 @@ export const suspendUsers = createAsyncThunk(
 
 export const editNewPromotion = createAsyncThunk(
   "editNewPromotion",
-  async ({formData, title}, { rejectWithValue }) => {
+  async ({ formData, title }, { rejectWithValue }) => {
     try {
       const response = await axios({
         method: "put",
@@ -500,7 +500,9 @@ export const HSM_promotion = createAsyncThunk(
   async (_, { rejectWithValue }) => {
     console.log("hello");
     try {
-      const response = await axios.get("http://139.59.236.50:8000/promotions/");
+      const response = await axios.get(
+        "http://139.59.236.50:8000/getpromotions"
+      );
       console.log(response);
       return response.data;
     } catch (error) {
@@ -551,7 +553,9 @@ export const HSM_helpdesk = createAsyncThunk(
   async (_, { rejectWithValue }) => {
     console.log("hello");
     try {
-      const response = await axios.get("http://139.59.236.50:5002/getticketlist");
+      const response = await axios.get(
+        "http://139.59.236.50:5002/getticketlist"
+      );
       console.log(response);
       return response.data.data;
     } catch (error) {
@@ -748,7 +752,7 @@ export const DeletePromotion = createAsyncThunk(
   "DeletePromotion",
   async (promotionId) => {
     const response = await axios.delete(
-      `http://139.59.236.50:8000/deletepromoted?id=${promotionId}`
+      `http://139.59.236.50:8000/deletepromotion?id=${promotionId}`
     );
     return response.data;
   }

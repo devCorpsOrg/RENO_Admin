@@ -14,7 +14,7 @@ const EditProduct = ({ setExpand, setActiveTab }) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const location = useLocation();
-  const data=location.state;
+  const data = location.state;
 
   const [title, setTitle] = useState(data.name);
   const [content, setContent] = useState(data.details);
@@ -38,7 +38,7 @@ const EditProduct = ({ setExpand, setActiveTab }) => {
     });
 
     dispatch(updateProject({ formData, title }));
-    navigate('/home/productList')
+    navigate("/home/productList");
   };
 
   const handlePhotoUpload = (event) => {
@@ -67,6 +67,20 @@ const EditProduct = ({ setExpand, setActiveTab }) => {
   const handleInventoryChange = (event) => {
     setInventory(event.target.value);
   };
+  const productsCategory = [
+    "Elecrical",
+    "Plumbing",
+    "Air con service",
+    "Handyman Services",
+    "Carpentry Services",
+    "Tiling Works",
+    "Ceiling and Partition work",
+    "Painting Works",
+    "Aluminium and metal work",
+    "Vinyl Flooring",
+    "Glass Works",
+    "Dismantling and Disposal",
+  ];
 
   return (
     <div>
@@ -112,27 +126,34 @@ const EditProduct = ({ setExpand, setActiveTab }) => {
                 value={category}
                 onChange={handleCategoryChange}>
                 <option value="">Select Catagory</option>
-                <option value="Admin">Admin</option>
-                <option value="Work">Work</option>
-                <option value="Other">Other</option>
+                {productsCategory.map((item) => {
+                  return <option value={`${item}`}>{item}</option>;
+                })}
               </select>
             </label>
             <label className="grid">
               Package
-              <input
-                type="text"
-                value={pack}
-                class="outline-none w-[49vh] rounded"
-                placeholder="$000.00"
-                style={{
-                  height: "50px",
-                  paddingLeft: "10px",
-                  backgroundColor: "#e5ecff",
-                  marginTop: "5px",
-                  fontSize: "14px",
-                }}
-                onChange={(event) => setPack(event.target.value)}
-              />
+              <div className="flex flex-row">
+                <select>
+                  <option value="$">$</option>
+                  <option value="€">€</option>
+                  <option value="£">£</option>
+                </select>
+                <input
+                  type="text"
+                  value={pack}
+                  class="outline-none w-[45vh] rounded"
+                  placeholder="$000.00"
+                  style={{
+                    height: "50px",
+                    paddingLeft: "10px",
+                    backgroundColor: "#e5ecff",
+                    marginTop: "5px",
+                    fontSize: "14px",
+                  }}
+                  onChange={(event) => setPack(event.target.value)}
+                />
+              </div>
             </label>
           </div>
           <div className="grid grid-cols-2 gap-2 mt-5">
@@ -152,31 +173,26 @@ const EditProduct = ({ setExpand, setActiveTab }) => {
                 value={productCategory}
                 onChange={handleProductCategoryChange}>
                 <option value="">Select Product Catagory</option>
-                <option value="Admin">Admin</option>
-                <option value="Work">Work</option>
-                <option value="other">Other</option>
+                {productsCategory.map((item) => {
+                  return <option value={`${item}`}>{item}</option>;
+                })}
               </select>
             </label>
             <label className="grid">
               Number Of Inventory
-              <select
+              <input
                 id="label"
                 name="label"
-                class="outline-none w-[49vh] rounded"
+                className="outline-none pl-5 w-[49vh] rounded"
+                placeholder="Select Inventory Count"
                 style={{
                   height: "50px",
-                  paddingLeft: "5px",
                   backgroundColor: "#e5ecff",
                   marginTop: "5px",
                   fontSize: "14px",
                 }}
                 value={inventory}
-                onChange={handleInventoryChange}>
-                <option value="">Select Number Of Inventory</option>
-                <option value="1">1</option>
-                <option value="2">2</option>
-                <option value="3">3</option>
-              </select>
+                onChange={handleInventoryChange}></input>
             </label>
           </div>
 
@@ -260,28 +276,28 @@ const EditProduct = ({ setExpand, setActiveTab }) => {
           {/* <div> */}
           {/* </div> */}
         </form>
-          <button
-            className="rounded bg-lime-600 hover:bg-lime-700 mt-10"
-            style={{
-              width: "170px",
-              height: "55px",
-              color: "white",
-            }}
-            type="submit"
-            onClick={handleSubmit}>
-            Save
-          </button>
-          <button
-            className="rounded bg-black hover:bg-gray-800 mt-10"
-            style={{
-              width: "170px",
-              height: "55px",
-              color: "white",
-              marginLeft: "30px",
-            }}
-            type="submit">
-            <Link to='/home/productList'>Cancel</Link>
-          </button>
+        <button
+          className="rounded bg-lime-600 hover:bg-lime-700 mt-10"
+          style={{
+            width: "170px",
+            height: "55px",
+            color: "white",
+          }}
+          type="submit"
+          onClick={handleSubmit}>
+          Save
+        </button>
+        <button
+          className="rounded bg-black hover:bg-gray-800 mt-10"
+          style={{
+            width: "170px",
+            height: "55px",
+            color: "white",
+            marginLeft: "30px",
+          }}
+          type="submit">
+          <Link to="/home/productList">Cancel</Link>
+        </button>
       </div>
     </div>
   );
