@@ -14,22 +14,24 @@ const AddListing = ({ setExpand, setActiveTab }) => {
   const navigate = useNavigate();
 
   const [title, setTitle] = useState("");
+  const [area, setArea] = useState("");
+  const [category, setCategory] = useState("");
   const [price, setPrice] = useState("");
   const [content, setContent] = useState("");
   const [images, setImages] = useState([]);
 
   const handleSubmit = (event) => {
-
     const formData = new FormData();
     formData.append("service", title);
     formData.append("rate", price);
     formData.append("desc", content);
+    // formData.append("service_area" , )
     images.forEach((image, index) => {
       formData.append(`pic_url`, image);
     });
 
     dispatch(addNewListing(formData));
-    navigate('/home/listingManagement')
+    navigate("/home/listingManagement");
   };
 
   const handlePhotoUpload = (event) => {
@@ -44,6 +46,21 @@ const AddListing = ({ setExpand, setActiveTab }) => {
   const handlePriceChange = (event) => {
     setPrice(event.target.value);
   };
+
+  const productCategory = [
+    "Elecrical",
+    "Plumbing",
+    "Air con service",
+    "Handyman Services",
+    "Carpentry Services",
+    "Tiling Works",
+    "Ceiling and Partition work",
+    "Painting Works",
+    "Aluminium and metal work",
+    "Vinyl Flooring",
+    "Glass Works",
+    "Dismantling and Disposal",
+  ];
 
   return (
     <div>
@@ -69,6 +86,25 @@ const AddListing = ({ setExpand, setActiveTab }) => {
               }}
               value={title}
               onChange={(event) => setTitle(event.target.value)}
+              required
+            />
+          </label>
+          <label className="grid mt-5">
+            Service Area
+            <input
+              type="text"
+              placeholder="Enter Service area"
+              id="area"
+              className="rounded w-[100vh] outline-none"
+              style={{
+                height: "50px",
+                paddingLeft: "10px",
+                border: "2px solid 	#e6f7fe",
+                marginTop: "5px",
+                fontSize: "15px",
+              }}
+              value={area}
+              onChange={(event) => setArea(event.target.value)}
               required
             />
           </label>
@@ -110,6 +146,28 @@ const AddListing = ({ setExpand, setActiveTab }) => {
                 placeholder=""
                 required
               />
+            </label>
+            <label className="grid">
+              Catagory
+              <select
+                id="label"
+                name="label"
+                className="outline-none w-[100vh] rounded mt-5"
+                style={{
+                  height: "50px",
+                  paddingLeft: "5px",
+                  border: "2px solid 	#e6f7fe",
+                  marginTop: "5px",
+                  fontSize: "14px",
+                }}
+                value={category}
+                onChange={(event) => setCategory(event.target.value)}
+                required>
+                <option>Select Catagory</option>
+                {productCategory.map((item) => {
+                  return <option value={`${item}`}>{item}</option>;
+                })}
+              </select>
             </label>
             <div style={{ marginLeft: "380px", width: "600px" }}>
               {images && images.length > 0 && (
@@ -173,7 +231,7 @@ const AddListing = ({ setExpand, setActiveTab }) => {
               marginLeft: "30px",
             }}
             type="submit">
-            <Link to='/home/listingManagement'>Cancel</Link>
+            <Link to="/home/listingManagement">Cancel</Link>
           </button>
         </form>
       </div>

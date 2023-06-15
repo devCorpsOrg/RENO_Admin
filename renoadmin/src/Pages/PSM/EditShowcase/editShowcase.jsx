@@ -13,7 +13,7 @@ const EditShowcase = ({ setExpand, setActiveTab }) => {
   const head = "Edit Showcase";
   const dispatch = useDispatch();
   const location = useLocation();
-  const data=location.state;
+  const data = location.state;
 
   const [title, setTitle] = useState(data.name);
   const [content, setContent] = useState("");
@@ -63,6 +63,20 @@ const EditShowcase = ({ setExpand, setActiveTab }) => {
   const handleLabelChange = (event) => {
     setLabel(event.target.value);
   };
+  const productCategory = [
+    "Elecrical",
+    "Plumbing",
+    "Air con service",
+    "Handyman Services",
+    "Carpentry Services",
+    "Tiling Works",
+    "Ceiling and Partition work",
+    "Painting Works",
+    "Aluminium and metal work",
+    "Vinyl Flooring",
+    "Glass Works",
+    "Dismantling and Disposal",
+  ];
 
   return (
     <div>
@@ -94,46 +108,54 @@ const EditShowcase = ({ setExpand, setActiveTab }) => {
           </label>
 
           <div className="grid grid-cols-2 mt-5">
-            <label className="grid">
-              User Type
+            <label className="grid pr-6">
+              Category
               <select
                 id="label"
                 name="label"
-                className="outline-none w-[49vh] rounded"
+                class="outline-none w-[50vh] rounded"
                 style={{
                   height: "50px",
                   // width: "590px",
                   paddingLeft: "5px",
-                  backgroundColor: "#e5ecff",
+                  border: "2px solid 	#e6f7fe",
                   marginTop: "5px",
                   fontSize: "14px",
+                  backgroundColor: "#e5ecff",
                 }}
                 value={label}
                 onChange={handleLabelChange}>
                 <option value="">Select Catagory</option>
-                <option value="Admin">Admin</option>
-                <option value="Work">Work</option>
-                <option value="Other">Other</option>
+                {productCategory.map((item) => {
+                  return <option value={`${item}`}>{item}</option>;
+                })}
               </select>
             </label>
             <label className="grid">
               Project Rate
-              <input
-                type="text"
-                value={rate}
-                className="outline-none w-[49vh] rounded"
-                placeholder="$000.00"
-                style={{
-                  height: "50px",
-                  // width: "586px",
-                  paddingLeft: "10px",
-                  backgroundColor: "#e5ecff",
-                  marginTop: "5px",
-                  fontSize: "14px",
-                }}
-                onChange={(event) => setRate(event.target.value)}
-                required
-              />
+              <div className="flex flex-row">
+                <select>
+                  <option value="$">$</option>
+                  <option value="€">€</option>
+                  <option value="£">£</option>
+                </select>
+                <input
+                  type="number"
+                  value={rate}
+                  className="outline-none w-[49vh] rounded"
+                  placeholder="$000.00"
+                  style={{
+                    height: "50px",
+                    // width: "586px",
+                    paddingLeft: "10px",
+                    backgroundColor: "#e5ecff",
+                    marginTop: "5px",
+                    fontSize: "14px",
+                  }}
+                  onChange={(event) => setRate(event.target.value)}
+                  required
+                />
+              </div>
             </label>
           </div>
           <label className="grid pr-6" style={{ marginTop: "20px" }}>
@@ -218,27 +240,26 @@ const EditShowcase = ({ setExpand, setActiveTab }) => {
           </label>
           {/* <div> */}
           {/* </div> */}
-        <button
-          className="rounded mt-10 bg-lime-600 hover:bg-lime-700"
-          style={{
-            width: "170px",
-            height: "55px",
-            color: "white",
-          }}
-          type="submit"
-          >
-          Save
-        </button>
-        <button
-          className="rounded mt-10 bg-black hover:bg-gray-800"
-          style={{
-            width: "170px",
-            height: "55px",
-            color: "white",
-            marginLeft: "30px",
-          }}>
-          <Link to="/home/projectList">Cancel</Link>
-        </button>
+          <button
+            className="rounded mt-10 bg-lime-600 hover:bg-lime-700"
+            style={{
+              width: "170px",
+              height: "55px",
+              color: "white",
+            }}
+            type="submit">
+            Save
+          </button>
+          <button
+            className="rounded mt-10 bg-black hover:bg-gray-800"
+            style={{
+              width: "170px",
+              height: "55px",
+              color: "white",
+              marginLeft: "30px",
+            }}>
+            <Link to="/home/projectList">Cancel</Link>
+          </button>
         </form>
       </div>
     </div>

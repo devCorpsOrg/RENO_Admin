@@ -53,10 +53,9 @@ const EditMember = ({ setExpand, setActiveTab }) => {
         <TopHeader className="fixed" head={head} />
       </div>
 
-      <div className="ml-72 mt-40 w-[80%] relative">
+      <div className="ml-72 mr-10 mt-40 w-[80%] relative">
         <form onSubmit={handleSubmit}>
-
-          <div className="grid grid-cols-3 gap-4 mt-5">
+          <div className="grid grid-cols-2 gap-4 mt-5">
             <label className="grid pr-6">
               User Name
               <input
@@ -95,6 +94,8 @@ const EditMember = ({ setExpand, setActiveTab }) => {
                 required
               />
             </label>
+          </div>
+          <div className="grid grid-cols-2 gap-4 mt-5">
             <label className="grid pr-6">
               Contact No.
               <input
@@ -114,8 +115,6 @@ const EditMember = ({ setExpand, setActiveTab }) => {
                 required
               />
             </label>
-          </div>
-          <div className="grid grid-cols-3 gap-4 mt-5">
             <label className="grid pr-6">
               User ID
               <input
@@ -135,28 +134,8 @@ const EditMember = ({ setExpand, setActiveTab }) => {
                 required
               />
             </label>
-            <label className="grid pr-6">
-              User Type
-              <select
-                id="label"
-                name="label"
-                class="outline-none rounded"
-                style={{
-                  height: "50px",
-                  //   width: "590px",
-                  paddingLeft: "5px",
-                  backgroundColor: "#e5ecff",
-                  marginTop: "5px",
-                  fontSize: "14px",
-                }}
-                value={label}
-                onChange={handleLabelChange}>
-                <option value="">Select User Type</option>
-                <option value="personal">Admin</option>
-                <option value="work">Work</option>
-                <option value="other">Other</option>
-              </select>
-            </label>
+          </div>
+          <div className="grid grid-cols-2 gap-4 mt-5">
             <label className="grid pr-6">
               Photos
               <div style={{ width: "350px", marginTop: "-2px" }}>
@@ -203,27 +182,26 @@ const EditMember = ({ setExpand, setActiveTab }) => {
                 )}
               </div>
             </label>
-            <label className="grid mt-5">
-              Internal Note
-              <textarea
-                id="content"
-                placeholder="Enter Details"
-                className="rounded outline-none pt-2"
-                style={{
-                  height: "170px",
-                  width: "1190px",
-                  backgroundColor: "#e5ecff",
-                  paddingLeft: "10px",
-                  paddingTop: "20px",
-                  fontSize: "15px",
-                  marginTop: "5px",
-                }}
-                value={content}
-                onChange={(event) => setContent(event.target.value)}
-                required
-              />
-            </label>
           </div>
+          <label className="grid mt-5">
+            Internal Note
+            <textarea
+              id="content"
+              placeholder="Enter Details"
+              className="rounded w-[100vh] outline-none pt-2"
+              style={{
+                height: "170px",
+                backgroundColor: "#e5ecff",
+                paddingLeft: "10px",
+                paddingTop: "20px",
+                fontSize: "15px",
+                marginTop: "5px",
+              }}
+              value={content}
+              onChange={(event) => setContent(event.target.value)}
+              required
+            />
+          </label>
 
           <button
             className="rounded mt-10"

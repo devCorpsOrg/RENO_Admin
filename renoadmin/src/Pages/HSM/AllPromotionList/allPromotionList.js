@@ -12,25 +12,27 @@ import {
 } from "../../User_Management/features/userSlice";
 import { Alert, AlertTitle, Button } from "@mui/material";
 
-const Action = ({ promId, promName, category, inventory, rate, details }) => {
+const Action = ({ prodId, name, category, expiry, offer_by, offer_val }) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const [showDeleteConfirmation, setShowDeleteConfirmation] = useState(false);
   const handleDeleteClick = () => {
     setShowDeleteConfirmation(true);
   };
-  const handleEditClick = () =>{
+  const handleEditClick = () => {
     const data = {
-      name:promName,
-      category:category,
-      inventory:inventory,
-      rate:rate,
-      details:details
-    }
-    navigate('/home/editPromotion', {state:data})
-  }
+      prodId: prodId,
+      name: name,
+      category: category,
+      expiry: expiry,
+      offer_by: offer_by,
+      offer_val: offer_val,
+    };
+    navigate("/home/editPromotion", { state: data });
+  };
+  console.log("This is the name", name);
   const handleConfirmDelete = () => {
-    dispatch(DeletePromotion(promId))
+    dispatch(DeletePromotion(prodId))
       .then(() => {
         window.location.reload();
       })
@@ -51,9 +53,7 @@ const Action = ({ promId, promName, category, inventory, rate, details }) => {
           <div className="bg-white p-5 rounded shadow">
             <Alert severity="warning">
               <AlertTitle>Confirmation</AlertTitle>
-              <p className="pt-5">
-                Are you sure you want to delete {promName}?
-              </p>
+              <p className="pt-5">{`Are you sure you want to delete ${name}?`}</p>
               <div className="p-5">
                 <Button onClick={handleConfirmDelete} color="error" autoFocus>
                   Delete
@@ -66,14 +66,6 @@ const Action = ({ promId, promName, category, inventory, rate, details }) => {
           </div>
         </div>
       )}
-    </div>
-  );
-};
-
-const Photo = ({ picUrl }) => {
-  return (
-    <div>
-      <img className="w-14 h-14 rounded" src={picUrl} alt="Photo" />
     </div>
   );
 };
@@ -104,24 +96,28 @@ const AllProjects = ({ setActiveTab, setExpand }) => {
 
   const columns = [
     {
-      header: "Photo",
-      accessor: "photo",
+      header: "Product ID",
+      accessor: "productid",
     },
     {
-      header: "Product Name",
-      accessor: "productname",
+      header: "Name",
+      accessor: "name",
     },
     {
       header: "Category",
       accessor: "category",
     },
     {
-      header: "Inventory",
-      accessor: "inventory",
+      header: "Expiry Date",
+      accessor: "expirydate",
     },
     {
-      header: "Pricing",
-      accessor: "pricing",
+      header: "Offer By",
+      accessor: "offerby",
+    },
+    {
+      header: "Offer Value",
+      accessor: "offervalue",
     },
     {
       header: "Action",
@@ -129,14 +125,24 @@ const AllProjects = ({ setActiveTab, setExpand }) => {
     },
   ];
 
-  console.log(promotionData);
+  console.log("This is the promotion data :", promotionData);
   const data = promotionData.map((user) => ({
-    photo: <Photo picUrl={user.pic} />,
-    productname: user.prod_name,
-    category: user.prod_category,
-    inventory: `${user.inv_count} items`,
-    pricing: `$${user.rate}`,
-    action: <Action promId={user.prod_id} promName={user.prod_name} category={user.prod_category} inventory={user.inv_count} rate={user.rate} details={user.project_details}  />,
+    productid: user.fields.prod_id,
+    name: user.fields.name,
+    category: user.fields.catg,
+    expirydate: user.fields.expiry, //Add expiry date when get from backend API
+    offerby: user.fields.offer_by,
+    offervalue: user.fields.offer_val,
+    action: (
+      <Action
+        prodId={user.fields.prod_id}
+        name={user.fields.name}
+        category={user.fields.catg}
+        expiry={user.fields.expiry}
+        offer_by={user.fields.offer_by}
+        offer_val={user.offer_val}
+      />
+    ),
   }));
 
   const greenButtonText = "ADD NEW PROMOTIONS";

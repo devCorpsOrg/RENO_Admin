@@ -91,7 +91,7 @@ const AllChats = ({ setActiveTab, setExpand }) => {
       accessor: "photo",
     },
     {
-      header: "Requester",
+      header: "User",
       accessor: "requester",
     },
     {

@@ -51,60 +51,6 @@ const ProjectBookings = () => {
     );
   };
 
-  const editorTemplate = (props) => {
-    const date = props.date instanceof Date ? props.date.toDateString() : "";
-    const time = props.time || "";
-
-    return (
-      <table style={{ width: "100%", borderCollapse: "collapse" }}>
-        <tbody>
-          <tr>
-            <td style={{ padding: "8px", border: "1px solid #ccc" }}>
-              Product:
-            </td>
-            <td style={{ padding: "8px", border: "1px solid #ccc" }}>
-              {props.prod_name}
-            </td>
-          </tr>
-          <tr>
-            <td style={{ padding: "8px", border: "1px solid #ccc" }}>User:</td>
-            <td style={{ padding: "8px", border: "1px solid #ccc" }}>
-              {props.user}
-            </td>
-          </tr>
-          <tr>
-            <td style={{ padding: "8px", border: "1px solid #ccc" }}>About:</td>
-            <td style={{ padding: "8px", border: "1px solid #ccc" }}>
-              {props.desc}
-            </td>
-          </tr>
-          <tr>
-            <td style={{ padding: "8px", border: "1px solid #ccc" }}>Rate:</td>
-            <td style={{ padding: "8px", border: "1px solid #ccc" }}>
-              {props.rate}
-            </td>
-          </tr>
-          <tr>
-            <td style={{ padding: "8px", border: "1px solid #ccc" }}>
-              Status:
-            </td>
-            <td style={{ padding: "8px", border: "1px solid #ccc" }}>
-              {props.status}
-            </td>
-          </tr>
-          <tr>
-            <td style={{ padding: "8px", border: "1px solid #ccc" }}>Date:</td>
-            <td style={{ padding: "8px", border: "1px solid #ccc" }}>{date}</td>
-          </tr>
-          <tr>
-            <td style={{ padding: "8px", border: "1px solid #ccc" }}>Time:</td>
-            <td style={{ padding: "8px", border: "1px solid #ccc" }}>{time}</td>
-          </tr>
-        </tbody>
-      </table>
-    );
-  };
-
   const handleSelect = (event) => {
     setSelectedEvent(event);
   };
@@ -127,6 +73,7 @@ const ProjectBookings = () => {
           selectable={true}
           events={events}
           defaultView="month"
+          ds
           onSelectEvent={handleSelect}
           components={{
             event: eventComponent,

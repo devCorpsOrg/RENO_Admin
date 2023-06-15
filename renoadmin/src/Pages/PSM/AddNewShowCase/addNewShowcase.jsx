@@ -21,7 +21,7 @@ const AddNewShowcase = ({ setExpand, setActiveTab }) => {
 
   const handleSubmit = (event) => {
     // event.preventDefault();
-console.log("Hello")
+    console.log("Hello");
     const formData = new FormData();
     formData.append("proj_name", title);
     formData.append("proj_category", userType);
@@ -48,6 +48,21 @@ console.log("Hello")
     setUserType(event.target.value);
   };
 
+  const productCategory = [
+    "Elecrical",
+    "Plumbing",
+    "Air con service",
+    "Handyman Services",
+    "Carpentry Services",
+    "Tiling Works",
+    "Ceiling and Partition work",
+    "Painting Works",
+    "Aluminium and metal work",
+    "Vinyl Flooring",
+    "Glass Works",
+    "Dismantling and Disposal",
+  ];
+
   return (
     <div>
       <div className="flex fixed z-10">
@@ -56,8 +71,7 @@ console.log("Hello")
 
       <div
         className=" ml-80 mb-10 w-[100vh] relative"
-        style={{ marginTop: "120px" }}
-      >
+        style={{ marginTop: "120px" }}>
         <form onSubmit={handleSubmit}>
           <label className="grid mt-5">
             Project Title
@@ -82,7 +96,7 @@ console.log("Hello")
 
           <div className="grid grid-cols-2 gap-4 mt-5">
             <label className="grid pr-6">
-              Project Category
+              Category
               <select
                 id="label"
                 name="label"
@@ -96,32 +110,38 @@ console.log("Hello")
                   fontSize: "14px",
                 }}
                 value={userType}
-                onChange={handleUserTypeChange}
-              >
+                onChange={handleUserTypeChange}>
                 <option value="">Select Catagory</option>
-                <option value="Admin">Admin</option>
-                <option value="Work">Work</option>
-                <option value="Other">Other</option>
+                {productCategory.map((item) => {
+                  return <option value={`${item}`}>{item}</option>;
+                })}
               </select>
             </label>
-            <label className="grid pr-6">
+            <label className="grid pl-6">
               Project Rate
-              <input
-                type="text"
-                value={rate}
-                className="outline-none w-[50vh] rounded"
-                placeholder="$000.00"
-                style={{
-                  height: "50px",
-                  // width: "586px",
-                  paddingLeft: "10px",
-                  border: "2px solid 	#e6f7fe",
-                  marginTop: "5px",
-                  fontSize: "14px",
-                }}
-                onChange={(event) => setRate(event.target.value)}
-                required
-              />
+              <div className="flex flex-row">
+                <select>
+                  <option value="$">$</option>
+                  <option value="€">€</option>
+                  <option value="£">£</option>
+                </select>
+                <input
+                  type="number"
+                  value={rate}
+                  className="outline-none w-[50vh] rounded"
+                  placeholder="000.00"
+                  style={{
+                    height: "50px",
+                    // width: "586px",
+                    paddingLeft: "10px",
+                    border: "2px solid 	#e6f7fe",
+                    marginTop: "5px",
+                    fontSize: "14px",
+                  }}
+                  onChange={(event) => setRate(event.target.value)}
+                  required
+                />
+              </div>
             </label>
           </div>
 
@@ -193,19 +213,18 @@ console.log("Hello")
             />
           </label>
           {/* <div> */}
-        <button
-          className="rounded mt-10 bg-lime-600 hover:bg-lime-700 "
-          style={{
-            width: "170px",
-            height: "55px",
-            color: "white",
-          }}
-          type="submit"
-          onSubmit={handleSubmit}
-        >
-          Publish
-        </button>
-        {/* <button
+          <button
+            className="rounded mt-10 bg-lime-600 hover:bg-lime-700 "
+            style={{
+              width: "170px",
+              height: "55px",
+              color: "white",
+            }}
+            type="submit"
+            onSubmit={handleSubmit}>
+            Publish
+          </button>
+          {/* <button
             className="rounded mt-10 bg-black hover:bg-gray-800"
             style={{
               // backgroundColor: "black",
@@ -216,18 +235,17 @@ console.log("Hello")
             }}>
             Draft
           </button> */}
-        <button
-          className="rounded mt-10 bg-amber-600 hover:bg-amber-700"
-          style={{
-            // backgroundColor: "black",
-            width: "170px",
-            height: "55px",
-            color: "white",
-            marginLeft: "30px",
-          }}
-        >
-          <Link to="/home/projectList">Back</Link>
-        </button>
+          <button
+            className="rounded mt-10 bg-amber-600 hover:bg-amber-700"
+            style={{
+              // backgroundColor: "black",
+              width: "170px",
+              height: "55px",
+              color: "white",
+              marginLeft: "30px",
+            }}>
+            <Link to="/home/projectList">Back</Link>
+          </button>
         </form>
         {/* </div> */}
       </div>

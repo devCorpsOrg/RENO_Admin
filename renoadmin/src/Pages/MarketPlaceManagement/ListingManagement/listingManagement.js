@@ -17,12 +17,12 @@ const Action = ({ listId, listName, desc, price }) => {
   const Navigate = useNavigate();
   const [showDeleteConfirmation, setShowDeleteConfirmation] = useState(false);
   const handleEditClick = () => {
-    const data={
-      "name":listName,
-      "desc":desc,
-      "price":price
-    }
-    Navigate("/home/editListing", {state: data});
+    const data = {
+      name: listName,
+      desc: desc,
+      price: price,
+    };
+    Navigate("/home/editListing", { state: data });
   };
   const dispatch = useDispatch();
   const handleDeleteClick = () => {
@@ -107,12 +107,12 @@ const ListingData = ({ setActiveTab, setExpand }) => {
       accessor: "photo",
     },
     {
-      header: "Service Name",
+      header: "Listing name",
       accessor: "service",
     },
     {
-      header: "Discription",
-      accessor: "discription",
+      header: "Description",
+      accessor: "description",
     },
     {
       header: "Price",
@@ -127,9 +127,16 @@ const ListingData = ({ setActiveTab, setExpand }) => {
   const data = listingData.map((user) => ({
     photo: <Photo pic_url={user.pic_url} />,
     service: user.service,
-    discription: user.desc,
+    description: user.desc,
     price: `$${user.rate}`,
-    action: <Action listId={user.id} listName={user.service} desc={user.desc}  price={user.rate} />,
+    action: (
+      <Action
+        listId={user.id}
+        listName={user.service}
+        desc={user.desc}
+        price={user.rate}
+      />
+    ),
   }));
 
   const greenButtonText = "Add New Listing";
