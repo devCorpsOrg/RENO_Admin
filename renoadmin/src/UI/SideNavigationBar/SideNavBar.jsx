@@ -461,7 +461,7 @@ function SideNavBar({ expand, setExpand, activeTab, setActiveTab }) {
               </NavLink>
               {expand === "marketPlace" && (
                 <>
-                  <div className="ml-7 mt-2">
+                  {/* <div className="ml-7 mt-2">
                     <NavLink
                       style={{
                         color: activeTab === "allMembers" ? "black" : "#545e6f",
@@ -475,8 +475,8 @@ function SideNavBar({ expand, setExpand, activeTab, setActiveTab }) {
                       }}>
                       All Members
                     </NavLink>
-                  </div>
-                  <div className="ml-7 mt-2">
+                  </div> */}
+                  {/* <div className="ml-7 mt-2">
                     <NavLink
                       style={{
                         color:
@@ -495,7 +495,7 @@ function SideNavBar({ expand, setExpand, activeTab, setActiveTab }) {
                       }}>
                       Suspend User
                     </NavLink>
-                  </div>
+                  </div> */}
                   <div className="ml-7 mt-2">
                     <NavLink
                       style={{

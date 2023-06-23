@@ -48,7 +48,7 @@ const AddListing = ({ setExpand, setActiveTab }) => {
   };
 
   const productCategory = [
-    "Elecrical",
+    "Electrical",
     "Plumbing",
     "Air con service",
     "Handyman Services",
@@ -128,7 +128,29 @@ const AddListing = ({ setExpand, setActiveTab }) => {
                 required
               />
             </label>
-            <label className="grid w-[49vh]">
+            <label className="grid">
+              Catagory
+              <select
+                id="label"
+                name="label"
+                className="outline-none w-[50vh] rounded mt-5"
+                style={{
+                  height: "50px",
+                  paddingLeft: "5px",
+                  border: "2px solid 	#e6f7fe",
+                  marginTop: "5px",
+                  fontSize: "14px",
+                }}
+                value={category}
+                onChange={(event) => setCategory(event.target.value)}
+                required>
+                <option>Select Catagory</option>
+                {productCategory.map((item) => {
+                  return <option value={`${item}`}>{item}</option>;
+                })}
+              </select>
+            </label>
+            <label className="grid w-[50vh]">
               Upload Photos
               <input
                 style={{
@@ -147,29 +169,7 @@ const AddListing = ({ setExpand, setActiveTab }) => {
                 required
               />
             </label>
-            <label className="grid">
-              Catagory
-              <select
-                id="label"
-                name="label"
-                className="outline-none w-[100vh] rounded mt-5"
-                style={{
-                  height: "50px",
-                  paddingLeft: "5px",
-                  border: "2px solid 	#e6f7fe",
-                  marginTop: "5px",
-                  fontSize: "14px",
-                }}
-                value={category}
-                onChange={(event) => setCategory(event.target.value)}
-                required>
-                <option>Select Catagory</option>
-                {productCategory.map((item) => {
-                  return <option value={`${item}`}>{item}</option>;
-                })}
-              </select>
-            </label>
-            <div style={{ marginLeft: "380px", width: "600px" }}>
+            <div style={{ marginLeft: "50px", width: "600px" }}>
               {images && images.length > 0 && (
                 <div className="grid grid-cols-4 gap-3">
                   {images.map((image, index) => (
@@ -178,8 +178,8 @@ const AddListing = ({ setExpand, setActiveTab }) => {
                       src={URL.createObjectURL(image)} // replace with your image source
                       alt={image.name} // replace with your image alt text
                       style={{
-                        width: "100px",
-                        height: "100px",
+                        width: "80px",
+                        height: "80px",
                         objectFit: "cover",
                         marginRight: "10px",
                       }} // set width, height, object-fit, and margin-right styles

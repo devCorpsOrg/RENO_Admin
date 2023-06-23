@@ -8,6 +8,7 @@ import { allPages } from "../../User_Management/features/userSlice";
 import { Grid } from "react-loader-spinner";
 import { DeletePage } from "../../User_Management/features/userSlice";
 import { Alert, AlertTitle, Button } from "@mui/material";
+import cookie from "js-cookie";
 
 const Action = ({ pageid, pagename, content }) => {
   const Navigate = useNavigate();
@@ -15,7 +16,7 @@ const Action = ({ pageid, pagename, content }) => {
   const handleEdit = () => {
     const data = {
       pagename: pagename,
-      "content": content,
+      content: content,
     };
     Navigate("/home/editPage", { state: data });
   };
@@ -37,10 +38,17 @@ const Action = ({ pageid, pagename, content }) => {
   const handleCancelDelete = () => {
     setShowDeleteConfirmation(false);
   };
+  const roles = cookie.get("role");
   return (
     <div className="w-6 h-6 flex gap-3 cursor-pointer">
-      <img src={editIcon} onClick={handleEdit} alt="Edit" />
-      <img src={deleteIcon} onClick={handleDeleteClick} alt="Delete" />
+      {roles === "admin" || roles === "editor" ? (
+        <>
+          <img src={editIcon} onClick={handleEdit} alt="Edit" />
+          <img src={deleteIcon} onClick={handleDeleteClick} alt="Delete" />
+        </>
+      ) : (
+        "Not Accessible"
+      )}
       {showDeleteConfirmation && (
         <div className="fixed top-0 left-0 w-screen h-screen bg-gray-800 bg-opacity-50 flex justify-center items-center z-50">
           <div className="bg-white p-5 rounded shadow">
@@ -97,12 +105,20 @@ const AllPages = ({ setActiveTab }) => {
 
   const Data = pageData.map((user) => ({
     pagename: user.pagename,
-    action: <Action pageid={user.pageid} pagename={user.pagename} content={user.content} />,
+    action: (
+      <Action
+        pageid={user.pageid}
+        pagename={user.pagename}
+        content={user.content}
+      />
+    ),
   }));
 
   const pageSize = 7;
   const greenButtonText = "Create New Page";
   const head = "All Pages";
+
+  const roles = cookie.get("role");
 
   return (
     <div>
@@ -129,7 +145,9 @@ const AllPages = ({ setActiveTab }) => {
             columns={columns}
             data={Data}
             pageSize={pageSize}
-            greenButtonText={greenButtonText}
+            greenButtonText={
+              roles === "admin" || roles === "editor" ? greenButtonText : ""
+            }
             greenClicked={GreenClicked}
           />
         ) : (
@@ -138,7 +156,9 @@ const AllPages = ({ setActiveTab }) => {
               columns={columns}
               data={Data}
               pageSize={pageSize}
-              greenButtonText={greenButtonText}
+              greenButtonText={
+                roles === "admin" || roles === "editor" ? greenButtonText : ""
+              }
               greenClicked={GreenClicked}
             />
             <div className="flex ml-5 justify-center w-full mt-40">

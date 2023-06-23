@@ -12,6 +12,7 @@ import {
   DeleteProject,
 } from "../../User_Management/features/userSlice";
 import { Alert, AlertTitle, Button } from "@mui/material";
+import cookie from "js-cookie";
 
 const Action = ({ projId, projName, category, rate, type }) => {
   const Navigate = useNavigate();
@@ -43,10 +44,17 @@ const Action = ({ projId, projName, category, rate, type }) => {
   const handleCancelDelete = () => {
     setShowDeleteConfirmation(false);
   };
+  const roles = cookie.get("role");
   return (
     <div className="w-6 h-6 flex gap-3 cursor-pointer">
-      <img src={edit} onClick={handleClick} alt="edit" />
-      <img src={deleteIcon} onClick={handleDeleteClick} alt="Delete" />
+      {roles === "admin" || roles === "editor" ? (
+        <>
+          <img src={edit} onClick={handleClick} alt="edit" />
+          <img src={deleteIcon} onClick={handleDeleteClick} alt="Delete" />
+        </>
+      ) : (
+        "Not Accessible"
+      )}
       {showDeleteConfirmation && (
         <div className="fixed top-0 left-0 w-screen h-screen bg-gray-800 bg-opacity-50 flex justify-center items-center z-50">
           <div className="bg-white p-5 rounded shadow">
@@ -82,7 +90,7 @@ const Photo = ({ picUrl }) => {
 const FeaturedProject = ({ setActiveTab, setExpand }) => {
   const head = "Featured Project";
 
-  setExpand("showcaseManagement");
+  // setExpand("showcaseManagement");
   setActiveTab("featuredProject");
   const dispatch = useDispatch();
   const [loading, setLoading] = useState(true);

@@ -14,6 +14,8 @@ const EditListing = ({ setExpand, setActiveTab }) => {
   const data=location.state;
 
   const [title, setTitle] = useState(data.name);
+  const [category, setCategory] = useState("");
+  const [area, setArea] = useState("");
   const [price, setPrice] = useState(data.price);
   const [content, setContent] = useState(data.desc);
   const [images, setImages] = useState([]);
@@ -47,6 +49,21 @@ const EditListing = ({ setExpand, setActiveTab }) => {
     setPrice(event.target.value);
   };
 
+  const productCategory = [
+    "Electrical",
+    "Plumbing",
+    "Air con service",
+    "Handyman Services",
+    "Carpentry Services",
+    "Tiling Works",
+    "Ceiling and Partition work",
+    "Painting Works",
+    "Aluminium and metal work",
+    "Vinyl Flooring",
+    "Glass Works",
+    "Dismantling and Disposal",
+  ];
+
   return (
     <div>
       <div className="flex fixed z-10">
@@ -74,6 +91,25 @@ const EditListing = ({ setExpand, setActiveTab }) => {
               required
             />
           </label>
+          <label className="grid mt-5">
+            Service Area
+            <input
+              type="text"
+              placeholder="Enter Service area"
+              id="area"
+              className="rounded w-[100vh] outline-none"
+              style={{
+                height: "50px",
+                paddingLeft: "10px",
+                backgroundColor: "#e5ecff",
+                marginTop: "5px",
+                fontSize: "15px",
+              }}
+              value={area}
+              onChange={(event) => setArea(event.target.value)}
+              required
+            />
+          </label>
 
           <div className="grid grid-cols-2 w-[100vh] gap-2 mt-5">
             <label className="grid">
@@ -94,6 +130,28 @@ const EditListing = ({ setExpand, setActiveTab }) => {
                 required
               />
             </label>
+            <label className="grid">
+              Catagory
+              <select
+                id="label"
+                name="label"
+                className="outline-none w-[50vh] rounded mt-5"
+                style={{
+                  height: "50px",
+                  paddingLeft: "5px",
+                  backgroundColor: "#e5ecff",
+                  marginTop: "5px",
+                  fontSize: "14px",
+                }}
+                value={category}
+                onChange={(event) => setCategory(event.target.value)}
+                required>
+                <option>Select Catagory</option>
+                {productCategory.map((item) => {
+                  return <option value={`${item}`}>{item}</option>;
+                })}
+              </select>
+            </label>
             <label className="grid w-[49vh]">
               Service Photos
               <input
@@ -113,7 +171,7 @@ const EditListing = ({ setExpand, setActiveTab }) => {
                 required
               />
             </label>
-            <div style={{ marginLeft: "385px", width: "600px" }}>
+            <div style={{ marginLeft: "50px", width: "600px" }}>
               {images && images.length > 0 && (
                 <div className="grid grid-cols-4 gap-3">
                   {images.map((image, index) => (
@@ -122,8 +180,8 @@ const EditListing = ({ setExpand, setActiveTab }) => {
                       src={URL.createObjectURL(image)} // replace with your image source
                       alt={image.name} // replace with your image alt text
                       style={{
-                        width: "100px",
-                        height: "100px",
+                        width: "80px",
+                        height: "80px",
                         objectFit: "cover",
                         marginRight: "10px",
                       }} // set width, height, object-fit, and margin-right styles

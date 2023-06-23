@@ -12,6 +12,8 @@ import {
   RoleManagement,
 } from "../User_Management/features/userSlice";
 import { Alert, AlertTitle, Button } from "@mui/material";
+import cookie from "js-cookie";
+
 // Component inside action column
 const Action = ({ roleName }) => {
   const dispatch = useDispatch();
@@ -33,11 +35,16 @@ const Action = ({ roleName }) => {
   const handleCancelDelete = () => {
     setShowDeleteConfirmation(false);
   };
+  const roles = cookie.get("role");
   return (
     <div className="w-6 h-6 flex gap-3 cursor-pointer">
       {/* <img src={edit} alt="edit" /> */}
       {/* <img src={view} alt="view" /> */}
-      <img src={deleteIcon} onClick={handleDeleteClick} alt="Delete" />
+      {roles === "admin" || roles === "editor" ? (
+        <>
+          <img src={deleteIcon} onClick={handleDeleteClick} alt="Delete" />
+        </>
+      ) : "Not Accessible"}
       {showDeleteConfirmation && (
         <div className="fixed top-0 left-0 w-screen h-screen bg-gray-800 bg-opacity-50 flex justify-center items-center z-50">
           <div className="bg-white p-5 rounded shadow">
@@ -124,6 +131,8 @@ const PMS = ({ setActiveTab }) => {
   const pageSize = 7;
   const greenButtonText = "Add New Role";
 
+  const roles = cookie.get("role");
+
   return (
     <div>
       <div className="flex fixed z-10">
@@ -149,7 +158,7 @@ const PMS = ({ setActiveTab }) => {
             columns={columns}
             data={data}
             pageSize={pageSize}
-            greenButtonText={greenButtonText}
+            greenButtonText={roles === "admin" || roles === "editor" ? greenButtonText : ""}
             greenClicked={greenClicked}
           />
         ) : (
@@ -158,7 +167,7 @@ const PMS = ({ setActiveTab }) => {
               columns={columns}
               data={data}
               pageSize={pageSize}
-              greenButtonText={greenButtonText}
+              greenButtonText={roles === "admin" || roles === "editor" ? greenButtonText : ""}
               greenClicked={greenClicked}
             />
             <div className="flex ml-5 justify-center w-full mt-40">

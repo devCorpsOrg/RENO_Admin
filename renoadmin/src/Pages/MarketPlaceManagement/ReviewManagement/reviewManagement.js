@@ -7,6 +7,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useEffect, useState } from "react";
 import { Grid } from "react-loader-spinner";
 import { MPM_review } from "../../User_Management/features/userSlice";
+import cookie from "js-cookie";
 
 const Photo = ({ pic_url }) => {
   return (

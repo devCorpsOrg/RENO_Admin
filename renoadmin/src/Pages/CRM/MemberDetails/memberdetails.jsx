@@ -19,8 +19,8 @@ const MemberDetails = ({ setActiveTab, setExpand }) => {
   //   })
   //   .catch((err)=>{
   //     console.log(err)
-  //   })
-  // };
+  //   })  fetch('https//get.api.com', while pushing i)
+  // }; console.log(Hello world);
 
   return (
     <div>
@@ -196,9 +196,9 @@ const MemberDetails = ({ setActiveTab, setExpand }) => {
         </div>
 
         <div
-          style={{ marginTop: "140px", position: "absolute", left: "270px" }}
+          style={{ marginTop: "140px", position: "absolute", left: "195px" }}
         >
-          <div
+          {/* <div
             className="text-gray-500"
             style={{ marginLeft: "-75px", fontSize: "13px" }}
           >
@@ -213,18 +213,18 @@ const MemberDetails = ({ setActiveTab, setExpand }) => {
             }}
           >
             {memData.about}
-          </div>
+          </div> */}
           <a
             // onClick={handleExport}
             href={`http://139.59.236.50:8000/exportmember?usname=${memData.username}&file_format=csv`}
             className="rounded bg-amber-600 hover:bg-amber-700"
             style={{
               position: "absolute",
-              top: "10px",
+              // top: "10px",
               width: "150px",
               height: "55px",
               color: "white",
-              marginLeft: "285px",
+              // marginLeft: "285px",
               cursor: "pointer !important",
               display: "flex",
               alignItems: "center",
@@ -410,7 +410,8 @@ const MemberDetails = ({ setActiveTab, setExpand }) => {
               </div>
             </div>
           </div>
-        </div>
+        </div> 
+        {/* end */}
       </div>
       <div
         className="ml-72"

@@ -12,6 +12,7 @@ import {
   MPM_listing,
 } from "../../User_Management/features/userSlice";
 import { Alert, AlertTitle, Button } from "@mui/material";
+import cookie from "js-cookie";
 
 const Action = ({ listId, listName, desc, price }) => {
   const Navigate = useNavigate();
@@ -42,10 +43,18 @@ const Action = ({ listId, listName, desc, price }) => {
   const handleCancelDelete = () => {
     setShowDeleteConfirmation(false);
   };
+
+  const roles = cookie.get("role");
   return (
     <div className="w-6 h-6 flex gap-3 cursor-pointer">
-      <img onClick={handleEditClick} src={edit} alt="edit" />
-      <img src={deleteIcon} onClick={handleDeleteClick} alt="Delete" />
+      {roles === "admin" || roles === "editor" ? (
+        <>
+          <img onClick={handleEditClick} src={edit} alt="edit" />
+          <img src={deleteIcon} onClick={handleDeleteClick} alt="Delete" />
+        </>
+      ) : (
+        "Not Accessible"
+      )}
       {showDeleteConfirmation && (
         <div className="fixed top-0 left-0 w-screen h-screen bg-gray-800 bg-opacity-50 flex justify-center items-center z-50">
           <div className="bg-white p-5 rounded shadow">
@@ -111,8 +120,8 @@ const ListingData = ({ setActiveTab, setExpand }) => {
       accessor: "service",
     },
     {
-      header: "Description",
-      accessor: "description",
+      header: "Seller",
+      accessor: "seller",
     },
     {
       header: "Price",
@@ -127,7 +136,7 @@ const ListingData = ({ setActiveTab, setExpand }) => {
   const data = listingData.map((user) => ({
     photo: <Photo pic_url={user.pic_url} />,
     service: user.service,
-    description: user.desc,
+    seller: user.desc,
     price: `$${user.rate}`,
     action: (
       <Action
@@ -143,6 +152,7 @@ const ListingData = ({ setActiveTab, setExpand }) => {
 
   // Number of Pages to be display on a single page.
   const pageSize = 4;
+  const roles = cookie.get("role");
 
   return (
     <div>
@@ -169,7 +179,9 @@ const ListingData = ({ setActiveTab, setExpand }) => {
             columns={columns}
             data={data}
             pageSize={pageSize}
-            greenButtonText={greenButtonText}
+            greenButtonText={
+              roles === "admin" || roles === "editor" ? greenButtonText : ""
+            }
             greenClicked={greenClicked}
           />
         ) : (
@@ -178,7 +190,9 @@ const ListingData = ({ setActiveTab, setExpand }) => {
               columns={columns}
               data={data}
               pageSize={pageSize}
-              greenButtonText={greenButtonText}
+              greenButtonText={
+                roles === "admin" || roles === "editor" ? greenButtonText : ""
+              }
               greenClicked={greenClicked}
             />
             <div className="flex ml-5 justify-center w-full mt-40">

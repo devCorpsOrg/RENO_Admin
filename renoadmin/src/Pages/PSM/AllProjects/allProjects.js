@@ -12,6 +12,7 @@ import {
   DeleteProject,
 } from "../../User_Management/features/userSlice";
 import { Alert, AlertTitle, Button } from "@mui/material";
+import cookie from "js-cookie";
 
 const Action = ({ projId, projName, category, rate, type }) => {
   const Navigate = useNavigate();
@@ -44,10 +45,18 @@ const Action = ({ projId, projName, category, rate, type }) => {
     setShowDeleteConfirmation(false);
   };
 
+  const roles = cookie.get("role");
+
   return (
     <div className="w-6 h-6 flex gap-3 cursor-pointer">
-      <img onClick={handleClick} src={edit} alt="edit" />
-      <img src={deleteIcon} onClick={handleDeleteClick} alt="Delete" />
+      {roles === "admin" || roles === "editor" ? (
+        <>
+          <img onClick={handleClick} src={edit} alt="edit" />
+          <img src={deleteIcon} onClick={handleDeleteClick} alt="Delete" />
+        </>
+      ) : (
+        "Not Accessible"
+      )}
       {showDeleteConfirmation && (
         <div className="fixed top-0 left-0 w-screen h-screen bg-gray-800 bg-opacity-50 flex justify-center items-center z-50">
           <div className="bg-white p-5 rounded shadow">
@@ -160,6 +169,8 @@ const AllProjects = ({ setActiveTab, setExpand }) => {
   // Number of Pages to be display on a single page.
   const pageSize = 4;
 
+  const roles = cookie.get("role");
+
   return (
     <div>
       <div className="flex fixed z-10">
@@ -185,7 +196,7 @@ const AllProjects = ({ setActiveTab, setExpand }) => {
             columns={columns}
             data={data}
             pageSize={pageSize}
-            greenButtonText={greenButtonText}
+            greenButtonText={roles === "admin" || roles === "editor" ? greenButtonText : ""}
             blackButtonText={
               <a href="http://139.59.236.50:8000/exportproducts?file_format=csv">
                 {blackButtonText}
@@ -199,7 +210,7 @@ const AllProjects = ({ setActiveTab, setExpand }) => {
               columns={columns}
               data={data}
               pageSize={pageSize}
-              greenButtonText={greenButtonText}
+              greenButtonText={roles === "admin" || roles === "editor" ? greenButtonText : ""}
               blackButtonText={
                 <a href="http://139.59.236.50:8000/exportproducts?file_format=csv">
                   {blackButtonText}
