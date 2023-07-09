@@ -11,6 +11,8 @@ import {
   HSM_promotion,
 } from "../../User_Management/features/userSlice";
 import { Alert, AlertTitle, Button } from "@mui/material";
+import cookie from "js-cookie";
+
 
 const Action = ({ prodId, name, category, expiry, offer_by, offer_val }) => {
   const dispatch = useDispatch();
@@ -44,10 +46,15 @@ const Action = ({ prodId, name, category, expiry, offer_by, offer_val }) => {
   const handleCancelDelete = () => {
     setShowDeleteConfirmation(false);
   };
+  const roles = cookie.get("role");
   return (
     <div className="w-6 h-6 flex gap-3 cursor-pointer">
+            {roles === "admin" || roles === "editor" ? (
+        <>
       <img src={edit} onClick={handleEditClick} alt="edit" />
       <img src={deleteIcon} onClick={handleDeleteClick} alt="Delete" />
+      </>
+      ) : "Not Accessible"}
       {showDeleteConfirmation && (
         <div className="fixed top-0 left-0 w-screen h-screen bg-gray-800 bg-opacity-50 flex justify-center items-center z-50">
           <div className="bg-white p-5 rounded shadow">
@@ -150,6 +157,8 @@ const AllProjects = ({ setActiveTab, setExpand }) => {
   // Number of Pages to be display on a single page.
   const pageSize = 4;
 
+  const roles = cookie.get("role");
+
   return (
     <div>
       <div className="flex fixed z-10">
@@ -175,7 +184,7 @@ const AllProjects = ({ setActiveTab, setExpand }) => {
             columns={columns}
             data={data}
             pageSize={pageSize}
-            greenButtonText={greenButtonText}
+            greenButtonText={roles === "admin" || roles === "editor" ? greenButtonText : ""}
             greenClicked={greenClicked}
           />
         ) : (
@@ -184,7 +193,7 @@ const AllProjects = ({ setActiveTab, setExpand }) => {
               columns={columns}
               data={data}
               pageSize={pageSize}
-              greenButtonText={greenButtonText}
+              greenButtonText={roles === "admin" || roles === "editor" ? greenButtonText : ""}
               greenClicked={greenClicked}
             />
             <div className="flex ml-5 justify-center w-full mt-40">

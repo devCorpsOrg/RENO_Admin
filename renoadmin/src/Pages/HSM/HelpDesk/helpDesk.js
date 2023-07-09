@@ -9,6 +9,8 @@ import { useEffect, useState } from "react";
 import { Grid } from "react-loader-spinner";
 import { HSM_helpdesk } from "../../User_Management/features/userSlice";
 import { useLocation } from "react-router-dom";
+import cookie from "js-cookie";
+
 
 const PopupComponent = ({ onClose, name, status, tid }) => {
   return (
@@ -20,7 +22,7 @@ const PopupComponent = ({ onClose, name, status, tid }) => {
   );
 };
 
-const Action = ({name, status, tid}) => {
+const Action = ({ name, status, tid }) => {
   const [isPopupVisible, setIsPopupVisible] = useState(false);
 
   const handleClick = () => {
@@ -32,14 +34,28 @@ const Action = ({name, status, tid}) => {
     setIsPopupVisible(false);
   };
 
+  const roles = cookie.get("role");
 
   return (
     <div className="w-6 h-6 flex gap-3 cursor-pointer">
-      <img onClick={handleClick} src={view} alt="View" />
+      {roles === "admin" || roles === "editor" ? (
+        <>
+          <img onClick={handleClick} src={view} alt="View" />
+        </>
+      ) : (
+        "Not Accessible"
+      )}
       {/* <img src={deleteIcon} alt="Delete" /> */}
       {console.log("view")}
       {console.log(isPopupVisible)}
-      {isPopupVisible && <PopupComponent onClose={handleClosePopup} name={name} status={status} tid={tid} /> }
+      {isPopupVisible && (
+        <PopupComponent
+          onClose={handleClosePopup}
+          name={name}
+          status={status}
+          tid={tid}
+        />
+      )}
     </div>
   );
 };
@@ -96,7 +112,7 @@ const AllProjects = ({ setActiveTab, setExpand }) => {
     },
   ];
   const check = useLocation();
-  const cht=check.state;
+  const cht = check.state;
 
   console.log(chatData);
   const data = chatData.map((user) => ({
@@ -105,7 +121,13 @@ const AllProjects = ({ setActiveTab, setExpand }) => {
     subject: user.metadata.subj,
     message: user.msgs[0].msg,
     status: <Status value={user.metadata.status} />,
-    action: <Action name={user.metadata.usname} status={user.metadata.status} tid={user.tid} />,
+    action: (
+      <Action
+        name={user.metadata.usname}
+        status={user.metadata.status}
+        tid={user.tid}
+      />
+    ),
   }));
 
   // Number of Pages to be display on a single page.

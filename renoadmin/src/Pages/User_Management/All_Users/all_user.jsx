@@ -8,6 +8,8 @@ import { useDispatch, useSelector } from "react-redux";
 import { getUser, DeleteUser } from "../features/userSlice"; // Import deleteUser action
 import { Grid } from "react-loader-spinner";
 import { Alert, AlertTitle, Button } from "@mui/material";
+import cookie from "js-cookie";
+
 
 // Component inside action column
 const Action = ({ username, email, phone, uid, picUrl, role }) => {
@@ -91,13 +93,19 @@ const Action = ({ username, email, phone, uid, picUrl, role }) => {
     setShowDeleteConfirmation(false);
   };
 
+  const roles = cookie.get('role');
+
   return (
     <div className="flex gap-3 items-center pr-20">
       <div className="flex w-5 h-5 flex gap-2 cursor-pointer">
-        <img src={Edit} onClick={handleEditClick} alt="Edit" />
-        <img src={View} onClick={handleViewClick} alt="View" />
-        <img src={deleteIcon} onClick={handleDeleteClick} alt="Delete" />
-        <img src={Suspend} onClick={handleSuspendClick} alt="Suspend" />
+      {roles === "admin" || roles === "editor" ? (
+    <>
+      <img src={Edit} onClick={handleEditClick} alt="Edit" />
+      <img src={deleteIcon} onClick={handleDeleteClick} alt="Delete" />
+      <img src={Suspend} onClick={handleSuspendClick} alt="Suspend" />
+    </>
+  ) : null}
+  <img src={View} onClick={handleViewClick} alt="View" />
       </div>
       {showPopup && (
         <div className="fixed top-0 left-0 w-screen h-screen bg-gray-800 bg-opacity-50 flex justify-center items-center z-50">
@@ -237,6 +245,9 @@ const Allmembers = ({ setActiveTab, setExpand }) => {
     ),
   }));
 
+  const roles = cookie.get('role');
+  console.log(roles)
+
   return (
     <div>
       <div className="flex fixed z-10">
@@ -265,7 +276,7 @@ const Allmembers = ({ setActiveTab, setExpand }) => {
             columns={columns}
             data={data}
             pageSize={pageSize}
-            greenButtonText={greenButtonText}
+            greenButtonText={roles === "admin" || roles === "editor" ? greenButtonText : ""}
             greenClicked={greenClicked}
           />
         ) : (
@@ -274,7 +285,7 @@ const Allmembers = ({ setActiveTab, setExpand }) => {
               columns={columns}
               data={data}
               pageSize={pageSize}
-              greenButtonText={greenButtonText}
+              greenButtonText={roles === "admin" || roles === "editor" ? greenButtonText : ""}
               greenClicked={greenClicked}
             />
             <div className="flex ml-5 justify-center w-full mt-40">

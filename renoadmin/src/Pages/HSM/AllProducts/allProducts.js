@@ -9,22 +9,32 @@ import { HSM_allProduct } from "../../User_Management/features/userSlice";
 import { Grid } from "react-loader-spinner";
 import { DeleteProduct } from "../../User_Management/features/userSlice";
 import { Alert, AlertTitle, Button } from "@mui/material";
+import cookie from "js-cookie";
 
-const Action = ({ prodId, prodName, category, productcategory, inv, pack, purchaseditem, details }) => {
+const Action = ({
+  prodId,
+  prodName,
+  category,
+  productcategory,
+  inv,
+  pack,
+  purchaseditem,
+  details,
+}) => {
   const Navigate = useNavigate();
   const [showDeleteConfirmation, setShowDeleteConfirmation] = useState(false);
 
   const handleClick = () => {
-    const data={
+    const data = {
       name: prodName,
       category: category,
       productcategory: productcategory,
       inv: inv,
       pack: pack,
-      purchaseditem:purchaseditem,
-      details: details
-    }
-    Navigate("/home/editProduct", {state:data});
+      purchaseditem: purchaseditem,
+      details: details,
+    };
+    Navigate("/home/editProduct", { state: data });
   };
   const dispatch = useDispatch();
   const handleDeleteClick = () => {
@@ -44,10 +54,20 @@ const Action = ({ prodId, prodName, category, productcategory, inv, pack, purcha
   const handleCancelDelete = () => {
     setShowDeleteConfirmation(false);
   };
+
+  const roles = cookie.get("role");
+
   return (
     <div className="w-6 h-6 flex gap-3 cursor-pointer">
-      <img src={edit} onClick={handleClick} alt="edit" />
-      <img src={deleteIcon} onClick={handleDeleteClick} alt="Delete" />
+      {roles === "admin" || roles === "editor" ? (
+        <>
+          <img src={edit} onClick={handleClick} alt="edit" />
+          <img src={deleteIcon} onClick={handleDeleteClick} alt="Delete" />
+        </>
+      ) : (
+        "Not Accessible"
+      )}
+
       {showDeleteConfirmation && (
         <div className="fixed top-0 left-0 w-screen h-screen bg-gray-800 bg-opacity-50 flex justify-center items-center z-50">
           <div className="bg-white p-5 rounded shadow">
@@ -149,16 +169,18 @@ const AllProduct = ({ setActiveTab, setExpand }) => {
     inventory: `${user.fields.rate} items`,
     package: `$${user.fields.inv_count}`,
     purchaseditem: `${user.fields.net_purchase_item_count} items`,
-    action:       <Action
-    prodId={user.pk}
-    prodName={user.fields.name}
-    category={user.fields.category}
-    productcategory={user.fields.proj_category}
-    inv={user.fields.inv_count}
-    pack={user.fields.rate}
-    purchaseditem={user.fields.net_purchase_item_count}
-    details={user.fields.details}
-  />,
+    action: (
+      <Action
+        prodId={user.pk}
+        prodName={user.fields.name}
+        category={user.fields.category}
+        productcategory={user.fields.proj_category}
+        inv={user.fields.inv_count}
+        pack={user.fields.rate}
+        purchaseditem={user.fields.net_purchase_item_count}
+        details={user.fields.details}
+      />
+    ),
   }));
 
   const blackButtonText = "Export All";
@@ -166,6 +188,9 @@ const AllProduct = ({ setActiveTab, setExpand }) => {
 
   // Number of Pages to be display on a single page.
   const pageSize = 4;
+
+  const roles = cookie.get("role");
+
 
   return (
     <div>
@@ -197,7 +222,7 @@ const AllProduct = ({ setActiveTab, setExpand }) => {
                 {blackButtonText}
               </a>
             }
-            greenButtonText={greenButtonText}
+            greenButtonText={roles === "admin" || roles === "editor" ? greenButtonText : ""}
             greenClicked={greenClicked}
           />
         ) : (
@@ -211,7 +236,7 @@ const AllProduct = ({ setActiveTab, setExpand }) => {
                   {blackButtonText}
                 </a>
               }
-              greenButtonText={greenButtonText}
+              greenButtonText={roles === "admin" || roles === "editor" ? greenButtonText : ""}
               greenClicked={greenClicked}
             />
             <div className="flex ml-5 justify-center w-full mt-40">
